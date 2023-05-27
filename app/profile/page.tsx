@@ -1,16 +1,19 @@
 'use client'
+import PasswordChangeForm from "@/components/Forms/PasswordChangeForm";
 import useUser from "@/hooks/useUser";
-import { Typography } from "@mui/joy";
+import { Box, Typography } from "@mui/joy";
 
 export default function ProfilePage() {
     const user = useUser()
     return (
-        <Typography>
-            Profile page:
-
-            <pre>
-                {JSON.stringify(user, null, 2)}
-            </pre>
-        </Typography>
+        <Box>
+            <Typography>
+                Profile page:
+                <pre>
+                    {JSON.stringify(user, null, 2)}
+                </pre>
+            </Typography>
+            <PasswordChangeForm />
+        </Box>
     )
 }

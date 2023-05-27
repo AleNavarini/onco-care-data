@@ -29,7 +29,7 @@ export async function PUT(request: Request) {
     });
 
     return NextResponse.json({
-      status: 201,
+      status: 200,
       message: 'Password udpated',
     });
   } catch (error) {

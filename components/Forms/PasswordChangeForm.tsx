@@ -17,8 +17,7 @@ export default function PasswordChangeForm() {
                 body: JSON.stringify(data),
             });
             const result = await response.json();
-            console.log(result);
-            reset();
+            if (result.status === 200) reset();
         } catch (error) {
             console.error('Error:', error);
         } finally {
@@ -42,7 +41,7 @@ export default function PasswordChangeForm() {
                 <Input
                     sx={{ pr: 0 }}
                     {...register('changedPassword')}
-                    type="text"
+                    type="password"
                     placeholder="Cambia tu contraseña"
                     endDecorator={
                         <Button

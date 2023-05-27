@@ -4,8 +4,6 @@ import '../../../lib/bigIntExtensions';
 
 export async function GET() {
   const patients = await prisma.patient.findMany();
-  console.log(patients);
-
   return NextResponse.json({ status: 200, patients });
 }
 
@@ -34,16 +32,12 @@ export async function POST(request: Request) {
         clinicHistory: clinicHistory,
       },
     });
-    console.log('Patient created');
-    console.log(JSON.stringify(newPatient));
     return NextResponse.json({
       status: 201,
       message: 'Patient created',
       patiend: newPatient,
     });
   } catch (error) {
-    console.log(error);
-
     return NextResponse.error();
   }
 }

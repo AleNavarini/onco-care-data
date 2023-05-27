@@ -3,14 +3,9 @@ import Navbar from '@/components/Navbar';
 import './globals.css'
 import { Box, CssVarsProvider, GlobalStyles, Sheet } from '@mui/joy';
 import { Public_Sans } from 'next/font/google'
-import { Metadata } from 'next';
 import Header from '@/components/Header';
 
 const publicSans = Public_Sans({ subsets: ['latin'] })
-
-export const metadata: Metadata = {
-  title: 'Onco-Care-Data',
-};
 
 export default function RootLayout({
   children,

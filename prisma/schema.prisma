@@ -8,8 +8,20 @@ datasource db {
 }
 
 model User {
-  id   BigInt     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  password  String
+  id       BigInt  @id @default(autoincrement())
+  email    String  @unique
+  name     String?
+  password String
+}
+
+model Patient {
+  id              BigInt   @id @default(autoincrement())
+  dni             String   
+  name            String
+  dateOfBirth     DateTime
+  phone           String
+  email           String
+  address         String
+  healthInsurance String
+  clinicHistory   BigInt
 }

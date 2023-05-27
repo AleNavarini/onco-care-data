@@ -5,10 +5,13 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import Link from "next/link"
 import { usePathname } from 'next/navigation';
+import useUser from "@/hooks/useUser";
+import SignOutButton from "./SignOutButton";
 
 
 export default function Navbar() {
     const activePath = usePathname()
+    const user = useUser()
     return (
         <>
             <Sheet
@@ -80,8 +83,15 @@ export default function Navbar() {
                 </List>
 
                 <Divider />
-                <Avatar variant="outlined" src="/static/images/avatar/3.jpg" />
+                <Link href={'/profile'}>
+                    {user?.name ?
+                        <Avatar size="sm">{user?.name[0]}</Avatar> :
+                        <Avatar variant="outlined" src="/static/images/avatar/3.jpg" />}
+                </Link>
+
+
                 <ThemeToggle />
+                <SignOutButton />
             </Sheet >
 
         </>

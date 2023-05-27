@@ -4,6 +4,7 @@ import './globals.css'
 import { Box, CssVarsProvider, GlobalStyles, Sheet } from '@mui/joy';
 import { Public_Sans } from 'next/font/google'
 import { Metadata } from 'next';
+import Header from '@/components/Header';
 
 const publicSans = Public_Sans({ subsets: ['latin'] })
 
@@ -23,22 +24,20 @@ export default function RootLayout({
       modeStorageKey="theme-mode"
       disableNestedContext
     >
-      <GlobalStyles
-        styles={{
-          '[data-feather], .feather': {
-            color: 'var(--Icon-color)',
-            margin: 'var(--Icon-margin)',
-            fontSize: 'var(--Icon-fontSize, 20px)',
-            width: '1em',
-            height: '1em',
-          },
-        }}
-      />
       <html lang="en">
         <body className={publicSans.className}>
           <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
+            <Header />
             <Navbar />
-            <Sheet sx={{ minWidth: '95dvw', px: 2, py: 2 }}>
+            <Sheet sx={{
+              minWidth: '100%',
+              px: 2,
+              py: {
+                xs: 8,
+                md: 2
+              }
+            }
+            } >
               {children}
             </Sheet>
           </Box>

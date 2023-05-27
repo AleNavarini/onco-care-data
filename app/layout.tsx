@@ -21,7 +21,10 @@ export default function RootLayout({
     >
       <html lang="en">
         <body className={publicSans.className}>
-          <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
+          <Box sx={{
+            display: 'flex', minHeight: '100dvh',
+            overflow: 'hidden'
+          }}>
             <Header />
             <Navbar />
             <Sheet sx={{
@@ -30,7 +33,7 @@ export default function RootLayout({
               py: {
                 xs: 8,
                 md: 2
-              }
+              },
             }
             } >
               {children}

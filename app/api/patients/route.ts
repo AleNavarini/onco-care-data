@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-import '../../lib/bigIntExtensions';
+import '../../../lib/bigIntExtensions';
 
 export async function GET() {
   const patients = await prisma.patient.findMany();

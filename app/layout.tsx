@@ -25,7 +25,8 @@ export default function RootLayout({
         <html lang="en">
           <body className={publicSans.className}>
             <Box sx={{
-              display: 'flex', minHeight: '100dvh',
+              display: 'flex',
+              minHeight: '100dvh',
               overflow: 'hidden'
             }}>
               <Header />

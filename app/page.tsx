@@ -12,7 +12,7 @@ export default function Home() {
         <title>Onco-Care-Data | Pacientes</title>
       </Head>
       <Typography level="h4" component="h1">
-        <pre>{JSON.stringify(session, null, 2)}</pre>
+        Main page
       </Typography>
     </Box>
   )

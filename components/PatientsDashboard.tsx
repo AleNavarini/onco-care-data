@@ -9,18 +9,30 @@ import { useEffect, useState } from "react";
 import PatientForm from "./Forms/PatientForm";
 
 interface Props {
-    patients: PatientWithStatus[]
+    patients: FullPatient[]
 }
 
-interface PatientWithStatus extends Patient {
+export interface FullPatient {
+    id: bigint
+    dni: string
+    name: string | null
+    dateOfBirth: string | null
+    phone: string | null
+    email: string | null
+    address: string | null
+    healthInsurance: string | null
+    clinicHistory: bigint | null
     status?: string
 }
 
 
+
 export default function PatientsDashboard(props: Props) {
-    const [patients, setPatients] = useState<PatientWithStatus[]>(props.patients)
+    const [patients, setPatients] = useState<FullPatient[]>(props.patients)
+    const [editPatient, setEditPatient] = useState<FullPatient | null>(null)
+
     useEffect(() => {
-        const tempPatients: PatientWithStatus[] = patients.map((patient: Patient) => {
+        const tempPatients: FullPatient[] = patients.map((patient: FullPatient) => {
             return { ...patient, status: "Active" };
         });
         setPatients(tempPatients)
@@ -30,22 +42,22 @@ export default function PatientsDashboard(props: Props) {
     const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
     const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
-    const addPatient = (patient: Patient) => {
-        const newPatient: PatientWithStatus = {
+    const addPatient = (patient: FullPatient) => {
+        const newPatient: FullPatient = {
             ...patient,
             status: "Active"
         }
         setPatients((prevPatients) => [...prevPatients, newPatient])
     }
 
-    const updatePatient = (patient: Patient) => {
-        setPatients((prevPatients) => prevPatients.map((p: PatientWithStatus) => {
+    const updatePatient = (patient: FullPatient) => {
+        setPatients((prevPatients) => prevPatients.map((p: FullPatient) => {
             if (p.id === patient.id) return { ...patient, status: "Active" }
             return p
         }))
     }
 
-    const deletePatient = async (patient: Patient) => {
+    const deletePatient = async (patient: FullPatient) => {
         const response = await fetch(`/api/patients/${patient.id}`, {
             method: "DELETE",
             headers: {
@@ -54,7 +66,7 @@ export default function PatientsDashboard(props: Props) {
         });
 
         if (response.status === 200) {
-            setPatients((prevPatients) => prevPatients.filter((p: PatientWithStatus) => p.id !== patient.id))
+            setPatients((prevPatients) => prevPatients.filter((p: FullPatient) => p.id !== patient.id))
         }
     }
     return (
@@ -111,6 +123,7 @@ export default function PatientsDashboard(props: Props) {
                                 }}
                             >
                                 <PatientForm
+                                    buttonText="Agregar"
                                     addPatient={addPatient}
                                     setModalOpen={setNewModalOpen}
                                 />
@@ -120,7 +133,7 @@ export default function PatientsDashboard(props: Props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {patients && patients.map((patient: PatientWithStatus) => (
+                    {patients && patients.map((patient: FullPatient) => (
                         <tr key={patient.id.toString()}>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                                 <Typography fontWeight="md">{patient.name}</Typography>
@@ -145,7 +158,10 @@ export default function PatientsDashboard(props: Props) {
                                 </Chip>
                             </td>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                <IconButton color="neutral" variant="plain" onClick={() => setEditModalOpen(true)}>
+                                <IconButton color="neutral" variant="plain" onClick={() => {
+                                    setEditPatient(patient)
+                                    setEditModalOpen(true)
+                                }}>
                                     <EditIcon />
                                 </IconButton>
                                 <Modal
@@ -160,9 +176,10 @@ export default function PatientsDashboard(props: Props) {
                                     }}
                                 >
                                     <PatientForm
+                                        buttonText="Actualizar"
                                         addPatient={updatePatient}
                                         setModalOpen={setEditModalOpen}
-                                        oldPatient={patient}
+                                        oldPatient={editPatient!}
                                     />
                                 </Modal>
                                 <IconButton color="neutral" variant="plain" onClick={() => deletePatient(patient)}>

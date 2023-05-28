@@ -2,14 +2,16 @@ import { Button, FormControl, Input, Sheet, Stack } from "@mui/joy";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Field from "./Field";
-import { Patient } from "@prisma/client";
+import { FullPatient } from "../PatientsDashboard";
 
 interface Props {
-    addPatient?: (patient: Patient) => void
+    addPatient?: (patient: FullPatient) => void
     setModalOpen: (state: boolean) => void
-    oldPatient?: Patient
+    oldPatient?: FullPatient
+    buttonText: string
 }
 export default function PatientForm(props: Props) {
+    console.log(JSON.stringify(props.oldPatient));
 
     const { register, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +36,6 @@ export default function PatientForm(props: Props) {
             setIsLoading(false);
         }
     };
-
     return (
         <Sheet
             variant="outlined"
@@ -90,7 +91,7 @@ export default function PatientForm(props: Props) {
                         placeholder="Fecha de nacimiento"
                         register={register}
                         type="date"
-                        defaultValue={props.oldPatient?.dateOfBirth}
+                        defaultValue={props.oldPatient?.dateOfBirth?.split('T')[0]}
                     />
 
                     <Field
@@ -148,7 +149,7 @@ export default function PatientForm(props: Props) {
                     variant="solid"
                     type="submit"
                 >
-                    Agregar
+                    {props.buttonText}
                 </Button>
             </form >
         </Sheet >

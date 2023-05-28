@@ -15,6 +15,7 @@ interface PatientWithStatus extends Patient {
     status?: string
 }
 
+
 export default function PatientsDashboard(props: Props) {
     const [patients, setPatients] = useState<PatientWithStatus[]>(props.patients)
     useEffect(() => {
@@ -30,10 +31,10 @@ export default function PatientsDashboard(props: Props) {
             variant="outlined"
             sx={{
                 width: {
-                    xs: '95%',
+                    xs: '100%',
                     sm: '95%',
                     md: '80%',
-                    lg: '70%'
+                    lg: '75%'
                 },
                 mx: 'auto',
                 borderRadius: 'md',
@@ -56,12 +57,12 @@ export default function PatientsDashboard(props: Props) {
             >
                 <thead>
                     <tr>
-                        <th style={{ textAlign: 'center', paddingLeft: 20, verticalAlign: 'middle' }}>Nombre</th>
-                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Telefono</th>
-                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Mail</th>
-                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Estado</th>
-                        <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Accion</th>
-                        <th style={{ paddingRight: 20, verticalAlign: 'middle', textAlign: 'right' }}>
+                        <th style={{ width: 100, textAlign: 'center', paddingLeft: 20, verticalAlign: 'middle' }}>Nombre</th>
+                        <th style={{ width: 100, textAlign: 'center', verticalAlign: 'middle' }}>Telefono</th>
+                        <th style={{ width: 250, textAlign: 'center', verticalAlign: 'middle' }}>Mail</th>
+                        <th style={{ width: 100, textAlign: 'center', verticalAlign: 'middle' }}>Estado</th>
+                        <th style={{ width: 100, textAlign: 'center', verticalAlign: 'middle' }}>Accion</th>
+                        <th style={{ width: 100, paddingRight: 20, verticalAlign: 'middle', textAlign: 'right' }}>
                             <IconButton color="neutral" variant="plain">
                                 <AddBoxIcon fontSize="large" />
                             </IconButton>
@@ -75,10 +76,10 @@ export default function PatientsDashboard(props: Props) {
                                 <Typography fontWeight="md">{patient.name}</Typography>
                             </td>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                <Typography fontWeight="md">{patient.phone}</Typography>
+                                <Typography noWrap fontWeight="md">{patient.phone}</Typography>
                             </td>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                <Typography fontWeight="md">{patient.email}</Typography>
+                                <Typography noWrap fontWeight="md">{patient.email}</Typography>
                             </td>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                                 <Chip

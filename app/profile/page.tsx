@@ -1,18 +1,74 @@
 'use client'
 import PasswordChangeForm from "@/components/Forms/PasswordChangeForm";
 import useUser from "@/hooks/useUser";
-import { Box, Typography } from "@mui/joy";
+import { Box, Divider, FormControl, FormLabel, Input, Typography } from "@mui/joy";
+
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'Profile Page',
+    description: 'Profile page'
+};
 
 export default function ProfilePage() {
     const user = useUser()
     return (
-        <Box>
-            <Typography>
-                Profile page:
-                <pre>
-                    {JSON.stringify(user, null, 2)}
-                </pre>
+        <Box sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyItems: 'center',
+            alignItems: 'center'
+        }}>
+            <Typography level="h1">
+                Profile Page
             </Typography>
+            <Divider sx={{ my: 1 }} />
+            <FormControl
+                sx={{
+                    display: 'flex',
+                    margin: 'auto',
+                    width: '50%',
+                    py: 3
+                }}>
+                <FormLabel
+                    sx={(theme) => ({
+                        '--FormLabel-color': theme.vars.palette.primary.plainColor,
+                    })}>
+                    Nombre
+                </FormLabel>
+                <Input
+                    sx={{
+                        pr: 0
+                    }}
+                    type="text"
+                    value={user?.name?.toString()}
+                />
+
+            </FormControl>
+            <FormControl
+                sx={{
+                    display: 'flex',
+                    margin: 'auto',
+                    width: '50%',
+                    pb: 3
+                }}>
+                <FormLabel
+                    sx={(theme) => ({
+                        '--FormLabel-color': theme.vars.palette.primary.plainColor,
+                    })}>
+                    Mail
+                </FormLabel>
+                <Input
+                    sx={{
+                        pr: 0
+                    }}
+                    type="text"
+                    value={user?.email?.toString()}
+                />
+
+            </FormControl>
+
+            <Divider sx={{ my: 2 }} />
             <PasswordChangeForm />
         </Box>
     )

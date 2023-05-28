@@ -31,11 +31,7 @@ export default function PasswordChangeForm() {
                 sx={{
                     display: 'flex',
                     margin: 'auto',
-                    width: {
-                        sm: '70%',
-                        md: '50%',
-                        lg: '30%'
-                    }
+                    width: '100%'
                 }}>
                 <FormLabel
                     sx={(theme) => ({
@@ -62,7 +58,7 @@ export default function PasswordChangeForm() {
                             loading={isLoading}
                             loadingIndicator="Cargando…"
                             variant="solid">
-                            Cambiar Contraseña
+                            Cambiar
                         </Button>
                     }
                 />

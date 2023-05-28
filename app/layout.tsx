@@ -1,14 +1,17 @@
 'use client'
 import Navbar from '@/components/Navbar';
 import './globals.css'
-import { Box, CssVarsProvider, Sheet } from '@mui/joy';
+import { Box, CssVarsProvider } from '@mui/joy';
 import { Public_Sans } from 'next/font/google'
 import Header from '@/components/Header';
-import { SessionProvider } from "next-auth/react";
 import { NextAuthProvider } from '@/components/NextAuthProvider';
 import MainContent from '@/components/MainContent';
+import { Metadata } from 'next';
 const publicSans = Public_Sans({ subsets: ['latin'] })
-
+export const metadata: Metadata = {
+  title: 'Profile Page',
+  description: 'Profile page'
+};
 export default function RootLayout({
   children,
 }: {

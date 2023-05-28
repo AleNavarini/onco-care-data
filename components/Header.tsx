@@ -17,7 +17,7 @@ export default function Header() {
                 py: 1,
                 px: 2,
                 gap: 1,
-                ml: 1,
+                ml: 0,
                 boxShadow: 'sm',
             }}
         >

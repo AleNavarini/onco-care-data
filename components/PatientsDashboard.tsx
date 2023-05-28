@@ -6,35 +6,68 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import { useEffect, useState } from "react";
-import NewPatientForm from "./Forms/NewPatientForm";
+import PatientForm from "./Forms/PatientForm";
 
 interface Props {
-    patients: PatientWithStatus[]
+    patients: FullPatient[]
 }
 
-interface PatientWithStatus extends Patient {
+export interface FullPatient {
+    id: bigint
+    dni: string
+    name: string | null
+    dateOfBirth: string | null
+    phone: string | null
+    email: string | null
+    address: string | null
+    healthInsurance: string | null
+    clinicHistory: bigint | null
     status?: string
 }
 
 
+
 export default function PatientsDashboard(props: Props) {
-    const [patients, setPatients] = useState<PatientWithStatus[]>(props.patients)
+    const [patients, setPatients] = useState<FullPatient[]>(props.patients)
+    const [editPatient, setEditPatient] = useState<FullPatient | null>(null)
+
     useEffect(() => {
-        const tempPatients: PatientWithStatus[] = patients.map((patient: Patient) => {
+        const tempPatients: FullPatient[] = patients.map((patient: FullPatient) => {
             return { ...patient, status: "Active" };
         });
         setPatients(tempPatients)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const [modalOpen, setModalOpen] = useState<boolean>(false);
-    const addPatient = (patient: Patient) => {
-        const newPatient: PatientWithStatus = {
+    const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
+    const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+
+    const addPatient = (patient: FullPatient) => {
+        const newPatient: FullPatient = {
             ...patient,
             status: "Active"
         }
         setPatients((prevPatients) => [...prevPatients, newPatient])
+    }
 
+    const updatePatient = (patient: FullPatient) => {
+        setPatients((prevPatients) => prevPatients.map((p: FullPatient) => {
+            if (p.id === patient.id) return { ...patient, status: "Active" }
+            return p
+        }))
+    }
+
+    const deletePatient = async (patient: FullPatient) => {
+        const response = await fetch(`/api/patients/${patient.id}`, {
+            method: "DELETE",
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        if (response.status === 200) {
+            setPatients((prevPatients) => prevPatients.filter((p: FullPatient) => p.id !== patient.id))
+        }
     }
     return (
         <Sheet
@@ -74,24 +107,25 @@ export default function PatientsDashboard(props: Props) {
                         <th style={{ width: 100, textAlign: 'center', verticalAlign: 'middle' }}>Estado</th>
                         <th style={{ width: 100, textAlign: 'center', verticalAlign: 'middle' }}>Accion</th>
                         <th style={{ width: 100, paddingRight: 20, verticalAlign: 'middle', textAlign: 'right' }}>
-                            <IconButton color="neutral" variant="plain" onClick={() => setModalOpen(true)}>
+                            <IconButton color="neutral" variant="plain" onClick={() => setNewModalOpen(true)}>
                                 <AddBoxIcon fontSize="large" />
                             </IconButton>
 
                             <Modal
                                 aria-labelledby="New patient modal"
                                 aria-describedby="New patient form"
-                                open={modalOpen}
-                                onClose={() => setModalOpen(false)}
+                                open={newModalOpen}
+                                onClose={() => setNewModalOpen(false)}
                                 sx={{
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center'
                                 }}
                             >
-                                <NewPatientForm
+                                <PatientForm
+                                    buttonText="Agregar"
                                     addPatient={addPatient}
-                                    setModalOpen={setModalOpen}
+                                    setModalOpen={setNewModalOpen}
                                 />
                             </Modal >
 
@@ -99,7 +133,7 @@ export default function PatientsDashboard(props: Props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {patients && patients.map((patient: PatientWithStatus) => (
+                    {patients && patients.map((patient: FullPatient) => (
                         <tr key={patient.id.toString()}>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                                 <Typography fontWeight="md">{patient.name}</Typography>
@@ -124,10 +158,31 @@ export default function PatientsDashboard(props: Props) {
                                 </Chip>
                             </td>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                <IconButton color="neutral" variant="plain">
+                                <IconButton color="neutral" variant="plain" onClick={() => {
+                                    setEditPatient(patient)
+                                    setEditModalOpen(true)
+                                }}>
                                     <EditIcon />
                                 </IconButton>
-                                <IconButton color="neutral" variant="plain">
+                                <Modal
+                                    aria-labelledby="Update patient modal"
+                                    aria-describedby="Update patient form"
+                                    open={editModalOpen}
+                                    onClose={() => setEditModalOpen(false)}
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center'
+                                    }}
+                                >
+                                    <PatientForm
+                                        buttonText="Actualizar"
+                                        addPatient={updatePatient}
+                                        setModalOpen={setEditModalOpen}
+                                        oldPatient={editPatient!}
+                                    />
+                                </Modal>
+                                <IconButton color="neutral" variant="plain" onClick={() => deletePatient(patient)}>
                                     <DeleteIcon />
                                 </IconButton>
                             </td>

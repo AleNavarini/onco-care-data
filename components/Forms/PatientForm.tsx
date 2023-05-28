@@ -1,24 +1,26 @@
-import { Button, Sheet, Stack } from "@mui/joy";
+import { Button, FormControl, Input, Sheet, Stack } from "@mui/joy";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Field from "./Field";
-import { Patient } from "@prisma/client";
+import { FullPatient } from "../PatientsDashboard";
 
 interface Props {
-    addPatient: (patient: Patient) => void
+    addPatient?: (patient: FullPatient) => void
     setModalOpen: (state: boolean) => void
+    oldPatient?: FullPatient
+    buttonText: string
 }
-export default function NewPatientForm(props: Props) {
+export default function PatientForm(props: Props) {
+    console.log(JSON.stringify(props.oldPatient));
 
     const { register, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = async (data: any) => {
         try {
-
             setIsLoading(true);
             const response = await fetch('/api/patients', {
-                method: 'POST',
+                method: props.oldPatient ? "PUT" : 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -26,7 +28,7 @@ export default function NewPatientForm(props: Props) {
             });
             const result = await response.json();
             if (result.status === 200) reset();
-            props.addPatient(result.patient)
+            if (props.addPatient) props.addPatient(result.patient)
             props.setModalOpen(false)
         } catch (error) {
             console.error('Error:', error);
@@ -34,7 +36,6 @@ export default function NewPatientForm(props: Props) {
             setIsLoading(false);
         }
     };
-
     return (
         <Sheet
             variant="outlined"
@@ -55,12 +56,23 @@ export default function NewPatientForm(props: Props) {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={2}>
                     <Field
+                        fieldName="id"
+                        label="ID"
+                        placeholder="Id del paciente"
+                        register={register}
+                        type="text"
+                        defaultValue={props.oldPatient?.id}
+                        visible={false}
+                    />
+
+                    <Field
                         fieldName="name"
                         label="Nombre"
                         placeholder="Nombre del paciente"
                         register={register}
                         type="text"
                         required={true}
+                        defaultValue={props.oldPatient?.name}
                     />
 
                     <Field
@@ -70,6 +82,7 @@ export default function NewPatientForm(props: Props) {
                         register={register}
                         type="text"
                         required={true}
+                        defaultValue={props.oldPatient?.dni}
                     />
 
                     <Field
@@ -78,6 +91,7 @@ export default function NewPatientForm(props: Props) {
                         placeholder="Fecha de nacimiento"
                         register={register}
                         type="date"
+                        defaultValue={props.oldPatient?.dateOfBirth?.split('T')[0]}
                     />
 
                     <Field
@@ -85,7 +99,8 @@ export default function NewPatientForm(props: Props) {
                         label="Teléfono"
                         placeholder="Teléfono"
                         register={register}
-                        type="tel"
+                        type="text"
+                        defaultValue={props.oldPatient?.phone}
                     />
 
                     <Field
@@ -94,6 +109,7 @@ export default function NewPatientForm(props: Props) {
                         placeholder="Email"
                         register={register}
                         type="email"
+                        defaultValue={props.oldPatient?.email}
                     />
 
                     <Field
@@ -102,6 +118,7 @@ export default function NewPatientForm(props: Props) {
                         placeholder="Domicilio"
                         register={register}
                         type="text"
+                        defaultValue={props.oldPatient?.address}
                     />
 
                     <Field
@@ -110,6 +127,7 @@ export default function NewPatientForm(props: Props) {
                         placeholder="Obra social"
                         register={register}
                         type="text"
+                        defaultValue={props.oldPatient?.healthInsurance}
                     />
 
                     <Field
@@ -118,6 +136,7 @@ export default function NewPatientForm(props: Props) {
                         placeholder="Historia clínica"
                         register={register}
                         type="number"
+                        defaultValue={props.oldPatient?.clinicHistory}
                     />
 
                 </Stack>
@@ -130,7 +149,7 @@ export default function NewPatientForm(props: Props) {
                     variant="solid"
                     type="submit"
                 >
-                    Agregar
+                    {props.buttonText}
                 </Button>
             </form >
         </Sheet >

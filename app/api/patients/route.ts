@@ -18,26 +18,27 @@ export async function POST(request: Request) {
     healthInsurance,
     clinicHistory,
   } = await request.json();
-
   try {
     const newPatient = await prisma.patient.create({
       data: {
-        dni: dni,
-        name: name,
-        dateOfBirth: new Date(dateOfBirth),
-        phone: phone,
-        email: email,
-        address: address,
-        healthInsurance: healthInsurance,
-        clinicHistory: clinicHistory,
+        dni,
+        name,
+        dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
+        phone: phone || null,
+        email: email || null,
+        address: address || null,
+        healthInsurance: healthInsurance || null,
+        clinicHistory: clinicHistory ? BigInt(clinicHistory) : null,
       },
     });
     return NextResponse.json({
       status: 201,
       message: 'Patient created',
-      patiend: newPatient,
+      patient: newPatient,
     });
   } catch (error) {
+    console.error(error);
+
     return NextResponse.error();
   }
 }

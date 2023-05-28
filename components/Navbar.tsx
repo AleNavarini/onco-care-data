@@ -86,7 +86,7 @@ export default function Navbar() {
                 <Link href={'/profile'}>
                     {user?.name ?
                         <Avatar size="sm">{user?.name[0]}</Avatar> :
-                        <Avatar variant="outlined" src="/static/images/avatar/3.jpg" />}
+                        <Avatar variant="outlined" />}
                 </Link>
 
 

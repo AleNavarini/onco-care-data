@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import '../../../lib/bigIntExtensions';
 
 export async function GET() {
-  const patients = await prisma.patient.findMany();
+  const patients = await prisma.patient.findMany({});
   return NextResponse.json({ status: 200, patients });
 }
 

@@ -1,30 +1,30 @@
 'use client'
 
+import useSWR from 'swr';
 import PatientsDashboard from '@/components/PatientsDashboard'
-import { Box, Typography } from '@mui/joy'
-import { use } from 'react'
+import { Box, LinearProgress, Typography } from '@mui/joy'
 
-async function getPatients() {
-  const res = await fetch('/api/patients')
-  return res.json()
-}
+const getPatients = async () => {
+  const response = await fetch(`/api/patients`);
+  const data = await response.json();
+  return data;
+};
 
-const patientsPromise = getPatients()
 
 
 export default function Home() {
-  const data = use(patientsPromise)
+  const { data, error } = useSWR('/api/patients', getPatients);
+
+  let content = <LinearProgress sx={{ marginY: 10 }} />
+  if (data) content = <PatientsDashboard patients={data.patients} />
+  if (error) content = <Typography level='h3'>Ha habido un error...</Typography>
+
   return (
     <Box>
-      <Typography level="h1">
-        Main page
+      <Typography level="h2" sx={{ ml: 5 }}>
+        Pacientes
       </Typography>
-      <PatientsDashboard
-        patients={data.patients}
-      />
-      <div>
-        {JSON.stringify(data)}
-      </div>
+      {content}
     </Box>
   )
 }

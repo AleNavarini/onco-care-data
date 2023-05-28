@@ -23,7 +23,7 @@ export default function PatientsDashboard(props: Props) {
         });
         setPatients(tempPatients)
 
-    }, [])
+    }, [patients])
     console.log(patients);
 
     return (

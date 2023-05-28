@@ -22,7 +22,6 @@ export default function PatientsDashboard(props: Props) {
             return { ...patient, status: "Active" };
         });
         setPatients(tempPatients)
-        console.log(patients);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 

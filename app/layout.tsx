@@ -1,12 +1,14 @@
 'use client'
+
 import Navbar from '@/components/Navbar';
 import './globals.css'
-import { Box, CssVarsProvider } from '@mui/joy';
+import { Box } from '@mui/joy';
 import { Public_Sans } from 'next/font/google'
 import Header from '@/components/Header';
 import { NextAuthProvider } from '@/components/NextAuthProvider';
 import MainContent from '@/components/MainContent';
 import { Metadata } from 'next';
+import ClientCssVarsProvider from "@/components/Providers/ClientCssVarsProvider";
 const publicSans = Public_Sans({ subsets: ['latin'] })
 export const metadata: Metadata = {
   title: 'Profile Page',
@@ -20,12 +22,12 @@ export default function RootLayout({
 
   return (
     <NextAuthProvider>
-      <CssVarsProvider
-        defaultMode="system"
-        modeStorageKey="theme-mode"
-        disableNestedContext
-      >
+      <ClientCssVarsProvider>
+
         <html lang="en">
+          <head>
+            <title>Onco-Care-Data</title>
+          </head>
           <body className={publicSans.className}>
             <Box sx={{
               display: 'flex',
@@ -40,7 +42,7 @@ export default function RootLayout({
             </Box>
           </body>
         </html>
-      </CssVarsProvider >
+      </ClientCssVarsProvider>
     </NextAuthProvider >
   )
 }

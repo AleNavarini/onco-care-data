@@ -1,4 +1,5 @@
 'use client'
+
 import { Box, Typography } from '@mui/joy'
 import { Metadata } from 'next';
 
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <Box>
-      <Typography level="h4" component="h1">
+      <Typography level="h1">
         Main page
       </Typography>
     </Box>

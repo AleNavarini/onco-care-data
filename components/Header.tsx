@@ -1,3 +1,4 @@
+'use client'
 import { toggleSidebar } from "@/utils";
 import { Divider, GlobalStyles, IconButton, Sheet } from "@mui/joy";
 import MenuIcon from '@mui/icons-material/Menu';

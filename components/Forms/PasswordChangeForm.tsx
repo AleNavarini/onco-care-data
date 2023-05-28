@@ -29,8 +29,13 @@ export default function PasswordChangeForm() {
         <form onSubmit={handleSubmit(onSubmit)}>
             <FormControl
                 sx={{
-                    width: '18dvw',
                     display: 'flex',
+                    margin: 'auto',
+                    width: {
+                        sm: '70%',
+                        md: '50%',
+                        lg: '30%'
+                    }
                 }}>
                 <FormLabel
                     sx={(theme) => ({
@@ -39,13 +44,20 @@ export default function PasswordChangeForm() {
                     Cambiar Contraseña
                 </FormLabel>
                 <Input
-                    sx={{ pr: 0 }}
+                    sx={{
+                        pr: 0
+                    }}
                     {...register('changedPassword')}
                     type="password"
                     placeholder="Cambia tu contraseña"
                     endDecorator={
                         <Button
-                            sx={{ p: 2, m: 0, alignContent: 'en', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+                            sx={{
+                                p: 2,
+                                m: 0,
+                                borderTopLeftRadius: 0,
+                                borderBottomLeftRadius: 0
+                            }}
                             type="submit"
                             loading={isLoading}
                             loadingIndicator="Cargando…"

@@ -22,9 +22,9 @@ export default function PatientsDashboard(props: Props) {
             return { ...patient, status: "Active" };
         });
         setPatients(tempPatients)
-
-    }, [patients])
-    console.log(patients);
+        console.log(patients);
+        //@ts-ignore next-line
+    }, [])
 
     return (
         <Sheet

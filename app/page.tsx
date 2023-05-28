@@ -1,12 +1,6 @@
 'use client'
 
 import { Box, Typography } from '@mui/joy'
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Profile Page',
-  description: 'Profile page'
-};
 
 export default function Home() {
   return (

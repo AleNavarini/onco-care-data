@@ -7,13 +7,9 @@ import { Public_Sans } from 'next/font/google'
 import Header from '@/components/Header';
 import { NextAuthProvider } from '@/components/NextAuthProvider';
 import MainContent from '@/components/MainContent';
-import { Metadata } from 'next';
 import ClientCssVarsProvider from "@/components/Providers/ClientCssVarsProvider";
 const publicSans = Public_Sans({ subsets: ['latin'] })
-export const metadata: Metadata = {
-  title: 'Profile Page',
-  description: 'Profile page'
-};
+
 export default function RootLayout({
   children,
 }: {

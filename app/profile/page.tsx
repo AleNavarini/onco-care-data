@@ -1,14 +1,8 @@
-'use client'
+
 import PasswordChangeForm from "@/components/Forms/PasswordChangeForm";
 import useUser from "@/hooks/useUser";
 import { Box, Divider, FormControl, FormLabel, Input, Typography } from "@mui/joy";
 
-import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-    title: 'Profile Page',
-    description: 'Profile page'
-};
 
 export default function ProfilePage() {
     const user = useUser()

@@ -1,11 +1,12 @@
 "use client"
-import { Chip, ColorPaletteProp, IconButton, Sheet, Table, Typography } from "@mui/joy";
+import { Chip, ColorPaletteProp, IconButton, Modal, ModalClose, ModalDialog, Sheet, Table, Typography } from "@mui/joy";
 import { Patient } from "@prisma/client";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import { useEffect, useState } from "react";
+import NewPatientForm from "./Forms/NewPatientForm";
 
 interface Props {
     patients: PatientWithStatus[]
@@ -26,6 +27,15 @@ export default function PatientsDashboard(props: Props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
+    const addPatient = (patient: Patient) => {
+        const newPatient: PatientWithStatus = {
+            ...patient,
+            status: "Active"
+        }
+        setPatients((prevPatients) => [...prevPatients, newPatient])
+
+    }
     return (
         <Sheet
             variant="outlined"
@@ -44,6 +54,7 @@ export default function PatientsDashboard(props: Props) {
                 my: 2
             }}
         >
+
             <Table
                 stickyHeader
                 hoverRow
@@ -63,9 +74,27 @@ export default function PatientsDashboard(props: Props) {
                         <th style={{ width: 100, textAlign: 'center', verticalAlign: 'middle' }}>Estado</th>
                         <th style={{ width: 100, textAlign: 'center', verticalAlign: 'middle' }}>Accion</th>
                         <th style={{ width: 100, paddingRight: 20, verticalAlign: 'middle', textAlign: 'right' }}>
-                            <IconButton color="neutral" variant="plain">
+                            <IconButton color="neutral" variant="plain" onClick={() => setModalOpen(true)}>
                                 <AddBoxIcon fontSize="large" />
                             </IconButton>
+
+                            <Modal
+                                aria-labelledby="New patient modal"
+                                aria-describedby="New patient form"
+                                open={modalOpen}
+                                onClose={() => setModalOpen(false)}
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}
+                            >
+                                <NewPatientForm
+                                    addPatient={addPatient}
+                                    setModalOpen={setModalOpen}
+                                />
+                            </Modal >
+
                         </th>
                     </tr>
                 </thead>
@@ -110,9 +139,7 @@ export default function PatientsDashboard(props: Props) {
                         </tr>
                     ))}
                 </tbody>
-
             </Table>
-
         </Sheet >
     )
 }

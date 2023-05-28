@@ -17,11 +17,11 @@ model User {
 model Patient {
   id              BigInt   @id @default(autoincrement())
   dni             String   
-  name            String
-  dateOfBirth     DateTime
-  phone           String
-  email           String
-  address         String
-  healthInsurance String
-  clinicHistory   BigInt
+  name            String?
+  dateOfBirth     DateTime?
+  phone           String?
+  email           String?
+  address         String?
+  healthInsurance String?
+  clinicHistory   BigInt?
 }

@@ -33,8 +33,7 @@ export async function PUT(request: Request) {
       message: 'Password udpated',
     });
   } catch (error) {
-    console.log(error);
-
+    console.error(error);
     return NextResponse.error();
   }
 }

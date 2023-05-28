@@ -13,7 +13,7 @@ const getPatients = async () => {
 
 
 export default function Home() {
-  const { data, error } = useSWR('/api/patients', getPatients);
+  const { data, error } = useSWR('/api/patients', getPatients, { refreshInterval: 1000 });
 
   let content = <LinearProgress sx={{ marginY: 10 }} />
   if (data) content = <PatientsDashboard patients={data.patients} />

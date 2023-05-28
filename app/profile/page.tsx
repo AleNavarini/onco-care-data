@@ -1,4 +1,4 @@
-
+"use client"
 import PasswordChangeForm from "@/components/Forms/PasswordChangeForm";
 import useUser from "@/hooks/useUser";
 import { Box, Divider, FormControl, FormLabel, Input, Typography } from "@mui/joy";

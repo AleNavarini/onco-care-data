@@ -23,7 +23,7 @@ export default function PatientsDashboard(props: Props) {
         });
         setPatients(tempPatients)
         console.log(patients);
-        //@ts-ignore next-line
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (

@@ -1,12 +1,12 @@
 import { Avatar, Divider, GlobalStyles, List, ListItem, ListItemButton, Sheet } from "@mui/joy";
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "../ThemeToggle";
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import SettingsIcon from '@mui/icons-material/Settings';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import Link from "next/link"
 import { usePathname } from 'next/navigation';
 import useUser from "@/hooks/useUser";
-import SignOutButton from "./SignOutButton";
+import SignOutButton from "../SignOutButton";
 
 
 export default function Navbar() {

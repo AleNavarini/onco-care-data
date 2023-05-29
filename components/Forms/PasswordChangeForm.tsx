@@ -18,7 +18,7 @@ export default function PasswordChangeForm() {
                 body: JSON.stringify(data),
             });
             const result = await response.json();
-            if (result.status === 200) reset();
+            if (result.status === 204) reset();
         } catch (error) {
             console.error('Error:', error);
         } finally {

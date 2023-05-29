@@ -1,12 +1,12 @@
 "use client"
-import { Chip, ColorPaletteProp, IconButton, Modal, ModalClose, ModalDialog, Sheet, Table, Typography } from "@mui/joy";
-import { Patient } from "@prisma/client";
+import { Chip, ColorPaletteProp, IconButton, Modal, Sheet, Table, Typography } from "@mui/joy";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import { useEffect, useState } from "react";
 import PatientForm from "./Forms/PatientForm";
+import Link from "next/link";
 
 interface Props {
     patients: FullPatient[]
@@ -30,6 +30,9 @@ export interface FullPatient {
 export default function PatientsDashboard(props: Props) {
     const [patients, setPatients] = useState<FullPatient[]>(props.patients)
     const [editPatient, setEditPatient] = useState<FullPatient | null>(null)
+    const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
+    const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+
 
     useEffect(() => {
         const tempPatients: FullPatient[] = patients.map((patient: FullPatient) => {
@@ -39,8 +42,7 @@ export default function PatientsDashboard(props: Props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
-    const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+
 
     const addPatient = (patient: FullPatient) => {
         const newPatient: FullPatient = {
@@ -69,6 +71,7 @@ export default function PatientsDashboard(props: Props) {
             setPatients((prevPatients) => prevPatients.filter((p: FullPatient) => p.id !== patient.id))
         }
     }
+
     return (
         <Sheet
             variant="outlined"
@@ -81,13 +84,10 @@ export default function PatientsDashboard(props: Props) {
                 },
                 mx: 'auto',
                 borderRadius: 'md',
-                flex: '1',
-                minHeight: 0,
                 overflow: 'auto',
                 my: 2
             }}
         >
-
             <Table
                 stickyHeader
                 hoverRow
@@ -187,9 +187,11 @@ export default function PatientsDashboard(props: Props) {
                                 </IconButton>
                             </td>
                             <td style={{ paddingRight: 20, verticalAlign: 'middle', textAlign: 'right' }}>
-                                <IconButton color="neutral" variant="plain">
-                                    <ArrowCircleRightOutlinedIcon />
-                                </IconButton>
+                                <Link href={`/${patient.id}`}>
+                                    <IconButton color="neutral" variant="plain">
+                                        <ArrowCircleRightOutlinedIcon />
+                                    </IconButton>
+                                </Link>
                             </td>
                         </tr>
                     ))}

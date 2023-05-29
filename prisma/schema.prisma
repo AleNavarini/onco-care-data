@@ -15,8 +15,8 @@ model User {
 }
 
 model Patient {
-  id              BigInt   @id @default(autoincrement())
-  dni             String   
+  id              BigInt           @id @default(autoincrement())
+  dni             String
   name            String?
   dateOfBirth     DateTime?
   phone           String?
@@ -24,4 +24,23 @@ model Patient {
   address         String?
   healthInsurance String?
   clinicHistory   BigInt?
+  affiliatoryData AffiliatoryData?
+}
+
+model AffiliatoryData {
+  id        BigInt   @id @default(autoincrement())
+  patient   Patient? @relation(fields: [patientId], references: [id])
+  patientId BigInt?  @unique
+  firstConsult DateTime?
+  institution String?
+  doctor String?
+  bmi Decimal?
+  usualMedication String?
+  socialWorkIntervention String?
+  firstPregnancyAge Int?
+  lastPregnancyAge Int?
+  contraception String?
+  currentPregnancyControl String?
+
+
 }

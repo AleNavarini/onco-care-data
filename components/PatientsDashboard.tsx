@@ -30,6 +30,9 @@ export interface FullPatient {
 export default function PatientsDashboard(props: Props) {
     const [patients, setPatients] = useState<FullPatient[]>(props.patients)
     const [editPatient, setEditPatient] = useState<FullPatient | null>(null)
+    const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
+    const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+
 
     useEffect(() => {
         const tempPatients: FullPatient[] = patients.map((patient: FullPatient) => {
@@ -39,8 +42,7 @@ export default function PatientsDashboard(props: Props) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
-    const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
+
 
     const addPatient = (patient: FullPatient) => {
         const newPatient: FullPatient = {
@@ -69,6 +71,7 @@ export default function PatientsDashboard(props: Props) {
             setPatients((prevPatients) => prevPatients.filter((p: FullPatient) => p.id !== patient.id))
         }
     }
+
     return (
         <Sheet
             variant="outlined"
@@ -81,13 +84,10 @@ export default function PatientsDashboard(props: Props) {
                 },
                 mx: 'auto',
                 borderRadius: 'md',
-                flex: '1',
-                minHeight: 0,
                 overflow: 'auto',
                 my: 2
             }}
         >
-
             <Table
                 stickyHeader
                 hoverRow

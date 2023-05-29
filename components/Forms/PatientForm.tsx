@@ -5,14 +5,13 @@ import Field from "./Field";
 import { FullPatient } from "../PatientsDashboard";
 
 interface Props {
+    buttonText: string
+    oldPatient?: FullPatient
     addPatient?: (patient: FullPatient) => void
     setModalOpen: (state: boolean) => void
-    oldPatient?: FullPatient
-    buttonText: string
 }
-export default function PatientForm(props: Props) {
-    console.log(JSON.stringify(props.oldPatient));
 
+export default function PatientForm(props: Props) {
     const { register, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -43,7 +42,6 @@ export default function PatientForm(props: Props) {
                 display: 'flex',
                 flexDirection: 'column',
                 width: {
-                    xs: '90%',
                     sm: '90%',
                     md: '60%',
                     lg: '50%',
@@ -64,7 +62,6 @@ export default function PatientForm(props: Props) {
                         defaultValue={props.oldPatient?.id}
                         visible={false}
                     />
-
                     <Field
                         fieldName="name"
                         label="Nombre"
@@ -74,7 +71,6 @@ export default function PatientForm(props: Props) {
                         required={true}
                         defaultValue={props.oldPatient?.name}
                     />
-
                     <Field
                         fieldName="dni"
                         label="DNI"
@@ -84,7 +80,6 @@ export default function PatientForm(props: Props) {
                         required={true}
                         defaultValue={props.oldPatient?.dni}
                     />
-
                     <Field
                         fieldName="dateOfBirth"
                         label="Fecha de nacimiento"
@@ -93,7 +88,6 @@ export default function PatientForm(props: Props) {
                         type="date"
                         defaultValue={props.oldPatient?.dateOfBirth?.split('T')[0]}
                     />
-
                     <Field
                         fieldName="phone"
                         label="Teléfono"
@@ -102,7 +96,6 @@ export default function PatientForm(props: Props) {
                         type="text"
                         defaultValue={props.oldPatient?.phone}
                     />
-
                     <Field
                         fieldName="email"
                         label="email"
@@ -111,7 +104,6 @@ export default function PatientForm(props: Props) {
                         type="email"
                         defaultValue={props.oldPatient?.email}
                     />
-
                     <Field
                         fieldName="address"
                         label="Domicilio"
@@ -120,7 +112,6 @@ export default function PatientForm(props: Props) {
                         type="text"
                         defaultValue={props.oldPatient?.address}
                     />
-
                     <Field
                         fieldName="healthInsurance"
                         label="Obra social"
@@ -129,7 +120,6 @@ export default function PatientForm(props: Props) {
                         type="text"
                         defaultValue={props.oldPatient?.healthInsurance}
                     />
-
                     <Field
                         fieldName="clinicHistory"
                         label="Historia Clinica"
@@ -138,7 +128,6 @@ export default function PatientForm(props: Props) {
                         type="number"
                         defaultValue={props.oldPatient?.clinicHistory}
                     />
-
                 </Stack>
                 <Button
                     loading={isLoading}

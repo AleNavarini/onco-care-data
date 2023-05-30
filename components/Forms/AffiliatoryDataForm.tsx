@@ -58,28 +58,28 @@ export default function AffiliatoryDataForm({ affiliatoryData }: { affiliatoryDa
                         label="Institucion"
                         register={register}
                         type="text"
-                        defaultValue={affiliatoryData.institution}
+                        defaultValue={affiliatoryData?.institution}
                     />
                     <Field
                         fieldName="doctor"
                         label="Doctor"
                         register={register}
                         type="text"
-                        defaultValue={affiliatoryData.doctor}
+                        defaultValue={affiliatoryData?.doctor}
                     />
                     <Field
                         fieldName="usualMedication"
                         label="Medicación habitual"
                         register={register}
                         type="text"
-                        defaultValue={affiliatoryData.usualMedication}
+                        defaultValue={affiliatoryData?.usualMedication}
                     />
                     <Field
                         fieldName="socialWorkIntervention"
                         label="Intervención de trabajo social"
                         register={register}
                         type="text"
-                        defaultValue={affiliatoryData.socialWorkIntervention}
+                        defaultValue={affiliatoryData?.socialWorkIntervention}
                     />
                     <Stack direction={"row"} spacing={2}>
                         <Box width="30%">
@@ -88,7 +88,7 @@ export default function AffiliatoryDataForm({ affiliatoryData }: { affiliatoryDa
                                 label="IMC"
                                 register={register}
                                 type="number"
-                                defaultValue={affiliatoryData.bmi}
+                                defaultValue={affiliatoryData?.bmi}
                             />
                         </Box>
                         <Box width="30%">
@@ -97,7 +97,7 @@ export default function AffiliatoryDataForm({ affiliatoryData }: { affiliatoryDa
                                 label="Primer embarazo"
                                 register={register}
                                 type="number"
-                                defaultValue={affiliatoryData.firstPregnancyAge}
+                                defaultValue={affiliatoryData?.firstPregnancyAge}
                             />
                         </Box>
                         <Box width="30%">
@@ -106,7 +106,7 @@ export default function AffiliatoryDataForm({ affiliatoryData }: { affiliatoryDa
                                 label="Ultimo embarazo"
                                 register={register}
                                 type="number"
-                                defaultValue={affiliatoryData.lastPregnancyAge}
+                                defaultValue={affiliatoryData?.lastPregnancyAge}
                             />
                         </Box>
                     </Stack>
@@ -116,7 +116,7 @@ export default function AffiliatoryDataForm({ affiliatoryData }: { affiliatoryDa
                         label="Anticoncepción"
                         register={register}
                         type="text"
-                        defaultValue={affiliatoryData.contraception}
+                        defaultValue={affiliatoryData?.contraception}
                     />
 
                     <Field
@@ -124,7 +124,7 @@ export default function AffiliatoryDataForm({ affiliatoryData }: { affiliatoryDa
                         label="Control de embarazo actual"
                         register={register}
                         type="text"
-                        defaultValue={affiliatoryData.currentPregnancyControl}
+                        defaultValue={affiliatoryData?.currentPregnancyControl}
                     />
                     <Button
                         loading={isLoading}

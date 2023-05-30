@@ -22,7 +22,7 @@ const getPatient = async (url: string) => {
 
 export default function PatientPage({ params }: Props) {
     const id = params.patientId
-    const { data, isLoading, error } = useSWR(`/api/patients/${id}?detailed=true`, getPatient, { refreshInterval: 1000 });
+    const { data, isLoading, error } = useSWR(`/api/patients/${id}?detailed=true`, getPatient, { refreshInterval: 5000 });
 
 
     if (error) return <h1>Ha ocurrido un error ... </h1>

@@ -33,18 +33,24 @@ export default function PatientPage({ params }: Props) {
                 flexDirection: 'column'
             }}
         >
+            {/* First row */}
             <Box sx={{
                 display: 'flex',
-                width: '90%',
+                width: {
+                    sm: '100%',
+                    md: '90%'
+                },
                 justifyContent: 'space-between'
             }}>
-                <Typography level="h2">{data.patient.name}</Typography>
+                <Typography sx={{ width: 'fit-content' }} level="h2">{data.patient.name}</Typography>
                 <Select
                     sx={{
-                        width: '20dvw'
+                        width: {
+                            sm: 'auto',
+                            md: '20dvw'
+                        }
                     }}
                     placeholder="Choose one…"
-                    size="lg"
                 >
                     <Option value={"Cancer de Ovario"}>Cancer de Ovario</Option>
                     <Option value={"Cancer de Vulva y Vagina"}>Cancer de Vulva y Vagina</Option>
@@ -52,7 +58,11 @@ export default function PatientPage({ params }: Props) {
                 </Select>
                 <Chip
                     sx={{
-                        width: '10dvw',
+                        width: {
+                            sm: 'auto',
+                            md: '10dvw'
+                        },
+                        ml: 1,
                         textAlign: 'center'
                     }}
 
@@ -63,29 +73,70 @@ export default function PatientPage({ params }: Props) {
                     Active
                 </Chip>
             </Box>
+            {/* End of First row */}
 
             <Box
                 sx={{
                     display: 'flex',
-                    my: 5
+                    flexDirection: {
+                        xs: 'column',
+                        sm: 'column',
+                        md: 'row'
+                    },
+                    width: '95%',
+                    my: 5,
+                    mr: 'auto'
                 }}
             >
                 <Stack
                     spacing={2}
                     sx={{
-                        width: '60%',
-                        mr: 5
+                        width: {
+                            xs: '100%',
+                            sm: '100%',
+                            md: '60%',
+                            lg: '70%',
+                            xl: '80%',
+                        },
+                        mx: 'auto',
+                        mb: 2
                     }}
-                >
-
-                </Stack>
-                <Stack
-                    spacing={2}
                 >
                     <Box
                         sx={{
                             boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
                             borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Datos Afiliatorios">
+                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                        </Accordion>
+                    </Box>
+                </Stack>
+                <Stack
+                    spacing={2}
+                    sx={{
+                        width: {
+                            xs: '100%',
+                            sm: '100%',
+                            md: '40%',
+
+                        },
+                        mx: {
+                            xs: 'auto',
+                            sm: 'auto',
+                            md: 'auto',
+                            lg: 'auto',
+                            xl: 5,
+                        }
+
+                    }}
+                >
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md',
+                            width: '100%'
                         }}
                     >
                         <Accordion title="Datos Afiliatorios">

@@ -33,7 +33,11 @@ export default function SymptomForm(props: Props) {
             });
             const result = await response.json();
             if (result.status === 200) reset();
-            if (props.addSymptom) props.addSymptom(result.symptom)
+            if (props.addSymptom) {
+                console.log('entro');
+
+                props.addSymptom(result.symptom)
+            }
             props.setModalOpen(false)
         } catch (error) {
             console.error('Error:', error);

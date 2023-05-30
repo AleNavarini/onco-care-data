@@ -95,7 +95,7 @@ export default function SymptomsTable({ patientId, symptoms: initialSymptoms }: 
                 </thead >
                 <tbody>
                     {symptoms && symptoms.length > 0 && symptoms.map((symptom: Symptom) => (
-                        <tr key={symptom.id.toString()}>
+                        <tr key={symptom?.id.toString()}>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                                 <Typography fontWeight="md">{symptom?.name}</Typography>
                             </td>

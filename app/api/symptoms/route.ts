@@ -15,7 +15,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       status: 201,
-      gestation: newSymptom,
+      symptom: newSymptom,
     });
   } catch (error) {
     console.error(error);

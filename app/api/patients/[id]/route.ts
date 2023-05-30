@@ -1,14 +1,29 @@
 import prisma from '@/lib/prisma';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: Request, context: { params: any }) {
+export async function GET(request: NextRequest, context: { params: any }) {
   const id = context.params.id;
+  let params = request.nextUrl.toString().split('?')[1];
+
   try {
-    const patient = await prisma.patient.findUnique({
-      where: {
-        id: BigInt(id),
-      },
-    });
+    let patient;
+    if (params.indexOf('detailed=true') < 0) {
+      patient = await prisma.patient.findUnique({
+        where: {
+          id: BigInt(id),
+        },
+      });
+    } else {
+      patient = await prisma.patient.findUnique({
+        where: {
+          id: BigInt(id),
+        },
+        include: {
+          affiliatoryData: true,
+          gestations: true,
+        },
+      });
+    }
 
     if (!patient)
       return NextResponse.json({

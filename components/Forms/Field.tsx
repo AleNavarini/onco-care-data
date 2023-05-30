@@ -4,7 +4,7 @@ import { capitalize } from "@mui/material";
 interface Props {
     register: any,
     fieldName: string,
-    placeholder: string,
+    placeholder?: string,
     type: string,
     label: string,
     required?: boolean

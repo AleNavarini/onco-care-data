@@ -1,7 +1,9 @@
 "use client"
 
 import Accordion from "@/components/Common/Accordion";
+import AffiliatoryDataForm from "@/components/Forms/AffiliatoryDataForm";
 import { Box, Chip, LinearProgress, Select, Typography, Option, Sheet, List, ListItem, ListItemButton, Card } from "@mui/joy";
+import { AffiliatoryData } from "@prisma/client";
 import { useState } from "react";
 import useSWR from "swr";
 
@@ -19,16 +21,11 @@ const getPatient = async (url: string) => {
 
 export default function PatientPage({ params }: Props) {
     const id = params.patientId
-    const { data, isLoading, error } = useSWR(`/api/patients/${id}`, getPatient);
-    const [openIndex, setOpenIndex] = useState<number | null>(null);
+    const { data, isLoading, error } = useSWR(`/api/patients/${id}?detailed=true`, getPatient, { refreshInterval: 1000 });
 
-    const handleClick = (index: number) => {
-        setOpenIndex(openIndex === index ? null : index);
-    };
 
     if (error) return <h1>Ha ocurrido un error ... </h1>
     if (isLoading) return <LinearProgress />
-
 
     return (
         <Sheet
@@ -37,6 +34,7 @@ export default function PatientPage({ params }: Props) {
                 flexDirection: 'column'
             }}
         >
+            <pre>{JSON.stringify(data.patient, null, 2)}</pre>
             <Box sx={{
                 display: 'flex',
                 width: '90%',
@@ -68,16 +66,19 @@ export default function PatientPage({ params }: Props) {
                 </Chip>
             </Box>
 
-            <Card
+            <Box
                 sx={{
-                    width: '20dvw'
-                }}>
-                <Accordion items={[{
-                    title: "First title",
-                    content: "First content",
-                }]} />
-            </Card>
-        </Sheet>
+                    display: 'flex',
+                    my: 5
+                }}
+            >
+
+                <Accordion title="Datos Afiliatorios">
+                    <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                </Accordion>
+            </Box>
+
+        </Sheet >
 
     )
 }

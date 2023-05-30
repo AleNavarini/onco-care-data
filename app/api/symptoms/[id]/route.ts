@@ -38,7 +38,7 @@ export async function DELETE(request: Request, context: { params: any }) {
 
     return NextResponse.json({
       status: 200,
-      gestation: deletedSymptom,
+      symptom: deletedSymptom,
     });
   } catch (error) {
     console.error(error);

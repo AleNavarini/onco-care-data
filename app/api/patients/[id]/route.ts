@@ -22,6 +22,7 @@ export async function GET(request: NextRequest, context: { params: any }) {
           affiliatoryData: true,
           gestations: true,
           symptoms: true,
+          previousSurgeries: true,
         },
       });
     }

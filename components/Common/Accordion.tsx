@@ -19,7 +19,6 @@ export default function Accordion({ title, children }: AccordionProps) {
     return (
         <Sheet
             sx={{
-                width: '30dvw',
                 borderRadius: 'md'
             }}
         >

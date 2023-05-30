@@ -1,8 +1,9 @@
 "use client"
 
 import Accordion from "@/components/Common/Accordion";
-import { Box, Chip, LinearProgress, Select, Typography, Option, Sheet, List, ListItem, ListItemButton, Card } from "@mui/joy";
-import { useState } from "react";
+import AffiliatoryDataForm from "@/components/Forms/AffiliatoryDataForm";
+import GestationTable from "@/components/GestationTable";
+import { Box, Chip, LinearProgress, Select, Typography, Option, Sheet, List, ListItem, ListItemButton, Card, Stack } from "@mui/joy";
 import useSWR from "swr";
 
 interface Props {
@@ -19,16 +20,11 @@ const getPatient = async (url: string) => {
 
 export default function PatientPage({ params }: Props) {
     const id = params.patientId
-    const { data, isLoading, error } = useSWR(`/api/patients/${id}`, getPatient);
-    const [openIndex, setOpenIndex] = useState<number | null>(null);
+    const { data, isLoading, error } = useSWR(`/api/patients/${id}?detailed=true`, getPatient, { refreshInterval: 1000 });
 
-    const handleClick = (index: number) => {
-        setOpenIndex(openIndex === index ? null : index);
-    };
 
     if (error) return <h1>Ha ocurrido un error ... </h1>
     if (isLoading) return <LinearProgress />
-
 
     return (
         <Sheet
@@ -68,16 +64,81 @@ export default function PatientPage({ params }: Props) {
                 </Chip>
             </Box>
 
-            <Card
+            <Box
                 sx={{
-                    width: '20dvw'
-                }}>
-                <Accordion items={[{
-                    title: "First title",
-                    content: "First content",
-                }]} />
-            </Card>
-        </Sheet>
+                    display: 'flex',
+                    my: 5
+                }}
+            >
+                <Stack
+                    spacing={2}
+                    sx={{
+                        width: '60%',
+                        mr: 5
+                    }}
+                >
+
+                </Stack>
+                <Stack
+                    spacing={2}
+                >
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Datos Afiliatorios">
+                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                        </Accordion>
+                    </Box>
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Sintomas">
+                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                        </Accordion>
+                    </Box>
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Factores de Riesgo">
+                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                        </Accordion>
+                    </Box>
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Gestas">
+                            <GestationTable
+                                patientId={data.patient.id}
+                                gestations={data.patient.gestations}
+                            />
+                        </Accordion>
+                    </Box>
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Cirugias Previas">
+                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                        </Accordion>
+                    </Box>
+                </Stack>
+            </Box >
+
+        </Sheet >
 
     )
 }

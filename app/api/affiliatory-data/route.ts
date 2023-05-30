@@ -16,24 +16,44 @@ export async function POST(request: Request) {
   } = await request.json();
 
   try {
-    const newAffiliatoryData = await prisma.affiliatoryData.create({
-      data: {
+    const newAffiliatoryData = await prisma.affiliatoryData.upsert({
+      where: {
         patientId: BigInt(patientId),
-        firstConsult: firstConsult || null,
+      },
+      create: {
+        patientId: BigInt(patientId),
+        firstConsult: firstConsult ? new Date(firstConsult) : null,
         institution: institution || null,
         doctor: doctor || null,
-        bmi: bmi || null,
+        bmi: bmi ? parseFloat(bmi) : null,
         usualMedication: usualMedication || null,
         socialWorkIntervention: socialWorkIntervention || null,
-        firstPregnancyAge: firstPregnancyAge || null,
-        lastPregnancyAge: lastPregnancyAge || null,
+        firstPregnancyAge: firstPregnancyAge
+          ? parseInt(firstPregnancyAge)
+          : null,
+        lastPregnancyAge: lastPregnancyAge ? parseInt(lastPregnancyAge) : null,
+        contraception: contraception || null,
+        currentPregnancyControl: currentPregnancyControl || null,
+      },
+      update: {
+        patientId: BigInt(patientId),
+        firstConsult: firstConsult ? new Date(firstConsult) : null,
+        institution: institution || null,
+        doctor: doctor || null,
+        bmi: bmi ? parseFloat(bmi) : null,
+        usualMedication: usualMedication || null,
+        socialWorkIntervention: socialWorkIntervention || null,
+        firstPregnancyAge: firstPregnancyAge
+          ? parseInt(firstPregnancyAge)
+          : null,
+        lastPregnancyAge: lastPregnancyAge ? parseInt(lastPregnancyAge) : null,
         contraception: contraception || null,
         currentPregnancyControl: currentPregnancyControl || null,
       },
     });
 
     return NextResponse.json({
-      status: 201,
+      status: 200,
       affiliatoryData: newAffiliatoryData,
     });
   } catch (error) {

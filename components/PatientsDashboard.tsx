@@ -60,6 +60,8 @@ export default function PatientsDashboard(props: Props) {
     }
 
     const deletePatient = async (patient: FullPatient) => {
+        let result = confirm("Seguro que quiere borrar el paciente?")
+        if (!result) return
         const response = await fetch(`/api/patients/${patient.id}`, {
             method: "DELETE",
             headers: {

@@ -3,6 +3,7 @@
 import Accordion from "@/components/Common/Accordion";
 import AffiliatoryDataForm from "@/components/Forms/AffiliatoryDataForm";
 import GestationTable from "@/components/Tables/GestationTable";
+import PreviousSurgeriesTable from "@/components/Tables/PreviousSurgeriesTable";
 import SymptomsTable from "@/components/Tables/SymptomsTable";
 import { Box, Chip, LinearProgress, Select, Typography, Option, Sheet, List, ListItem, ListItemButton, Card, Stack } from "@mui/joy";
 import useSWR from "swr";
@@ -187,7 +188,10 @@ export default function PatientPage({ params }: Props) {
                         }}
                     >
                         <Accordion title="Cirugias Previas">
-                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                            <PreviousSurgeriesTable
+                                patientId={data.patient.id}
+                                previousSurgeries={data.patient.previousSurgeries}
+                            />
                         </Accordion>
                     </Box>
                 </Stack>

@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Symptom" ALTER COLUMN "value" SET DATA TYPE STRING;

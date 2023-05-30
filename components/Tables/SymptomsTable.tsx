@@ -2,32 +2,32 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, IconButton, Modal, Typography, Sheet } from "@mui/joy";
-import { Gestation } from "@prisma/client";
+import { Symptom } from "@prisma/client";
 import { useState } from "react";
-import GestationForm from './Forms/GestationForm';
+import SymptomForm from '../Forms/SymptomForm';
 
 interface Props {
     patientId: string
-    gestations: Gestation[]
+    symptoms: Symptom[]
 }
 
-export default function GestationTable({ patientId, gestations: initialGestations }: Props) {
-    const [gestations, setGestations] = useState<Gestation[]>(initialGestations)
-    const [editGestation, setEditGestation] = useState<Gestation | null>(null)
+export default function SymptomsTable({ patientId, symptoms: initialSymptoms }: Props) {
+    const [symptoms, setSymptoms] = useState<Symptom[]>(initialSymptoms)
+    const [editSymptom, setEditSymptom] = useState<Symptom | null>(null)
     const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
     const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
-    const addGestation = (gestation: Gestation) => setGestations((prevGestations) => [...prevGestations, gestation])
+    const addSymptom = (symptom: Symptom) => setSymptoms((prevSymptoms) => [...prevSymptoms, symptom])
 
-    const updateGestation = (gestation: Gestation) => {
-        setGestations((prevGestations) => prevGestations.map((g: Gestation) => {
-            if (g.id === gestation.id) return gestation
-            return g
+    const updateSymptom = (symptom: Symptom) => {
+        setSymptoms((prevSymptoms) => prevSymptoms.map((s: Symptom) => {
+            if (s.id === symptom.id) return symptom
+            return s
         }))
     }
 
-    const deleteGestation = async (gestation: Gestation) => {
-        const response = await fetch(`/api/gestations/${gestation.id}`, {
+    const deleteSymptom = async (symptom: Symptom) => {
+        const response = await fetch(`/api/symptoms/${symptom.id}`, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -35,7 +35,7 @@ export default function GestationTable({ patientId, gestations: initialGestation
         });
 
         if (response.status === 200) {
-            setGestations((prevGestations) => prevGestations.filter((g: Gestation) => g.id !== gestation.id))
+            setSymptoms((prevSymptoms) => prevSymptoms.filter((s: Symptom) => s.id !== symptom.id))
         }
     }
     return (
@@ -59,11 +59,10 @@ export default function GestationTable({ patientId, gestations: initialGestation
                 <thead>
                     <tr>
                         {
-                            gestations.length > 0 &&
+                            symptoms.length > 0 &&
                             <>
-                                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Parto</th>
-                                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Aborto</th>
-                                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Cesarea</th>
+                                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Nombre</th>
+                                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Valor</th>
                                 <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Accion</th>
                             </>
                         }
@@ -83,10 +82,10 @@ export default function GestationTable({ patientId, gestations: initialGestation
                                     alignItems: 'center'
                                 }}
                             >
-                                <GestationForm
+                                <SymptomForm
                                     patientId={patientId}
                                     buttonText="Agregar"
-                                    addGestation={addGestation}
+                                    addSymptom={addSymptom}
                                     setModalOpen={setNewModalOpen}
                                 />
                             </Modal >
@@ -95,21 +94,18 @@ export default function GestationTable({ patientId, gestations: initialGestation
                     </tr >
                 </thead >
                 <tbody>
-                    {gestations && gestations.length > 0 && gestations.map((gestation: Gestation) => (
-                        <tr key={gestation.id.toString()}>
+                    {symptoms && symptoms.length > 0 && symptoms.map((symptom: Symptom) => (
+                        <tr key={symptom.id.toString()}>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                <Typography fontWeight="md">{gestation.birth ? "Si" : "No"}</Typography>
+                                <Typography fontWeight="md">{symptom?.name}</Typography>
                             </td>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                <Typography noWrap fontWeight="md">{gestation.abortion ? "Si" : "No"}</Typography>
-                            </td>
-                            <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                <Typography noWrap fontWeight="md">{gestation.cesarean ? "Si" : "No"}</Typography>
+                                <Typography noWrap fontWeight="md">{symptom?.value}</Typography>
                             </td>
 
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                                 <IconButton color="neutral" variant="plain" onClick={() => {
-                                    setEditGestation(gestation)
+                                    setEditSymptom(symptom)
                                     setEditModalOpen(true)
                                 }}>
                                     <EditIcon />
@@ -125,21 +121,21 @@ export default function GestationTable({ patientId, gestations: initialGestation
                                         alignItems: 'center'
                                     }}
                                 >
-                                    <GestationForm
+                                    <SymptomForm
                                         patientId={patientId}
                                         buttonText="Actualizar"
-                                        addGestation={updateGestation}
+                                        addSymptom={updateSymptom}
                                         setModalOpen={setEditModalOpen}
-                                        oldGestation={editGestation!}
+                                        oldSymptom={editSymptom!}
                                     />
                                 </Modal>
                                 <IconButton
                                     color="neutral"
                                     variant="plain"
                                     onClick={() => {
-                                        var result = confirm("Want to delete?");
+                                        var result = confirm("Seguro que queres borrar el sintoma?");
                                         if (!result) return
-                                        deleteGestation(gestation)
+                                        deleteSymptom(symptom)
                                     }}
                                 >
                                     <DeleteIcon />

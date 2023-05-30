@@ -21,6 +21,7 @@ export async function GET(request: NextRequest, context: { params: any }) {
         include: {
           affiliatoryData: true,
           gestations: true,
+          symptoms: true,
         },
       });
     }

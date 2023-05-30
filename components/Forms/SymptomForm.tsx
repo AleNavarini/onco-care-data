@@ -2,43 +2,38 @@ import { Button, FormControl, FormLabel, Input, Radio, RadioGroup, Sheet, Stack 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Field from "./Field";
-import { Gestation } from "@prisma/client";
+import { Symptom } from "@prisma/client";
 
 interface Props {
     buttonText: string
-    oldGestation?: Gestation
+    oldSymptom?: Symptom
     patientId: string
-    addGestation?: (gestation: Gestation) => void
+    addSymptom?: (symptom: Symptom) => void
     setModalOpen: (state: boolean) => void
 }
 
-export default function GestationForm(props: Props) {
+export default function SymptomForm(props: Props) {
     const { register, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = async (data: any) => {
         data = { ...data, patientId: props.patientId }
 
-        const key = data.type
-        let submitData: any = {
-            patientId: props.patientId,
-        }
-        submitData[key] = true
-        console.log(submitData);
+        if (data.id === '') delete data.id
 
         try {
             setIsLoading(true);
-            const endpoint = props.oldGestation ? `/${props.oldGestation.id}` : ""
-            const response = await fetch(`/api/gestations${endpoint}`, {
-                method: props.oldGestation ? "PUT" : 'POST',
+            const endpoint = props.oldSymptom ? `/${props.oldSymptom.id}` : ""
+            const response = await fetch(`/api/symptoms${endpoint}`, {
+                method: props.oldSymptom ? "PUT" : 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(submitData),
+                body: JSON.stringify(data),
             });
             const result = await response.json();
             if (result.status === 200) reset();
-            if (props.addGestation) props.addGestation(result.gestation)
+            if (props.addSymptom) props.addSymptom(result.symptom)
             props.setModalOpen(false)
         } catch (error) {
             console.error('Error:', error);
@@ -47,12 +42,6 @@ export default function GestationForm(props: Props) {
         }
     };
 
-    function getDefaultValue(gestation: Gestation | undefined) {
-        if (!gestation) return ""
-        if (gestation.abortion) return "abortion"
-        if (gestation.birth) return "birth"
-        if (gestation.cesarean) return "cesarean"
-    }
     return (
         <Sheet
             variant="outlined"
@@ -74,26 +63,29 @@ export default function GestationForm(props: Props) {
                     <Field
                         fieldName="id"
                         label="ID"
-                        placeholder="Id de la gesta"
+                        placeholder="Id del sintoma"
                         register={register}
                         type="text"
                         visible={false}
-                        defaultValue={props.oldGestation?.id}
+                        defaultValue={props.oldSymptom?.id}
                     />
-                    <FormControl>
-                        <FormLabel
-                            sx={(theme) => ({
-                                '--FormLabel-color': theme.vars.palette.primary.plainColor,
-                            })}>
-                            Gesta
-                        </FormLabel>
-                        <RadioGroup name="option" defaultValue={getDefaultValue(props.oldGestation)} >
-                            <Radio  {...register("type")} value={"birth"} label="Parto" />
-                            <Radio  {...register("type")} value={"abortion"} label="Aborto" />
-                            <Radio  {...register("type")} value={"cesarean"} label="Cesarea" />
-                        </RadioGroup>
-
-                    </FormControl>
+                    <Field
+                        fieldName="name"
+                        label="Nombre"
+                        placeholder="Nombre del sintoma"
+                        register={register}
+                        type="text"
+                        required={true}
+                        defaultValue={props.oldSymptom?.name}
+                    />
+                    <Field
+                        fieldName="value"
+                        label="Valor"
+                        placeholder="Valor del sintoma ... (opcional)"
+                        register={register}
+                        type="text"
+                        defaultValue={props.oldSymptom?.value}
+                    />
                 </Stack >
                 <Button
                     loading={isLoading}

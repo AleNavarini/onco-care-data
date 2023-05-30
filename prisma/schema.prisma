@@ -26,6 +26,7 @@ model Patient {
   clinicHistory   BigInt?
   affiliatoryData AffiliatoryData?
   gestations      Gestation[]
+  symptoms        Symptom[]
 }
 
 model AffiliatoryData {
@@ -47,8 +48,16 @@ model AffiliatoryData {
 model Gestation {
   id        BigInt   @id @default(autoincrement())
   patient   Patient? @relation(fields: [patientId], references: [id])
-  patientId BigInt?  
+  patientId BigInt?
   birth     Boolean?
   abortion  Boolean?
   cesarean  Boolean?
+}
+
+model Symptom {
+  id        BigInt   @id @default(autoincrement())
+  patient   Patient? @relation(fields: [patientId], references: [id])
+  patientId BigInt?
+  name      String
+  value     String?
 }

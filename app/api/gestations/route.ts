@@ -37,9 +37,9 @@ export async function POST(request: Request) {
     const newGestation = await prisma.gestation.create({
       data: {
         patientId: BigInt(patientId),
-        birth: birth ? birth : false,
-        abortion: abortion ? abortion : false,
-        cesarean: cesarean ? cesarean : false,
+        birth: birth ? true : false,
+        abortion: abortion ? true : false,
+        cesarean: cesarean ? true : false,
       },
     });
 

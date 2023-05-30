@@ -47,7 +47,7 @@ model AffiliatoryData {
 model Gestation {
   id        BigInt   @id @default(autoincrement())
   patient   Patient? @relation(fields: [patientId], references: [id])
-  patientId BigInt?  @unique
+  patientId BigInt?  
   birth     Boolean?
   abortion  Boolean?
   cesarean  Boolean?

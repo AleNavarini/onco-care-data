@@ -2,9 +2,8 @@
 
 import Accordion from "@/components/Common/Accordion";
 import AffiliatoryDataForm from "@/components/Forms/AffiliatoryDataForm";
-import { Box, Chip, LinearProgress, Select, Typography, Option, Sheet, List, ListItem, ListItemButton, Card } from "@mui/joy";
-import { AffiliatoryData } from "@prisma/client";
-import { useState } from "react";
+import GestationTable from "@/components/GestationTable";
+import { Box, Chip, LinearProgress, Select, Typography, Option, Sheet, List, ListItem, ListItemButton, Card, Stack } from "@mui/joy";
 import useSWR from "swr";
 
 interface Props {
@@ -34,7 +33,6 @@ export default function PatientPage({ params }: Props) {
                 flexDirection: 'column'
             }}
         >
-            <pre>{JSON.stringify(data.patient, null, 2)}</pre>
             <Box sx={{
                 display: 'flex',
                 width: '90%',
@@ -72,11 +70,73 @@ export default function PatientPage({ params }: Props) {
                     my: 5
                 }}
             >
+                <Stack
+                    spacing={2}
+                    sx={{
+                        width: '60%',
+                        mr: 5
+                    }}
+                >
 
-                <Accordion title="Datos Afiliatorios">
-                    <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
-                </Accordion>
-            </Box>
+                </Stack>
+                <Stack
+                    spacing={2}
+                >
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Datos Afiliatorios">
+                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                        </Accordion>
+                    </Box>
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Sintomas">
+                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                        </Accordion>
+                    </Box>
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Factores de Riesgo">
+                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                        </Accordion>
+                    </Box>
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Gestas">
+                            <GestationTable
+                                patientId={data.patient.id}
+                                gestations={data.patient.gestations}
+                            />
+                        </Accordion>
+                    </Box>
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Cirugias Previas">
+                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                        </Accordion>
+                    </Box>
+                </Stack>
+            </Box >
 
         </Sheet >
 

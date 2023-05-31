@@ -1,8 +1,8 @@
 'use client'
 
 import useSWR from 'swr';
-import PatientsDashboard from '@/components/PatientsDashboard'
 import { Box, LinearProgress, Typography } from '@mui/joy'
+import PatientsDashboard from '@/components/Dashboards/PatientsDashboard';
 
 const getPatients = async () => {
   const response = await fetch(`/api/patients`);

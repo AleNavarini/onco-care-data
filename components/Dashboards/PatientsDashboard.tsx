@@ -5,8 +5,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import { useEffect, useState } from "react";
-import PatientForm from "./Forms/PatientForm";
 import Link from "next/link";
+import PatientForm from "../Forms/PatientForm";
 
 interface Props {
     patients: FullPatient[]

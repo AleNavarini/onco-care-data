@@ -7,8 +7,8 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import { useState } from "react";
 import Link from "next/link";
 import { RiskFactor } from "@prisma/client";
-import DiseaseForm from "./Forms/DiseaseForm";
-import RiskFactorForm from "./Forms/RiskFactorForm";
+import DiseaseForm from "../Forms/DiseaseForm";
+import RiskFactorForm from "../Forms/RiskFactorForm";
 
 interface Props {
     riskFactors: RiskFactor[]

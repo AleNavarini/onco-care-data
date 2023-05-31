@@ -3,13 +3,14 @@
 import Accordion from "@/components/Common/Accordion";
 import AffiliatoryDataForm from "@/components/Forms/AffiliatoryDataForm";
 import PatientTopRow from "@/components/PatientTopRow";
-import RiskFactorsDashboard from "@/components/RiskFactorsDashboard";
+import RiskFactorsDashboard from "@/components/Dashboards/RiskFactorsDashboard";
 import GestationTable from "@/components/Tables/GestationTable";
 import PreviousSurgeriesTable from "@/components/Tables/PreviousSurgeriesTable";
 import StagingTable from "@/components/Tables/StagingTable";
 import SymptomsTable from "@/components/Tables/SymptomsTable";
 import { Box, LinearProgress, Sheet, Stack } from "@mui/joy";
 import useSWR from "swr";
+import FollowUpsTable from "@/components/Tables/FollowUpsTable";
 
 interface Props {
     params: {
@@ -49,9 +50,8 @@ export default function PatientPage({ params }: Props) {
                         sm: 'column',
                         md: 'row'
                     },
-                    width: '95%',
+                    width: '100%',
                     my: 5,
-                    mr: 'auto'
                 }}
             >
                 <Stack
@@ -60,12 +60,11 @@ export default function PatientPage({ params }: Props) {
                         width: {
                             xs: '100%',
                             sm: '100%',
-                            md: '60%',
-                            lg: '70%',
-                            xl: '80%',
+                            md: '55%',
+                            lg: '55%',
+                            xl: '70%',
                         },
-                        mx: 'auto',
-                        mb: 2
+                        mb: 2,
                     }}
                 >
                     <Box
@@ -75,12 +74,26 @@ export default function PatientPage({ params }: Props) {
                         }}
                     >
                         <Accordion title="Estadificaciones">
-                            <StagingTable 
+                            <StagingTable
                                 patientId={data.patient.id}
                                 stagings={data.patient.stagings}
                             />
                         </Accordion>
                     </Box>
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Seguimientos">
+                            <FollowUpsTable
+                                patientId={data.patient.id}
+                                followUps={data.patient.followUps}
+                            />
+                        </Accordion>
+                    </Box>
+
                 </Stack>
                 <Stack
                     spacing={2}
@@ -89,15 +102,7 @@ export default function PatientPage({ params }: Props) {
                             xs: '100%',
                             sm: '100%',
                             md: '40%',
-
                         },
-                        mx: {
-                            xs: 'auto',
-                            sm: 'auto',
-                            md: 'auto',
-                            lg: 'auto',
-                            xl: 5,
-                        }
 
                     }}
                 >

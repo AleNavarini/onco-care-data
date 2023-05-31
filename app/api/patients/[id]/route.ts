@@ -26,6 +26,7 @@ export async function GET(request: NextRequest, context: { params: any }) {
           disease: true,
           riskFactors: true,
           stagings: true,
+          followUps: true,
         },
       });
     }

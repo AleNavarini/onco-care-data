@@ -1,5 +1,5 @@
 "use client"
-import DiseasesDashboard from "@/components/DiseasesDashboard";
+import DiseasesDashboard from "@/components/Dashboards/DiseasesDashboard";
 import { LinearProgress, Sheet } from "@mui/joy";
 import { Disease } from "@prisma/client";
 import useSWR from "swr";

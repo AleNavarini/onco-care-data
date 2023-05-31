@@ -1,6 +1,7 @@
 "use client"
 import DiseasesDashboard from "@/components/DiseasesDashboard";
 import { LinearProgress, Sheet } from "@mui/joy";
+import { Disease } from "@prisma/client";
 import useSWR from "swr";
 
 const getDiseases = async (url: string) => {
@@ -18,6 +19,8 @@ export default function ManagePage() {
 
     if (diseasesError) return <h1>Ha ocurrido un error ... </h1>
     if (diseasesLoading) return <LinearProgress />
+
+    const filteredDiseases = diseasesData?.diseases?.filter((d: Disease) => d.patientId === null)
     return (
         <Sheet
             sx={{
@@ -34,7 +37,7 @@ export default function ManagePage() {
             >
 
                 Enfermedades
-                <DiseasesDashboard diseases={diseasesData.diseases} />
+                <DiseasesDashboard diseases={filteredDiseases} />
             </Sheet>
             <Sheet>Tratamientos</Sheet>
             <Sheet>Estudios</Sheet>

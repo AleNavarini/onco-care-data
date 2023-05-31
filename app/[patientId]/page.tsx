@@ -6,7 +6,7 @@ import RiskFactorsDashboard from "@/components/RiskFactorsDashboard";
 import GestationTable from "@/components/Tables/GestationTable";
 import PreviousSurgeriesTable from "@/components/Tables/PreviousSurgeriesTable";
 import SymptomsTable from "@/components/Tables/SymptomsTable";
-import { Box, Chip, LinearProgress, Select, Typography, Option, Sheet, List, ListItem, ListItemButton, Card, Stack } from "@mui/joy";
+import { Box, Chip, LinearProgress, Select, Typography, Option, Sheet, List, ListItem, ListItemButton, Card, Stack, linearProgressClasses } from "@mui/joy";
 import { Disease } from "@prisma/client";
 import { ChangeEvent, useEffect, useState } from "react";
 import useSWR from "swr";
@@ -36,27 +36,42 @@ export default function PatientPage({ params }: Props) {
         data: diseasesData,
         isLoading: diseasesLoading,
         error: diseasesError } = useSWR(`/api/diseases`, getDiseases, { refreshInterval: 5000 });
-
+    const [loading, setLoading] = useState(false)
 
     if (error) return <h1>Ha ocurrido un error ... </h1>
     if (isLoading) return <LinearProgress />
 
 
-    const handleChange = async (event: any) => {
-        const selectedValue = event.target.value
-        const selectedDisease: Disease = diseasesData.diseases[selectedValue]
-
-        const data = {
-            name: selectedDisease.name,
+    const handleChange = async (_e: null, value: string) => {
+        let proceed: boolean = confirm("Deseas cambiar la enfermedad? Esto va a borrar los factores de riesgos cargados si ya los hay")
+        if (!proceed) return
+        const submitData: any = {
+            name: value,
             patientId: id
         }
-        const response = await fetch(`/api/diseases`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });
+        if (data.patient.disease) {
+            submitData.deleteRiskFactors = true
+            setLoading(true)
+            const response = await fetch(`/api/patient-disease`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(submitData),
+            });
+            setLoading(false)
+        } else {
+            setLoading(true)
+            const response = await fetch(`/api/diseases`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(submitData),
+            });
+            setLoading(false)
+        }
+
     }
 
     const filteredDiseases = diseasesData?.diseases?.filter((d: Disease) => d.patientId === null)
@@ -67,6 +82,25 @@ export default function PatientPage({ params }: Props) {
                 flexDirection: 'column'
             }}
         >
+            {loading &&
+                <Sheet
+                    sx={{
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100%',
+                        mx: 'auto',
+                        height: '100dvh',
+                        zIndex: 2222222,
+                        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <LinearProgress />
+                </Sheet>
+            }
             {/* First row */}
             <Box sx={{
                 display: 'flex',
@@ -78,6 +112,7 @@ export default function PatientPage({ params }: Props) {
             }}>
                 <Typography sx={{ width: 'fit-content' }} level="h2">{data.patient.name}</Typography>
                 <Select
+                    onChange={handleChange}
                     sx={{
                         width: {
                             sm: 'auto',
@@ -85,7 +120,7 @@ export default function PatientPage({ params }: Props) {
                         }
                     }}
                     placeholder="Choose one…"
-                    onChange={handleChange}
+                    defaultValue={data.patient?.disease?.name}
                 >
                     {diseasesData.diseases && filteredDiseases.map((disease: Disease) => (
                         <Option key={disease.id.toString()} value={disease.name}>{disease.name}</Option>

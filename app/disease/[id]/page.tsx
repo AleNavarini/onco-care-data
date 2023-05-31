@@ -30,22 +30,25 @@ export default function DiseasePage({ params }: Props) {
     }
 
     return (
-        <Sheet
-            sx={{
-                width: '90%',
-                mx: 'auto',
-                borderRadius: 'md',
-                overflow: 'auto',
-                my: 2,
-            }}
-            variant={'outlined'}
-        >
-            <RiskFactorsDashboard
-                forPatient={false}
-                riskFactors={data.disease.riskFactors}
-                diseaseId={data.disease.id}
-            />
+        <>
+            <Typography level="h2">Factores de riesgo - <b>{data.disease.name}</b></Typography>
+            <Sheet
+                sx={{
+                    width: '90%',
+                    mx: 'auto',
+                    borderRadius: 'md',
+                    overflow: 'auto',
+                    my: 2,
+                }}
+                variant={'outlined'}
+            >
+                <RiskFactorsDashboard
+                    forPatient={false}
+                    riskFactors={data.disease.riskFactors}
+                    diseaseId={data.disease.id}
+                />
 
-        </Sheet>
+            </Sheet>
+        </>
     )
 }

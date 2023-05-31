@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import { RiskFactor } from '@prisma/client';
 import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
   try {
@@ -15,13 +16,34 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  const { name } = await request.json();
+  const { name, patientId } = await request.json();
   try {
     const disease = await prisma.disease.create({
       data: {
         name: name,
+        patientId: patientId ? BigInt(patientId) : null,
       },
     });
+
+    if (patientId) {
+      const riskFactors = await prisma.riskFactor.findMany({
+        where: {
+          disease: {
+            name: name,
+          },
+        },
+      });
+
+      for (const riskFactor of riskFactors) {
+        await prisma.riskFactor.create({
+          data: {
+            name: riskFactor.name,
+            patientId: BigInt(patientId),
+            diseaseId: BigInt(disease.id),
+          },
+        });
+      }
+    }
 
     return NextResponse.json({
       status: 201,

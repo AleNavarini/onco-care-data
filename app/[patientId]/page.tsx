@@ -2,10 +2,13 @@
 
 import Accordion from "@/components/Common/Accordion";
 import AffiliatoryDataForm from "@/components/Forms/AffiliatoryDataForm";
+import RiskFactorsDashboard from "@/components/RiskFactorsDashboard";
 import GestationTable from "@/components/Tables/GestationTable";
 import PreviousSurgeriesTable from "@/components/Tables/PreviousSurgeriesTable";
 import SymptomsTable from "@/components/Tables/SymptomsTable";
 import { Box, Chip, LinearProgress, Select, Typography, Option, Sheet, List, ListItem, ListItemButton, Card, Stack } from "@mui/joy";
+import { Disease } from "@prisma/client";
+import { ChangeEvent, useEffect, useState } from "react";
 import useSWR from "swr";
 
 interface Props {
@@ -20,14 +23,43 @@ const getPatient = async (url: string) => {
     return data;
 };
 
+const getDiseases = async (url: string) => {
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+};
+
 export default function PatientPage({ params }: Props) {
     const id = params.patientId
     const { data, isLoading, error } = useSWR(`/api/patients/${id}?detailed=true`, getPatient, { refreshInterval: 5000 });
+    const {
+        data: diseasesData,
+        isLoading: diseasesLoading,
+        error: diseasesError } = useSWR(`/api/diseases`, getDiseases, { refreshInterval: 5000 });
 
 
     if (error) return <h1>Ha ocurrido un error ... </h1>
     if (isLoading) return <LinearProgress />
 
+
+    const handleChange = async (event: any) => {
+        const selectedValue = event.target.value
+        const selectedDisease: Disease = diseasesData.diseases[selectedValue]
+
+        const data = {
+            name: selectedDisease.name,
+            patientId: id
+        }
+        const response = await fetch(`/api/diseases`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+    }
+
+    const filteredDiseases = diseasesData?.diseases?.filter((d: Disease) => d.patientId === null)
     return (
         <Sheet
             sx={{
@@ -53,10 +85,11 @@ export default function PatientPage({ params }: Props) {
                         }
                     }}
                     placeholder="Choose one…"
+                    onChange={handleChange}
                 >
-                    <Option value={"Cancer de Ovario"}>Cancer de Ovario</Option>
-                    <Option value={"Cancer de Vulva y Vagina"}>Cancer de Vulva y Vagina</Option>
-                    <Option value={"Cancer de Endometrio"}>Cancer de Endometrio</Option>
+                    {diseasesData.diseases && filteredDiseases.map((disease: Disease) => (
+                        <Option key={disease.id.toString()} value={disease.name}>{disease.name}</Option>
+                    ))}
                 </Select>
                 <Chip
                     sx={{
@@ -165,7 +198,11 @@ export default function PatientPage({ params }: Props) {
                         }}
                     >
                         <Accordion title="Factores de Riesgo">
-                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                            <RiskFactorsDashboard
+                                forPatient={true}
+                                riskFactors={data.patient.riskFactors}
+                                diseaseId={data.patient.dise}
+                            />
                         </Accordion>
                     </Box>
                     <Box

@@ -23,6 +23,8 @@ export async function GET(request: NextRequest, context: { params: any }) {
           gestations: true,
           symptoms: true,
           previousSurgeries: true,
+          disease: true,
+          riskFactors: true,
         },
       });
     }

@@ -14,6 +14,7 @@ interface Props {
     riskFactors: RiskFactor[]
     forPatient: boolean
     diseaseId: string
+    patientId: string
 }
 
 export default function RiskFactorsDashboard(props: Props) {
@@ -89,6 +90,7 @@ export default function RiskFactorsDashboard(props: Props) {
                             >
                                 <RiskFactorForm
                                     diseaseId={!props.forPatient ? props.diseaseId : undefined}
+                                    patientId={props.forPatient ? props.patientId : undefined}
                                     buttonText="Agregar"
                                     handler={addRiskFactor}
                                     setModalOpen={setNewModalOpen}
@@ -130,6 +132,7 @@ export default function RiskFactorsDashboard(props: Props) {
                                 >
                                     <RiskFactorForm
                                         diseaseId={!props.forPatient ? props.diseaseId : undefined}
+                                        patientId={props.forPatient ? props.patientId : undefined}
                                         buttonText="Actualizar"
                                         handler={updateRiskFactor}
                                         setModalOpen={setEditModalOpen}

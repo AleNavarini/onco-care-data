@@ -6,10 +6,10 @@ import RiskFactorsDashboard from "@/components/RiskFactorsDashboard";
 import GestationTable from "@/components/Tables/GestationTable";
 import PreviousSurgeriesTable from "@/components/Tables/PreviousSurgeriesTable";
 import SymptomsTable from "@/components/Tables/SymptomsTable";
-import { Box, Chip, LinearProgress, Select, Typography, Option, Sheet, List, ListItem, ListItemButton, Card, Stack, linearProgressClasses } from "@mui/joy";
+import { Box, Chip, LinearProgress, Select, Typography, Option, Sheet, Stack } from "@mui/joy";
 import { Disease } from "@prisma/client";
-import { ChangeEvent, useEffect, useState } from "react";
-import useSWR from "swr";
+import { useState } from "react";
+import useSWR, { mutate } from "swr";
 
 interface Props {
     params: {
@@ -29,6 +29,27 @@ const getDiseases = async (url: string) => {
     return data;
 };
 
+type ApiCallParams = {
+    url: string;
+    method: 'PUT' | 'POST';
+    submitData: any;
+};
+
+const apiCall = async ({ url, method, submitData }: ApiCallParams) => {
+    let response;
+    try {
+        response = await fetch(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(submitData),
+        });
+        if (response.status !== 200) throw new Error("Request failed");
+    } catch (error) {
+        console.error("Fetch error: ", error);
+    }
+    return response;
+}
+
 export default function PatientPage({ params }: Props) {
     const id = params.patientId
     const { data, isLoading, error } = useSWR(`/api/patients/${id}?detailed=true`, getPatient, { refreshInterval: 5000 });
@@ -43,35 +64,24 @@ export default function PatientPage({ params }: Props) {
 
 
     const handleChange = async (_e: null, value: string) => {
-        let proceed: boolean = confirm("Deseas cambiar la enfermedad? Esto va a borrar los factores de riesgos cargados si ya los hay")
-        if (!proceed) return
-        const submitData: any = {
-            name: value,
-            patientId: id
-        }
-        if (data.patient.disease) {
-            submitData.deleteRiskFactors = true
-            setLoading(true)
-            const response = await fetch(`/api/patient-disease`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(submitData),
-            });
-            setLoading(false)
-        } else {
-            setLoading(true)
-            const response = await fetch(`/api/diseases`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(submitData),
-            });
-            setLoading(false)
-        }
+        const proceed: boolean = window.confirm("Deseas cambiar la enfermedad? Esto va a borrar los factores de riesgos cargados si ya los hay");
+        if (!proceed) return;
 
+        const submitData: any = { name: value, patientId: id };
+        setLoading(true)
+        if (data.patient.disease) {
+            submitData.deleteRiskFactors = true;
+            const response = await apiCall({ url: `/api/patient-disease`, method: 'PUT', submitData });
+            if (response) {
+                console.log('Mutating');
+                await mutate(`/api/patients/${id}?detailed=true`);
+                console.log(JSON.stringify(data, null, 2));
+            }
+        } else {
+            const response = await apiCall({ url: `/api/diseases`, method: 'POST', submitData });
+            if (response) await mutate(`/api/patients/${id}?detailed=true`);
+        }
+        setLoading(false)
     }
 
     const filteredDiseases = diseasesData?.diseases?.filter((d: Disease) => d.patientId === null)
@@ -238,6 +248,7 @@ export default function PatientPage({ params }: Props) {
                                 forPatient={true}
                                 riskFactors={data.patient.riskFactors}
                                 diseaseId={data.patient.dise}
+                                patientId={data.patient.id}
                             />
                         </Accordion>
                     </Box>

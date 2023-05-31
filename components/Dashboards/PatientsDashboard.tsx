@@ -7,6 +7,7 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import PatientForm from "../Forms/PatientForm";
+import { FollowUp } from "@prisma/client";
 
 interface Props {
     patients: FullPatient[]
@@ -23,6 +24,7 @@ export interface FullPatient {
     healthInsurance: string | null
     clinicHistory: bigint | null
     status?: string
+    followUps?: FollowUp[]
 }
 
 
@@ -36,7 +38,8 @@ export default function PatientsDashboard(props: Props) {
 
     useEffect(() => {
         const tempPatients: FullPatient[] = patients.map((patient: FullPatient) => {
-            return { ...patient, status: "Active" };
+            if (patient.followUps && patient.followUps.length > 0) return { ...patient, status: "En seguimiento" };
+            return { ...patient, status: "Activa" };
         });
         setPatients(tempPatients)
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -152,7 +155,7 @@ export default function PatientsDashboard(props: Props) {
                                     size="sm"
                                     color={
                                         {
-                                            Active: 'success',
+                                            Activa: 'success',
                                         }[patient.status!] as ColorPaletteProp
                                     }
                                 >

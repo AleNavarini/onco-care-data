@@ -1,9 +1,20 @@
 import prisma from '@/lib/prisma';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import '../../../lib/bigIntExtensions';
 
-export async function GET() {
-  const patients = await prisma.patient.findMany({});
+export async function GET(request: NextRequest, context: { params: any }) {
+  let params = request.nextUrl.toString().split('?')[1];
+  let patients;
+  if (params.indexOf('detailed=true') >= 0) {
+    patients = await prisma.patient.findMany({
+      include: {
+        followUps: true,
+      },
+    });
+  } else {
+    patients = await prisma.patient.findMany({});
+  }
+
   return NextResponse.json({ status: 200, patients });
 }
 

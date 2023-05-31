@@ -1,4 +1,4 @@
-import { Box, Typography, Select, Chip, Sheet, LinearProgress, Option } from "@mui/joy";
+import { Box, Typography, Select, Chip, Sheet, LinearProgress, Option, getAspectRatioUtilityClass, ColorPaletteProp } from "@mui/joy";
 import { Disease } from "@prisma/client";
 import { useState } from "react";
 import useSWR, { mutate } from "swr";
@@ -57,9 +57,11 @@ export default function PatientTopRow({ patient }: Props) {
         }
         setLoading(false)
     }
-
+    function getStatus() {
+        if (patient.followUps && patient.followUps.length > 0) return "En seguimiento"
+        return "Activa"
+    }
     const filteredDiseases = data?.diseases?.filter((d: Disease) => d.patientId === null)
-
     return (
         <Box sx={{
             display: 'flex',
@@ -107,20 +109,21 @@ export default function PatientTopRow({ patient }: Props) {
             </Select>
             <Chip
                 sx={{
-                    width: {
-                        sm: 'auto',
-                        md: '10dvw'
-                    },
+
                     ml: 1,
                     textAlign: 'center'
                 }}
-
+                color={
+                    {
+                        'Activa': 'success',
+                        'En seguimiento': 'primary',
+                    }[getStatus()] as ColorPaletteProp
+                }
                 variant="soft"
                 size="lg"
-                color="success"
             >
-                Active
+                {getStatus()}
             </Chip>
-        </Box>
+        </Box >
     )
 }

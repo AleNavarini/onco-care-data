@@ -2,7 +2,7 @@ import { Button, FormControl, Input, Sheet, Stack } from "@mui/joy";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Field from "./Field";
-import { FullPatient } from "../PatientsDashboard";
+import { FullPatient } from "../Dashboards/PatientsDashboard";
 
 interface Props {
     buttonText: string

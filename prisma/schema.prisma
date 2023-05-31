@@ -28,6 +28,8 @@ model Patient {
   gestations        Gestation[]
   symptoms          Symptom[]
   previousSurgeries PreviousSurgery[]
+  disease   Disease?
+  riskFactors RiskFactor[]
 }
 
 model AffiliatoryData {
@@ -69,4 +71,22 @@ model PreviousSurgery {
   patientId    BigInt?
   surgeryType  String
   observations String?
+}
+
+model Disease {
+  id           BigInt   @id @default(autoincrement())
+  name  String
+  patient      Patient? @relation(fields: [patientId], references: [id])
+  patientId    BigInt? @unique
+  riskFactors  RiskFactor[]
+}
+
+model RiskFactor {
+  id           BigInt   @id @default(autoincrement())
+  name      String
+  value     String?
+  disease      Disease? @relation(fields: [diseaseId], references: [id])
+  diseaseId    BigInt?
+  patient      Patient? @relation(fields: [patientId], references: [id])
+  patientId    BigInt?
 }

@@ -2,14 +2,14 @@
 
 import Accordion from "@/components/Common/Accordion";
 import AffiliatoryDataForm from "@/components/Forms/AffiliatoryDataForm";
+import PatientTopRow from "@/components/PatientTopRow";
 import RiskFactorsDashboard from "@/components/RiskFactorsDashboard";
 import GestationTable from "@/components/Tables/GestationTable";
 import PreviousSurgeriesTable from "@/components/Tables/PreviousSurgeriesTable";
+import StagingTable from "@/components/Tables/StagingTable";
 import SymptomsTable from "@/components/Tables/SymptomsTable";
-import { Box, Chip, LinearProgress, Select, Typography, Option, Sheet, Stack } from "@mui/joy";
-import { Disease } from "@prisma/client";
-import { useState } from "react";
-import useSWR, { mutate } from "swr";
+import { Box, LinearProgress, Sheet, Stack } from "@mui/joy";
+import useSWR from "swr";
 
 interface Props {
     params: {
@@ -23,68 +23,13 @@ const getPatient = async (url: string) => {
     return data;
 };
 
-const getDiseases = async (url: string) => {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
-};
-
-type ApiCallParams = {
-    url: string;
-    method: 'PUT' | 'POST';
-    submitData: any;
-};
-
-const apiCall = async ({ url, method, submitData }: ApiCallParams) => {
-    let response;
-    try {
-        response = await fetch(url, {
-            method,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(submitData),
-        });
-        if (response.status !== 200) throw new Error("Request failed");
-    } catch (error) {
-        console.error("Fetch error: ", error);
-    }
-    return response;
-}
-
 export default function PatientPage({ params }: Props) {
     const id = params.patientId
     const { data, isLoading, error } = useSWR(`/api/patients/${id}?detailed=true`, getPatient, { refreshInterval: 5000 });
-    const {
-        data: diseasesData,
-        isLoading: diseasesLoading,
-        error: diseasesError } = useSWR(`/api/diseases`, getDiseases, { refreshInterval: 5000 });
-    const [loading, setLoading] = useState(false)
 
     if (error) return <h1>Ha ocurrido un error ... </h1>
     if (isLoading) return <LinearProgress />
 
-
-    const handleChange = async (_e: null, value: string) => {
-        const proceed: boolean = window.confirm("Deseas cambiar la enfermedad? Esto va a borrar los factores de riesgos cargados si ya los hay");
-        if (!proceed) return;
-
-        const submitData: any = { name: value, patientId: id };
-        setLoading(true)
-        if (data.patient.disease) {
-            submitData.deleteRiskFactors = true;
-            const response = await apiCall({ url: `/api/patient-disease`, method: 'PUT', submitData });
-            if (response) {
-                console.log('Mutating');
-                await mutate(`/api/patients/${id}?detailed=true`);
-                console.log(JSON.stringify(data, null, 2));
-            }
-        } else {
-            const response = await apiCall({ url: `/api/diseases`, method: 'POST', submitData });
-            if (response) await mutate(`/api/patients/${id}?detailed=true`);
-        }
-        setLoading(false)
-    }
-
-    const filteredDiseases = diseasesData?.diseases?.filter((d: Disease) => d.patientId === null)
     return (
         <Sheet
             sx={{
@@ -92,69 +37,9 @@ export default function PatientPage({ params }: Props) {
                 flexDirection: 'column'
             }}
         >
-            {loading &&
-                <Sheet
-                    sx={{
-                        position: 'fixed',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        mx: 'auto',
-                        height: '100dvh',
-                        zIndex: 2222222,
-                        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                    }}
-                >
-                    <LinearProgress />
-                </Sheet>
-            }
-            {/* First row */}
-            <Box sx={{
-                display: 'flex',
-                width: {
-                    sm: '100%',
-                    md: '90%'
-                },
-                justifyContent: 'space-between'
-            }}>
-                <Typography sx={{ width: 'fit-content' }} level="h2">{data.patient.name}</Typography>
-                <Select
-                    //@ts-ignore
-                    onChange={handleChange}
-                    sx={{
-                        width: {
-                            sm: 'auto',
-                            md: '20dvw'
-                        }
-                    }}
-                    placeholder="Choose one…"
-                    defaultValue={data.patient?.disease?.name}
-                >
-                    {diseasesData.diseases && filteredDiseases.map((disease: Disease) => (
-                        <Option key={disease.id.toString()} value={disease.name}>{disease.name}</Option>
-                    ))}
-                </Select>
-                <Chip
-                    sx={{
-                        width: {
-                            sm: 'auto',
-                            md: '10dvw'
-                        },
-                        ml: 1,
-                        textAlign: 'center'
-                    }}
-
-                    variant="soft"
-                    size="lg"
-                    color="success"
-                >
-                    Active
-                </Chip>
-            </Box>
-            {/* End of First row */}
+            <PatientTopRow
+                patient={data?.patient}
+            />
 
             <Box
                 sx={{
@@ -189,8 +74,11 @@ export default function PatientPage({ params }: Props) {
                             borderRadius: 'md'
                         }}
                     >
-                        <Accordion title="Datos Afiliatorios">
-                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                        <Accordion title="Estadificaciones">
+                            <StagingTable 
+                                patientId={data.patient.id}
+                                stagings={data.patient.stagings}
+                            />
                         </Accordion>
                     </Box>
                 </Stack>

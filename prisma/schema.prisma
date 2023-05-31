@@ -15,7 +15,7 @@ model User {
 }
 
 model Patient {
-  id                BigInt              @id @default(autoincrement())
+  id                BigInt            @id @default(autoincrement())
   dni               String
   name              String?
   dateOfBirth       DateTime?
@@ -28,8 +28,9 @@ model Patient {
   gestations        Gestation[]
   symptoms          Symptom[]
   previousSurgeries PreviousSurgery[]
-  disease   Disease?
-  riskFactors RiskFactor[]
+  disease           Disease?
+  riskFactors       RiskFactor[]
+  stagings          Staging[]
 }
 
 model AffiliatoryData {
@@ -74,19 +75,28 @@ model PreviousSurgery {
 }
 
 model Disease {
-  id           BigInt   @id @default(autoincrement())
-  name  String
-  patient      Patient? @relation(fields: [patientId], references: [id])
-  patientId    BigInt? @unique
-  riskFactors  RiskFactor[]
+  id          BigInt       @id @default(autoincrement())
+  name        String
+  patient     Patient?     @relation(fields: [patientId], references: [id])
+  patientId   BigInt?      @unique
+  riskFactors RiskFactor[]
 }
 
 model RiskFactor {
-  id           BigInt   @id @default(autoincrement())
+  id        BigInt   @id @default(autoincrement())
   name      String
   value     String?
-  disease      Disease? @relation(fields: [diseaseId], references: [id])
-  diseaseId    BigInt?
-  patient      Patient? @relation(fields: [patientId], references: [id])
-  patientId    BigInt?
+  disease   Disease? @relation(fields: [diseaseId], references: [id])
+  diseaseId BigInt?
+  patient   Patient? @relation(fields: [patientId], references: [id])
+  patientId BigInt?
+}
+
+model Staging {
+  id        BigInt   @id @default(autoincrement())
+  patient   Patient? @relation(fields: [patientId], references: [id])
+  patientId BigInt?
+  date      DateTime
+  type      String
+  figo      String
 }

@@ -24,23 +24,45 @@ export default function ManagePage() {
     return (
         <Sheet
             sx={{
-                display: 'flex'
+                display: 'flex',
+                flexDirection: {
+                    sm: 'column',
+                    md: 'row'
+                },
+                borderRadius: 'md',
             }}
         >
             <Sheet
                 sx={{
                     width: {
-                        sm: '100%',
-                        md: '30%'
-                    }
+                        md: '100%',
+                        lg: '30%'
+                    },
+                    mx: 5
                 }}
             >
 
                 Enfermedades
                 <DiseasesDashboard diseases={filteredDiseases} />
             </Sheet>
-            <Sheet>Tratamientos</Sheet>
-            <Sheet>Estudios</Sheet>
+            <Sheet
+                sx={{
+                    width: {
+                        md: '100%',
+                        lg: '30%'
+                    },
+                    mx: 5
+                }}
+            >Tratamientos</Sheet>
+            <Sheet
+                sx={{
+                    width: {
+                        md: '100%',
+                        lg: '30%'
+                    },
+                    mx: 5
+                }}
+            >Estudios</Sheet>
 
         </Sheet>
     )

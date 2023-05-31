@@ -14,7 +14,7 @@ interface Props {
     riskFactors: RiskFactor[]
     forPatient: boolean
     diseaseId: string
-    patientId: string
+    patientId?: string
 }
 
 export default function RiskFactorsDashboard(props: Props) {

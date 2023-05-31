@@ -22,7 +22,6 @@ export default function DiseasesDashboard(props: Props) {
     const addDisease = (disease: Disease) => setDiseases((prevDiseases) => [...prevDiseases, disease])
 
     const updateDisease = (disease: Disease) => {
-        console.log(`Disease : ${JSON.stringify(disease)}`);
         setDiseases((prevDiseases) => prevDiseases.map((d: Disease) => {
             if (d.id === disease.id) return disease
             return d
@@ -49,6 +48,7 @@ export default function DiseasesDashboard(props: Props) {
             variant="outlined"
             sx={{
                 boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                borderRadius: 'md'
             }}
         >
             <Table

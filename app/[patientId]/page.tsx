@@ -112,6 +112,7 @@ export default function PatientPage({ params }: Props) {
             }}>
                 <Typography sx={{ width: 'fit-content' }} level="h2">{data.patient.name}</Typography>
                 <Select
+                    //@ts-ignore
                     onChange={handleChange}
                     sx={{
                         width: {

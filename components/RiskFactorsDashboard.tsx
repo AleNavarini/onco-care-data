@@ -6,33 +6,35 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import { useState } from "react";
 import Link from "next/link";
-import { Disease } from "@prisma/client";
+import { RiskFactor } from "@prisma/client";
 import DiseaseForm from "./Forms/DiseaseForm";
+import RiskFactorForm from "./Forms/RiskFactorForm";
 
 interface Props {
-    diseases: Disease[]
+    riskFactors: RiskFactor[]
+    forPatient: boolean
+    diseaseId: string
 }
 
-export default function DiseasesDashboard(props: Props) {
-    const [diseases, setDiseases] = useState<Disease[]>(props.diseases)
-    const [editDisease, setEditDisease] = useState<Disease | null>(null)
+export default function RiskFactorsDashboard(props: Props) {
+    const [riskFactors, setRiskFactors] = useState<RiskFactor[]>(props.riskFactors)
+    const [editRiskFactor, setEditRiskFactor] = useState<RiskFactor | null>(null)
     const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
     const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
-    const addDisease = (disease: Disease) => setDiseases((prevDiseases) => [...prevDiseases, disease])
+    const addRiskFactor = (riskFactor: RiskFactor) => setRiskFactors((prevRiskFactors) => [...prevRiskFactors, riskFactor])
 
-    const updateDisease = (disease: Disease) => {
-        console.log(`Disease : ${JSON.stringify(disease)}`);
-        setDiseases((prevDiseases) => prevDiseases.map((d: Disease) => {
-            if (d.id === disease.id) return disease
-            return d
+    const updateRiskFactor = (riskFactor: RiskFactor) => {
+        setRiskFactors((prevRiskFactors) => prevRiskFactors.map((rf: RiskFactor) => {
+            if (rf.id === riskFactor.id) return riskFactor
+            return rf
         }))
     }
 
-    const deleteDisease = async (disease: Disease) => {
-        let result = confirm("Seguro que quiere borrar la enfermedad?")
+    const deleteRiskFactor = async (riskFactor: RiskFactor) => {
+        let result = confirm("Seguro que quiere borrar el factor de riesgo?")
         if (!result) return
-        const response = await fetch(`/api/diseases/${disease.id}`, {
+        const response = await fetch(`/api/risk-factors/${riskFactor.id}`, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -40,13 +42,12 @@ export default function DiseasesDashboard(props: Props) {
         });
 
         if (response.status === 200) {
-            setDiseases((prevDiseases) => prevDiseases.filter((d: Disease) => d.id !== disease.id))
+            setRiskFactors((prevRiskFactors) => prevRiskFactors.filter((rf: RiskFactor) => rf.id !== riskFactor.id))
         }
     }
 
     return (
         <Sheet
-            variant="outlined"
             sx={{
                 boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
             }}
@@ -64,7 +65,11 @@ export default function DiseasesDashboard(props: Props) {
             >
                 <thead>
                     <tr>
-                        <th style={{ width: 100, textAlign: 'center', paddingLeft: 20, verticalAlign: 'middle' }}>Enfermedad</th>
+                        <th style={{ width: 100, textAlign: 'center', paddingLeft: 20, verticalAlign: 'middle' }}>Nombre</th>
+                        {
+                            props.forPatient &&
+                            <th style={{ width: 100, textAlign: 'center', paddingLeft: 20, verticalAlign: 'middle' }}>Valor</th>
+                        }
                         <th style={{ width: 100, textAlign: 'center', verticalAlign: 'middle' }}>Accion</th>
                         <th style={{ width: 100, paddingRight: 20, verticalAlign: 'middle', textAlign: 'right' }}>
                             <IconButton color="neutral" variant="plain" onClick={() => setNewModalOpen(true)}>
@@ -72,8 +77,8 @@ export default function DiseasesDashboard(props: Props) {
                             </IconButton>
 
                             <Modal
-                                aria-labelledby="New disease modal"
-                                aria-describedby="New disease form"
+                                aria-labelledby="New risk factor modal"
+                                aria-describedby="New risk factor form"
                                 open={newModalOpen}
                                 onClose={() => setNewModalOpen(false)}
                                 sx={{
@@ -82,9 +87,10 @@ export default function DiseasesDashboard(props: Props) {
                                     alignItems: 'center'
                                 }}
                             >
-                                <DiseaseForm
+                                <RiskFactorForm
+                                    diseaseId={!props.forPatient ? props.diseaseId : undefined}
                                     buttonText="Agregar"
-                                    addDisease={addDisease}
+                                    handler={addRiskFactor}
                                     setModalOpen={setNewModalOpen}
                                 />
                             </Modal >
@@ -93,14 +99,20 @@ export default function DiseasesDashboard(props: Props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {diseases && diseases.map((disease: Disease) => (
-                        <tr key={disease.id.toString()}>
+                    {riskFactors && riskFactors.length > 0 && riskFactors.map((riskFactor: RiskFactor) => (
+                        <tr key={riskFactor?.id.toString()}>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                <Typography fontWeight="md">{disease.name}</Typography>
+                                <Typography fontWeight="md">{riskFactor?.name}</Typography>
                             </td>
+                            {
+                                props.forPatient &&
+                                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                                    <Typography fontWeight="md">{riskFactor?.value}</Typography>
+                                </td>
+                            }
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                                 <IconButton color="neutral" variant="plain" onClick={() => {
-                                    setEditDisease(disease)
+                                    setEditRiskFactor(riskFactor)
                                     setEditModalOpen(true)
                                 }}>
                                     <EditIcon />
@@ -116,23 +128,17 @@ export default function DiseasesDashboard(props: Props) {
                                         alignItems: 'center'
                                     }}
                                 >
-                                    <DiseaseForm
+                                    <RiskFactorForm
+                                        diseaseId={!props.forPatient ? props.diseaseId : undefined}
                                         buttonText="Actualizar"
-                                        addDisease={updateDisease}
+                                        handler={updateRiskFactor}
                                         setModalOpen={setEditModalOpen}
-                                        oldDisease={editDisease!}
+                                        oldRiskFactor={editRiskFactor!}
                                     />
                                 </Modal>
-                                <IconButton color="neutral" variant="plain" onClick={() => deleteDisease(disease)}>
+                                <IconButton color="neutral" variant="plain" onClick={() => deleteRiskFactor(riskFactor)}>
                                     <DeleteIcon />
                                 </IconButton>
-                            </td>
-                            <td style={{ paddingRight: 20, verticalAlign: 'middle', textAlign: 'right' }}>
-                                <Link href={`disease/${disease.id}`}>
-                                    <IconButton color="neutral" variant="plain">
-                                        <ArrowCircleRightOutlinedIcon />
-                                    </IconButton>
-                                </Link>
                             </td>
                         </tr>
                     ))}

@@ -1,53 +1,36 @@
-import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { NextResponse } from 'next/server';
 
 export async function PUT(request: Request, context: { params: any }) {
   const id = context.params.id;
-  const { name } = await request.json();
+  const data = await request.json();
   try {
-    const disease = await prisma.disease.update({
+    const riskFactor = await prisma.riskFactor.update({
       where: {
         id: BigInt(id),
       },
       data: {
-        name: name,
+        name: data.name,
+        diseaseId: data.diseaseId ? BigInt(data.diseaseId) : null,
+        patientId: data.patientId ? BigInt(data.patientId) : null,
+        value: data.value || null,
       },
     });
 
     return NextResponse.json({
       status: 204,
-      disease,
+      riskFactor: riskFactor,
     });
   } catch (error) {
     console.error(error);
     return NextResponse.error();
   }
 }
-export async function GET(request: Request, context: { params: any }) {
-  const id = context.params.id;
-  try {
-    const disease = await prisma.disease.findUnique({
-      where: {
-        id: BigInt(id),
-      },
-      include: {
-        riskFactors: true,
-      },
-    });
 
-    return NextResponse.json({
-      status: 200,
-      disease,
-    });
-  } catch (error) {
-    console.error(error);
-    return NextResponse.error();
-  }
-}
 export async function DELETE(request: Request, context: { params: any }) {
   const id = context.params.id;
   try {
-    const disease = await prisma.disease.delete({
+    const riskFactor = await prisma.riskFactor.delete({
       where: {
         id: BigInt(id),
       },
@@ -55,7 +38,7 @@ export async function DELETE(request: Request, context: { params: any }) {
 
     return NextResponse.json({
       status: 200,
-      disease,
+      riskFactor: riskFactor,
     });
   } catch (error) {
     console.error(error);

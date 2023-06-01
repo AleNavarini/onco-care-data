@@ -11,6 +11,7 @@ import SymptomsTable from "@/components/Tables/SymptomsTable";
 import { Box, LinearProgress, Sheet, Stack } from "@mui/joy";
 import useSWR from "swr";
 import FollowUpsTable from "@/components/Tables/FollowUpsTable";
+import StudiesTable from "@/components/Tables/StudiesTable";
 
 interface Props {
     params: {
@@ -90,6 +91,19 @@ export default function PatientPage({ params }: Props) {
                             <FollowUpsTable
                                 patientId={data.patient.id}
                                 followUps={data.patient.followUps}
+                            />
+                        </Accordion>
+                    </Box>
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Estudios">
+                            <StudiesTable
+                                patientId={data.patient.id}
+                                studies={data.patient.studies}
                             />
                         </Accordion>
                     </Box>

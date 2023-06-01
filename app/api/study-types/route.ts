@@ -1,10 +1,18 @@
 import prisma from '@/lib/prisma';
-import "../../../lib/bigIntExtensions"
+import '../../../lib/bigIntExtensions';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const studyTypes = await prisma.studyType.findMany({});
+    const studyTypes = await prisma.studyType.findMany({
+      include: {
+        attributes: {
+          where: {
+            value: null,
+          },
+        },
+      },
+    });
     return NextResponse.json({
       status: 200,
       studyTypes,

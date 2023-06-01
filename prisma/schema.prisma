@@ -135,6 +135,7 @@ model StudyTypeAttribute {
 
 model Study {
   id                  BigInt               @id @default(autoincrement())
+  date           DateTime
   studyTypeId         BigInt
   studyType           StudyType            @relation(fields: [studyTypeId], references: [id])
   patient             Patient?             @relation(fields: [patientId], references: [id])

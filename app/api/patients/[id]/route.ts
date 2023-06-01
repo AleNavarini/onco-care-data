@@ -27,6 +27,12 @@ export async function GET(request: NextRequest, context: { params: any }) {
           riskFactors: true,
           stagings: true,
           followUps: true,
+          studies: {
+            include: {
+              studyType: true,
+              studyTypeAttributes: true,
+            },
+          },
         },
       });
     }

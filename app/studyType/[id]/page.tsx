@@ -33,7 +33,7 @@ export default function StudyTypePage({ params }: Props) {
         return <h1>Ha habido un error ...</h1>
     }
 
-
+    const filteredAttributes = studyType.attributes?.filter((a: StudyTypeAttribute) => a.value === null)
     return (
         <>
             <Typography level="h2">Atributos - <b>{studyType.name}</b></Typography>
@@ -49,7 +49,7 @@ export default function StudyTypePage({ params }: Props) {
             >
                 <StudyTypeAttributesDashboard
                     forPatient={false}
-                    studyTypeAttributes={studyType.attributes!}
+                    studyTypeAttributes={filteredAttributes!}
                     studyTypeId={id}
                 />
 

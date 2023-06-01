@@ -24,7 +24,6 @@ export default function GestationForm(props: Props) {
             patientId: props.patientId,
         }
         submitData[key] = true
-        console.log(submitData);
 
         try {
             setIsLoading(true);

@@ -97,8 +97,6 @@ export default function StagingTable({ patientId, stagings: initialStagings }: P
                 <tbody>
                     {stagings && stagings.length > 0 && stagings.map((staging: Staging) => {
                         const date = staging.date.toString().split('T')[0]
-                        console.log(JSON.stringify(staging, null, 2));
-
 
                         return (
                             <tr key={staging.id.toString()}>

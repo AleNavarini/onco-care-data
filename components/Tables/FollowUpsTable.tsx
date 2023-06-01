@@ -34,7 +34,6 @@ export default function FollowUpsTable({ patientId, followUps: initialFollowUps 
                 'Content-Type': 'application/json',
             }
         });
-        console.log(JSON.stringify(response, null, 2));
 
         if (response.status === 200) {
             setFollowUps((prevFollowUps) => prevFollowUps.filter((fu: FollowUp) => fu.id !== followUp.id))

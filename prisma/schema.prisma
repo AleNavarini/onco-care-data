@@ -32,6 +32,7 @@ model Patient {
   riskFactors       RiskFactor[]
   stagings          Staging[]
   followUps         FollowUp[]
+  studies           Study[]
 }
 
 model AffiliatoryData {
@@ -113,4 +114,30 @@ model FollowUp {
   died           Boolean?
   causeOfDeath   String?
   observations   String?
+}
+
+model StudyType {
+  id         BigInt               @id @default(autoincrement())
+  name       String
+  attributes StudyTypeAttribute[]
+  studies    Study[]
+}
+
+model StudyTypeAttribute {
+  id          BigInt    @id @default(autoincrement())
+  studyTypeId BigInt
+  studyType   StudyType @relation(fields: [studyTypeId], references: [id])
+  name        String
+  value       String?
+  studyId     BigInt?
+  study       Study?     @relation(fields: [studyId], references: [id])
+}
+
+model Study {
+  id                  BigInt               @id @default(autoincrement())
+  studyTypeId         BigInt
+  studyType           StudyType            @relation(fields: [studyTypeId], references: [id])
+  patient             Patient?             @relation(fields: [patientId], references: [id])
+  patientId           BigInt?
+  studyTypeAttributes StudyTypeAttribute[]
 }

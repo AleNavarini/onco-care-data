@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
+import '../../../../lib/bigIntExtensions';
 
 export async function GET(request: NextRequest, context: { params: any }) {
   const id = context.params.id;

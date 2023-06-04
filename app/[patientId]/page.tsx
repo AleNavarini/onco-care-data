@@ -51,8 +51,9 @@ export default function PatientPage({ params }: Props) {
                         sm: 'column',
                         md: 'row'
                     },
-                    width: '100%',
+                    width: '95%',
                     my: 5,
+                    mx: 'auto'
                 }}
             >
                 <Stack

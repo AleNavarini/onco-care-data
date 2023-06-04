@@ -36,7 +36,8 @@ export default function PatientPage({ params }: Props) {
         <Sheet
             sx={{
                 display: 'flex',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                width: '95%',
             }}
         >
             <PatientTopRow
@@ -51,9 +52,11 @@ export default function PatientPage({ params }: Props) {
                         sm: 'column',
                         md: 'row'
                     },
-                    width: '95%',
+                    gap: 3,
+                    width: '90%',
                     my: 5,
-                    mx: 'auto'
+                    mx: 'auto',
+
                 }}
             >
                 <Stack
@@ -66,7 +69,7 @@ export default function PatientPage({ params }: Props) {
                             lg: '55%',
                             xl: '70%',
                         },
-                        mb: 2,
+                        mb: 2
                     }}
                 >
                     <Box
@@ -116,9 +119,14 @@ export default function PatientPage({ params }: Props) {
                         width: {
                             xs: '100%',
                             sm: '100%',
-                            md: '40%',
+                            md: '45%',
+                            lg: '45%',
+                            xl: '30%',
                         },
-
+                        // mx: {
+                        //     sm: 0,
+                        //     md: 2
+                        // }
                     }}
                 >
                     <Box

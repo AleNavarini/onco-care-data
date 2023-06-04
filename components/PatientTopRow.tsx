@@ -69,7 +69,7 @@ export default function PatientTopRow({ patient }: Props) {
                 sm: '100%',
                 md: '90%'
             },
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
         }}>
             {loading &&
                 <Sheet

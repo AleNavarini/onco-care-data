@@ -51,6 +51,7 @@ export default function RiskFactorsDashboard(props: Props) {
         <Sheet
             sx={{
                 boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                width: '100%'
             }}
         >
             <Table
@@ -66,13 +67,13 @@ export default function RiskFactorsDashboard(props: Props) {
             >
                 <thead>
                     <tr>
-                        <th style={{ width: 100, textAlign: 'center', paddingLeft: 20, verticalAlign: 'middle' }}>Nombre</th>
+                        <th style={{ width: 80, textAlign: 'center', paddingLeft: 20, verticalAlign: 'middle' }}>Nombre</th>
                         {
                             props.forPatient &&
-                            <th style={{ width: 100, textAlign: 'center', paddingLeft: 20, verticalAlign: 'middle' }}>Valor</th>
+                            <th style={{ width: 80, textAlign: 'center', paddingLeft: 20, verticalAlign: 'middle' }}>Valor</th>
                         }
-                        <th style={{ width: 100, textAlign: 'center', verticalAlign: 'middle' }}>Accion</th>
-                        <th style={{ width: 100, paddingRight: 20, verticalAlign: 'middle', textAlign: 'right' }}>
+                        <th style={{ width: 80, textAlign: 'center', verticalAlign: 'middle' }}>Accion</th>
+                        <th style={{ width: 80, paddingRight: 20, verticalAlign: 'middle', textAlign: 'right' }}>
                             <IconButton color="neutral" variant="plain" onClick={() => setNewModalOpen(true)}>
                                 <AddBoxIcon fontSize="large" />
                             </IconButton>

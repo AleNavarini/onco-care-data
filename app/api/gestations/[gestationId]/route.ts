@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 
 export async function PUT(request: Request, context: { params: any }) {
   const id = context.params.gestationId;
-  const { patientId, birth, abortion, cesarean } = await request.json();
+  const { patientId, births, abortions, cesareans } = await request.json();
 
   try {
     const updatedGestation = await prisma.gestation.update({
@@ -12,9 +12,9 @@ export async function PUT(request: Request, context: { params: any }) {
       },
       data: {
         patientId: BigInt(patientId),
-        birth: birth ? true : false,
-        abortion: abortion ? true : false,
-        cesarean: cesarean ? true : false,
+        births: parseInt(births),
+        abortions: parseInt(abortions),
+        cesareans: parseInt(cesareans),
       },
     });
 

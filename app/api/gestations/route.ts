@@ -1,20 +1,11 @@
 import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 
-/*
-This should get a 
-{
-  patientId: "id"
-  birth : true
-}
-with just one field as true, the rest are going to be set by default as false
-*/
-
 export async function GET(request: NextRequest) {
   const patientId = request.nextUrl.searchParams.get('patientId');
   if (!patientId) return NextResponse.error();
   try {
-    const gestations = await prisma.gestation.findMany({
+    const gestations = await prisma.gestation.findUnique({
       where: {
         patientId: BigInt(patientId),
       },
@@ -31,15 +22,16 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: Request) {
-  const { patientId, birth, abortion, cesarean } = await request.json();
+  const { patientId, births, abortions, cesareans } = await request.json();
+  
 
   try {
     const newGestation = await prisma.gestation.create({
       data: {
         patientId: BigInt(patientId),
-        birth: birth ? true : false,
-        abortion: abortion ? true : false,
-        cesarean: cesarean ? true : false,
+        births: parseInt(births),
+        abortions: parseInt(abortions),
+        cesareans: parseInt(cesareans),
       },
     });
 

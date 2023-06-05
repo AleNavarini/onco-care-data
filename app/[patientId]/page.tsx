@@ -4,7 +4,6 @@ import Accordion from "@/components/Common/Accordion";
 import AffiliatoryDataForm from "@/components/Forms/AffiliatoryDataForm";
 import PatientTopRow from "@/components/PatientTopRow";
 import RiskFactorsDashboard from "@/components/Dashboards/RiskFactorsDashboard";
-import GestationTable from "@/components/Tables/GestationTable";
 import PreviousSurgeriesTable from "@/components/Tables/PreviousSurgeriesTable";
 import StagingTable from "@/components/Tables/StagingTable";
 import SymptomsTable from "@/components/Tables/SymptomsTable";
@@ -12,6 +11,7 @@ import { Box, LinearProgress, Sheet, Stack } from "@mui/joy";
 import useSWR from "swr";
 import FollowUpsTable from "@/components/Tables/FollowUpsTable";
 import StudiesTable from "@/components/Tables/StudiesTable";
+import GestationForm from "@/components/Forms/GestationForm";
 
 interface Props {
     params: {
@@ -123,10 +123,6 @@ export default function PatientPage({ params }: Props) {
                             lg: '45%',
                             xl: '30%',
                         },
-                        // mx: {
-                        //     sm: 0,
-                        //     md: 2
-                        // }
                     }}
                 >
                     <Box
@@ -175,9 +171,9 @@ export default function PatientPage({ params }: Props) {
                         }}
                     >
                         <Accordion title="Gestas">
-                            <GestationTable
+                            <GestationForm
                                 patientId={data.patient.id}
-                                gestations={data.patient.gestations}
+                                gestation={data.patient.gestations}
                             />
                         </Accordion>
                     </Box>

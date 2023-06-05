@@ -25,7 +25,7 @@ model Patient {
   healthInsurance   String?
   clinicHistory     BigInt?
   affiliatoryData   AffiliatoryData?
-  gestations        Gestation[]
+  gestations        Gestation?
   symptoms          Symptom[]
   previousSurgeries PreviousSurgery[]
   disease           Disease?
@@ -54,10 +54,10 @@ model AffiliatoryData {
 model Gestation {
   id        BigInt   @id @default(autoincrement())
   patient   Patient? @relation(fields: [patientId], references: [id])
-  patientId BigInt?
-  birth     Boolean?
-  abortion  Boolean?
-  cesarean  Boolean?
+  patientId BigInt? @unique
+  births     Int
+  abortions  Int
+  cesareans  Int
 }
 
 model Symptom {

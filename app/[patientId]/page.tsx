@@ -43,7 +43,6 @@ export default function PatientPage({ params }: Props) {
             <PatientTopRow
                 patient={data?.patient}
             />
-
             <Box
                 sx={{
                     display: 'flex',

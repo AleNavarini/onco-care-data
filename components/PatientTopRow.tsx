@@ -101,7 +101,7 @@ export default function PatientTopRow({ patient }: Props) {
                     }
                 }}
                 placeholder="Choose one…"
-                defaultValue={data?.patient?.disease?.name}
+                defaultValue={patient?.disease?.name}
             >
                 {filteredDiseases && filteredDiseases.map((disease: Disease) => (
                     <Option key={disease.id.toString()} value={disease.name}>{disease.name}</Option>

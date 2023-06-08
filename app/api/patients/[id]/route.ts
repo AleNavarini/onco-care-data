@@ -34,6 +34,13 @@ export async function GET(request: NextRequest, context: { params: any }) {
               studyTypeAttributes: true,
             },
           },
+          treatments: {
+            include: {
+              treatmentType: true,
+              treatmentTypeAttributes: true,
+              treatmentTypeResults: true,
+            },
+          },
         },
       });
     }

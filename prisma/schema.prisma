@@ -33,6 +33,7 @@ model Patient {
   stagings          Staging[]
   followUps         FollowUp[]
   studies           Study[]
+  treatments        Treatment[]
 }
 
 model AffiliatoryData {
@@ -54,10 +55,10 @@ model AffiliatoryData {
 model Gestation {
   id        BigInt   @id @default(autoincrement())
   patient   Patient? @relation(fields: [patientId], references: [id])
-  patientId BigInt? @unique
-  births     Int
-  abortions  Int
-  cesareans  Int
+  patientId BigInt?  @unique
+  births    Int
+  abortions Int
+  cesareans Int
 }
 
 model Symptom {
@@ -130,15 +131,55 @@ model StudyTypeAttribute {
   name        String
   value       String?
   studyId     BigInt?
-  study       Study?     @relation(fields: [studyId], references: [id])
+  study       Study?    @relation(fields: [studyId], references: [id])
 }
 
 model Study {
   id                  BigInt               @id @default(autoincrement())
-  date           DateTime
+  date                DateTime
   studyTypeId         BigInt
   studyType           StudyType            @relation(fields: [studyTypeId], references: [id])
   patient             Patient?             @relation(fields: [patientId], references: [id])
   patientId           BigInt?
   studyTypeAttributes StudyTypeAttribute[]
+}
+
+model TreatmentType {
+  id         BigInt                   @id @default(autoincrement())
+  name       String
+  treatments Treatment[]
+  attributes TreatmentTypeAttribute[]
+  results    TreatmentTypeResult[]
+}
+
+model TreatmentTypeAttribute {
+  id              BigInt        @id @default(autoincrement())
+  treatmentTypeId BigInt
+  treatmentType   TreatmentType @relation(fields: [treatmentTypeId], references: [id])
+  name            String
+  value           String?
+  treatmentId     BigInt?
+  treatment       Treatment?    @relation(fields: [treatmentId], references: [id], onDelete: Cascade)
+}
+
+model TreatmentTypeResult {
+  id              BigInt        @id @default(autoincrement())
+  treatmentTypeId BigInt
+  treatmentType   TreatmentType @relation(fields: [treatmentTypeId], references: [id])
+  name            String
+  value           String?
+  treatmentId     BigInt?
+  treatment       Treatment?    @relation(fields: [treatmentId], references: [id], onDelete: Cascade)
+}
+
+model Treatment {
+  id                      BigInt                   @id @default(autoincrement())
+  treatmentTypeId         BigInt
+  treatmentType           TreatmentType            @relation(fields: [treatmentTypeId], references: [id])
+  patient                 Patient?                 @relation(fields: [patientId], references: [id])
+  patientId               BigInt?
+  treatmentTypeAttributes TreatmentTypeAttribute[]
+  treatmentTypeResults    TreatmentTypeResult[]
+  startDate               DateTime?
+  endDate                 DateTime?
 }

@@ -1,6 +1,7 @@
 "use client"
 import DiseasesDashboard from "@/components/Dashboards/DiseasesDashboard";
 import StudyTypesDasboard from "@/components/Dashboards/StudyTypesDasboard";
+import TreatmentTypesDasboard from "@/components/Dashboards/TreatmentTypesDashboard";
 import { LinearProgress, Sheet } from "@mui/joy";
 import { Disease, StudyType } from "@prisma/client";
 import useSWR from "swr";
@@ -14,15 +15,17 @@ const fetchData = async (url: string) => {
 export default function ManagePage() {
     const { data: diseasesData, isLoading: diseasesLoading, error: diseasesError } = useSWR(`/api/diseases`, fetchData, { refreshInterval: 5000 });
     const { data: studyTypesData, isLoading: studyTypesLoading, error: studyTypesError } = useSWR(`/api/study-types`, fetchData, { refreshInterval: 5000 });
+    const { data: treatmentTypesData, isLoading: treatmentTypesLoading, error: treatmentTypesError } = useSWR(`/api/treatment-types`, fetchData, { refreshInterval: 5000 });
 
 
-    const error = diseasesError || studyTypesError
-    const isLoading = diseasesLoading || studyTypesLoading
+    const error = diseasesError || studyTypesError || treatmentTypesError
+    const isLoading = diseasesLoading || studyTypesLoading || treatmentTypesLoading
     if (error) return <h1>Ha ocurrido un error ... </h1>
     if (isLoading) return <LinearProgress />
 
     const filteredDiseases = diseasesData?.diseases?.filter((d: Disease) => d.patientId === null)
     const studyTypes = studyTypesData?.studyTypes
+    const treatmentTypes = treatmentTypesData?.treatmentTypes
     return (
         <Sheet
             sx={{
@@ -53,7 +56,9 @@ export default function ManagePage() {
                         lg: '30%'
                     },
                 }}
-            >Tratamientos</Sheet>
+            >Tratamientos
+                <TreatmentTypesDasboard treatmentTypes={treatmentTypes} />
+            </Sheet>
             <Sheet
                 sx={{
                     width: {

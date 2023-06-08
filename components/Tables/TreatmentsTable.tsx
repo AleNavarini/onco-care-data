@@ -2,34 +2,34 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, IconButton, Modal, Typography, Sheet } from "@mui/joy";
-import { Study } from "@prisma/client";
+import { Treatment } from "@prisma/client";
 import { useState } from "react";
-import StudyForm from '../Forms/StudyForm';
+import TreatmentForm from '../Forms/TreatmentForm';
 
 
 interface Props {
     patientId: string
-    studies: Study[]
+    treatments: Treatment[]
 }
 
-export default function StudiesTable({ patientId, studies: initialStudies }: Props) {
-    const [studies, setStudies] = useState<Study[]>(initialStudies)
-    const [editStudy, setEditStudy] = useState<Study | null>(null)
+export default function TreatmentsTable({ patientId, treatments: initialTreatments }: Props) {
+    const [treatments, setTreatments] = useState<Treatment[]>(initialTreatments)
+    const [editTreatment, setEditTreatment] = useState<Treatment | null>(null)
     const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
     const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
-    const addStudy = (study: Study) => setStudies((prevStudies) => [...prevStudies, study])
+    const addTreatment = (treatment: Treatment) => setTreatments((prevTreatments) => [...prevTreatments, treatment])
 
-    const updateStudy = (study: Study) => {
-        setEditStudy(study)
-        setStudies((prevStudies) => prevStudies.map((st: Study) => {
-            if (st.id === study.id) return study
-            return st
+    const updateTreatment = (treatment: Treatment) => {
+        setEditTreatment(treatment)
+        setTreatments((prevTreatments) => prevTreatments.map((t: Treatment) => {
+            if (t.id === treatment.id) return treatment
+            return t
         }))
     }
 
-    const deleteStudy = async (study: Study) => {
-        const response = await fetch(`/api/studies/${study.id}`, {
+    const deleteTreatment = async (treatment: Treatment) => {
+        const response = await fetch(`/api/treatments/${treatment.id}`, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ export default function StudiesTable({ patientId, studies: initialStudies }: Pro
         });
 
         if (response.status === 200) {
-            setStudies((prevStudies) => prevStudies.filter((fu: Study) => fu.id !== study.id))
+            setTreatments((prevTreatments) => prevTreatments.filter((t: Treatment) => t.id !== treatment.id))
         }
     }
     return (
@@ -60,9 +60,10 @@ export default function StudiesTable({ patientId, studies: initialStudies }: Pro
                 <thead>
                     <tr>
                         {
-                            studies.length > 0 &&
+                            treatments.length > 0 &&
                             <>
-                                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Fecha</th>
+                                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Fecha Inicio</th>
+                                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Fecha Fin</th>
                                 <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>Tipo</th>
                             </>
                         }
@@ -72,21 +73,22 @@ export default function StudiesTable({ patientId, studies: initialStudies }: Pro
                             </IconButton>
 
                             <Modal
-                                aria-labelledby="New follow up modal"
-                                aria-describedby="New follow up form"
+                                aria-labelledby="New treatment modal"
+                                aria-describedby="New treatment form"
                                 open={newModalOpen}
                                 onClose={() => setNewModalOpen(false)}
                                 sx={{
                                     display: 'flex',
                                     justifyContent: 'center',
-                                    alignItems: 'center'
+                                    alignItems: 'center',
+                                    overflow: 'scroll'
                                 }}
                             >
-                                <StudyForm
+                                <TreatmentForm
                                     buttonText='Crear'
                                     patientId={patientId}
                                     setModalOpen={setNewModalOpen}
-                                    handler={addStudy}
+                                    handler={addTreatment}
                                 />
                             </Modal >
 
@@ -94,41 +96,46 @@ export default function StudiesTable({ patientId, studies: initialStudies }: Pro
                     </tr >
                 </thead >
                 <tbody>
-                    {studies && studies.length > 0 && studies.map((study: any) => {
-                        const date = study.date.toString().split('T')[0]
+                    {treatments && treatments.length > 0 && treatments.map((treatment: any) => {
+                        const startDate = treatment.startDate?.toString().split('T')[0]
+                        const endDate = treatment.endDate?.toString().split('T')[0]
 
                         return (
-                            <tr key={study.id.toString()}>
+                            <tr key={treatment.id.toString()}>
                                 <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                    <Typography fontWeight="md">{date}</Typography>
+                                    <Typography fontWeight="md">{startDate}</Typography>
                                 </td>
                                 <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                    <Typography fontWeight="md">{study.studyType?.name}</Typography>
+                                    <Typography fontWeight="md">{endDate}</Typography>
+                                </td>
+                                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                                    <Typography fontWeight="md">{treatment.treatmentType?.name}</Typography>
                                 </td>
                                 <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                                     <IconButton color="neutral" variant="plain" onClick={() => {
-                                        setEditStudy(study)
+                                        setEditTreatment(treatment)
                                         setEditModalOpen(true)
                                     }}>
                                         <EditIcon />
                                     </IconButton>
                                     <Modal
-                                        aria-labelledby="Update study modal"
-                                        aria-describedby="Update study form"
+                                        aria-labelledby="Update treatment modal"
+                                        aria-describedby="Update treatment form"
                                         open={editModalOpen}
                                         onClose={() => setEditModalOpen(false)}
                                         sx={{
                                             display: 'flex',
                                             justifyContent: 'center',
-                                            alignItems: 'center'
+                                            alignItems: 'center',
+                                            maxHeight: '80dvh'
                                         }}
                                     >
-                                        <StudyForm
+                                        <TreatmentForm
                                             buttonText='Actualizar'
-                                            oldStudy={editStudy!}
+                                            oldTreatment={editTreatment!}
                                             patientId={patientId}
                                             setModalOpen={setNewModalOpen}
-                                            handler={updateStudy}
+                                            handler={updateTreatment}
                                         />
                                     </Modal>
                                     <IconButton
@@ -137,7 +144,7 @@ export default function StudiesTable({ patientId, studies: initialStudies }: Pro
                                         onClick={() => {
                                             var result = confirm("Quiere borrar el seguimiento?");
                                             if (!result) return
-                                            deleteStudy(study)
+                                            deleteTreatment(treatment)
                                         }}
                                     >
                                         <DeleteIcon />

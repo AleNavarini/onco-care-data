@@ -80,7 +80,8 @@ export default function TreatmentsTable({ patientId, treatments: initialTreatmen
                                 sx={{
                                     display: 'flex',
                                     justifyContent: 'center',
-                                    alignItems: 'center'
+                                    alignItems: 'center',
+                                    overflow: 'scroll'
                                 }}
                             >
                                 <TreatmentForm
@@ -125,7 +126,8 @@ export default function TreatmentsTable({ patientId, treatments: initialTreatmen
                                         sx={{
                                             display: 'flex',
                                             justifyContent: 'center',
-                                            alignItems: 'center'
+                                            alignItems: 'center',
+                                            maxHeight: '80dvh'
                                         }}
                                     >
                                         <TreatmentForm

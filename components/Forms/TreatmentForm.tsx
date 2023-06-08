@@ -1,4 +1,4 @@
-import { Sheet, Stack, Button, Select, Option, Input, Typography } from "@mui/joy";
+import { Sheet, Stack, Button, Select, Option, Input, Typography, Box } from "@mui/joy";
 import Field from "./Field";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -78,10 +78,12 @@ export default function TreatmentForm({ buttonText, patientId, setModalOpen, old
                     sm: '90%',
                     md: '60%',
                     lg: '50%',
-                    xl: '30%',
+                    xl: '40%',
                 },
                 p: 5,
                 borderRadius: 'md',
+                maxHeight: '100%',
+                overflowY: 'scroll'
             }}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -132,38 +134,53 @@ export default function TreatmentForm({ buttonText, patientId, setModalOpen, old
                             >{treatmentType?.name}</Option>
                         ))}
                     </Select>
-                    <Typography level="h4">Atributos</Typography>
-                    {treatmentTypeAttributes && treatmentTypeAttributes.map((attribute: TreatmentTypeAttribute) => {
-                        const defaultValue = oldTreatment?.treatmentTypeAttributes?.filter((attr: TreatmentTypeAttribute) => attr.name === attribute.name)[0]?.value
-                        return (
-                            <Field
-                                key={attribute.id.toString()}
-                                fieldName={`attr-${attribute.name}`}
-                                label={attribute.name}
-                                placeholder={`${attribute.name}...`}
-                                register={register}
-                                type="text"
-                                defaultValue={defaultValue}
-                            />
-                        )
-                    })}
-                    <Typography level="h4">Resultados</Typography>
-                    {treatmentTypeResults && treatmentTypeResults.map((result: TreatmentTypeResult) => {
-                        const defaultValue = oldTreatment?.treatmentTypeResults.filter((res: TreatmentTypeResult) => res.name === result.name)[0]?.value
-                        return (
-                            <Field
-                                key={result.id.toString()}
-                                fieldName={`res-${result.name}`}
-                                label={result.name}
-                                placeholder={`${result.name}...`}
-                                register={register}
-                                type="text"
-                                defaultValue={defaultValue}
-                            />
-                        )
-                    })}
-
-
+                    <Stack direction={"row"} spacing={2}
+                        sx={{
+                            mx: 'auto'
+                        }}>
+                        <Box
+                            sx={{
+                                width: '45%'
+                            }}
+                        >
+                            <Typography level="h4">Atributos</Typography>
+                            {treatmentTypeAttributes && treatmentTypeAttributes.map((attribute: TreatmentTypeAttribute) => {
+                                const defaultValue = oldTreatment?.treatmentTypeAttributes?.filter((attr: TreatmentTypeAttribute) => attr.name === attribute.name)[0]?.value
+                                return (
+                                    <Field
+                                        key={attribute.id.toString()}
+                                        fieldName={`attr-${attribute.name}`}
+                                        label={attribute.name}
+                                        placeholder={`${attribute.name}...`}
+                                        register={register}
+                                        type="text"
+                                        defaultValue={defaultValue}
+                                    />
+                                )
+                            })}
+                        </Box>
+                        <Box
+                            sx={{
+                                width: '45%'
+                            }}
+                        >
+                            <Typography level="h4">Resultados</Typography>
+                            {treatmentTypeResults && treatmentTypeResults.map((result: TreatmentTypeResult) => {
+                                const defaultValue = oldTreatment?.treatmentTypeResults.filter((res: TreatmentTypeResult) => res.name === result.name)[0]?.value
+                                return (
+                                    <Field
+                                        key={result.id.toString()}
+                                        fieldName={`res-${result.name}`}
+                                        label={result.name}
+                                        placeholder={`${result.name}...`}
+                                        register={register}
+                                        type="text"
+                                        defaultValue={defaultValue}
+                                    />
+                                )
+                            })}
+                        </Box>
+                    </Stack>
                 </Stack>
                 <Button
                     loading={loading}

@@ -8,7 +8,12 @@ export async function GET() {
       include: {
         attributes: {
           where: {
-            value: null,
+            treatment: null,
+          },
+        },
+        results: {
+          where: {
+            treatment: null,
           },
         },
       },

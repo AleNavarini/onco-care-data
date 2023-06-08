@@ -12,6 +12,7 @@ import useSWR from "swr";
 import FollowUpsTable from "@/components/Tables/FollowUpsTable";
 import StudiesTable from "@/components/Tables/StudiesTable";
 import GestationForm from "@/components/Forms/GestationForm";
+import TreatmentsTable from "@/components/Tables/TreatmentsTable";
 
 interface Props {
     params: {
@@ -107,6 +108,19 @@ export default function PatientPage({ params }: Props) {
                             <StudiesTable
                                 patientId={data.patient.id}
                                 studies={data.patient.studies}
+                            />
+                        </Accordion>
+                    </Box>
+                    <Box
+                        sx={{
+                            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+                            borderRadius: 'md'
+                        }}
+                    >
+                        <Accordion title="Tratamientos">
+                            <TreatmentsTable
+                                patientId={data.patient.id}
+                                treatments={data.patient.treatments}
                             />
                         </Accordion>
                     </Box>

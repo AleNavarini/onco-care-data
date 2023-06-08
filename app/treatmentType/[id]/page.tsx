@@ -26,13 +26,12 @@ export default function TreatmentTypePage({ params }: Props) {
     const id = params.id
     const { data, isLoading, error } = useSWR(`/api/treatment-types/${id}`, fetchData, { refreshInterval: 5000 });
     const treatmentType: FullTreatmentType = data?.treatmentType
-    if (isLoading) {
+    if (isLoading)
         return <LinearProgress />
-    }
 
-    if (error) {
+    if (error)
         return <h1>Ha habido un error ...</h1>
-    }
+
 
     const filteredAttributes = treatmentType.attributes?.filter((a: TreatmentTypeAttribute) => a.value === null)
     const filteredResults = treatmentType.results?.filter((a: TreatmentTypeResult) => a.value === null)

@@ -159,7 +159,7 @@ model TreatmentTypeAttribute {
   name            String
   value           String?
   treatmentId     BigInt?
-  treatment       Treatment?    @relation(fields: [treatmentId], references: [id])
+  treatment       Treatment?    @relation(fields: [treatmentId], references: [id], onDelete: Cascade)
 }
 
 model TreatmentTypeResult {
@@ -169,7 +169,7 @@ model TreatmentTypeResult {
   name            String
   value           String?
   treatmentId     BigInt?
-  treatment       Treatment?    @relation(fields: [treatmentId], references: [id])
+  treatment       Treatment?    @relation(fields: [treatmentId], references: [id], onDelete: Cascade)
 }
 
 model Treatment {

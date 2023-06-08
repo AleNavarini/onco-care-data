@@ -42,6 +42,7 @@ export async function POST(request: Request) {
           treatmentType: true,
           treatmentTypeAttributes: true,
           treatmentTypeResults: true,
+          complications: true,
         },
       });
     } else {
@@ -66,6 +67,7 @@ export async function POST(request: Request) {
           treatmentType: true,
           treatmentTypeAttributes: true,
           treatmentTypeResults: true,
+          complications: true,
         },
       });
     }

@@ -39,6 +39,7 @@ export async function GET(request: NextRequest, context: { params: any }) {
               treatmentType: true,
               treatmentTypeAttributes: true,
               treatmentTypeResults: true,
+              complications: true,
             },
           },
         },

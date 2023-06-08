@@ -16,6 +16,7 @@ export async function GET() {
             treatment: null,
           },
         },
+
       },
     });
     return NextResponse.json({

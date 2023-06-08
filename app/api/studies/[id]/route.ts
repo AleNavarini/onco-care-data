@@ -5,6 +5,7 @@ import '../../../../lib/bigIntExtensions';
 export async function PUT(request: Request, context: { params: any }) {
   const id = context.params.id;
   const { patientId, studyTypeId, studyTypeAttributes } = await request.json();
+  console.log(JSON.stringify(studyTypeAttributes));
 
   try {
     let study;

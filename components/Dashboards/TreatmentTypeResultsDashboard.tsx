@@ -4,34 +4,34 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from "react";
-import { TreatmentTypeAttribute } from "@prisma/client";
-import TreatmentTypeAttributeForm from "../Forms/TreatmentTypeAttributeForm";
+import { TreatmentTypeResult } from "@prisma/client";
+import TreatmentTypeResultForm from "../Forms/TreatmentTypeResultForm";
 
 interface Props {
-    treatmentTypeAttributes: TreatmentTypeAttribute[]
+    treatmentTypeResults: TreatmentTypeResult[]
     forPatient: boolean
     treatmentTypeId?: string
 }
 
-export default function TreatmentTypeAttributesDashboard(props: Props) {
-    const [treatmentTypeAttributes, setTreatmentTypeAttributes] = useState<TreatmentTypeAttribute[]>(props.treatmentTypeAttributes)
-    const [editTreatmentTypeAttribute, setEditTreatmentTypeAttribute] = useState<TreatmentTypeAttribute | null>(null)
+export default function TreatmentTypeResultsDashboard(props: Props) {
+    const [treatmentTypeResults, setTreatmentTypeResults] = useState<TreatmentTypeResult[]>(props.treatmentTypeResults)
+    const [editTreatmentTypeResult, setEditTreatmentTypeResult] = useState<TreatmentTypeResult | null>(null)
     const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
     const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
-    const addTreatmentTypeAttribute = (treatmentTypeAttribute: TreatmentTypeAttribute) => setTreatmentTypeAttributes((prevTreatmentTypeAttributes) => [...prevTreatmentTypeAttributes, treatmentTypeAttribute])
+    const addTreatmentTypeResult = (treatmentTypeResult: TreatmentTypeResult) => setTreatmentTypeResults((prevTreatmentTypeResults) => [...prevTreatmentTypeResults, treatmentTypeResult])
 
-    const updateTreatmentTypeAttribute = (treatmentTypeAttribute: TreatmentTypeAttribute) => {
-        setTreatmentTypeAttributes((prevTreatmentTypeAttributes) => prevTreatmentTypeAttributes.map((tta: TreatmentTypeAttribute) => {
-            if (tta.id === treatmentTypeAttribute.id) return treatmentTypeAttribute
+    const updateTreatmentTypeResult = (treatmentTypeResult: TreatmentTypeResult) => {
+        setTreatmentTypeResults((prevTreatmentTypeResults) => prevTreatmentTypeResults.map((tta: TreatmentTypeResult) => {
+            if (tta.id === treatmentTypeResult.id) return treatmentTypeResult
             return tta
         }))
     }
 
-    const deleteTreatmentTypeAttribute = async (treatmentTypeAttribute: TreatmentTypeAttribute) => {
-        let result = confirm("Seguro que quiere borrar el atributo?")
+    const deleteTreatmentTypeResult = async (treatmentTypeResult: TreatmentTypeResult) => {
+        let result = confirm("Seguro que quiere borrar el resultado?")
         if (!result) return
-        const response = await fetch(`/api/treatment-types-attributes/${treatmentTypeAttribute.id}`, {
+        const response = await fetch(`/api/treatment-types-results/${treatmentTypeResult.id}`, {
             method: "DELETE",
             headers: {
                 'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ export default function TreatmentTypeAttributesDashboard(props: Props) {
         });
 
         if (response.status === 200) {
-            setTreatmentTypeAttributes((prevTreatmentTypeAttributes) => prevTreatmentTypeAttributes.filter((rf: TreatmentTypeAttribute) => rf.id !== treatmentTypeAttribute.id))
+            setTreatmentTypeResults((prevTreatmentTypeResults) => prevTreatmentTypeResults.filter((rf: TreatmentTypeResult) => rf.id !== treatmentTypeResult.id))
         }
     }
 
@@ -74,8 +74,8 @@ export default function TreatmentTypeAttributesDashboard(props: Props) {
                             </IconButton>
 
                             <Modal
-                                aria-labelledby="New treatment type attributes modal"
-                                aria-describedby="New treatment type attributes form"
+                                aria-labelledby="New treatment type result modal"
+                                aria-describedby="New treatment type result form"
                                 open={newModalOpen}
                                 onClose={() => setNewModalOpen(false)}
                                 sx={{
@@ -84,10 +84,10 @@ export default function TreatmentTypeAttributesDashboard(props: Props) {
                                     alignItems: 'center'
                                 }}
                             >
-                                <TreatmentTypeAttributeForm
+                                <TreatmentTypeResultForm
                                     treatmentTypeId={props.treatmentTypeId!}
                                     buttonText="Agregar"
-                                    handler={addTreatmentTypeAttribute}
+                                    handler={addTreatmentTypeResult}
                                     setModalOpen={setNewModalOpen}
                                 />
                             </Modal >
@@ -96,27 +96,27 @@ export default function TreatmentTypeAttributesDashboard(props: Props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {treatmentTypeAttributes && treatmentTypeAttributes.length > 0 && treatmentTypeAttributes.map((treatmentTypeAttribute: TreatmentTypeAttribute) => (
-                        <tr key={treatmentTypeAttribute?.id.toString()}>
+                    {treatmentTypeResults && treatmentTypeResults.length > 0 && treatmentTypeResults.map((treatmentTypeResult: TreatmentTypeResult) => (
+                        <tr key={treatmentTypeResult?.id.toString()}>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                <Typography fontWeight="md">{treatmentTypeAttribute?.name}</Typography>
+                                <Typography fontWeight="md">{treatmentTypeResult?.name}</Typography>
                             </td>
                             {
                                 props.forPatient &&
                                 <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                    <Typography fontWeight="md">{treatmentTypeAttribute?.value}</Typography>
+                                    <Typography fontWeight="md">{treatmentTypeResult?.value}</Typography>
                                 </td>
                             }
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                                 <IconButton color="neutral" variant="plain" onClick={() => {
-                                    setEditTreatmentTypeAttribute(treatmentTypeAttribute)
+                                    setEditTreatmentTypeResult(treatmentTypeResult)
                                     setEditModalOpen(true)
                                 }}>
                                     <EditIcon />
                                 </IconButton>
                                 <Modal
-                                    aria-labelledby="Update treatment type attribute modal"
-                                    aria-describedby="Update treatment type attribute form"
+                                    aria-labelledby="Update disease modal"
+                                    aria-describedby="Update disease form"
                                     open={editModalOpen}
                                     onClose={() => setEditModalOpen(false)}
                                     sx={{
@@ -125,15 +125,15 @@ export default function TreatmentTypeAttributesDashboard(props: Props) {
                                         alignItems: 'center'
                                     }}
                                 >
-                                    <TreatmentTypeAttributeForm
+                                    <TreatmentTypeResultForm
                                         treatmentTypeId={props.treatmentTypeId!}
                                         buttonText="Actualizar"
-                                        handler={updateTreatmentTypeAttribute}
+                                        handler={updateTreatmentTypeResult}
                                         setModalOpen={setEditModalOpen}
-                                        oldTreatmentTypeAttribute={editTreatmentTypeAttribute!}
+                                        oldTreatmentTypeResult={editTreatmentTypeResult!}
                                     />
                                 </Modal>
-                                <IconButton color="neutral" variant="plain" onClick={() => deleteTreatmentTypeAttribute(treatmentTypeAttribute)}>
+                                <IconButton color="neutral" variant="plain" onClick={() => deleteTreatmentTypeResult(treatmentTypeResult)}>
                                     <DeleteIcon />
                                 </IconButton>
                             </td>

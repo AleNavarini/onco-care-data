@@ -11,6 +11,7 @@ export async function GET(request: Request, context: { params: any }) {
       },
       include: {
         attributes: true,
+        results: true,
       },
     });
 
@@ -47,7 +48,6 @@ export async function PUT(request: Request, context: { params: any }) {
 }
 export async function DELETE(request: Request, context: { params: any }) {
   const id = context.params.id;
-  console.log(id);
 
   try {
     const treatmentType = await prisma.treatmentType.delete({

@@ -4,19 +4,33 @@ import '../../../../lib/bigIntExtensions';
 
 export async function PUT(request: Request, context: { params: any }) {
   const id = context.params.id;
-  const { patientId, studyTypeId, studyTypeAttributes } = await request.json();
-  console.log(JSON.stringify(studyTypeAttributes));
+  const data = await request.json();
 
+  let attributes = [];
+  for (const key in data) {
+    const keys = ['date', 'patientId', 'studyTypeId', 'id'];
+    if (keys.indexOf(key) === -1) {
+      attributes.push({
+        name: key,
+        studyTypeId: BigInt(data.studyTypeId),
+        value: data[key],
+      });
+    }
+  }
   try {
     let study;
-    if (!studyTypeAttributes || studyTypeAttributes.length === 0) {
+    if (attributes.length === 0) {
       study = await prisma.study.update({
         where: {
           id: BigInt(id),
         },
         data: {
-          patientId: BigInt(patientId),
-          studyTypeId: BigInt(studyTypeId),
+          patientId: BigInt(data.patientId),
+          studyTypeId: BigInt(data.studyTypeId),
+        },
+        include: {
+          studyType: true,
+          studyTypeAttributes: true,
         },
       });
     } else {
@@ -25,13 +39,19 @@ export async function PUT(request: Request, context: { params: any }) {
           id: BigInt(id),
         },
         data: {
-          patientId: BigInt(patientId),
-          studyTypeId: BigInt(studyTypeId),
+          date: new Date(data.date),
+          patientId: BigInt(data.patientId),
+          studyTypeId: BigInt(data.studyTypeId),
           studyTypeAttributes: {
+            deleteMany: {},
             createMany: {
-              data: studyTypeAttributes,
+              data: attributes,
             },
           },
+        },
+        include: {
+          studyType: true,
+          studyTypeAttributes: true,
         },
       });
     }

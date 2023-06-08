@@ -11,7 +11,6 @@ export default function GestationForm({ patientId, gestation }: { patientId: str
 
     const onSubmit = async (data: any) => {
         data = { ...data, patientId: patientId }
-        console.log(JSON.stringify(data, null, 2));
 
         try {
             setIsLoading(true);

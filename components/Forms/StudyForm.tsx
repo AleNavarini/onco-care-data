@@ -48,15 +48,17 @@ export default function StudyForm({ buttonText, patientId, setModalOpen, oldStud
 
         try {
             setLoading(true);
-            const response = await fetch(`/api/studies`, {
-                method: 'POST',
+            const endpoint = oldStudy ? `/${oldStudy.id}` : ""
+            const response = await fetch(`/api/studies${endpoint}`, {
+                method: oldStudy ? 'PUT' : 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(data),
             });
             const result = await response.json();
-            if (result.status === 200) {
+
+            if (response.ok) {
                 reset();
             }
             if (handler) handler(result.study)
@@ -122,7 +124,7 @@ export default function StudyForm({ buttonText, patientId, setModalOpen, oldStud
                             <Option
                                 key={studyType.id.toString()}
                                 value={studyType.id}
-                            >{studyType.name}</Option>
+                            >{studyType?.name}</Option>
                         ))}
                     </Select>
 

@@ -21,6 +21,7 @@ export default function StudiesTable({ patientId, studies: initialStudies }: Pro
     const addStudy = (study: Study) => setStudies((prevStudies) => [...prevStudies, study])
 
     const updateStudy = (study: Study) => {
+        setEditStudy(study)
         setStudies((prevStudies) => prevStudies.map((st: Study) => {
             if (st.id === study.id) return study
             return st
@@ -102,7 +103,7 @@ export default function StudiesTable({ patientId, studies: initialStudies }: Pro
                                     <Typography fontWeight="md">{date}</Typography>
                                 </td>
                                 <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                                    <Typography fontWeight="md">{study.studyType.name}</Typography>
+                                    <Typography fontWeight="md">{study.studyType?.name}</Typography>
                                 </td>
                                 <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                                     <IconButton color="neutral" variant="plain" onClick={() => {

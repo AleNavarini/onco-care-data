@@ -182,4 +182,14 @@ model Treatment {
   treatmentTypeResults    TreatmentTypeResult[]
   startDate               DateTime?
   endDate                 DateTime?
+  complications           Complication[]
+}
+
+model Complication {
+  id           BigInt     @id @default(autoincrement())
+  treatmentId  BigInt?
+  treatment    Treatment? @relation(fields: [treatmentId], references: [id], onDelete: Cascade)
+  time         String?
+  type         String?
+  transfusions String?
 }

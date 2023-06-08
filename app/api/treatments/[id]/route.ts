@@ -44,6 +44,8 @@ export async function PUT(request: Request, context: { params: any }) {
         include: {
           treatmentType: true,
           treatmentTypeAttributes: true,
+          treatmentTypeResults: true,
+          complications: true,
         },
       });
     } else {
@@ -73,6 +75,7 @@ export async function PUT(request: Request, context: { params: any }) {
           treatmentType: true,
           treatmentTypeAttributes: true,
           treatmentTypeResults: true,
+          complications: true,
         },
       });
     }

@@ -6,6 +6,7 @@ import "../../lib/bigIntExtensions"
 import useSWR from "swr";
 import { Treatment, TreatmentType, TreatmentTypeAttribute, TreatmentTypeResult } from "@prisma/client";
 import React from "react";
+import ComplicationsTable from "../Tables/ComplicationsTable";
 
 const fetchData = async (url: string) => {
     const response = await fetch(url);
@@ -181,6 +182,12 @@ export default function TreatmentForm({ buttonText, patientId, setModalOpen, old
                             })}
                         </Box>
                     </Stack>
+                    {oldTreatment &&
+                        <ComplicationsTable
+                            complications={oldTreatment.complications}
+                            treatmentId={oldTreatment.id}
+                        />
+                    }
                 </Stack>
                 <Button
                     loading={loading}

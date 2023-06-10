@@ -34,15 +34,21 @@ export default function ManagePage() {
                     sm: 'column',
                     md: 'row'
                 },
+                flexWrap: 'wrap',
                 borderRadius: 'md',
+                justifyContent: 'space-around',
+                gap: 2,
+                width: {
+                    md: '95%'
+                }
             }}
         >
             <Sheet
                 sx={{
                     width: {
-                        md: '100%',
-                        lg: '30%'
-                    },
+                        sm: '100%',
+                        md: '40%'
+                    }
                 }}
             >
 
@@ -52,9 +58,9 @@ export default function ManagePage() {
             <Sheet
                 sx={{
                     width: {
-                        md: '100%',
-                        lg: '30%'
-                    },
+                        sm: '100%',
+                        md: '40%'
+                    }
                 }}
             >Tratamientos
                 <TreatmentTypesDasboard treatmentTypes={treatmentTypes} />
@@ -62,9 +68,9 @@ export default function ManagePage() {
             <Sheet
                 sx={{
                     width: {
-                        md: '100%',
-                        lg: '30%'
-                    },
+                        sm: '100%',
+                        md: '70%'
+                    }
                 }}
             >
                 Tipos de Estudios

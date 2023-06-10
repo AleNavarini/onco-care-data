@@ -27,7 +27,7 @@ export default function RootLayout({
             <Box sx={{
               display: 'flex',
               minHeight: '100dvh',
-              overflow: 'hidden'
+              overflow: 'hidden',
             }}>
               <Header />
               <Navbar />

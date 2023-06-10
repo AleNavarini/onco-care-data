@@ -20,19 +20,16 @@ export default function Navbar() {
                 color="primary"
                 invertedColors
                 sx={{
-                    position: {
-                        xs: 'fixed',
-                        md: 'sticky',
-                    },
+                    position: 'fixed',
                     transform: {
                         xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1)))',
                         md: 'none',
                     },
                     transition: 'transform 0.4s',
                     zIndex: 10000,
-                    height: '100dvh',
+                    height: '100vh',
                     width: 'var(--FirstSidebar-width)',
-                    top: 0,
+                    // top: 0,
                     py: 3,
                     px: 2,
                     display: 'flex',

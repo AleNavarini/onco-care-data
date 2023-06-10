@@ -19,6 +19,10 @@ export default function MainContent(props: { children?: React.ReactNode }) {
                 xs: 8,
                 md: 2
             },
+            marginLeft: {
+                sm: '0',
+                md: '68px'
+            }
         }
         } >
             {props.children}

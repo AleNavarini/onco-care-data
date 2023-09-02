@@ -37,6 +37,7 @@ export default function StudyForm({ buttonText, patientId, setModalOpen, oldStud
     } = useSWR(`/api/study-types`, fetchData, { refreshInterval: 5000 });
     const studyTypes: FullStudyType[] = studyTypesData?.studyTypes
     const studyTypeAttributes = studyTypes?.filter((st: FullStudyType) => st.id.toString() === selectedStudyType)[0]?.attributes
+    console.log(studyTypeAttributes);
 
 
     const handleChange = async (_e: null, value: string) => {
@@ -84,10 +85,13 @@ export default function StudyForm({ buttonText, patientId, setModalOpen, oldStud
                 },
                 p: 5,
                 borderRadius: 'md',
+                maxHeight: '95vh',
+                overflow: studyTypeAttributes === undefined ? 'visible' : 'auto',
             }}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Stack spacing={2}>
+
                     <Field
                         fieldName="id"
                         label="ID"
@@ -115,7 +119,8 @@ export default function StudyForm({ buttonText, patientId, setModalOpen, oldStud
                             width: {
                                 sm: 'auto',
                                 md: '20dvw'
-                            }
+                            },
+                            overflow: 'visible'
                         }}
                         placeholder="Choose one…"
                         defaultValue={oldStudy?.studyTypeId}

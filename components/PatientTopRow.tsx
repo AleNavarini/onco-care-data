@@ -58,7 +58,7 @@ export default function PatientTopRow({ patient }: Props) {
         setLoading(false)
     }
     function getStatus() {
-        if (patient.followUps && patient.followUps.length > 0) return "En seguimiento"
+        if (patient.status === "following") return "En seguimiento"
         return "Activa"
     }
     const filteredDiseases = data?.diseases?.filter((d: Disease) => d.patientId === null)

@@ -9,6 +9,7 @@ import Link from "next/link";
 import PatientForm from "../Forms/PatientForm";
 import { FollowUp } from "@prisma/client";
 
+
 interface Props {
     patients: FullPatient[]
 }
@@ -27,7 +28,10 @@ export interface FullPatient {
     followUps?: FollowUp[]
 }
 
-
+const getStatus = (status: string) => {
+    if (status === "following") return "En Seguimiento"
+    return "Activa"
+}
 
 export default function PatientsDashboard(props: Props) {
     const [patients, setPatients] = useState<FullPatient[]>(props.patients)
@@ -36,28 +40,24 @@ export default function PatientsDashboard(props: Props) {
     const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
 
-    useEffect(() => {
-        const tempPatients: FullPatient[] = patients.map((patient: FullPatient) => {
-            if (patient.followUps && patient.followUps.length > 0) return { ...patient, status: "En seguimiento" };
-            return { ...patient, status: "Activa" };
-        });
-        setPatients(tempPatients)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    // useEffect(() => {
+    //     const tempPatients: FullPatient[] = patients.map((patient: FullPatient) => {
+    //         if (patient.followUps && patient.followUps.length > 0) return { ...patient, status: "En seguimiento" };
+    //         return { ...patient, status: "Activa" };
+    //     });
+    //     setPatients(tempPatients)
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [])
 
 
 
     const addPatient = (patient: FullPatient) => {
-        const newPatient: FullPatient = {
-            ...patient,
-            status: "Active"
-        }
-        setPatients((prevPatients) => [...prevPatients, newPatient])
+        setPatients((prevPatients) => [...prevPatients, patient])
     }
 
     const updatePatient = (patient: FullPatient) => {
         setPatients((prevPatients) => prevPatients.map((p: FullPatient) => {
-            if (p.id === patient.id) return { ...patient, status: "Active" }
+            if (p.id === patient.id) return { ...patient }
             return p
         }))
     }
@@ -156,10 +156,11 @@ export default function PatientsDashboard(props: Props) {
                                     color={
                                         {
                                             Activa: 'success',
-                                        }[patient.status!] as ColorPaletteProp
+                                            'En Seguimiento': 'primary'
+                                        }[getStatus(patient.status!)] as ColorPaletteProp
                                     }
                                 >
-                                    {patient.status}
+                                    {getStatus(patient.status!)}
                                 </Chip>
                             </td>
                             <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>

@@ -28,6 +28,7 @@ export async function POST(request: Request) {
     address,
     healthInsurance,
     clinicHistory,
+    status,
   } = await request.json();
   try {
     const newPatient = await prisma.patient.create({
@@ -40,6 +41,7 @@ export async function POST(request: Request) {
         address: address || null,
         healthInsurance: healthInsurance || null,
         clinicHistory: clinicHistory ? BigInt(clinicHistory) : null,
+        status: status,
       },
     });
     return NextResponse.json({
@@ -63,6 +65,7 @@ export async function PUT(request: Request) {
     address,
     healthInsurance,
     clinicHistory,
+    status,
   } = await request.json();
   try {
     const newPatient = await prisma.patient.update({
@@ -78,6 +81,7 @@ export async function PUT(request: Request) {
         address: address || null,
         healthInsurance: healthInsurance || null,
         clinicHistory: clinicHistory ? BigInt(clinicHistory) : null,
+        status: status,
       },
     });
     return NextResponse.json({

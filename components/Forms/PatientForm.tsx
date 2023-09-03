@@ -1,4 +1,4 @@
-import { Button, FormControl, Input, Sheet, Stack } from "@mui/joy";
+import { Button, Select, Option, Sheet, Stack, FormControl, FormLabel } from "@mui/joy";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Field from "./Field";
@@ -14,8 +14,14 @@ interface Props {
 export default function PatientForm(props: Props) {
     const { register, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedStatus, setSelectedStatus] = useState(props.oldPatient ? props.oldPatient.status : "active");
+
+    const handleChange = async (_e: null, value: string) => {
+        setSelectedStatus(value)
+    }
 
     const onSubmit = async (data: any) => {
+        data = { ...data, status: selectedStatus }
         try {
             setIsLoading(true);
             const response = await fetch('/api/patients', {
@@ -128,6 +134,34 @@ export default function PatientForm(props: Props) {
                         type="number"
                         defaultValue={props.oldPatient?.clinicHistory}
                     />
+                    <FormControl>
+                        <FormLabel
+                            sx={(theme) => ({
+                                '--FormLabel-color': theme.vars.palette.primary.plainColor,
+                            })}
+                        >
+                            Estado
+                        </FormLabel>
+                        <Select
+                            // @ts-ignore
+                            onChange={handleChange}
+                            sx={{
+                                width: {
+                                    sm: 'auto',
+                                    md: '20dvw'
+                                }
+                            }}
+                            placeholder="Choose one…"
+                            defaultValue={"active"}
+                        >
+                            {[{ text: "Activa", value: "active" }, { text: "En seguimiento", value: "following" }].map((status: any) => (
+                                <Option
+                                    key={status.text}
+                                    value={status.value}
+                                >{status.text}</Option>
+                            ))}
+                        </Select>
+                    </FormControl>
                 </Stack>
                 <Button
                     loading={isLoading}

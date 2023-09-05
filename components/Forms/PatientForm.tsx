@@ -153,7 +153,7 @@ export default function PatientForm(props: Props) {
                             }}
                             placeholder="Choose one…"
                             defaultValue={"active"}
-                        >
+on                        >
                             {[{ text: "Activa", value: "active" }, { text: "En seguimiento", value: "following" }].map((status: any) => (
                                 <Option
                                     key={status.text}

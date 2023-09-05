@@ -146,7 +146,7 @@ export default function PatientPage({ params }: Props) {
                         }}
                     >
                         <Accordion title="Datos Afiliatorios">
-                            <AffiliatoryDataForm affiliatoryData={data.patient.affiliatoryData} />
+                            <AffiliatoryDataForm patientId={data.patient.id} affiliatoryData={data.patient.affiliatoryData} />
                         </Accordion>
                     </Box>
                     <Box

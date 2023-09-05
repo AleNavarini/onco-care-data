@@ -5,14 +5,14 @@ import { useForm } from "react-hook-form";
 import Field from "./Field";
 import { AffiliatoryData } from "@prisma/client";
 
-export default function AffiliatoryDataForm({ affiliatoryData }: { affiliatoryData: AffiliatoryData }) {
+export default function AffiliatoryDataForm({ patientId, affiliatoryData }: { patientId: string, affiliatoryData: AffiliatoryData }) {
     const { register, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
 
     const firstConsultString = affiliatoryData && affiliatoryData.firstConsult?.toString()
 
     const onSubmit = async (data: any) => {
-        data = { ...data, patientId: affiliatoryData.patientId!.toString() }
+        data = { ...data, patientId }
 
         try {
             setIsLoading(true);
@@ -24,9 +24,8 @@ export default function AffiliatoryDataForm({ affiliatoryData }: { affiliatoryDa
                 body: JSON.stringify(data),
             });
             const result = await response.json();
-            if (result.status === 200) reset();
-            result.affiliatoryData
         } catch (error) {
+            alert(`Error: ${error}`,)
             console.error('Error:', error);
         } finally {
             setIsLoading(false);
@@ -51,7 +50,7 @@ export default function AffiliatoryDataForm({ affiliatoryData }: { affiliatoryDa
                         label="Primera Consulta"
                         register={register}
                         type="date"
-                        defaultValue={firstConsultString?.split('T')[0]}
+                        defaultValue={firstConsultString ? firstConsultString?.split('T')[0] : new Date().toISOString().split('T')[0]}
                     />
                     <Field
                         fieldName="institution"

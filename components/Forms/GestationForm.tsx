@@ -15,7 +15,7 @@ export default function GestationForm({ patientId, gestation }: { patientId: str
         try {
             setIsLoading(true);
             const endpoint = gestation ? `/${gestation.id}` : ""
-            const response = await fetch('/api/gestations', {
+            const response = await fetch(`/api/gestations${endpoint}`, {
                 method: gestation ? 'PUT' : 'POST',
                 headers: {
                     'Content-Type': 'application/json',

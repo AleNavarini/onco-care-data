@@ -5,6 +5,9 @@ export async function PUT(request: Request, context: { params: any }) {
   const id = context.params.gestationId;
   const { patientId, births, abortions, cesareans } = await request.json();
 
+  console.log(births);
+  console.log(births === '');
+
   try {
     const updatedGestation = await prisma.gestation.update({
       where: {
@@ -12,9 +15,9 @@ export async function PUT(request: Request, context: { params: any }) {
       },
       data: {
         patientId: BigInt(patientId),
-        births: parseInt(births),
-        abortions: parseInt(abortions),
-        cesareans: parseInt(cesareans),
+        births: births === '' ? 0 : parseInt(births),
+        abortions: abortions === '' ? 0 : parseInt(abortions),
+        cesareans: cesareans === '' ? 0 : parseInt(cesareans),
       },
     });
 

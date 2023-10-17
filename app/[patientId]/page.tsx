@@ -35,7 +35,16 @@ export default function PatientPage({ params }: Props) {
   );
 
   if (error) return <h1>Ha ocurrido un error ... </h1>;
-  if (isLoading) return <LinearProgress />;
+  if (isLoading) return <Sheet
+    sx={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
+    }}
+  >
+    <LinearProgress />
+  </Sheet>
 
   return (
     <Sheet

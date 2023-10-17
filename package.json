@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.2.5",
+    "prettier": "^3.0.3",
     "prisma": "^4.14.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"

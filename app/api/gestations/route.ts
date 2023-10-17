@@ -23,7 +23,6 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: Request) {
   const { patientId, births, abortions, cesareans } = await request.json();
-  
 
   try {
     const newGestation = await prisma.gestation.create({

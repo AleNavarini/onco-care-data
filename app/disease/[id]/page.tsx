@@ -1,54 +1,55 @@
-"use client"
-import RiskFactorsDashboard from "@/components/Dashboards/RiskFactorsDashboard";
-import { LinearProgress, Sheet, Typography } from "@mui/joy";
-import useSWR from "swr";
-
+'use client';
+import RiskFactorsDashboard from '@/components/Dashboards/RiskFactorsDashboard';
+import { LinearProgress, Sheet, Typography } from '@mui/joy';
+import useSWR from 'swr';
 
 interface Props {
-    params: {
-        id: string;
-    };
+  params: {
+    id: string;
+  };
 }
 
 const getDisease = async (url: string) => {
-    const response = await fetch(url);
-    const data = await response.json();
-    return data;
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
 };
 
-
 export default function DiseasePage({ params }: Props) {
-    const id = params.id
-    const { data, isLoading, error } = useSWR(`/api/diseases/${id}`, getDisease, { refreshInterval: 5000 });
+  const id = params.id;
+  const { data, isLoading, error } = useSWR(`/api/diseases/${id}`, getDisease, {
+    refreshInterval: 5000,
+  });
 
-    if (isLoading) {
-        return <LinearProgress />
-    }
+  if (isLoading) {
+    return <LinearProgress />;
+  }
 
-    if (error) {
-        return <h1>Ha habido un error ...</h1>
-    }
+  if (error) {
+    return <h1>Ha habido un error ...</h1>;
+  }
 
-    return (
-        <>
-            <Typography level="h2">Factores de riesgo - <b>{data.disease.name}</b></Typography>
-            <Sheet
-                sx={{
-                    width: '90%',
-                    mx: 'auto',
-                    borderRadius: 'md',
-                    overflow: 'auto',
-                    my: 2,
-                }}
-                variant={'outlined'}
-            >
-                <RiskFactorsDashboard
-                    forPatient={false}
-                    riskFactors={data.disease.riskFactors}
-                    diseaseId={data.disease.id}
-                />
-
-            </Sheet>
-        </>
-    )
+  return (
+    <>
+      <Typography level="h2">
+        Factores de riesgo - <b>{data.disease.name}</b>
+      </Typography>
+      <Sheet
+        sx={{
+          width: '90%',
+          mx: 'auto',
+          borderRadius: 'md',
+          overflow: 'auto',
+          my: 2,
+        }}
+        variant={'outlined'}
+      >
+        <RiskFactorsDashboard
+          forPatient={false}
+          riskFactors={data.disease.riskFactors}
+          diseaseId={data.disease.id}
+        />
+      </Sheet>
+    </>
+  );
 }

@@ -1,4 +1,4 @@
-import { Sheet, Stack, Button, Select, Option, Input, Typography, Box } from "@mui/joy";
+import { Sheet, Stack, Button, Select, Option, Input, Typography, Box, LinearProgress } from "@mui/joy";
 import Field from "./Field";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -29,7 +29,7 @@ interface Props {
 
 export default function TreatmentForm({ buttonText, patientId, setModalOpen, oldTreatment, handler }: Props) {
     const { register, handleSubmit, reset } = useForm();
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [selectedTreatmentType, setSelectedTreatmentType] = useState(oldTreatment ? oldTreatment.treatmentTypeId : "");
 
     const { data } = useSWR(`/api/treatment-types`, fetchData, { refreshInterval: 5000 });
@@ -46,7 +46,7 @@ export default function TreatmentForm({ buttonText, patientId, setModalOpen, old
         data = { ...data, patientId, treatmentTypeId: selectedTreatmentType }
 
         try {
-            setLoading(true);
+            setIsLoading(true);
             const endpoint = oldTreatment ? `/${oldTreatment.id}` : ""
             const response = await fetch(`/api/treatments${endpoint}`, {
                 method: oldTreatment ? 'PUT' : 'POST',
@@ -65,7 +65,7 @@ export default function TreatmentForm({ buttonText, patientId, setModalOpen, old
         } catch (error) {
             console.error('Error:', error);
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
     };
 
@@ -88,6 +88,7 @@ export default function TreatmentForm({ buttonText, patientId, setModalOpen, old
             }}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
+                {isLoading && <LinearProgress />}
                 <Stack spacing={2}>
                     <Field
                         fieldName="id"
@@ -190,7 +191,7 @@ export default function TreatmentForm({ buttonText, patientId, setModalOpen, old
                     }
                 </Stack>
                 <Button
-                    loading={loading}
+                    loading={isLoading}
                     sx={{
                         my: 2,
                         width: '100%'

@@ -1,5 +1,5 @@
 "use client"
-import { Box, Button, Sheet, Stack } from "@mui/joy";
+import { Box, Button, LinearProgress, Sheet, Stack } from "@mui/joy";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Field from "./Field";
@@ -33,6 +33,7 @@ export default function GestationForm({ patientId, gestation }: { patientId: str
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            {isLoading && <LinearProgress />}
             <Sheet
                 sx={{
                     display: 'flex',

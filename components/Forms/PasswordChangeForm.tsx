@@ -1,5 +1,5 @@
 "use client"
-import { Button, FormControl, FormLabel, Input } from "@mui/joy";
+import { Button, FormControl, FormLabel, Input, LinearProgress } from "@mui/joy";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -28,6 +28,7 @@ export default function PasswordChangeForm() {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
+            {isLoading && <LinearProgress />}
             <FormControl
                 sx={{
                     display: 'flex',

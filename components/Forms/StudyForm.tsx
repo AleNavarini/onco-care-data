@@ -1,4 +1,4 @@
-import { Sheet, Stack, Button, Select, Option, Input } from "@mui/joy";
+import { Sheet, Stack, Button, Select, Option, Input, LinearProgress } from "@mui/joy";
 import Field from "./Field";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
@@ -90,6 +90,7 @@ export default function StudyForm({ buttonText, patientId, setModalOpen, oldStud
             }}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
+                {isLoading && <LinearProgress />}
                 <Stack spacing={2}>
 
                     <Field

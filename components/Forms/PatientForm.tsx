@@ -1,4 +1,4 @@
-import { Button, Select, Option, Sheet, Stack, FormControl, FormLabel } from "@mui/joy";
+import { Button, Select, Option, Sheet, Stack, FormControl, FormLabel, LinearProgress } from "@mui/joy";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Field from "./Field";
@@ -58,6 +58,7 @@ export default function PatientForm(props: Props) {
             }}
         >
             <form onSubmit={handleSubmit(onSubmit)}>
+                {isLoading && <LinearProgress />}
                 <Stack spacing={2}>
                     <Field
                         fieldName="id"
@@ -153,7 +154,7 @@ export default function PatientForm(props: Props) {
                             }}
                             placeholder="Choose one…"
                             defaultValue={"active"}
-on                        >
+                            on                        >
                             {[{ text: "Activa", value: "active" }, { text: "En seguimiento", value: "following" }].map((status: any) => (
                                 <Option
                                     key={status.text}

@@ -152,9 +152,6 @@ export default function AffiliatoryDataForm({
           </Stack>
         </Sheet>
       </form>
-
     </Container>
-
-
   );
 }

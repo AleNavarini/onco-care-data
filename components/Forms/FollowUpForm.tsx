@@ -68,9 +68,7 @@ export default function FollowUpForm(props: Props) {
       }}
     >
       <Container isLoading={isLoading}>
-
         <form onSubmit={handleSubmit(onSubmit)}>
-
           <Stack spacing={2}>
             <Field
               fieldName="id"
@@ -95,7 +93,8 @@ export default function FollowUpForm(props: Props) {
                 <FormControl>
                   <FormLabel
                     sx={(theme) => ({
-                      '--FormLabel-color': theme.vars.palette.primary.plainColor,
+                      '--FormLabel-color':
+                        theme.vars.palette.primary.plainColor,
                     })}
                   >
                     Se presentó
@@ -107,14 +106,23 @@ export default function FollowUpForm(props: Props) {
                       props.oldFollowUp?.attended?.toString() || 'true'
                     }
                   >
-                    <Radio {...register('attended')} value={'true'} label="Si" />
-                    <Radio {...register('attended')} value={'false'} label="No" />
+                    <Radio
+                      {...register('attended')}
+                      value={'true'}
+                      label="Si"
+                    />
+                    <Radio
+                      {...register('attended')}
+                      value={'false'}
+                      label="No"
+                    />
                   </RadioGroup>
                 </FormControl>
                 <FormControl>
                   <FormLabel
                     sx={(theme) => ({
-                      '--FormLabel-color': theme.vars.palette.primary.plainColor,
+                      '--FormLabel-color':
+                        theme.vars.palette.primary.plainColor,
                     })}
                   >
                     Tiene enfermedad
@@ -149,7 +157,8 @@ export default function FollowUpForm(props: Props) {
                 <FormControl>
                   <FormLabel
                     sx={(theme) => ({
-                      '--FormLabel-color': theme.vars.palette.primary.plainColor,
+                      '--FormLabel-color':
+                        theme.vars.palette.primary.plainColor,
                     })}
                   >
                     Murio
@@ -157,7 +166,9 @@ export default function FollowUpForm(props: Props) {
                   <RadioGroup
                     name="option"
                     orientation="horizontal"
-                    defaultValue={props.oldFollowUp?.died?.toString() || 'false'}
+                    defaultValue={
+                      props.oldFollowUp?.died?.toString() || 'false'
+                    }
                   >
                     <Radio {...register('died')} value={'true'} label="Si" />
                     <Radio {...register('died')} value={'false'} label="No" />

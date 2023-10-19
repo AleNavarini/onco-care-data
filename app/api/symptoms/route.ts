@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-  const { id, patientId, name, value } = await request.json();
+  const { patientId, name, value } = await request.json();
 
   try {
     const newSymptom = await prisma.symptom.create({

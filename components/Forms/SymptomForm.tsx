@@ -62,9 +62,7 @@ export default function SymptomForm(props: Props) {
       }}
     >
       <Container isLoading={isLoading}>
-
         <form onSubmit={handleSubmit(onSubmit)}>
-
           <Stack spacing={2}>
             <Field
               fieldName="id"

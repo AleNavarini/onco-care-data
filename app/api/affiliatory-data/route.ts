@@ -1,55 +1,15 @@
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
-  const {
-    patientId,
-    firstConsult,
-    institution,
-    doctor,
-    bmi,
-    usualMedication,
-    socialWorkIntervention,
-    firstPregnancyAge,
-    lastPregnancyAge,
-    contraception,
-    currentPregnancyControl,
-  } = await request.json();
-
+  const data = await request.json();
+  const upsertObject = getUpsertObject(data);
   try {
     const newAffiliatoryData = await prisma.affiliatoryData.upsert({
       where: {
-        patientId: BigInt(patientId),
+        patientId: BigInt(data.patientId),
       },
-      create: {
-        patientId: BigInt(patientId),
-        firstConsult: firstConsult ? new Date(firstConsult) : null,
-        institution: institution || null,
-        doctor: doctor || null,
-        bmi: bmi ? parseFloat(bmi) : null,
-        usualMedication: usualMedication || null,
-        socialWorkIntervention: socialWorkIntervention || null,
-        firstPregnancyAge: firstPregnancyAge
-          ? parseInt(firstPregnancyAge)
-          : null,
-        lastPregnancyAge: lastPregnancyAge ? parseInt(lastPregnancyAge) : null,
-        contraception: contraception || null,
-        currentPregnancyControl: currentPregnancyControl || null,
-      },
-      update: {
-        patientId: BigInt(patientId),
-        firstConsult: firstConsult ? new Date(firstConsult) : null,
-        institution: institution || null,
-        doctor: doctor || null,
-        bmi: bmi ? parseFloat(bmi) : null,
-        usualMedication: usualMedication || null,
-        socialWorkIntervention: socialWorkIntervention || null,
-        firstPregnancyAge: firstPregnancyAge
-          ? parseInt(firstPregnancyAge)
-          : null,
-        lastPregnancyAge: lastPregnancyAge ? parseInt(lastPregnancyAge) : null,
-        contraception: contraception || null,
-        currentPregnancyControl: currentPregnancyControl || null,
-      },
+      create: upsertObject,
+      update: upsertObject,
     });
 
     return NextResponse.json({
@@ -61,3 +21,23 @@ export async function POST(request: Request) {
     return NextResponse.error();
   }
 }
+
+const getUpsertObject = (data: any) => {
+  return {
+    patientId: BigInt(data.patientId),
+    firstConsult: data.firstConsult ? new Date(data.firstConsult) : null,
+    institution: data.institution || null,
+    doctor: data.doctor || null,
+    bmi: data.bmi ? parseFloat(data.bmi) : null,
+    usualMedication: data.usualMedication || null,
+    socialWorkIntervention: data.socialWorkIntervention || null,
+    firstPregnancyAge: data.firstPregnancyAge
+      ? parseInt(data.firstPregnancyAge)
+      : null,
+    lastPregnancyAge: data.lastPregnancyAge
+      ? parseInt(data.lastPregnancyAge)
+      : null,
+    contraception: data.contraception || null,
+    currentPregnancyControl: data.currentPregnancyControl || null,
+  };
+};

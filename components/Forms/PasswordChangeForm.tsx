@@ -35,9 +35,7 @@ export default function PasswordChangeForm() {
 
   return (
     <Container isLoading={isLoading}>
-
       <form onSubmit={handleSubmit(onSubmit)}>
-
         <FormControl
           sx={{
             display: 'flex',

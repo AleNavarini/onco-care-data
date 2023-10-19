@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
-  const { id, patientId, surgeryType, observations } = await request.json();
+  const { patientId, surgeryType, observations } = await request.json();
 
   try {
     const newPreviousSurgery = await prisma.previousSurgery.create({

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { Symptom } from '@prisma/client';
+import Container from '../Common/Container';
 
 interface Props {
   buttonText: string;
@@ -60,48 +61,51 @@ export default function SymptomForm(props: Props) {
         borderRadius: 'md',
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {isLoading && <LinearProgress />}
-        <Stack spacing={2}>
-          <Field
-            fieldName="id"
-            label="ID"
-            placeholder="Id del sintoma"
-            register={register}
-            type="text"
-            visible={false}
-            defaultValue={props.oldSymptom?.id}
-          />
-          <Field
-            fieldName="name"
-            label="Nombre"
-            placeholder="Nombre del sintoma"
-            register={register}
-            type="text"
-            required={true}
-            defaultValue={props.oldSymptom?.name}
-          />
-          <Field
-            fieldName="value"
-            label="Valor"
-            placeholder="Valor del sintoma ... (opcional)"
-            register={register}
-            type="text"
-            defaultValue={props.oldSymptom?.value}
-          />
-        </Stack>
-        <Button
-          loading={isLoading}
-          sx={{
-            my: 2,
-            width: '100%',
-          }}
-          variant="solid"
-          type="submit"
-        >
-          {props.buttonText}
-        </Button>
-      </form>
+      <Container isLoading={isLoading}>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+
+          <Stack spacing={2}>
+            <Field
+              fieldName="id"
+              label="ID"
+              placeholder="Id del sintoma"
+              register={register}
+              type="text"
+              visible={false}
+              defaultValue={props.oldSymptom?.id}
+            />
+            <Field
+              fieldName="name"
+              label="Nombre"
+              placeholder="Nombre del sintoma"
+              register={register}
+              type="text"
+              required={true}
+              defaultValue={props.oldSymptom?.name}
+            />
+            <Field
+              fieldName="value"
+              label="Valor"
+              placeholder="Valor del sintoma ... (opcional)"
+              register={register}
+              type="text"
+              defaultValue={props.oldSymptom?.value}
+            />
+          </Stack>
+          <Button
+            loading={isLoading}
+            sx={{
+              my: 2,
+              width: '100%',
+            }}
+            variant="solid"
+            type="submit"
+          >
+            {props.buttonText}
+          </Button>
+        </form>
+      </Container>
     </Sheet>
   );
 }

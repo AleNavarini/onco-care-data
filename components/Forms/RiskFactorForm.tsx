@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { RiskFactor } from '@prisma/client';
+import Container from '../Common/Container';
 
 interface Props {
   buttonText: string;
@@ -65,50 +66,53 @@ export default function RiskFactorForm(props: Props) {
         borderRadius: 'md',
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {isLoading && <LinearProgress />}
-        <Stack spacing={2}>
-          <Field
-            fieldName="id"
-            label="ID"
-            placeholder="Id del factor de riesgo"
-            register={register}
-            type="text"
-            visible={false}
-            defaultValue={props.oldRiskFactor?.id}
-          />
-          <Field
-            fieldName="name"
-            label="Nombre"
-            placeholder="Nombre del factor del riesgo"
-            register={register}
-            type="text"
-            required={true}
-            defaultValue={props.oldRiskFactor?.name}
-          />
-          {props.patientId && (
+      <Container isLoading={isLoading}>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+
+          <Stack spacing={2}>
             <Field
-              fieldName="value"
-              label="Valor"
-              placeholder="Valor del factor de riesgo ..."
+              fieldName="id"
+              label="ID"
+              placeholder="Id del factor de riesgo"
               register={register}
               type="text"
-              defaultValue={props.oldRiskFactor?.value}
+              visible={false}
+              defaultValue={props.oldRiskFactor?.id}
             />
-          )}
-        </Stack>
-        <Button
-          loading={isLoading}
-          sx={{
-            my: 2,
-            width: '100%',
-          }}
-          variant="solid"
-          type="submit"
-        >
-          {props.buttonText}
-        </Button>
-      </form>
+            <Field
+              fieldName="name"
+              label="Nombre"
+              placeholder="Nombre del factor del riesgo"
+              register={register}
+              type="text"
+              required={true}
+              defaultValue={props.oldRiskFactor?.name}
+            />
+            {props.patientId && (
+              <Field
+                fieldName="value"
+                label="Valor"
+                placeholder="Valor del factor de riesgo ..."
+                register={register}
+                type="text"
+                defaultValue={props.oldRiskFactor?.value}
+              />
+            )}
+          </Stack>
+          <Button
+            loading={isLoading}
+            sx={{
+              my: 2,
+              width: '100%',
+            }}
+            variant="solid"
+            type="submit"
+          >
+            {props.buttonText}
+          </Button>
+        </form>
+      </Container>
     </Sheet>
   );
 }

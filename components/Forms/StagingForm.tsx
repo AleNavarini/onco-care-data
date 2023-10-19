@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { Staging } from '@prisma/client';
+import Container from '../Common/Container';
 
 interface Props {
   buttonText: string;
@@ -67,59 +68,60 @@ export default function StagingForm(props: Props) {
         borderRadius: 'md',
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {isLoading && <LinearProgress />}
-        <Stack spacing={2}>
-          <Field
-            fieldName="id"
-            label="ID"
-            placeholder="Id de la gesta"
-            register={register}
-            type="text"
-            visible={false}
-            defaultValue={props.oldStaging?.id}
-          />
-          <Field
-            fieldName="date"
-            label="Fecha"
-            placeholder="Fecha de la estadificacion"
-            register={register}
-            type="date"
-            defaultValue={
-              dateString
-                ? dateString?.split('T')[0]
-                : new Date().toISOString().split('T')[0]
-            }
-          />
-          <Field
-            fieldName="type"
-            label="Tipo"
-            placeholder="Tipo de Figo (quirurjica o clinica)"
-            register={register}
-            type="text"
-            defaultValue={props.oldStaging?.type}
-          />
-          <Field
-            fieldName="figo"
-            label="FIGO"
-            placeholder="Figo"
-            register={register}
-            type="text"
-            defaultValue={props.oldStaging?.figo}
-          />
-        </Stack>
-        <Button
-          loading={isLoading}
-          sx={{
-            my: 2,
-            width: '100%',
-          }}
-          variant="solid"
-          type="submit"
-        >
-          {props.buttonText}
-        </Button>
-      </form>
+      <Container isLoading={isLoading}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing={2}>
+            <Field
+              fieldName="id"
+              label="ID"
+              placeholder="Id de la gesta"
+              register={register}
+              type="text"
+              visible={false}
+              defaultValue={props.oldStaging?.id}
+            />
+            <Field
+              fieldName="date"
+              label="Fecha"
+              placeholder="Fecha de la estadificacion"
+              register={register}
+              type="date"
+              defaultValue={
+                dateString
+                  ? dateString?.split('T')[0]
+                  : new Date().toISOString().split('T')[0]
+              }
+            />
+            <Field
+              fieldName="type"
+              label="Tipo"
+              placeholder="Tipo de Figo (quirurjica o clinica)"
+              register={register}
+              type="text"
+              defaultValue={props.oldStaging?.type}
+            />
+            <Field
+              fieldName="figo"
+              label="FIGO"
+              placeholder="Figo"
+              register={register}
+              type="text"
+              defaultValue={props.oldStaging?.figo}
+            />
+          </Stack>
+          <Button
+            loading={isLoading}
+            sx={{
+              my: 2,
+              width: '100%',
+            }}
+            variant="solid"
+            type="submit"
+          >
+            {props.buttonText}
+          </Button>
+        </form>
+      </Container>
     </Sheet>
   );
 }

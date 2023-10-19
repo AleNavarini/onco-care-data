@@ -13,6 +13,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { FollowUp } from '@prisma/client';
+import Container from '../Common/Container';
 
 interface Props {
   buttonText: string;
@@ -66,131 +67,134 @@ export default function FollowUpForm(props: Props) {
         borderRadius: 'md',
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {isLoading && <LinearProgress />}
-        <Stack spacing={2}>
-          <Field
-            fieldName="id"
-            label="ID"
-            placeholder="Id de la gesta"
-            register={register}
-            type="text"
-            visible={false}
-            defaultValue={props.oldFollowUp?.id}
-          />
-          <Field
-            fieldName="date"
-            label="Fecha"
-            placeholder="Fecha del seguimiento"
-            register={register}
-            type="date"
-            defaultValue={dateString?.split('T')[0]}
-            required={true}
-          />
-          {props.buttonText !== 'Agregar' && (
-            <>
-              <FormControl>
-                <FormLabel
-                  sx={(theme) => ({
-                    '--FormLabel-color': theme.vars.palette.primary.plainColor,
-                  })}
-                >
-                  Se presentó
-                </FormLabel>
-                <RadioGroup
-                  name="option"
-                  orientation="horizontal"
-                  defaultValue={
-                    props.oldFollowUp?.attended?.toString() || 'true'
-                  }
-                >
-                  <Radio {...register('attended')} value={'true'} label="Si" />
-                  <Radio {...register('attended')} value={'false'} label="No" />
-                </RadioGroup>
-              </FormControl>
-              <FormControl>
-                <FormLabel
-                  sx={(theme) => ({
-                    '--FormLabel-color': theme.vars.palette.primary.plainColor,
-                  })}
-                >
-                  Tiene enfermedad
-                </FormLabel>
-                <RadioGroup
-                  name="option"
-                  orientation="horizontal"
-                  defaultValue={
-                    props.oldFollowUp?.hasDisease?.toString() || 'false'
-                  }
-                >
-                  <Radio
-                    {...register('hasDisease')}
-                    value={'true'}
-                    label="Si"
-                  />
-                  <Radio
-                    {...register('hasDisease')}
-                    value={'false'}
-                    label="No"
-                  />
-                </RadioGroup>
-              </FormControl>
-              <Field
-                fieldName="recurrenceSite"
-                label="Sitio de Recidiva"
-                placeholder="Sitio de la recidiva ..."
-                register={register}
-                type="text"
-                defaultValue={props.oldFollowUp?.recurrenceSite}
-              />
-              <FormControl>
-                <FormLabel
-                  sx={(theme) => ({
-                    '--FormLabel-color': theme.vars.palette.primary.plainColor,
-                  })}
-                >
-                  Murio
-                </FormLabel>
-                <RadioGroup
-                  name="option"
-                  orientation="horizontal"
-                  defaultValue={props.oldFollowUp?.died?.toString() || 'false'}
-                >
-                  <Radio {...register('died')} value={'true'} label="Si" />
-                  <Radio {...register('died')} value={'false'} label="No" />
-                </RadioGroup>
-              </FormControl>
-              <Field
-                fieldName="causeOfDeath"
-                label="Causa de Muerte"
-                placeholder="Causa de la muerte ..."
-                register={register}
-                type="text"
-                defaultValue={props.oldFollowUp?.causeOfDeath}
-              />
-              <Field
-                fieldName="observations"
-                label="Observaciones"
-                placeholder="Observaciones ..."
-                register={register}
-                type="text"
-                defaultValue={props.oldFollowUp?.observations}
-              />
-            </>
-          )}
-        </Stack>
-        <Button
-          loading={isLoading}
-          sx={{
-            my: 2,
-            width: '100%',
-          }}
-          variant="solid"
-          type="submit"
-        >
-          {props.buttonText}
-        </Button>
-      </form>
+      <Container isLoading={isLoading}>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+
+          <Stack spacing={2}>
+            <Field
+              fieldName="id"
+              label="ID"
+              placeholder="Id de la gesta"
+              register={register}
+              type="text"
+              visible={false}
+              defaultValue={props.oldFollowUp?.id}
+            />
+            <Field
+              fieldName="date"
+              label="Fecha"
+              placeholder="Fecha del seguimiento"
+              register={register}
+              type="date"
+              defaultValue={dateString?.split('T')[0]}
+              required={true}
+            />
+            {props.buttonText !== 'Agregar' && (
+              <>
+                <FormControl>
+                  <FormLabel
+                    sx={(theme) => ({
+                      '--FormLabel-color': theme.vars.palette.primary.plainColor,
+                    })}
+                  >
+                    Se presentó
+                  </FormLabel>
+                  <RadioGroup
+                    name="option"
+                    orientation="horizontal"
+                    defaultValue={
+                      props.oldFollowUp?.attended?.toString() || 'true'
+                    }
+                  >
+                    <Radio {...register('attended')} value={'true'} label="Si" />
+                    <Radio {...register('attended')} value={'false'} label="No" />
+                  </RadioGroup>
+                </FormControl>
+                <FormControl>
+                  <FormLabel
+                    sx={(theme) => ({
+                      '--FormLabel-color': theme.vars.palette.primary.plainColor,
+                    })}
+                  >
+                    Tiene enfermedad
+                  </FormLabel>
+                  <RadioGroup
+                    name="option"
+                    orientation="horizontal"
+                    defaultValue={
+                      props.oldFollowUp?.hasDisease?.toString() || 'false'
+                    }
+                  >
+                    <Radio
+                      {...register('hasDisease')}
+                      value={'true'}
+                      label="Si"
+                    />
+                    <Radio
+                      {...register('hasDisease')}
+                      value={'false'}
+                      label="No"
+                    />
+                  </RadioGroup>
+                </FormControl>
+                <Field
+                  fieldName="recurrenceSite"
+                  label="Sitio de Recidiva"
+                  placeholder="Sitio de la recidiva ..."
+                  register={register}
+                  type="text"
+                  defaultValue={props.oldFollowUp?.recurrenceSite}
+                />
+                <FormControl>
+                  <FormLabel
+                    sx={(theme) => ({
+                      '--FormLabel-color': theme.vars.palette.primary.plainColor,
+                    })}
+                  >
+                    Murio
+                  </FormLabel>
+                  <RadioGroup
+                    name="option"
+                    orientation="horizontal"
+                    defaultValue={props.oldFollowUp?.died?.toString() || 'false'}
+                  >
+                    <Radio {...register('died')} value={'true'} label="Si" />
+                    <Radio {...register('died')} value={'false'} label="No" />
+                  </RadioGroup>
+                </FormControl>
+                <Field
+                  fieldName="causeOfDeath"
+                  label="Causa de Muerte"
+                  placeholder="Causa de la muerte ..."
+                  register={register}
+                  type="text"
+                  defaultValue={props.oldFollowUp?.causeOfDeath}
+                />
+                <Field
+                  fieldName="observations"
+                  label="Observaciones"
+                  placeholder="Observaciones ..."
+                  register={register}
+                  type="text"
+                  defaultValue={props.oldFollowUp?.observations}
+                />
+              </>
+            )}
+          </Stack>
+          <Button
+            loading={isLoading}
+            sx={{
+              my: 2,
+              width: '100%',
+            }}
+            variant="solid"
+            type="submit"
+          >
+            {props.buttonText}
+          </Button>
+        </form>
+      </Container>
     </Sheet>
   );
 }

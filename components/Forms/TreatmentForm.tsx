@@ -22,6 +22,7 @@ import {
 } from '@prisma/client';
 import React from 'react';
 import ComplicationsTable from '../Tables/ComplicationsTable';
+import Container from '../Common/Container';
 
 const fetchData = async (url: string) => {
   const response = await fetch(url);
@@ -115,138 +116,141 @@ export default function TreatmentForm({
         overflowY: 'scroll',
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {isLoading && <LinearProgress />}
-        <Stack spacing={2}>
-          <Field
-            fieldName="id"
-            label="ID"
-            placeholder="Id del tratamiento"
-            register={register}
-            type="text"
-            visible={false}
-            defaultValue={oldTreatment?.id}
-          />
-          <Field
-            fieldName="startDate"
-            label="Fecha de inicio"
-            placeholder="Fecha del inicio del tratamiento"
-            register={register}
-            type="date"
-            defaultValue={oldTreatment?.startDate?.toString().split('T')[0]}
-          />
-          <Field
-            fieldName="endDate"
-            label="Fecha de fin"
-            placeholder="Fecha del fin del tratamiento"
-            register={register}
-            type="date"
-            defaultValue={oldTreatment?.endDate?.toString().split('T')[0]}
-          />
+      <Container isLoading={isLoading}>
 
-          <Typography level="h4">Tipos de tratamiento</Typography>
-          <Select
-            // @ts-ignore
-            onChange={handleChange}
-            sx={{
-              width: {
-                sm: 'auto',
-                md: '20dvw',
-              },
-            }}
-            placeholder="Choose one…"
-            defaultValue={oldTreatment?.treatmentTypeId}
-          >
-            {treatmentTypes &&
-              treatmentTypes.map((treatmentType: TreatmentType) => (
-                <Option
-                  key={treatmentType.id.toString()}
-                  value={treatmentType.id}
-                >
-                  {treatmentType?.name}
-                </Option>
-              ))}
-          </Select>
-          <Stack
-            direction={'row'}
-            spacing={2}
-            sx={{
-              mx: 'auto',
-            }}
-          >
-            <Box
+        <form onSubmit={handleSubmit(onSubmit)}>
+
+          <Stack spacing={2}>
+            <Field
+              fieldName="id"
+              label="ID"
+              placeholder="Id del tratamiento"
+              register={register}
+              type="text"
+              visible={false}
+              defaultValue={oldTreatment?.id}
+            />
+            <Field
+              fieldName="startDate"
+              label="Fecha de inicio"
+              placeholder="Fecha del inicio del tratamiento"
+              register={register}
+              type="date"
+              defaultValue={oldTreatment?.startDate?.toString().split('T')[0]}
+            />
+            <Field
+              fieldName="endDate"
+              label="Fecha de fin"
+              placeholder="Fecha del fin del tratamiento"
+              register={register}
+              type="date"
+              defaultValue={oldTreatment?.endDate?.toString().split('T')[0]}
+            />
+
+            <Typography level="h4">Tipos de tratamiento</Typography>
+            <Select
+              // @ts-ignore
+              onChange={handleChange}
               sx={{
-                width: '45%',
+                width: {
+                  sm: 'auto',
+                  md: '20dvw',
+                },
+              }}
+              placeholder="Choose one…"
+              defaultValue={oldTreatment?.treatmentTypeId}
+            >
+              {treatmentTypes &&
+                treatmentTypes.map((treatmentType: TreatmentType) => (
+                  <Option
+                    key={treatmentType.id.toString()}
+                    value={treatmentType.id}
+                  >
+                    {treatmentType?.name}
+                  </Option>
+                ))}
+            </Select>
+            <Stack
+              direction={'row'}
+              spacing={2}
+              sx={{
+                mx: 'auto',
               }}
             >
-              <Typography level="h4">Atributos</Typography>
-              {treatmentTypeAttributes &&
-                treatmentTypeAttributes.map(
-                  (attribute: TreatmentTypeAttribute) => {
+              <Box
+                sx={{
+                  width: '45%',
+                }}
+              >
+                <Typography level="h4">Atributos</Typography>
+                {treatmentTypeAttributes &&
+                  treatmentTypeAttributes.map(
+                    (attribute: TreatmentTypeAttribute) => {
+                      const defaultValue =
+                        oldTreatment?.treatmentTypeAttributes?.filter(
+                          (attr: TreatmentTypeAttribute) =>
+                            attr.name === attribute.name,
+                        )[0]?.value;
+                      return (
+                        <Field
+                          key={attribute.id.toString()}
+                          fieldName={`attr-${attribute.name}`}
+                          label={attribute.name}
+                          placeholder={`${attribute.name}...`}
+                          register={register}
+                          type="text"
+                          defaultValue={defaultValue}
+                        />
+                      );
+                    },
+                  )}
+              </Box>
+              <Box
+                sx={{
+                  width: '45%',
+                }}
+              >
+                <Typography level="h4">Resultados</Typography>
+                {treatmentTypeResults &&
+                  treatmentTypeResults.map((result: TreatmentTypeResult) => {
                     const defaultValue =
-                      oldTreatment?.treatmentTypeAttributes?.filter(
-                        (attr: TreatmentTypeAttribute) =>
-                          attr.name === attribute.name,
+                      oldTreatment?.treatmentTypeResults.filter(
+                        (res: TreatmentTypeResult) => res.name === result.name,
                       )[0]?.value;
                     return (
                       <Field
-                        key={attribute.id.toString()}
-                        fieldName={`attr-${attribute.name}`}
-                        label={attribute.name}
-                        placeholder={`${attribute.name}...`}
+                        key={result.id.toString()}
+                        fieldName={`res-${result.name}`}
+                        label={result.name}
+                        placeholder={`${result.name}...`}
                         register={register}
                         type="text"
                         defaultValue={defaultValue}
                       />
                     );
-                  },
-                )}
-            </Box>
-            <Box
-              sx={{
-                width: '45%',
-              }}
-            >
-              <Typography level="h4">Resultados</Typography>
-              {treatmentTypeResults &&
-                treatmentTypeResults.map((result: TreatmentTypeResult) => {
-                  const defaultValue =
-                    oldTreatment?.treatmentTypeResults.filter(
-                      (res: TreatmentTypeResult) => res.name === result.name,
-                    )[0]?.value;
-                  return (
-                    <Field
-                      key={result.id.toString()}
-                      fieldName={`res-${result.name}`}
-                      label={result.name}
-                      placeholder={`${result.name}...`}
-                      register={register}
-                      type="text"
-                      defaultValue={defaultValue}
-                    />
-                  );
-                })}
-            </Box>
+                  })}
+              </Box>
+            </Stack>
+            {oldTreatment && (
+              <ComplicationsTable
+                complications={oldTreatment.complications}
+                treatmentId={oldTreatment.id}
+              />
+            )}
           </Stack>
-          {oldTreatment && (
-            <ComplicationsTable
-              complications={oldTreatment.complications}
-              treatmentId={oldTreatment.id}
-            />
-          )}
-        </Stack>
-        <Button
-          loading={isLoading}
-          sx={{
-            my: 2,
-            width: '100%',
-          }}
-          variant="solid"
-          type="submit"
-        >
-          {buttonText}
-        </Button>
-      </form>
+          <Button
+            loading={isLoading}
+            sx={{
+              my: 2,
+              width: '100%',
+            }}
+            variant="solid"
+            type="submit"
+          >
+            {buttonText}
+          </Button>
+        </form>
+      </Container>
     </Sheet>
   );
 }

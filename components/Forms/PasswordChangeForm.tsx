@@ -8,6 +8,7 @@ import {
 } from '@mui/joy';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Container from '../Common/Container';
 
 export default function PasswordChangeForm() {
   const { register, handleSubmit, reset } = useForm();
@@ -33,47 +34,50 @@ export default function PasswordChangeForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {isLoading && <LinearProgress />}
-      <FormControl
-        sx={{
-          display: 'flex',
-          margin: 'auto',
-          width: '100%',
-        }}
-      >
-        <FormLabel
-          sx={(theme) => ({
-            '--FormLabel-color': theme.vars.palette.primary.plainColor,
-          })}
-        >
-          Cambiar Contraseña
-        </FormLabel>
-        <Input
+    <Container isLoading={isLoading}>
+
+      <form onSubmit={handleSubmit(onSubmit)}>
+
+        <FormControl
           sx={{
-            pr: 0,
+            display: 'flex',
+            margin: 'auto',
+            width: '100%',
           }}
-          {...register('changedPassword')}
-          type="password"
-          placeholder="Cambia tu contraseña"
-          endDecorator={
-            <Button
-              sx={{
-                p: 2,
-                m: 0,
-                borderTopLeftRadius: 0,
-                borderBottomLeftRadius: 0,
-              }}
-              type="submit"
-              loading={isLoading}
-              loadingIndicator="Cargando…"
-              variant="solid"
-            >
-              Cambiar
-            </Button>
-          }
-        />
-      </FormControl>
-    </form>
+        >
+          <FormLabel
+            sx={(theme) => ({
+              '--FormLabel-color': theme.vars.palette.primary.plainColor,
+            })}
+          >
+            Cambiar Contraseña
+          </FormLabel>
+          <Input
+            sx={{
+              pr: 0,
+            }}
+            {...register('changedPassword')}
+            type="password"
+            placeholder="Cambia tu contraseña"
+            endDecorator={
+              <Button
+                sx={{
+                  p: 2,
+                  m: 0,
+                  borderTopLeftRadius: 0,
+                  borderBottomLeftRadius: 0,
+                }}
+                type="submit"
+                loading={isLoading}
+                loadingIndicator="Cargando…"
+                variant="solid"
+              >
+                Cambiar
+              </Button>
+            }
+          />
+        </FormControl>
+      </form>
+    </Container>
   );
 }

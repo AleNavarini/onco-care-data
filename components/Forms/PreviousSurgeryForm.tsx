@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { PreviousSurgery } from '@prisma/client';
+import Container from '../Common/Container';
 
 interface Props {
   buttonText: string;
@@ -62,48 +63,49 @@ export default function PreviousSurgeryForm(props: Props) {
         borderRadius: 'md',
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {isLoading && <LinearProgress />}
-        <Stack spacing={2}>
-          <Field
-            fieldName="id"
-            label="ID"
-            placeholder="Id de la cirugia"
-            register={register}
-            type="text"
-            visible={false}
-            defaultValue={props.oldPreviousSurgery?.id}
-          />
-          <Field
-            fieldName="surgeryType"
-            label="Tipo"
-            placeholder="Tipo de cirguia"
-            register={register}
-            type="text"
-            required={true}
-            defaultValue={props.oldPreviousSurgery?.surgeryType}
-          />
-          <Field
-            fieldName="observations"
-            label="Observaciones"
-            placeholder="Observaciones"
-            register={register}
-            type="text"
-            defaultValue={props.oldPreviousSurgery?.observations}
-          />
-        </Stack>
-        <Button
-          loading={isLoading}
-          sx={{
-            my: 2,
-            width: '100%',
-          }}
-          variant="solid"
-          type="submit"
-        >
-          {props.buttonText}
-        </Button>
-      </form>
+      <Container isLoading={isLoading}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Stack spacing={2}>
+            <Field
+              fieldName="id"
+              label="ID"
+              placeholder="Id de la cirugia"
+              register={register}
+              type="text"
+              visible={false}
+              defaultValue={props.oldPreviousSurgery?.id}
+            />
+            <Field
+              fieldName="surgeryType"
+              label="Tipo"
+              placeholder="Tipo de cirguia"
+              register={register}
+              type="text"
+              required={true}
+              defaultValue={props.oldPreviousSurgery?.surgeryType}
+            />
+            <Field
+              fieldName="observations"
+              label="Observaciones"
+              placeholder="Observaciones"
+              register={register}
+              type="text"
+              defaultValue={props.oldPreviousSurgery?.observations}
+            />
+          </Stack>
+          <Button
+            loading={isLoading}
+            sx={{
+              my: 2,
+              width: '100%',
+            }}
+            variant="solid"
+            type="submit"
+          >
+            {props.buttonText}
+          </Button>
+        </form>
+      </Container>
     </Sheet>
   );
 }

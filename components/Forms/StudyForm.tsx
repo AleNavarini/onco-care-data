@@ -14,6 +14,7 @@ import '../../lib/bigIntExtensions';
 import useSWR from 'swr';
 import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
 import React from 'react';
+import Container from '../Common/Container';
 
 const fetchData = async (url: string) => {
   const response = await fetch(url);
@@ -106,79 +107,82 @@ export default function StudyForm({
         overflow: studyTypeAttributes === undefined ? 'visible' : 'auto',
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {isLoading && <LinearProgress />}
-        <Stack spacing={2}>
-          <Field
-            fieldName="id"
-            label="ID"
-            placeholder="Id de la gesta"
-            register={register}
-            type="text"
-            visible={false}
-            defaultValue={oldStudy?.id}
-          />
-          <Field
-            fieldName="date"
-            label="Fecha"
-            placeholder="Fecha del estudio"
-            required={true}
-            register={register}
-            type="date"
-            defaultValue={oldStudy?.date.toString().split('T')[0]}
-          />
+      <Container isLoading={isLoading}>
 
-          <Select
-            // @ts-ignore
-            onChange={handleChange}
+        <form onSubmit={handleSubmit(onSubmit)}>
+
+          <Stack spacing={2}>
+            <Field
+              fieldName="id"
+              label="ID"
+              placeholder="Id de la gesta"
+              register={register}
+              type="text"
+              visible={false}
+              defaultValue={oldStudy?.id}
+            />
+            <Field
+              fieldName="date"
+              label="Fecha"
+              placeholder="Fecha del estudio"
+              required={true}
+              register={register}
+              type="date"
+              defaultValue={oldStudy?.date.toString().split('T')[0]}
+            />
+
+            <Select
+              // @ts-ignore
+              onChange={handleChange}
+              sx={{
+                width: {
+                  sm: 'auto',
+                  md: '20dvw',
+                },
+                overflow: 'visible',
+              }}
+              placeholder="Choose one…"
+              defaultValue={oldStudy?.studyTypeId}
+            >
+              {studyTypes &&
+                studyTypes.map((studyType: StudyType) => (
+                  <Option key={studyType.id.toString()} value={studyType.id}>
+                    {studyType?.name}
+                  </Option>
+                ))}
+            </Select>
+
+            {studyTypeAttributes &&
+              studyTypeAttributes.map((attribute: StudyTypeAttribute) => {
+                const defaultValue = oldStudy?.studyTypeAttributes.filter(
+                  (attr: StudyTypeAttribute) => attr.name === attribute.name,
+                )[0].value;
+                return (
+                  <Field
+                    key={attribute.id.toString()}
+                    fieldName={attribute.name}
+                    label={attribute.name}
+                    placeholder={`${attribute.name}...`}
+                    register={register}
+                    type="text"
+                    defaultValue={defaultValue}
+                  />
+                );
+              })}
+          </Stack>
+          <Button
+            loading={loading}
             sx={{
-              width: {
-                sm: 'auto',
-                md: '20dvw',
-              },
-              overflow: 'visible',
+              my: 2,
+              width: '100%',
             }}
-            placeholder="Choose one…"
-            defaultValue={oldStudy?.studyTypeId}
+            variant="solid"
+            type="submit"
           >
-            {studyTypes &&
-              studyTypes.map((studyType: StudyType) => (
-                <Option key={studyType.id.toString()} value={studyType.id}>
-                  {studyType?.name}
-                </Option>
-              ))}
-          </Select>
-
-          {studyTypeAttributes &&
-            studyTypeAttributes.map((attribute: StudyTypeAttribute) => {
-              const defaultValue = oldStudy?.studyTypeAttributes.filter(
-                (attr: StudyTypeAttribute) => attr.name === attribute.name,
-              )[0].value;
-              return (
-                <Field
-                  key={attribute.id.toString()}
-                  fieldName={attribute.name}
-                  label={attribute.name}
-                  placeholder={`${attribute.name}...`}
-                  register={register}
-                  type="text"
-                  defaultValue={defaultValue}
-                />
-              );
-            })}
-        </Stack>
-        <Button
-          loading={loading}
-          sx={{
-            my: 2,
-            width: '100%',
-          }}
-          variant="solid"
-          type="submit"
-        >
-          {buttonText}
-        </Button>
-      </form>
+            {buttonText}
+          </Button>
+        </form>
+      </Container>
     </Sheet>
   );
 }

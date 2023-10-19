@@ -12,6 +12,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { FullPatient } from '../Dashboards/PatientsDashboard';
+import Container from '../Common/Container';
 
 interface Props {
   buttonText: string;
@@ -68,128 +69,131 @@ export default function PatientForm(props: Props) {
         borderRadius: 'md',
       }}
     >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {isLoading && <LinearProgress />}
-        <Stack spacing={2}>
-          <Field
-            fieldName="id"
-            label="ID"
-            placeholder="Id del paciente"
-            register={register}
-            type="text"
-            defaultValue={props.oldPatient?.id}
-            visible={false}
-          />
-          <Field
-            fieldName="name"
-            label="Nombre"
-            placeholder="Nombre del paciente"
-            register={register}
-            type="text"
-            required={true}
-            defaultValue={props.oldPatient?.name}
-          />
-          <Field
-            fieldName="dni"
-            label="DNI"
-            placeholder="DNI"
-            register={register}
-            type="text"
-            required={true}
-            defaultValue={props.oldPatient?.dni}
-          />
-          <Field
-            fieldName="dateOfBirth"
-            label="Fecha de nacimiento"
-            placeholder="Fecha de nacimiento"
-            register={register}
-            type="date"
-            defaultValue={props.oldPatient?.dateOfBirth?.split('T')[0]}
-          />
-          <Field
-            fieldName="phone"
-            label="Teléfono"
-            placeholder="Teléfono"
-            register={register}
-            type="text"
-            defaultValue={props.oldPatient?.phone}
-          />
-          <Field
-            fieldName="email"
-            label="email"
-            placeholder="Email"
-            register={register}
-            type="email"
-            defaultValue={props.oldPatient?.email}
-          />
-          <Field
-            fieldName="address"
-            label="Domicilio"
-            placeholder="Domicilio"
-            register={register}
-            type="text"
-            defaultValue={props.oldPatient?.address}
-          />
-          <Field
-            fieldName="healthInsurance"
-            label="Obra social"
-            placeholder="Obra social"
-            register={register}
-            type="text"
-            defaultValue={props.oldPatient?.healthInsurance}
-          />
-          <Field
-            fieldName="clinicHistory"
-            label="Historia Clinica"
-            placeholder="Historia clínica"
-            register={register}
-            type="number"
-            defaultValue={props.oldPatient?.clinicHistory}
-          />
-          <FormControl>
-            <FormLabel
-              sx={(theme) => ({
-                '--FormLabel-color': theme.vars.palette.primary.plainColor,
-              })}
-            >
-              Estado
-            </FormLabel>
-            <Select
-              // @ts-ignore
-              onChange={handleChange}
-              sx={{
-                width: {
-                  sm: 'auto',
-                  md: '20dvw',
-                },
-              }}
-              placeholder="Choose one…"
-              defaultValue={'active'}
-              on
-            >
-              {[
-                { text: 'Activa', value: 'active' },
-                { text: 'En seguimiento', value: 'following' },
-              ].map((status: any) => (
-                <Option key={status.text} value={status.value}>
-                  {status.text}
-                </Option>
-              ))}
-            </Select>
-          </FormControl>
-        </Stack>
-        <Button
-          loading={isLoading}
-          sx={{
-            my: 2,
-            width: '100%',
-          }}
-          variant="solid"
-          type="submit"
-        >
-          {props.buttonText}
-        </Button>
-      </form>
+      <Container isLoading={isLoading}>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+
+          <Stack spacing={2}>
+            <Field
+              fieldName="id"
+              label="ID"
+              placeholder="Id del paciente"
+              register={register}
+              type="text"
+              defaultValue={props.oldPatient?.id}
+              visible={false}
+            />
+            <Field
+              fieldName="name"
+              label="Nombre"
+              placeholder="Nombre del paciente"
+              register={register}
+              type="text"
+              required={true}
+              defaultValue={props.oldPatient?.name}
+            />
+            <Field
+              fieldName="dni"
+              label="DNI"
+              placeholder="DNI"
+              register={register}
+              type="text"
+              required={true}
+              defaultValue={props.oldPatient?.dni}
+            />
+            <Field
+              fieldName="dateOfBirth"
+              label="Fecha de nacimiento"
+              placeholder="Fecha de nacimiento"
+              register={register}
+              type="date"
+              defaultValue={props.oldPatient?.dateOfBirth?.split('T')[0]}
+            />
+            <Field
+              fieldName="phone"
+              label="Teléfono"
+              placeholder="Teléfono"
+              register={register}
+              type="text"
+              defaultValue={props.oldPatient?.phone}
+            />
+            <Field
+              fieldName="email"
+              label="email"
+              placeholder="Email"
+              register={register}
+              type="email"
+              defaultValue={props.oldPatient?.email}
+            />
+            <Field
+              fieldName="address"
+              label="Domicilio"
+              placeholder="Domicilio"
+              register={register}
+              type="text"
+              defaultValue={props.oldPatient?.address}
+            />
+            <Field
+              fieldName="healthInsurance"
+              label="Obra social"
+              placeholder="Obra social"
+              register={register}
+              type="text"
+              defaultValue={props.oldPatient?.healthInsurance}
+            />
+            <Field
+              fieldName="clinicHistory"
+              label="Historia Clinica"
+              placeholder="Historia clínica"
+              register={register}
+              type="number"
+              defaultValue={props.oldPatient?.clinicHistory}
+            />
+            <FormControl>
+              <FormLabel
+                sx={(theme) => ({
+                  '--FormLabel-color': theme.vars.palette.primary.plainColor,
+                })}
+              >
+                Estado
+              </FormLabel>
+              <Select
+                // @ts-ignore
+                onChange={handleChange}
+                sx={{
+                  width: {
+                    sm: 'auto',
+                    md: '20dvw',
+                  },
+                }}
+                placeholder="Choose one…"
+                defaultValue={'active'}
+                on
+              >
+                {[
+                  { text: 'Activa', value: 'active' },
+                  { text: 'En seguimiento', value: 'following' },
+                ].map((status: any) => (
+                  <Option key={status.text} value={status.value}>
+                    {status.text}
+                  </Option>
+                ))}
+              </Select>
+            </FormControl>
+          </Stack>
+          <Button
+            loading={isLoading}
+            sx={{
+              my: 2,
+              width: '100%',
+            }}
+            variant="solid"
+            type="submit"
+          >
+            {props.buttonText}
+          </Button>
+        </form>
+      </Container>
     </Sheet>
   );
 }

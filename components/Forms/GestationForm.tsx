@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { Gestation } from '@prisma/client';
+import Container from '../Common/Container';
 
 export default function GestationForm({
   patientId,
@@ -38,54 +39,56 @@ export default function GestationForm({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {isLoading && <LinearProgress />}
-      <Sheet
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          borderRadius: 'md',
-          px: 2,
-          py: 1,
-          boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-        }}
-      >
-        <Stack spacing={2}>
-          <Field
-            fieldName="births"
-            label="Partos"
-            register={register}
-            type="number"
-            defaultValue={gestation?.births}
-          />
-          <Field
-            fieldName="abortions"
-            label="Abortos"
-            register={register}
-            type="number"
-            defaultValue={gestation?.abortions}
-          />
-          <Field
-            fieldName="cesareans"
-            label="Cesareas"
-            register={register}
-            type="number"
-            defaultValue={gestation?.cesareans}
-          />
+    <Container isLoading={isLoading}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Sheet
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            borderRadius: 'md',
+            px: 2,
+            py: 1,
+            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+          }}
+        >
+          <Stack spacing={2}>
+            <Field
+              fieldName="births"
+              label="Partos"
+              register={register}
+              type="number"
+              defaultValue={gestation?.births}
+            />
+            <Field
+              fieldName="abortions"
+              label="Abortos"
+              register={register}
+              type="number"
+              defaultValue={gestation?.abortions}
+            />
+            <Field
+              fieldName="cesareans"
+              label="Cesareas"
+              register={register}
+              type="number"
+              defaultValue={gestation?.cesareans}
+            />
 
-          <Button
-            loading={isLoading}
-            sx={{
-              my: 2,
-              width: '100%',
-            }}
-            variant="solid"
-            type="submit"
-          >
-            Guardar
-          </Button>
-        </Stack>
-      </Sheet>
-    </form>
+            <Button
+              loading={isLoading}
+              sx={{
+                my: 2,
+                width: '100%',
+              }}
+              variant="solid"
+              type="submit"
+            >
+              Guardar
+            </Button>
+          </Stack>
+        </Sheet>
+      </form>
+    </Container>
+
   );
 }

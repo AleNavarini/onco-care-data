@@ -4,7 +4,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, IconButton, Modal, Typography, Sheet } from '@mui/joy';
 import { PreviousSurgery } from '@prisma/client';
 import { useState } from 'react';
-import SymptomForm from '../Forms/SymptomForm';
 import PreviousSurgeryForm from '../Forms/PreviousSurgeryForm';
 
 interface Props {
@@ -176,9 +175,7 @@ export default function PreviousSurgeriesTable({
                     color="neutral"
                     variant="plain"
                     onClick={() => {
-                      var result = confirm(
-                        'Seguro que queres borrar la cirugia?',
-                      );
+                      const result = confirm('Seguro que queres borrar la cirugia?');
                       if (!result) return;
                       deletePreviousSurgery(previousSurgery);
                     }}

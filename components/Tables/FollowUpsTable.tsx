@@ -5,7 +5,6 @@ import { Table, IconButton, Modal, Typography, Sheet } from '@mui/joy';
 import { FollowUp } from '@prisma/client';
 import { useState } from 'react';
 import FollowUpForm from '../Forms/FollowUpForm';
-import { isNull } from 'util';
 
 interface Props {
   patientId: string;
@@ -206,7 +205,7 @@ export default function FollowUpsTable({
                       color="neutral"
                       variant="plain"
                       onClick={() => {
-                        var result = confirm('Quiere borrar el seguimiento?');
+                        const result = confirm('Quiere borrar el seguimiento?');
                         if (!result) return;
                         deleteFollowUp(followUp);
                       }}

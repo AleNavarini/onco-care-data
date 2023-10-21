@@ -1,4 +1,4 @@
-import AddBoxIcon from '@mui/icons-material/AddBox';
+vimport AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, IconButton, Modal, Typography, Sheet } from '@mui/joy';
@@ -171,7 +171,7 @@ export default function TreatmentsTable({
                       color="neutral"
                       variant="plain"
                       onClick={() => {
-                        var result = confirm('Quiere borrar el seguimiento?');
+                        const result = confirm('Quiere borrar el seguimiento?');
                         if (!result) return;
                         deleteTreatment(treatment);
                       }}

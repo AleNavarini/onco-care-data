@@ -162,7 +162,7 @@ export default function StudiesTable({
                       color="neutral"
                       variant="plain"
                       onClick={() => {
-                        var result = confirm('Quiere borrar el seguimiento?');
+                        const result = confirm('Quiere borrar el seguimiento?');
                         if (!result) return;
                         deleteStudy(study);
                       }}

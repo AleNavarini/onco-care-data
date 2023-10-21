@@ -4,6 +4,10 @@ import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { Complication } from '@prisma/client';
 import Container from '../Common/Container';
+import { fetchData } from '@/utils/fetchData';
+import FormFieldsMapper from '../Common/FormFieldsMapper';
+import { FieldConfig } from '@/types/FieldConfig';
+import SubmitButton from '../Common/SubmitButton';
 
 interface Props {
   buttonText: string;
@@ -13,91 +17,89 @@ interface Props {
   setModalOpen: (state: boolean) => void;
 }
 
-export default function ComplicationForm(props: Props) {
+export default function ComplicationForm({
+  treatmentId,
+  oldComplication,
+  handler,
+  setModalOpen,
+  buttonText,
+}: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: any) => {
-    data = { ...data, treatmentId: props.treatmentId };
+    data = { ...data, treatmentId: treatmentId };
 
     try {
       setIsLoading(true);
-      const endpoint = props.oldComplication
-        ? `/${props.oldComplication.id}`
-        : '';
-      const response = await fetch(`/api/complications${endpoint}`, {
-        method: props.oldComplication ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
+      const entity = 'complications';
+      const endpoint = oldComplication ? `/${oldComplication.id}` : '';
+      const method = oldComplication ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data);
+
       if (result.status === 200) reset();
-      if (props.handler) props.handler(result.complication);
-      props.setModalOpen(false);
+      if (handler) handler(result.complication);
+      setModalOpen(false);
     } catch (error) {
       console.error('Error:', error);
     } finally {
       setIsLoading(false);
     }
   };
+  const dimensions = getContainerDimensions();
+
+  const fields = getFields(oldComplication);
+
+  return (
+    <Container dimensions={dimensions} isLoading={isLoading}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormFieldsMapper register={register} fields={fields} />
+        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
+      </form>
+    </Container>
+  );
+}
+
+function getFields(oldComplication: Complication | undefined): FieldConfig[] {
+  return [
+    {
+      fieldName: 'id',
+      label: 'ID',
+      placeholder: 'Id de la complicacion',
+      type: 'text',
+      visible: false,
+      defaultValue: oldComplication?.id,
+    },
+    {
+      fieldName: 'time',
+      label: 'Tiempo',
+      placeholder: 'Post o intra quirurjica',
+      type: 'text',
+      defaultValue: oldComplication?.time,
+    },
+    {
+      fieldName: 'type',
+      label: 'Tipo',
+      placeholder: 'Tipo de complicacion',
+      type: 'text',
+      defaultValue: oldComplication?.type,
+    },
+    {
+      fieldName: 'transfusions',
+      label: 'Transfusiones',
+      placeholder: 'Cant de transfusiones',
+      type: 'text',
+      defaultValue: oldComplication?.transfusions,
+    },
+  ];
+}
+
+function getContainerDimensions() {
   const width = {
     sm: '90%',
     md: '60%',
     lg: '50%',
     xl: '30%',
   };
-  return (
-    <Container isLoading={isLoading}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={2}>
-          <Field
-            fieldName="id"
-            label="ID"
-            placeholder="Id de la complicacion"
-            register={register}
-            type="text"
-            visible={false}
-            defaultValue={props.oldComplication?.id}
-          />
-          <Field
-            fieldName="time"
-            label="Tiempo"
-            placeholder="Post o intra quirurjica"
-            register={register}
-            type="text"
-            defaultValue={props.oldComplication?.time}
-          />
-          <Field
-            fieldName="type"
-            label="Tipo"
-            placeholder="Tipo de complicacion"
-            register={register}
-            type="text"
-            defaultValue={props.oldComplication?.type}
-          />
-          <Field
-            fieldName="transfusions"
-            label="Transfusiones"
-            placeholder="Cant de transfusiones"
-            register={register}
-            type="text"
-            defaultValue={props.oldComplication?.transfusions}
-          />
-        </Stack>
-        <Button
-          loading={isLoading}
-          sx={{
-            my: 2,
-            width: '100%',
-          }}
-          variant="solid"
-          type="submit"
-        >
-          {props.buttonText}
-        </Button>
-      </form>
-    </Container>
-  );
+  return { width };
 }

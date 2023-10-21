@@ -26,6 +26,8 @@ export default function ComplicationForm({
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const dimensions = getContainerDimensions();
+  const fields = getFields(oldComplication);
 
   const onSubmit = async (data: any) => {
     data = { ...data, treatmentId: treatmentId };
@@ -46,9 +48,6 @@ export default function ComplicationForm({
       setIsLoading(false);
     }
   };
-  const dimensions = getContainerDimensions();
-
-  const fields = getFields(oldComplication);
 
   return (
     <Container dimensions={dimensions} isLoading={isLoading}>

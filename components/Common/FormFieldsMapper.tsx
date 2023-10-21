@@ -12,7 +12,7 @@ const FormFieldsMapper: React.FC<FormComponentProps> = ({
   register,
 }) => {
   return (
-    <Stack spacing={2}>
+    <Stack spacing={0.2}>
       {fields.map((field) => (
         <Field key={field.fieldName} register={register} {...field} />
       ))}

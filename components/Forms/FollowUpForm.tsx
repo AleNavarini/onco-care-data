@@ -34,6 +34,7 @@ export default function FollowUpForm({
 
   const onSubmit = async (data: any) => {
     data = { ...data, patientId };
+
     try {
       setIsLoading(true);
       const entity = 'follow-ups';
@@ -88,7 +89,7 @@ export default function FollowUpForm({
                 <RadioGroup
                   name="option"
                   orientation="horizontal"
-                  defaultValue={oldFollowUp?.attended?.toString() ?? 'true'}
+                  defaultValue={oldFollowUp?.attended?.toString() || 'true'}
                 >
                   <Radio
                     {...register('attended')}
@@ -115,7 +116,7 @@ export default function FollowUpForm({
                   name="option"
                   orientation="horizontal"
                   defaultValue={
-                    oldFollowUp?.hasDisease?.toString() ?? 'false'
+                    oldFollowUp?.hasDisease?.toString() || 'false'
                   }
                 >
                   <Radio
@@ -150,7 +151,7 @@ export default function FollowUpForm({
                 <RadioGroup
                   name="option"
                   orientation="horizontal"
-                  defaultValue={oldFollowUp?.died?.toString() ?? 'false'}
+                  defaultValue={oldFollowUp?.died?.toString() || 'false'}
                 >
                   <Radio {...register('died')} value={'true'} label="Si" />
                   <Radio {...register('died')} value={'false'} label="No" />

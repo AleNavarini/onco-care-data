@@ -47,7 +47,6 @@ export default function StudyForm({
   const studyTypeAttributes = studyTypes?.filter(
     (st: FullStudyType) => st.id.toString() === selectedStudyType,
   )[0]?.attributes;
-  console.log(studyTypeAttributes);
 
   const handleChange = async (_e: null, value: string) => {
     setSelectedStudyType(value);

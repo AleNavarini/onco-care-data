@@ -6,21 +6,22 @@ import Field from './Field';
 import { Gestation } from '@prisma/client';
 import Container from '../Common/Container';
 
+interface Props {
+  patientId: string;
+  gestation: Gestation | null;
+}
 export default function GestationForm({
   patientId,
   gestation,
-}: {
-  patientId: string;
-  gestation: Gestation | null;
-}) {
+}: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
-
   const onSubmit = async (data: any) => {
-    data = { ...data, patientId: patientId };
+    data = { ...data, patientId };
 
     try {
       setIsLoading(true);
+
       const endpoint = gestation ? `/${gestation.id}` : '';
       const response = await fetch(`/api/gestations${endpoint}`, {
         method: gestation ? 'PUT' : 'POST',

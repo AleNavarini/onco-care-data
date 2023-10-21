@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma';
-import { getFollowUpsData } from '@/utils/getFollowUpsCreateData';
+import { getFollowUpsData } from '@/utils/getFollowUpsData';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {

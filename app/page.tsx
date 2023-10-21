@@ -3,6 +3,7 @@
 import useSWR from 'swr';
 import { Box, LinearProgress, Sheet, Typography } from '@mui/joy';
 import PatientsDashboard from '@/components/Dashboards/PatientsDashboard';
+import LoadingOverlay from '@/components/Common/LoadingOverlay';
 
 const getPatients = async () => {
   const response = await fetch(`/api/patients?detailed=true`);
@@ -15,7 +16,7 @@ export default function Home() {
     refreshInterval: 1000,
   });
 
-  let content = <LinearProgress />;
+  let content = <LoadingOverlay />;
   if (data) content = <PatientsDashboard patients={data.patients} />;
   if (error)
     content = <Typography level="h3">Ha habido un error...</Typography>;

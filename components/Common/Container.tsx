@@ -5,10 +5,21 @@ import { ReactNode } from 'react';
 interface Props {
   isLoading: boolean;
   children: ReactNode;
+  dimensions?: any;
 }
-export default function Container({ isLoading, children }: Props) {
+export default function Container({
+  isLoading,
+  children,
+  dimensions = null,
+}: Props) {
   return (
-    <Box sx={{ position: 'relative' }}>
+    <Box
+      sx={{
+        ...dimensions,
+        position: 'relative',
+        overflow: 'auto',
+      }}
+    >
       {isLoading && <LoadingOverlay />}
       <Sheet
         sx={{

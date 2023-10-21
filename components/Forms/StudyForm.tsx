@@ -4,8 +4,6 @@ import {
   Button,
   Select,
   Option,
-  Input,
-  LinearProgress,
 } from '@mui/joy';
 import Field from './Field';
 import { useForm } from 'react-hook-form';
@@ -13,7 +11,6 @@ import { useState } from 'react';
 import '../../lib/bigIntExtensions';
 import useSWR from 'swr';
 import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
-import React from 'react';
 import Container from '../Common/Container';
 
 const fetchData = async (url: string) => {
@@ -49,8 +46,7 @@ export default function StudyForm({
 
   const {
     data: studyTypesData,
-    isLoading,
-    error,
+    isLoading
   } = useSWR(`/api/study-types`, fetchData, { refreshInterval: 5000 });
   const studyTypes: FullStudyType[] = studyTypesData?.studyTypes;
   const studyTypeAttributes = studyTypes?.filter(
@@ -142,31 +138,29 @@ export default function StudyForm({
               placeholder="Choose one…"
               defaultValue={oldStudy?.studyTypeId}
             >
-              {studyTypes &&
-                studyTypes.map((studyType: StudyType) => (
-                  <Option key={studyType.id.toString()} value={studyType.id}>
-                    {studyType?.name}
-                  </Option>
-                ))}
+              {studyTypes?.map((studyType: StudyType) => (
+                <Option key={studyType.id.toString()} value={studyType.id}>
+                  {studyType?.name}
+                </Option>
+              ))}
             </Select>
 
-            {studyTypeAttributes &&
-              studyTypeAttributes.map((attribute: StudyTypeAttribute) => {
-                const defaultValue = oldStudy?.studyTypeAttributes.filter(
-                  (attr: StudyTypeAttribute) => attr.name === attribute.name,
-                )[0].value;
-                return (
-                  <Field
-                    key={attribute.id.toString()}
-                    fieldName={attribute.name}
-                    label={attribute.name}
-                    placeholder={`${attribute.name}...`}
-                    register={register}
-                    type="text"
-                    defaultValue={defaultValue}
-                  />
-                );
-              })}
+            {studyTypeAttributes?.map((attribute: StudyTypeAttribute) => {
+              const defaultValue = oldStudy?.studyTypeAttributes.filter(
+                (attr: StudyTypeAttribute) => attr.name === attribute.name,
+              )[0].value;
+              return (
+                <Field
+                  key={attribute.id.toString()}
+                  fieldName={attribute.name}
+                  label={attribute.name}
+                  placeholder={`${attribute.name}...`}
+                  register={register}
+                  type="text"
+                  defaultValue={defaultValue}
+                />
+              );
+            })}
           </Stack>
           <Button
             loading={loading}

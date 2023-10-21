@@ -4,7 +4,6 @@ import {
   FormControl,
   FormLabel,
   Input,
-  LinearProgress,
 } from '@mui/joy';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';

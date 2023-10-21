@@ -17,17 +17,17 @@ interface Props {
 export default function GestationForm({ patientId, gestation }: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const fields = getFields(gestation)
+  const fields = getFields(gestation);
 
   const onSubmit = async (data: any) => {
     data = { ...data, patientId };
 
     try {
       setIsLoading(true);
-      const entity = "gestations"
+      const entity = 'gestations';
       const endpoint = gestation ? `/${gestation.id}` : '';
-      const method = gestation ? 'PUT' : 'POST'
-      const result = await fetchData(entity + endpoint, method, data)
+      const method = gestation ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data);
       if (result.status === 200) reset();
     } catch (error) {
       console.error('Error:', error);
@@ -40,11 +40,9 @@ export default function GestationForm({ patientId, gestation }: Props) {
     <Container isLoading={isLoading}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormFieldsMapper register={register} fields={fields} />
-        <SubmitButton isLoading={isLoading}>
-          Guardar
-        </SubmitButton>
+        <SubmitButton isLoading={isLoading}>Guardar</SubmitButton>
       </form>
-    </Container >
+    </Container>
   );
 }
 

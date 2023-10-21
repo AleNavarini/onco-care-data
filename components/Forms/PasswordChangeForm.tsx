@@ -12,9 +12,9 @@ export default function PasswordChangeForm() {
   const onSubmit = async (data: any) => {
     try {
       setIsLoading(true);
-      const entity = "profile"
-      const method = "PUT"
-      const result = await fetchData(entity, method, data)
+      const entity = 'profile';
+      const method = 'PUT';
+      const result = await fetchData(entity, method, data);
       if (result.status === 204) reset();
     } catch (error) {
       console.error('Error:', error);

@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { StudyTypeAttribute } from '@prisma/client';
 import StudyTypeAttributeForm from '../Forms/StudyTypeAttributeForm';
+import DashboardWrapper from '../Common/DashboardWrapper';
 
 interface Props {
   studyTypeAttributes: StudyTypeAttribute[];
@@ -62,24 +63,20 @@ export default function StudyTypeAttributesDashboard(props: Props) {
   };
 
   return (
-    <Sheet
-      sx={{
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-      }}
-    >
-      <Table
-        stickyHeader
-        hoverRow
-        sx={{
-          '--TableCell-headBackground': (theme) =>
-            theme.vars.palette.background.level1,
-          '--Table-headerUnderlineThickness': '1px',
-          '--TableRow-hoverBackground': (theme) =>
-            theme.vars.palette.background.level1,
-        }}
-      >
-        <thead>
-          <tr>
+    <DashboardWrapper>
+      <thead>
+        <tr>
+          <th
+            style={{
+              width: 100,
+              textAlign: 'center',
+              paddingLeft: 20,
+              verticalAlign: 'middle',
+            }}
+          >
+            Nombre
+          </th>
+          {props.forPatient && (
             <th
               style={{
                 width: 100,
@@ -88,131 +85,113 @@ export default function StudyTypeAttributesDashboard(props: Props) {
                 verticalAlign: 'middle',
               }}
             >
-              Nombre
+              Valor
             </th>
-            {props.forPatient && (
-              <th
-                style={{
-                  width: 100,
-                  textAlign: 'center',
-                  paddingLeft: 20,
-                  verticalAlign: 'middle',
-                }}
-              >
-                Valor
-              </th>
-            )}
-            <th
-              style={{
-                width: 100,
-                textAlign: 'center',
-                verticalAlign: 'middle',
-              }}
+          )}
+          <th
+            style={{
+              width: 100,
+              textAlign: 'center',
+              verticalAlign: 'middle',
+            }}
+          >
+            Accion
+          </th>
+          <th
+            style={{
+              width: 100,
+              paddingRight: 20,
+              verticalAlign: 'middle',
+              textAlign: 'right',
+            }}
+          >
+            <IconButton
+              color="neutral"
+              variant="plain"
+              onClick={() => setNewModalOpen(true)}
             >
-              Accion
-            </th>
-            <th
-              style={{
-                width: 100,
-                paddingRight: 20,
-                verticalAlign: 'middle',
-                textAlign: 'right',
-              }}
-            >
-              <IconButton
-                color="neutral"
-                variant="plain"
-                onClick={() => setNewModalOpen(true)}
-              >
-                <AddBoxIcon fontSize="large" />
-              </IconButton>
+              <AddBoxIcon fontSize="large" />
+            </IconButton>
 
-              <Modal
-                aria-labelledby="New risk factor modal"
-                aria-describedby="New risk factor form"
-                open={newModalOpen}
-                onClose={() => setNewModalOpen(false)}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <StudyTypeAttributeForm
-                  studyTypeId={props.studyTypeId!}
-                  buttonText="Agregar"
-                  handler={addStudyTypeAttribute}
-                  setModalOpen={setNewModalOpen}
-                />
-              </Modal>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {studyTypeAttributes &&
-            studyTypeAttributes.length > 0 &&
-            studyTypeAttributes.map(
-              (studyTypeAttribute: StudyTypeAttribute) => (
-                <tr key={studyTypeAttribute?.id.toString()}>
-                  <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                    <Typography fontWeight="md">
-                      {studyTypeAttribute?.name}
-                    </Typography>
-                  </td>
-                  {props.forPatient && (
-                    <td
-                      style={{ textAlign: 'center', verticalAlign: 'middle' }}
-                    >
-                      <Typography fontWeight="md">
-                        {studyTypeAttribute?.value}
-                      </Typography>
-                    </td>
-                  )}
-                  <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                    <IconButton
-                      color="neutral"
-                      variant="plain"
-                      onClick={() => {
-                        setEditStudyTypeAttribute(studyTypeAttribute);
-                        setEditModalOpen(true);
-                      }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <Modal
-                      aria-labelledby="Update disease modal"
-                      aria-describedby="Update disease form"
-                      open={editModalOpen}
-                      onClose={() => setEditModalOpen(false)}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <StudyTypeAttributeForm
-                        studyTypeId={props.studyTypeId!}
-                        buttonText="Actualizar"
-                        handler={updateStudyTypeAttribute}
-                        setModalOpen={setEditModalOpen}
-                        oldStudyTypeAttribute={editStudyTypeAttribute!}
-                      />
-                    </Modal>
-                    <IconButton
-                      color="neutral"
-                      variant="plain"
-                      onClick={() =>
-                        deleteStudyTypeAttribute(studyTypeAttribute)
-                      }
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </td>
-                </tr>
-              ),
-            )}
-        </tbody>
-      </Table>
-    </Sheet>
+            <Modal
+              aria-labelledby="New risk factor modal"
+              aria-describedby="New risk factor form"
+              open={newModalOpen}
+              onClose={() => setNewModalOpen(false)}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <StudyTypeAttributeForm
+                studyTypeId={props.studyTypeId!}
+                buttonText="Agregar"
+                handler={addStudyTypeAttribute}
+                setModalOpen={setNewModalOpen}
+              />
+            </Modal>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {studyTypeAttributes &&
+          studyTypeAttributes.length > 0 &&
+          studyTypeAttributes.map((studyTypeAttribute: StudyTypeAttribute) => (
+            <tr key={studyTypeAttribute?.id.toString()}>
+              <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                <Typography fontWeight="md">
+                  {studyTypeAttribute?.name}
+                </Typography>
+              </td>
+              {props.forPatient && (
+                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                  <Typography fontWeight="md">
+                    {studyTypeAttribute?.value}
+                  </Typography>
+                </td>
+              )}
+              <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                <IconButton
+                  color="neutral"
+                  variant="plain"
+                  onClick={() => {
+                    setEditStudyTypeAttribute(studyTypeAttribute);
+                    setEditModalOpen(true);
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
+                <Modal
+                  aria-labelledby="Update disease modal"
+                  aria-describedby="Update disease form"
+                  open={editModalOpen}
+                  onClose={() => setEditModalOpen(false)}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <StudyTypeAttributeForm
+                    studyTypeId={props.studyTypeId!}
+                    buttonText="Actualizar"
+                    handler={updateStudyTypeAttribute}
+                    setModalOpen={setEditModalOpen}
+                    oldStudyTypeAttribute={editStudyTypeAttribute!}
+                  />
+                </Modal>
+                <IconButton
+                  color="neutral"
+                  variant="plain"
+                  onClick={() => deleteStudyTypeAttribute(studyTypeAttribute)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </td>
+            </tr>
+          ))}
+      </tbody>
+    </DashboardWrapper>
   );
 }

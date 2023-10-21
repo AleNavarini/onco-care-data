@@ -4,6 +4,10 @@ import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { PreviousSurgery } from '@prisma/client';
 import Container from '../Common/Container';
+import { fetchData } from '@/utils/fetchData';
+import SubmitButton from '../Common/SubmitButton';
+import { FieldConfig } from '@/types/FieldConfig';
+import FormFieldsMapper from '../Common/FormFieldsMapper';
 
 interface Props {
   buttonText: string;
@@ -13,33 +17,29 @@ interface Props {
   setModalOpen: (state: boolean) => void;
 }
 
-export default function PreviousSurgeryForm(props: Props) {
+export default function PreviousSurgeryForm({
+  buttonText,
+  oldPreviousSurgery,
+  patientId,
+  addPreviousSurgery,
+  setModalOpen,
+}: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: any) => {
-    data = { ...data, patientId: props.patientId };
-
+    data = { ...data, patientId };
     if (data.id === '') delete data.id;
 
     try {
       setIsLoading(true);
-      const endpoint = props.oldPreviousSurgery
-        ? `/${props.oldPreviousSurgery.id}`
-        : '';
-      const response = await fetch(`/api/previous-surgeries${endpoint}`, {
-        method: props.oldPreviousSurgery ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
+      const entity = 'previous-surgeries';
+      const endpoint = oldPreviousSurgery ? `/${oldPreviousSurgery.id}` : '';
+      const method = oldPreviousSurgery ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data);
       if (result.status === 200) reset();
-      if (props.addPreviousSurgery) {
-        props.addPreviousSurgery(result.previousSurgery);
-      }
-      props.setModalOpen(false);
+      if (addPreviousSurgery) addPreviousSurgery(result.previousSurgery);
+      setModalOpen(false);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -47,65 +47,52 @@ export default function PreviousSurgeryForm(props: Props) {
     }
   };
 
+  const dimensions = getContainerDimensions();
+  const fields = getFields(oldPreviousSurgery)
+
   return (
-    <Sheet
-      variant="outlined"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: {
-          sm: '90%',
-          md: '60%',
-          lg: '50%',
-          xl: '30%',
-        },
-        p: 5,
-        borderRadius: 'md',
-      }}
-    >
-      <Container isLoading={isLoading}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={2}>
-            <Field
-              fieldName="id"
-              label="ID"
-              placeholder="Id de la cirugia"
-              register={register}
-              type="text"
-              visible={false}
-              defaultValue={props.oldPreviousSurgery?.id}
-            />
-            <Field
-              fieldName="surgeryType"
-              label="Tipo"
-              placeholder="Tipo de cirguia"
-              register={register}
-              type="text"
-              required={true}
-              defaultValue={props.oldPreviousSurgery?.surgeryType}
-            />
-            <Field
-              fieldName="observations"
-              label="Observaciones"
-              placeholder="Observaciones"
-              register={register}
-              type="text"
-              defaultValue={props.oldPreviousSurgery?.observations}
-            />
-          </Stack>
-          <Button
-            loading={isLoading}
-            sx={{
-              my: 2,
-              width: '100%',
-            }}
-            variant="solid"
-            type="submit"
-          >
-            {props.buttonText}
-          </Button>
-        </form>
-      </Container>
-    </Sheet>
+    <Container dimensions={dimensions} isLoading={isLoading}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormFieldsMapper register={register} fields={fields} />
+        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
+      </form>
+    </Container>
   );
+}
+function getContainerDimensions() {
+  const width = {
+    sm: '90%',
+    md: '60%',
+    lg: '50%',
+    xl: '30%',
+  };
+  return { width };
+}
+
+function getFields(oldPreviousSurgery: PreviousSurgery | undefined): FieldConfig[] {
+  return [
+    {
+      fieldName: 'id',
+      label: 'ID',
+      placeholder: 'Id de la cirugia',
+      type: 'text',
+      visible: false,
+      defaultValue: oldPreviousSurgery?.id,
+    },
+    {
+      fieldName: 'surgeryType',
+      label: 'Tipo',
+      placeholder: 'Tipo de cirguia',
+      type: 'text',
+      required: true,
+      defaultValue: oldPreviousSurgery?.surgeryType,
+    },
+    {
+      fieldName: 'observations',
+      label: 'Observaciones',
+      placeholder: 'Observaciones',
+      type: 'text',
+      defaultValue: oldPreviousSurgery?.observations,
+    },
+  ];
 }

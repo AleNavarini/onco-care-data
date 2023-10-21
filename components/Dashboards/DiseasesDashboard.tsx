@@ -8,6 +8,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Disease } from '@prisma/client';
 import DiseaseForm from '../Forms/DiseaseForm';
+import DashboardWrapper from '../Common/DashboardWrapper';
 
 interface Props {
   diseases: Disease[];
@@ -49,66 +50,86 @@ export default function DiseasesDashboard(props: Props) {
   };
 
   return (
-    <Sheet
-      variant="outlined"
-      sx={{
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-        borderRadius: 'md',
-      }}
-    >
-      <Table
-        stickyHeader
-        hoverRow
-        sx={{
-          '--TableCell-headBackground': (theme) =>
-            theme.vars.palette.background.level1,
-          '--Table-headerUnderlineThickness': '1px',
-          '--TableRow-hoverBackground': (theme) =>
-            theme.vars.palette.background.level1,
-        }}
-      >
-        <thead>
-          <tr>
-            <th
-              style={{
-                width: 100,
-                textAlign: 'center',
-                paddingLeft: 20,
-                verticalAlign: 'middle',
+    <DashboardWrapper>
+      <thead>
+        <tr>
+          <th
+            style={{
+              width: 100,
+              textAlign: 'center',
+              paddingLeft: 20,
+              verticalAlign: 'middle',
+            }}
+          >
+            Enfermedad
+          </th>
+          <th
+            style={{
+              width: 100,
+              textAlign: 'center',
+              verticalAlign: 'middle',
+            }}
+          >
+            Accion
+          </th>
+          <th
+            style={{
+              width: 100,
+              paddingRight: 20,
+              verticalAlign: 'middle',
+              textAlign: 'right',
+            }}
+          >
+            <IconButton
+              color="neutral"
+              variant="plain"
+              onClick={() => setNewModalOpen(true)}
+            >
+              <AddBoxIcon fontSize="large" />
+            </IconButton>
+
+            <Modal
+              aria-labelledby="New disease modal"
+              aria-describedby="New disease form"
+              open={newModalOpen}
+              onClose={() => setNewModalOpen(false)}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             >
-              Enfermedad
-            </th>
-            <th
-              style={{
-                width: 100,
-                textAlign: 'center',
-                verticalAlign: 'middle',
-              }}
-            >
-              Accion
-            </th>
-            <th
-              style={{
-                width: 100,
-                paddingRight: 20,
-                verticalAlign: 'middle',
-                textAlign: 'right',
-              }}
-            >
+              <DiseaseForm
+                buttonText="Agregar"
+                addDisease={addDisease}
+                setModalOpen={setNewModalOpen}
+              />
+            </Modal>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {diseases?.map((disease: Disease) => (
+          <tr key={disease.id.toString()}>
+            <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+              <Typography fontWeight="md">{disease.name}</Typography>
+            </td>
+            <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
               <IconButton
                 color="neutral"
                 variant="plain"
-                onClick={() => setNewModalOpen(true)}
+                onClick={() => {
+                  setEditDisease(disease);
+                  setEditModalOpen(true);
+                }}
               >
-                <AddBoxIcon fontSize="large" />
+                <EditIcon />
               </IconButton>
-
               <Modal
-                aria-labelledby="New disease modal"
-                aria-describedby="New disease form"
-                open={newModalOpen}
-                onClose={() => setNewModalOpen(false)}
+                aria-labelledby="Update disease modal"
+                aria-describedby="Update disease form"
+                open={editModalOpen}
+                onClose={() => setEditModalOpen(false)}
                 sx={{
                   display: 'flex',
                   justifyContent: 'center',
@@ -116,74 +137,36 @@ export default function DiseasesDashboard(props: Props) {
                 }}
               >
                 <DiseaseForm
-                  buttonText="Agregar"
-                  addDisease={addDisease}
-                  setModalOpen={setNewModalOpen}
+                  buttonText="Actualizar"
+                  addDisease={updateDisease}
+                  setModalOpen={setEditModalOpen}
+                  oldDisease={editDisease!}
                 />
               </Modal>
-            </th>
+              <IconButton
+                color="neutral"
+                variant="plain"
+                onClick={() => deleteDisease(disease)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </td>
+            <td
+              style={{
+                paddingRight: 20,
+                verticalAlign: 'middle',
+                textAlign: 'right',
+              }}
+            >
+              <Link href={`disease/${disease.id}`}>
+                <IconButton color="neutral" variant="plain">
+                  <ArrowCircleRightOutlinedIcon />
+                </IconButton>
+              </Link>
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          {diseases?.map((disease: Disease) => (
-              <tr key={disease.id.toString()}>
-                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                  <Typography fontWeight="md">{disease.name}</Typography>
-                </td>
-                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                  <IconButton
-                    color="neutral"
-                    variant="plain"
-                    onClick={() => {
-                      setEditDisease(disease);
-                      setEditModalOpen(true);
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <Modal
-                    aria-labelledby="Update disease modal"
-                    aria-describedby="Update disease form"
-                    open={editModalOpen}
-                    onClose={() => setEditModalOpen(false)}
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <DiseaseForm
-                      buttonText="Actualizar"
-                      addDisease={updateDisease}
-                      setModalOpen={setEditModalOpen}
-                      oldDisease={editDisease!}
-                    />
-                  </Modal>
-                  <IconButton
-                    color="neutral"
-                    variant="plain"
-                    onClick={() => deleteDisease(disease)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </td>
-                <td
-                  style={{
-                    paddingRight: 20,
-                    verticalAlign: 'middle',
-                    textAlign: 'right',
-                  }}
-                >
-                  <Link href={`disease/${disease.id}`}>
-                    <IconButton color="neutral" variant="plain">
-                      <ArrowCircleRightOutlinedIcon />
-                    </IconButton>
-                  </Link>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </Table>
-    </Sheet>
+        ))}
+      </tbody>
+    </DashboardWrapper>
   );
 }

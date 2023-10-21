@@ -1,4 +1,4 @@
-vimport AddBoxIcon from '@mui/icons-material/AddBox';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, IconButton, Modal, Typography, Sheet } from '@mui/joy';

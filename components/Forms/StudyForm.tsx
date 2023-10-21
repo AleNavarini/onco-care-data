@@ -1,10 +1,4 @@
-import {
-  Sheet,
-  Stack,
-  Button,
-  Select,
-  Option,
-} from '@mui/joy';
+import { Sheet, Stack, Button, Select, Option } from '@mui/joy';
 import Field from './Field';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
@@ -44,10 +38,11 @@ export default function StudyForm({
     oldStudy ? oldStudy.studyTypeId : '',
   );
 
-  const {
-    data: studyTypesData,
-    isLoading
-  } = useSWR(`/api/study-types`, fetchData, { refreshInterval: 5000 });
+  const { data: studyTypesData, isLoading } = useSWR(
+    `/api/study-types`,
+    fetchData,
+    { refreshInterval: 5000 },
+  );
   const studyTypes: FullStudyType[] = studyTypesData?.studyTypes;
   const studyTypeAttributes = studyTypes?.filter(
     (st: FullStudyType) => st.id.toString() === selectedStudyType,

@@ -175,7 +175,9 @@ export default function PreviousSurgeriesTable({
                     color="neutral"
                     variant="plain"
                     onClick={() => {
-                      const result = confirm('Seguro que queres borrar la cirugia?');
+                      const result = confirm(
+                        'Seguro que queres borrar la cirugia?',
+                      );
                       if (!result) return;
                       deletePreviousSurgery(previousSurgery);
                     }}

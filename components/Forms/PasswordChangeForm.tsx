@@ -1,10 +1,5 @@
 'use client';
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-} from '@mui/joy';
+import { Button, FormControl, FormLabel, Input } from '@mui/joy';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Container from '../Common/Container';

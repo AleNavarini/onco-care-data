@@ -162,7 +162,7 @@ export default function SymptomsTable({
                     color="neutral"
                     variant="plain"
                     onClick={() => {
-                      var result = confirm(
+                      const result = confirm(
                         'Seguro que queres borrar el sintoma?',
                       );
                       if (!result) return;

@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { TreatmentTypeResult } from '@prisma/client';
 import TreatmentTypeResultForm from '../Forms/TreatmentTypeResultForm';
+import DashboardWrapper from '../Common/DashboardWrapper';
 
 interface Props {
   treatmentTypeResults: TreatmentTypeResult[];
@@ -64,24 +65,20 @@ export default function TreatmentTypeResultsDashboard(props: Props) {
   };
 
   return (
-    <Sheet
-      sx={{
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-      }}
-    >
-      <Table
-        stickyHeader
-        hoverRow
-        sx={{
-          '--TableCell-headBackground': (theme) =>
-            theme.vars.palette.background.level1,
-          '--Table-headerUnderlineThickness': '1px',
-          '--TableRow-hoverBackground': (theme) =>
-            theme.vars.palette.background.level1,
-        }}
-      >
-        <thead>
-          <tr>
+    <DashboardWrapper>
+      <thead>
+        <tr>
+          <th
+            style={{
+              width: 100,
+              textAlign: 'center',
+              paddingLeft: 20,
+              verticalAlign: 'middle',
+            }}
+          >
+            Nombre
+          </th>
+          {props.forPatient && (
             <th
               style={{
                 width: 100,
@@ -90,131 +87,117 @@ export default function TreatmentTypeResultsDashboard(props: Props) {
                 verticalAlign: 'middle',
               }}
             >
-              Nombre
+              Valor
             </th>
-            {props.forPatient && (
-              <th
-                style={{
-                  width: 100,
-                  textAlign: 'center',
-                  paddingLeft: 20,
-                  verticalAlign: 'middle',
-                }}
-              >
-                Valor
-              </th>
-            )}
-            <th
-              style={{
-                width: 100,
-                textAlign: 'center',
-                verticalAlign: 'middle',
-              }}
+          )}
+          <th
+            style={{
+              width: 100,
+              textAlign: 'center',
+              verticalAlign: 'middle',
+            }}
+          >
+            Accion
+          </th>
+          <th
+            style={{
+              width: 100,
+              paddingRight: 20,
+              verticalAlign: 'middle',
+              textAlign: 'right',
+            }}
+          >
+            <IconButton
+              color="neutral"
+              variant="plain"
+              onClick={() => setNewModalOpen(true)}
             >
-              Accion
-            </th>
-            <th
-              style={{
-                width: 100,
-                paddingRight: 20,
-                verticalAlign: 'middle',
-                textAlign: 'right',
-              }}
-            >
-              <IconButton
-                color="neutral"
-                variant="plain"
-                onClick={() => setNewModalOpen(true)}
-              >
-                <AddBoxIcon fontSize="large" />
-              </IconButton>
+              <AddBoxIcon fontSize="large" />
+            </IconButton>
 
-              <Modal
-                aria-labelledby="New treatment type result modal"
-                aria-describedby="New treatment type result form"
-                open={newModalOpen}
-                onClose={() => setNewModalOpen(false)}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <TreatmentTypeResultForm
-                  treatmentTypeId={props.treatmentTypeId!}
-                  buttonText="Agregar"
-                  handler={addTreatmentTypeResult}
-                  setModalOpen={setNewModalOpen}
-                />
-              </Modal>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {treatmentTypeResults &&
-            treatmentTypeResults.length > 0 &&
-            treatmentTypeResults.map(
-              (treatmentTypeResult: TreatmentTypeResult) => (
-                <tr key={treatmentTypeResult?.id.toString()}>
+            <Modal
+              aria-labelledby="New treatment type result modal"
+              aria-describedby="New treatment type result form"
+              open={newModalOpen}
+              onClose={() => setNewModalOpen(false)}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <TreatmentTypeResultForm
+                treatmentTypeId={props.treatmentTypeId!}
+                buttonText="Agregar"
+                handler={addTreatmentTypeResult}
+                setModalOpen={setNewModalOpen}
+              />
+            </Modal>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {treatmentTypeResults &&
+          treatmentTypeResults.length > 0 &&
+          treatmentTypeResults.map(
+            (treatmentTypeResult: TreatmentTypeResult) => (
+              <tr key={treatmentTypeResult?.id.toString()}>
+                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                  <Typography fontWeight="md">
+                    {treatmentTypeResult?.name}
+                  </Typography>
+                </td>
+                {props.forPatient && (
                   <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                     <Typography fontWeight="md">
-                      {treatmentTypeResult?.name}
+                      {treatmentTypeResult?.value}
                     </Typography>
                   </td>
-                  {props.forPatient && (
-                    <td
-                      style={{ textAlign: 'center', verticalAlign: 'middle' }}
-                    >
-                      <Typography fontWeight="md">
-                        {treatmentTypeResult?.value}
-                      </Typography>
-                    </td>
-                  )}
-                  <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                    <IconButton
-                      color="neutral"
-                      variant="plain"
-                      onClick={() => {
-                        setEditTreatmentTypeResult(treatmentTypeResult);
-                        setEditModalOpen(true);
-                      }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <Modal
-                      aria-labelledby="Update disease modal"
-                      aria-describedby="Update disease form"
-                      open={editModalOpen}
-                      onClose={() => setEditModalOpen(false)}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <TreatmentTypeResultForm
-                        treatmentTypeId={props.treatmentTypeId!}
-                        buttonText="Actualizar"
-                        handler={updateTreatmentTypeResult}
-                        setModalOpen={setEditModalOpen}
-                        oldTreatmentTypeResult={editTreatmentTypeResult!}
-                      />
-                    </Modal>
-                    <IconButton
-                      color="neutral"
-                      variant="plain"
-                      onClick={() =>
-                        deleteTreatmentTypeResult(treatmentTypeResult)
-                      }
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </td>
-                </tr>
-              ),
-            )}
-        </tbody>
-      </Table>
-    </Sheet>
+                )}
+                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                  <IconButton
+                    color="neutral"
+                    variant="plain"
+                    onClick={() => {
+                      setEditTreatmentTypeResult(treatmentTypeResult);
+                      setEditModalOpen(true);
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <Modal
+                    aria-labelledby="Update disease modal"
+                    aria-describedby="Update disease form"
+                    open={editModalOpen}
+                    onClose={() => setEditModalOpen(false)}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <TreatmentTypeResultForm
+                      treatmentTypeId={props.treatmentTypeId!}
+                      buttonText="Actualizar"
+                      handler={updateTreatmentTypeResult}
+                      setModalOpen={setEditModalOpen}
+                      oldTreatmentTypeResult={editTreatmentTypeResult!}
+                    />
+                  </Modal>
+                  <IconButton
+                    color="neutral"
+                    variant="plain"
+                    onClick={() =>
+                      deleteTreatmentTypeResult(treatmentTypeResult)
+                    }
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </td>
+              </tr>
+            ),
+          )}
+      </tbody>
+    </DashboardWrapper>
   );
 }

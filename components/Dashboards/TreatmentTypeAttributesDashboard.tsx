@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { TreatmentTypeAttribute } from '@prisma/client';
 import TreatmentTypeAttributeForm from '../Forms/TreatmentTypeAttributeForm';
+import DashboardWrapper from '../Common/DashboardWrapper';
 
 interface Props {
   treatmentTypeAttributes: TreatmentTypeAttribute[];
@@ -66,24 +67,20 @@ export default function TreatmentTypeAttributesDashboard(props: Props) {
   };
 
   return (
-    <Sheet
-      sx={{
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-      }}
-    >
-      <Table
-        stickyHeader
-        hoverRow
-        sx={{
-          '--TableCell-headBackground': (theme) =>
-            theme.vars.palette.background.level1,
-          '--Table-headerUnderlineThickness': '1px',
-          '--TableRow-hoverBackground': (theme) =>
-            theme.vars.palette.background.level1,
-        }}
-      >
-        <thead>
-          <tr>
+    <DashboardWrapper>
+      <thead>
+        <tr>
+          <th
+            style={{
+              width: 100,
+              textAlign: 'center',
+              paddingLeft: 20,
+              verticalAlign: 'middle',
+            }}
+          >
+            Nombre
+          </th>
+          {props.forPatient && (
             <th
               style={{
                 width: 100,
@@ -92,131 +89,117 @@ export default function TreatmentTypeAttributesDashboard(props: Props) {
                 verticalAlign: 'middle',
               }}
             >
-              Nombre
+              Valor
             </th>
-            {props.forPatient && (
-              <th
-                style={{
-                  width: 100,
-                  textAlign: 'center',
-                  paddingLeft: 20,
-                  verticalAlign: 'middle',
-                }}
-              >
-                Valor
-              </th>
-            )}
-            <th
-              style={{
-                width: 100,
-                textAlign: 'center',
-                verticalAlign: 'middle',
-              }}
+          )}
+          <th
+            style={{
+              width: 100,
+              textAlign: 'center',
+              verticalAlign: 'middle',
+            }}
+          >
+            Accion
+          </th>
+          <th
+            style={{
+              width: 100,
+              paddingRight: 20,
+              verticalAlign: 'middle',
+              textAlign: 'right',
+            }}
+          >
+            <IconButton
+              color="neutral"
+              variant="plain"
+              onClick={() => setNewModalOpen(true)}
             >
-              Accion
-            </th>
-            <th
-              style={{
-                width: 100,
-                paddingRight: 20,
-                verticalAlign: 'middle',
-                textAlign: 'right',
-              }}
-            >
-              <IconButton
-                color="neutral"
-                variant="plain"
-                onClick={() => setNewModalOpen(true)}
-              >
-                <AddBoxIcon fontSize="large" />
-              </IconButton>
+              <AddBoxIcon fontSize="large" />
+            </IconButton>
 
-              <Modal
-                aria-labelledby="New treatment type attributes modal"
-                aria-describedby="New treatment type attributes form"
-                open={newModalOpen}
-                onClose={() => setNewModalOpen(false)}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <TreatmentTypeAttributeForm
-                  treatmentTypeId={props.treatmentTypeId!}
-                  buttonText="Agregar"
-                  handler={addTreatmentTypeAttribute}
-                  setModalOpen={setNewModalOpen}
-                />
-              </Modal>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {treatmentTypeAttributes &&
-            treatmentTypeAttributes.length > 0 &&
-            treatmentTypeAttributes.map(
-              (treatmentTypeAttribute: TreatmentTypeAttribute) => (
-                <tr key={treatmentTypeAttribute?.id.toString()}>
+            <Modal
+              aria-labelledby="New treatment type attributes modal"
+              aria-describedby="New treatment type attributes form"
+              open={newModalOpen}
+              onClose={() => setNewModalOpen(false)}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <TreatmentTypeAttributeForm
+                treatmentTypeId={props.treatmentTypeId!}
+                buttonText="Agregar"
+                handler={addTreatmentTypeAttribute}
+                setModalOpen={setNewModalOpen}
+              />
+            </Modal>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {treatmentTypeAttributes &&
+          treatmentTypeAttributes.length > 0 &&
+          treatmentTypeAttributes.map(
+            (treatmentTypeAttribute: TreatmentTypeAttribute) => (
+              <tr key={treatmentTypeAttribute?.id.toString()}>
+                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                  <Typography fontWeight="md">
+                    {treatmentTypeAttribute?.name}
+                  </Typography>
+                </td>
+                {props.forPatient && (
                   <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                     <Typography fontWeight="md">
-                      {treatmentTypeAttribute?.name}
+                      {treatmentTypeAttribute?.value}
                     </Typography>
                   </td>
-                  {props.forPatient && (
-                    <td
-                      style={{ textAlign: 'center', verticalAlign: 'middle' }}
-                    >
-                      <Typography fontWeight="md">
-                        {treatmentTypeAttribute?.value}
-                      </Typography>
-                    </td>
-                  )}
-                  <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                    <IconButton
-                      color="neutral"
-                      variant="plain"
-                      onClick={() => {
-                        setEditTreatmentTypeAttribute(treatmentTypeAttribute);
-                        setEditModalOpen(true);
-                      }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <Modal
-                      aria-labelledby="Update treatment type attribute modal"
-                      aria-describedby="Update treatment type attribute form"
-                      open={editModalOpen}
-                      onClose={() => setEditModalOpen(false)}
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <TreatmentTypeAttributeForm
-                        treatmentTypeId={props.treatmentTypeId!}
-                        buttonText="Actualizar"
-                        handler={updateTreatmentTypeAttribute}
-                        setModalOpen={setEditModalOpen}
-                        oldTreatmentTypeAttribute={editTreatmentTypeAttribute!}
-                      />
-                    </Modal>
-                    <IconButton
-                      color="neutral"
-                      variant="plain"
-                      onClick={() =>
-                        deleteTreatmentTypeAttribute(treatmentTypeAttribute)
-                      }
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </td>
-                </tr>
-              ),
-            )}
-        </tbody>
-      </Table>
-    </Sheet>
+                )}
+                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                  <IconButton
+                    color="neutral"
+                    variant="plain"
+                    onClick={() => {
+                      setEditTreatmentTypeAttribute(treatmentTypeAttribute);
+                      setEditModalOpen(true);
+                    }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <Modal
+                    aria-labelledby="Update treatment type attribute modal"
+                    aria-describedby="Update treatment type attribute form"
+                    open={editModalOpen}
+                    onClose={() => setEditModalOpen(false)}
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <TreatmentTypeAttributeForm
+                      treatmentTypeId={props.treatmentTypeId!}
+                      buttonText="Actualizar"
+                      handler={updateTreatmentTypeAttribute}
+                      setModalOpen={setEditModalOpen}
+                      oldTreatmentTypeAttribute={editTreatmentTypeAttribute!}
+                    />
+                  </Modal>
+                  <IconButton
+                    color="neutral"
+                    variant="plain"
+                    onClick={() =>
+                      deleteTreatmentTypeAttribute(treatmentTypeAttribute)
+                    }
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </td>
+              </tr>
+            ),
+          )}
+      </tbody>
+    </DashboardWrapper>
   );
 }

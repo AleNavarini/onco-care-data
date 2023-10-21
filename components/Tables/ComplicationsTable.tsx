@@ -16,7 +16,7 @@ export default function ComplicationsTable({
   complications: initialComplications,
 }: Props) {
   const [complications, setComplications] = useState<Complication[]>(
-    initialComplications ? initialComplications : [],
+    initialComplications ?? [],
   );
   const [editComplication, setEditComplication] = useState<Complication | null>(
     null,
@@ -180,7 +180,9 @@ export default function ComplicationsTable({
                       color="neutral"
                       variant="plain"
                       onClick={() => {
-                        var result = confirm('Quiere borrar la complicacion?');
+                        const result = confirm(
+                          'Quiere borrar la complicacion?',
+                        );
                         if (!result) return;
                         deleteComplication(complication);
                       }}

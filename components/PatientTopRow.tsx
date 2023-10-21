@@ -6,7 +6,6 @@ import {
   Sheet,
   LinearProgress,
   Option,
-  getAspectRatioUtilityClass,
   ColorPaletteProp,
 } from '@mui/joy';
 import { Disease } from '@prisma/client';
@@ -128,12 +127,11 @@ export default function PatientTopRow({ patient }: Props) {
         placeholder="Choose one…"
         defaultValue={patient?.disease?.name}
       >
-        {filteredDiseases &&
-          filteredDiseases.map((disease: Disease) => (
-            <Option key={disease.id.toString()} value={disease.name}>
-              {disease.name}
-            </Option>
-          ))}
+        {filteredDiseases?.map((disease: Disease) => (
+          <Option key={disease.id.toString()} value={disease.name}>
+            {disease.name}
+          </Option>
+        ))}
       </Select>
       <Chip
         sx={{

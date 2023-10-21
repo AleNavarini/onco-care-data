@@ -4,10 +4,8 @@ import {
   Button,
   Select,
   Option,
-  Input,
   Typography,
   Box,
-  LinearProgress,
 } from '@mui/joy';
 import Field from './Field';
 import { useForm } from 'react-hook-form';
@@ -20,7 +18,6 @@ import {
   TreatmentTypeAttribute,
   TreatmentTypeResult,
 } from '@prisma/client';
-import React from 'react';
 import ComplicationsTable from '../Tables/ComplicationsTable';
 import Container from '../Common/Container';
 
@@ -117,9 +114,7 @@ export default function TreatmentForm({
       }}
     >
       <Container isLoading={isLoading}>
-
         <form onSubmit={handleSubmit(onSubmit)}>
-
           <Stack spacing={2}>
             <Field
               fieldName="id"
@@ -160,15 +155,14 @@ export default function TreatmentForm({
               placeholder="Choose one…"
               defaultValue={oldTreatment?.treatmentTypeId}
             >
-              {treatmentTypes &&
-                treatmentTypes.map((treatmentType: TreatmentType) => (
-                  <Option
-                    key={treatmentType.id.toString()}
-                    value={treatmentType.id}
-                  >
-                    {treatmentType?.name}
-                  </Option>
-                ))}
+              {treatmentTypes?.map((treatmentType: TreatmentType) => (
+                <Option
+                  key={treatmentType.id.toString()}
+                  value={treatmentType.id}
+                >
+                  {treatmentType?.name}
+                </Option>
+              ))}
             </Select>
             <Stack
               direction={'row'}
@@ -183,27 +177,26 @@ export default function TreatmentForm({
                 }}
               >
                 <Typography level="h4">Atributos</Typography>
-                {treatmentTypeAttributes &&
-                  treatmentTypeAttributes.map(
-                    (attribute: TreatmentTypeAttribute) => {
-                      const defaultValue =
-                        oldTreatment?.treatmentTypeAttributes?.filter(
-                          (attr: TreatmentTypeAttribute) =>
-                            attr.name === attribute.name,
-                        )[0]?.value;
-                      return (
-                        <Field
-                          key={attribute.id.toString()}
-                          fieldName={`attr-${attribute.name}`}
-                          label={attribute.name}
-                          placeholder={`${attribute.name}...`}
-                          register={register}
-                          type="text"
-                          defaultValue={defaultValue}
-                        />
-                      );
-                    },
-                  )}
+                {treatmentTypeAttributes?.map(
+                  (attribute: TreatmentTypeAttribute) => {
+                    const defaultValue =
+                      oldTreatment?.treatmentTypeAttributes?.filter(
+                        (attr: TreatmentTypeAttribute) =>
+                          attr.name === attribute.name,
+                      )[0]?.value;
+                    return (
+                      <Field
+                        key={attribute.id.toString()}
+                        fieldName={`attr-${attribute.name}`}
+                        label={attribute.name}
+                        placeholder={`${attribute.name}...`}
+                        register={register}
+                        type="text"
+                        defaultValue={defaultValue}
+                      />
+                    );
+                  },
+                )}
               </Box>
               <Box
                 sx={{
@@ -211,24 +204,23 @@ export default function TreatmentForm({
                 }}
               >
                 <Typography level="h4">Resultados</Typography>
-                {treatmentTypeResults &&
-                  treatmentTypeResults.map((result: TreatmentTypeResult) => {
-                    const defaultValue =
-                      oldTreatment?.treatmentTypeResults.filter(
-                        (res: TreatmentTypeResult) => res.name === result.name,
-                      )[0]?.value;
-                    return (
-                      <Field
-                        key={result.id.toString()}
-                        fieldName={`res-${result.name}`}
-                        label={result.name}
-                        placeholder={`${result.name}...`}
-                        register={register}
-                        type="text"
-                        defaultValue={defaultValue}
-                      />
-                    );
-                  })}
+                {treatmentTypeResults?.map((result: TreatmentTypeResult) => {
+                  const defaultValue =
+                    oldTreatment?.treatmentTypeResults.filter(
+                      (res: TreatmentTypeResult) => res.name === result.name,
+                    )[0]?.value;
+                  return (
+                    <Field
+                      key={result.id.toString()}
+                      fieldName={`res-${result.name}`}
+                      label={result.name}
+                      placeholder={`${result.name}...`}
+                      register={register}
+                      type="text"
+                      defaultValue={defaultValue}
+                    />
+                  );
+                })}
               </Box>
             </Stack>
             {oldTreatment && (

@@ -3,7 +3,7 @@ import DiseasesDashboard from '@/components/Dashboards/DiseasesDashboard';
 import StudyTypesDasboard from '@/components/Dashboards/StudyTypesDasboard';
 import TreatmentTypesDasboard from '@/components/Dashboards/TreatmentTypesDashboard';
 import { LinearProgress, Sheet } from '@mui/joy';
-import { Disease, StudyType } from '@prisma/client';
+import { Disease } from '@prisma/client';
 import useSWR from 'swr';
 
 const fetchData = async (url: string) => {

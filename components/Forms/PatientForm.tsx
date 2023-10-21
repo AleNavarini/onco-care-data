@@ -6,7 +6,6 @@ import {
   Stack,
   FormControl,
   FormLabel,
-  LinearProgress,
 } from '@mui/joy';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -65,14 +64,19 @@ export default function PatientForm(props: Props) {
           lg: '50%',
           xl: '30%',
         },
-        p: 5,
+        p: 0,
+        maxHeight: {
+          sm: '50%',
+          md: '70%',
+          lg: '100%',
+          xl: '100%',
+        },
         borderRadius: 'md',
+        overflow: 'auto'
       }}
     >
       <Container isLoading={isLoading}>
-
         <form onSubmit={handleSubmit(onSubmit)}>
-
           <Stack spacing={2}>
             <Field
               fieldName="id"
@@ -194,6 +198,6 @@ export default function PatientForm(props: Props) {
           </Button>
         </form>
       </Container>
-    </Sheet>
+    </Sheet >
   );
 }

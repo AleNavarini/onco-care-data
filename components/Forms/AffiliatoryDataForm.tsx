@@ -1,10 +1,9 @@
 'use client';
-import { Box, Button, LinearProgress, Sheet, Stack } from '@mui/joy';
+import { Box, Button, Sheet, Stack } from '@mui/joy';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { AffiliatoryData } from '@prisma/client';
-import LoadingOverlay from '../Common/LoadingOverlay';
 import Container from '../Common/Container';
 
 export default function AffiliatoryDataForm({
@@ -14,11 +13,10 @@ export default function AffiliatoryDataForm({
   patientId: string;
   affiliatoryData: AffiliatoryData;
 }) {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
-  const firstConsultString =
-    affiliatoryData && affiliatoryData.firstConsult?.toString();
+  const firstConsultString = affiliatoryData?.firstConsult?.toString();
 
   const onSubmit = async (data: any) => {
     data = { ...data, patientId };
@@ -32,7 +30,7 @@ export default function AffiliatoryDataForm({
         },
         body: JSON.stringify(data),
       });
-      const result = await response.json();
+      await response.json();
     } catch (error) {
       alert(`Error: ${error}`);
     } finally {
@@ -152,9 +150,6 @@ export default function AffiliatoryDataForm({
           </Stack>
         </Sheet>
       </form>
-
     </Container>
-
-
   );
 }

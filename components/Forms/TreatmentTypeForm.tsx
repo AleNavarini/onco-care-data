@@ -1,4 +1,4 @@
-import { Button, LinearProgress, Sheet, Stack } from '@mui/joy';
+import { Button, Sheet, Stack } from '@mui/joy';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Field from './Field';
@@ -60,7 +60,6 @@ export default function TreatmentTypeForm(props: Props) {
     >
       <Container isLoading={isLoading}>
         <form onSubmit={handleSubmit(onSubmit)}>
-
           <Stack spacing={2}>
             <Field
               fieldName="id"

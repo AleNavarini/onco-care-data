@@ -8,6 +8,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { StudyType } from '@prisma/client';
 import StudyTypeForm from '../Forms/StudyTypeForm';
+import DashboardWrapper from '../Common/DashboardWrapper';
 
 interface Props {
   studyTypes: StudyType[];
@@ -49,143 +50,125 @@ export default function StudyTypesDasboard(props: Props) {
   };
 
   return (
-    <Sheet
-      variant="outlined"
-      sx={{
-        boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-        borderRadius: 'md',
-      }}
-    >
-      <Table
-        stickyHeader
-        hoverRow
-        sx={{
-          '--TableCell-headBackground': (theme) =>
-            theme.vars.palette.background.level1,
-          '--Table-headerUnderlineThickness': '1px',
-          '--TableRow-hoverBackground': (theme) =>
-            theme.vars.palette.background.level1,
-        }}
-      >
-        <thead>
-          <tr>
-            <th
-              style={{
-                width: 100,
-                textAlign: 'center',
-                paddingLeft: 20,
-                verticalAlign: 'middle',
-              }}
+    <DashboardWrapper>
+      <thead>
+        <tr>
+          <th
+            style={{
+              width: 100,
+              textAlign: 'center',
+              paddingLeft: 20,
+              verticalAlign: 'middle',
+            }}
+          >
+            Tipo de Estudio
+          </th>
+          <th
+            style={{
+              width: 100,
+              textAlign: 'center',
+              verticalAlign: 'middle',
+            }}
+          >
+            Accion
+          </th>
+          <th
+            style={{
+              width: 100,
+              paddingRight: 20,
+              verticalAlign: 'middle',
+              textAlign: 'right',
+            }}
+          >
+            <IconButton
+              color="neutral"
+              variant="plain"
+              onClick={() => setNewModalOpen(true)}
             >
-              Tipo de Estudio
-            </th>
-            <th
-              style={{
-                width: 100,
-                textAlign: 'center',
-                verticalAlign: 'middle',
-              }}
-            >
-              Accion
-            </th>
-            <th
-              style={{
-                width: 100,
-                paddingRight: 20,
-                verticalAlign: 'middle',
-                textAlign: 'right',
-              }}
-            >
-              <IconButton
-                color="neutral"
-                variant="plain"
-                onClick={() => setNewModalOpen(true)}
-              >
-                <AddBoxIcon fontSize="large" />
-              </IconButton>
+              <AddBoxIcon fontSize="large" />
+            </IconButton>
 
-              <Modal
-                aria-labelledby="New studyType modal"
-                aria-describedby="New studyType form"
-                open={newModalOpen}
-                onClose={() => setNewModalOpen(false)}
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                <StudyTypeForm
-                  buttonText="Agregar"
-                  handler={addStudyType}
-                  setModalOpen={setNewModalOpen}
-                />
-              </Modal>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {studyTypes &&
-            studyTypes.length > 0 &&
-            studyTypes.map((studyType: StudyType) => (
-              <tr key={studyType.id.toString()}>
-                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                  <Typography fontWeight="md">{studyType.name}</Typography>
-                </td>
-                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                  <IconButton
-                    color="neutral"
-                    variant="plain"
-                    onClick={() => {
-                      setEditStudyType(studyType);
-                      setEditModalOpen(true);
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <Modal
-                    aria-labelledby="Update studyType modal"
-                    aria-describedby="Update studyType form"
-                    open={editModalOpen}
-                    onClose={() => setEditModalOpen(false)}
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <StudyTypeForm
-                      buttonText="Actualizar"
-                      handler={updateStudyType}
-                      setModalOpen={setEditModalOpen}
-                      oldStudyType={editStudyType!}
-                    />
-                  </Modal>
-                  <IconButton
-                    color="neutral"
-                    variant="plain"
-                    onClick={() => deleteStudyType(studyType)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </td>
-                <td
-                  style={{
-                    paddingRight: 20,
-                    verticalAlign: 'middle',
-                    textAlign: 'right',
+            <Modal
+              aria-labelledby="New studyType modal"
+              aria-describedby="New studyType form"
+              open={newModalOpen}
+              onClose={() => setNewModalOpen(false)}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <StudyTypeForm
+                buttonText="Agregar"
+                handler={addStudyType}
+                setModalOpen={setNewModalOpen}
+              />
+            </Modal>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {studyTypes &&
+          studyTypes.length > 0 &&
+          studyTypes.map((studyType: StudyType) => (
+            <tr key={studyType.id.toString()}>
+              <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                <Typography fontWeight="md">{studyType.name}</Typography>
+              </td>
+              <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                <IconButton
+                  color="neutral"
+                  variant="plain"
+                  onClick={() => {
+                    setEditStudyType(studyType);
+                    setEditModalOpen(true);
                   }}
                 >
-                  <Link href={`studyType/${studyType.id}`}>
-                    <IconButton color="neutral" variant="plain">
-                      <ArrowCircleRightOutlinedIcon />
-                    </IconButton>
-                  </Link>
-                </td>
-              </tr>
-            ))}
-        </tbody>
-      </Table>
-    </Sheet>
+                  <EditIcon />
+                </IconButton>
+                <Modal
+                  aria-labelledby="Update studyType modal"
+                  aria-describedby="Update studyType form"
+                  open={editModalOpen}
+                  onClose={() => setEditModalOpen(false)}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <StudyTypeForm
+                    buttonText="Actualizar"
+                    handler={updateStudyType}
+                    setModalOpen={setEditModalOpen}
+                    oldStudyType={editStudyType!}
+                  />
+                </Modal>
+                <IconButton
+                  color="neutral"
+                  variant="plain"
+                  onClick={() => deleteStudyType(studyType)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </td>
+              <td
+                style={{
+                  paddingRight: 20,
+                  verticalAlign: 'middle',
+                  textAlign: 'right',
+                }}
+              >
+                <Link href={`studyType/${studyType.id}`}>
+                  <IconButton color="neutral" variant="plain">
+                    <ArrowCircleRightOutlinedIcon />
+                  </IconButton>
+                </Link>
+              </td>
+            </tr>
+          ))}
+      </tbody>
+    </DashboardWrapper>
   );
 }

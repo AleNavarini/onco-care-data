@@ -1,84 +1,27 @@
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import '@/lib/bigIntExtensions';
+import { getAttributesAndResults } from '@/utils/getAttributesAndResults';
 
 export async function PUT(request: Request, context: { params: any }) {
-  const id = context.params.id;
+  const { id } = context.params;
   const data = await request.json();
+  const { attributes, results } = getAttributesAndResults(data);
+  const updateData = getUpdateData(data, attributes, results);
 
-  let attributes = [];
-  let results = [];
-  for (const key in data) {
-    const keys = ['startDate', 'endDate', 'patientId', 'treatmentTypeId', 'id'];
-    if (keys.indexOf(key) === -1) {
-      if (key.startsWith('attr-')) {
-        const keyName = key.split('-')[1];
-        attributes.push({
-          name: keyName,
-          treatmentTypeId: BigInt(data.treatmentTypeId),
-          value: data[key],
-        });
-      } else {
-        const keyName = key.split('-')[1];
-        results.push({
-          name: keyName,
-          treatmentTypeId: BigInt(data.treatmentTypeId),
-          value: data[key],
-        });
-      }
-    }
-  }
+  const include = {
+    treatmentType: true,
+    treatmentTypeAttributes: true,
+    treatmentTypeResults: true,
+    complications: true,
+  };
+
   try {
-    let treatment;
-    if (attributes.length === 0 && results.length === 0) {
-      treatment = await prisma.treatment.update({
-        where: {
-          id: BigInt(id),
-        },
-        data: {
-          patientId: BigInt(data.patientId),
-          treatmentTypeId: BigInt(data.treatmentTypeId),
-          startDate: data.startDate ? new Date(data.startDate) : null,
-          endDate: data.endDate ? new Date(data.endDate) : null,
-        },
-        include: {
-          treatmentType: true,
-          treatmentTypeAttributes: true,
-          treatmentTypeResults: true,
-          complications: true,
-        },
-      });
-    } else {
-      treatment = await prisma.treatment.update({
-        where: {
-          id: BigInt(id),
-        },
-        data: {
-          startDate: data.startDate ? new Date(data.startDate) : null,
-          endDate: data.endDate ? new Date(data.endDate) : null,
-          patientId: BigInt(data.patientId),
-          treatmentTypeId: BigInt(data.treatmentTypeId),
-          treatmentTypeAttributes: {
-            deleteMany: {},
-            createMany: {
-              data: attributes,
-            },
-          },
-          treatmentTypeResults: {
-            deleteMany: {},
-            createMany: {
-              data: results,
-            },
-          },
-        },
-        include: {
-          treatmentType: true,
-          treatmentTypeAttributes: true,
-          treatmentTypeResults: true,
-          complications: true,
-        },
-      });
-    }
+    const treatment = await prisma.treatment.update({
+      where: { id: BigInt(id) },
+      data: updateData,
+      include: include,
+    });
 
     return NextResponse.json({
       status: 204,
@@ -89,6 +32,7 @@ export async function PUT(request: Request, context: { params: any }) {
     return NextResponse.error();
   }
 }
+
 export async function DELETE(request: Request, context: { params: any }) {
   const id = context.params.id;
   try {
@@ -105,4 +49,29 @@ export async function DELETE(request: Request, context: { params: any }) {
     console.error(error);
     return NextResponse.error();
   }
+}
+
+function getUpdateData(
+  data: any,
+  attributes: { name: string; treatmentTypeId: bigint; value: any }[],
+  results: { name: string; treatmentTypeId: bigint; value: any }[],
+) {
+  return {
+    patientId: BigInt(data.patientId),
+    treatmentTypeId: BigInt(data.treatmentTypeId),
+    startDate: data.startDate ? new Date(data.startDate) : null,
+    endDate: data.endDate ? new Date(data.endDate) : null,
+    ...(attributes.length || results.length
+      ? {
+          treatmentTypeAttributes: {
+            deleteMany: {},
+            createMany: { data: attributes },
+          },
+          treatmentTypeResults: {
+            deleteMany: {},
+            createMany: { data: results },
+          },
+        }
+      : {}),
+  };
 }

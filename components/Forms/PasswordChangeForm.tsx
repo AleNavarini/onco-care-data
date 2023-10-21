@@ -1,11 +1,5 @@
 'use client';
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  LinearProgress,
-} from '@mui/joy';
+import { Button, FormControl, FormLabel, Input } from '@mui/joy';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Container from '../Common/Container';
@@ -35,9 +29,7 @@ export default function PasswordChangeForm() {
 
   return (
     <Container isLoading={isLoading}>
-
       <form onSubmit={handleSubmit(onSubmit)}>
-
         <FormControl
           sx={{
             display: 'flex',

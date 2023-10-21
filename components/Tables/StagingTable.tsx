@@ -173,7 +173,7 @@ export default function StagingTable({
                       color="neutral"
                       variant="plain"
                       onClick={() => {
-                        var result = confirm(
+                        const result = confirm(
                           'Quiere borrar la estadificacion?',
                         );
                         if (!result) return;

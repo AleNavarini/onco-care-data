@@ -48,7 +48,7 @@ export default function PreviousSurgeryForm({
   };
 
   const dimensions = getContainerDimensions();
-  const fields = getFields(oldPreviousSurgery)
+  const fields = getFields(oldPreviousSurgery);
 
   return (
     <Container dimensions={dimensions} isLoading={isLoading}>
@@ -69,7 +69,9 @@ function getContainerDimensions() {
   return { width };
 }
 
-function getFields(oldPreviousSurgery: PreviousSurgery | undefined): FieldConfig[] {
+function getFields(
+  oldPreviousSurgery: PreviousSurgery | undefined,
+): FieldConfig[] {
   return [
     {
       fieldName: 'id',

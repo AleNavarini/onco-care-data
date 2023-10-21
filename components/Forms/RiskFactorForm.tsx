@@ -24,7 +24,7 @@ export default function RiskFactorForm({
   patientId,
   diseaseId,
   handler,
-  setModalOpen
+  setModalOpen,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
@@ -35,10 +35,10 @@ export default function RiskFactorForm({
 
     try {
       setIsLoading(true);
-      const entity = "risk-factors"
+      const entity = 'risk-factors';
       const endpoint = oldRiskFactor ? `/${oldRiskFactor.id}` : '';
-      const method = oldRiskFactor ? 'PUT' : 'POST'
-      const result = await fetchData(entity + endpoint, method, data)
+      const method = oldRiskFactor ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data);
       if (result.status === 200) reset();
       if (handler) handler(result.riskFactor);
       setModalOpen(false);
@@ -50,7 +50,7 @@ export default function RiskFactorForm({
   };
 
   const dimensions = getContainerDimensions();
-  const fields = getFields(oldRiskFactor, patientId)
+  const fields = getFields(oldRiskFactor, patientId);
 
   return (
     <Container dimensions={dimensions} isLoading={isLoading}>
@@ -72,7 +72,10 @@ function getContainerDimensions() {
   return { width };
 }
 
-function getFields(oldRiskFactor: RiskFactor | undefined, patientId: string | undefined): FieldConfig[] {
+function getFields(
+  oldRiskFactor: RiskFactor | undefined,
+  patientId: string | undefined,
+): FieldConfig[] {
   const fields: FieldConfig[] = [
     {
       fieldName: 'id',

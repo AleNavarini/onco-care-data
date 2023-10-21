@@ -125,8 +125,7 @@ export default function DiseasesDashboard(props: Props) {
           </tr>
         </thead>
         <tbody>
-          {diseases &&
-            diseases.map((disease: Disease) => (
+          {diseases?.map((disease: Disease) => (
               <tr key={disease.id.toString()}>
                 <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                   <Typography fontWeight="md">{disease.name}</Typography>

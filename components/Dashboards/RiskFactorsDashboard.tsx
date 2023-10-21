@@ -3,11 +3,8 @@ import { IconButton, Modal, Sheet, Table, Typography } from '@mui/joy';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import { useState } from 'react';
-import Link from 'next/link';
 import { RiskFactor } from '@prisma/client';
-import DiseaseForm from '../Forms/DiseaseForm';
 import RiskFactorForm from '../Forms/RiskFactorForm';
 
 interface Props {

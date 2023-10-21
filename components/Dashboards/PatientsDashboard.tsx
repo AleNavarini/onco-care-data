@@ -12,7 +12,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import PatientForm from '../Forms/PatientForm';
 import { FollowUp } from '@prisma/client';
@@ -45,15 +45,6 @@ export default function PatientsDashboard(props: Props) {
   const [editPatient, setEditPatient] = useState<FullPatient | null>(null);
   const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
-
-  // useEffect(() => {
-  //     const tempPatients: FullPatient[] = patients.map((patient: FullPatient) => {
-  //         if (patient.followUps && patient.followUps.length > 0) return { ...patient, status: "En seguimiento" };
-  //         return { ...patient, status: "Activa" };
-  //     });
-  //     setPatients(tempPatients)
-  //     // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
 
   const addPatient = (patient: FullPatient) => {
     setPatients((prevPatients) => [...prevPatients, patient]);
@@ -197,88 +188,87 @@ export default function PatientsDashboard(props: Props) {
           </tr>
         </thead>
         <tbody>
-          {patients &&
-            patients.map((patient: FullPatient) => (
-              <tr key={patient.id.toString()}>
-                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                  <Typography fontWeight="md">{patient.name}</Typography>
-                </td>
-                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                  <Typography noWrap fontWeight="md">
-                    {patient.phone}
-                  </Typography>
-                </td>
-                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                  <Typography noWrap fontWeight="md">
-                    {patient.email}
-                  </Typography>
-                </td>
-                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                  <Chip
-                    variant="soft"
-                    size="sm"
-                    color={
-                      {
-                        Activa: 'success',
-                        'En Seguimiento': 'primary',
-                      }[getStatus(patient.status!)] as ColorPaletteProp
-                    }
-                  >
-                    {getStatus(patient.status!)}
-                  </Chip>
-                </td>
-                <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                  <IconButton
-                    color="neutral"
-                    variant="plain"
-                    onClick={() => {
-                      setEditPatient(patient);
-                      setEditModalOpen(true);
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                  <Modal
-                    aria-labelledby="Update patient modal"
-                    aria-describedby="Update patient form"
-                    open={editModalOpen}
-                    onClose={() => setEditModalOpen(false)}
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <PatientForm
-                      buttonText="Actualizar"
-                      addPatient={updatePatient}
-                      setModalOpen={setEditModalOpen}
-                      oldPatient={editPatient!}
-                    />
-                  </Modal>
-                  <IconButton
-                    color="neutral"
-                    variant="plain"
-                    onClick={() => deletePatient(patient)}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </td>
-                <td
-                  style={{
-                    paddingRight: 20,
-                    verticalAlign: 'middle',
-                    textAlign: 'right',
+          {patients?.map((patient: FullPatient) => (
+            <tr key={patient.id.toString()}>
+              <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                <Typography fontWeight="md">{patient.name}</Typography>
+              </td>
+              <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                <Typography noWrap fontWeight="md">
+                  {patient.phone}
+                </Typography>
+              </td>
+              <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                <Typography noWrap fontWeight="md">
+                  {patient.email}
+                </Typography>
+              </td>
+              <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                <Chip
+                  variant="soft"
+                  size="sm"
+                  color={
+                    {
+                      Activa: 'success',
+                      'En Seguimiento': 'primary',
+                    }[getStatus(patient.status!)] as ColorPaletteProp
+                  }
+                >
+                  {getStatus(patient.status!)}
+                </Chip>
+              </td>
+              <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                <IconButton
+                  color="neutral"
+                  variant="plain"
+                  onClick={() => {
+                    setEditPatient(patient);
+                    setEditModalOpen(true);
                   }}
                 >
-                  <Link href={`/${patient.id}`}>
-                    <IconButton color="neutral" variant="plain">
-                      <ArrowCircleRightOutlinedIcon />
-                    </IconButton>
-                  </Link>
-                </td>
-              </tr>
-            ))}
+                  <EditIcon />
+                </IconButton>
+                <Modal
+                  aria-labelledby="Update patient modal"
+                  aria-describedby="Update patient form"
+                  open={editModalOpen}
+                  onClose={() => setEditModalOpen(false)}
+                  sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <PatientForm
+                    buttonText="Actualizar"
+                    addPatient={updatePatient}
+                    setModalOpen={setEditModalOpen}
+                    oldPatient={editPatient!}
+                  />
+                </Modal>
+                <IconButton
+                  color="neutral"
+                  variant="plain"
+                  onClick={() => deletePatient(patient)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </td>
+              <td
+                style={{
+                  paddingRight: 20,
+                  verticalAlign: 'middle',
+                  textAlign: 'right',
+                }}
+              >
+                <Link href={`/${patient.id}`}>
+                  <IconButton color="neutral" variant="plain">
+                    <ArrowCircleRightOutlinedIcon />
+                  </IconButton>
+                </Link>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </Sheet>

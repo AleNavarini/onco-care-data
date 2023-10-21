@@ -1,9 +1,5 @@
 'use client';
-import DiseasesDashboard from '@/components/Dashboards/DiseasesDashboard';
-import StudyTypesDasboard from '@/components/Dashboards/StudyTypesDasboard';
-import { LinearProgress, Sheet } from '@mui/joy';
-import { Disease } from '@prisma/client';
-import useSWR from 'swr';
+import { Sheet } from '@mui/joy';
 
 export default function ManagePage() {
   return (

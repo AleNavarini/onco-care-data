@@ -2,8 +2,6 @@ import {
   Button,
   FormControl,
   FormLabel,
-  Input,
-  LinearProgress,
   Radio,
   RadioGroup,
   Sheet,
@@ -103,7 +101,7 @@ export default function FollowUpForm(props: Props) {
                     name="option"
                     orientation="horizontal"
                     defaultValue={
-                      props.oldFollowUp?.attended?.toString() || 'true'
+                      props.oldFollowUp?.attended?.toString() ?? 'true'
                     }
                   >
                     <Radio
@@ -131,7 +129,7 @@ export default function FollowUpForm(props: Props) {
                     name="option"
                     orientation="horizontal"
                     defaultValue={
-                      props.oldFollowUp?.hasDisease?.toString() || 'false'
+                      props.oldFollowUp?.hasDisease?.toString() ?? 'false'
                     }
                   >
                     <Radio
@@ -167,7 +165,7 @@ export default function FollowUpForm(props: Props) {
                     name="option"
                     orientation="horizontal"
                     defaultValue={
-                      props.oldFollowUp?.died?.toString() || 'false'
+                      props.oldFollowUp?.died?.toString() ?? 'false'
                     }
                   >
                     <Radio {...register('died')} value={'true'} label="Si" />

@@ -1,6 +1,5 @@
 'use client';
 import StudyTypeAttributesDashboard from '@/components/Dashboards/StudyTypeAttributesDashboard';
-import StudyTypesDasboard from '@/components/Dashboards/StudyTypesDasboard';
 import { LinearProgress, Sheet, Typography } from '@mui/joy';
 import { StudyType, StudyTypeAttribute } from '@prisma/client';
 import useSWR from 'swr';

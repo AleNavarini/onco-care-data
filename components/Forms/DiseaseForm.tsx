@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { Disease } from '@prisma/client';
 import Container from '../Common/Container';
+import { fetchData } from '@/utils/fetchData';
 
 interface Props {
   buttonText: string;
@@ -12,27 +13,20 @@ interface Props {
   setModalOpen: (state: boolean) => void;
 }
 
-export default function DiseaseForm(props: Props) {
+export default function DiseaseForm({ buttonText, oldDisease, addDisease, setModalOpen }: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: any) => {
     try {
       setIsLoading(true);
-      const endpoint = props.oldDisease ? `/${props.oldDisease.id}` : '';
-      const response = await fetch(`/api/diseases${endpoint}`, {
-        method: props.oldDisease ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
+      const entity = "diseases"
+      const endpoint = oldDisease ? `/${oldDisease.id}` : '';
+      const method = oldDisease ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data)
       if (result.status === 200) reset();
-      if (props.addDisease) {
-        props.addDisease(result.disease);
-      }
-      props.setModalOpen(false);
+      if (addDisease) addDisease(result.disease);
+      setModalOpen(false);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -66,7 +60,7 @@ export default function DiseaseForm(props: Props) {
               register={register}
               type="text"
               visible={false}
-              defaultValue={props.oldDisease?.id}
+              defaultValue={oldDisease?.id}
             />
             <Field
               fieldName="name"
@@ -75,7 +69,7 @@ export default function DiseaseForm(props: Props) {
               register={register}
               type="text"
               required={true}
-              defaultValue={props.oldDisease?.name}
+              defaultValue={oldDisease?.name}
             />
           </Stack>
           <Button
@@ -87,7 +81,7 @@ export default function DiseaseForm(props: Props) {
             variant="solid"
             type="submit"
           >
-            {props.buttonText}
+            {buttonText}
           </Button>
         </form>
       </Container>

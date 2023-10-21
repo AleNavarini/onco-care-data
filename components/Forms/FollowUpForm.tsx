@@ -80,8 +80,7 @@ export default function FollowUpForm({
               <FormControl>
                 <FormLabel
                   sx={(theme) => ({
-                    '--FormLabel-color':
-                      theme.vars.palette.primary.plainColor,
+                    '--FormLabel-color': theme.vars.palette.primary.plainColor,
                   })}
                 >
                   Se presentó
@@ -91,23 +90,14 @@ export default function FollowUpForm({
                   orientation="horizontal"
                   defaultValue={oldFollowUp?.attended?.toString() || 'true'}
                 >
-                  <Radio
-                    {...register('attended')}
-                    value={'true'}
-                    label="Si"
-                  />
-                  <Radio
-                    {...register('attended')}
-                    value={'false'}
-                    label="No"
-                  />
+                  <Radio {...register('attended')} value={'true'} label="Si" />
+                  <Radio {...register('attended')} value={'false'} label="No" />
                 </RadioGroup>
               </FormControl>
               <FormControl>
                 <FormLabel
                   sx={(theme) => ({
-                    '--FormLabel-color':
-                      theme.vars.palette.primary.plainColor,
+                    '--FormLabel-color': theme.vars.palette.primary.plainColor,
                   })}
                 >
                   Tiene enfermedad
@@ -115,9 +105,7 @@ export default function FollowUpForm({
                 <RadioGroup
                   name="option"
                   orientation="horizontal"
-                  defaultValue={
-                    oldFollowUp?.hasDisease?.toString() || 'false'
-                  }
+                  defaultValue={oldFollowUp?.hasDisease?.toString() || 'false'}
                 >
                   <Radio
                     {...register('hasDisease')}
@@ -142,8 +130,7 @@ export default function FollowUpForm({
               <FormControl>
                 <FormLabel
                   sx={(theme) => ({
-                    '--FormLabel-color':
-                      theme.vars.palette.primary.plainColor,
+                    '--FormLabel-color': theme.vars.palette.primary.plainColor,
                   })}
                 >
                   Murio
@@ -176,9 +163,7 @@ export default function FollowUpForm({
             </>
           )}
         </Stack>
-        <SubmitButton isLoading={isLoading}>
-          {buttonText}
-        </SubmitButton>
+        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
       </form>
     </Container>
   );
@@ -193,4 +178,3 @@ function getContainerDimensions() {
   const dimensions = { width };
   return dimensions;
 }
-

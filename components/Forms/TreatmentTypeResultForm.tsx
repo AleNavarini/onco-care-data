@@ -8,6 +8,7 @@ import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
+import Form from '../Common/Form';
 
 interface Props {
   buttonText: string;
@@ -54,12 +55,14 @@ export default function TreatmentTypeResultForm({
   const fields = getFields(oldTreatmentTypeResult, treatmentId);
 
   return (
-    <Container isLoading={isLoading}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormFieldsMapper register={register} fields={fields} />
-        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
-      </form>
-    </Container>
+    <Form
+      buttonText={buttonText}
+      fields={fields}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+      onSubmit={onSubmit}
+      register={register}
+    />
   );
 }
 

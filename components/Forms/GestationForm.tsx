@@ -9,6 +9,7 @@ import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
+import Form from '../Common/Form';
 
 interface Props {
   patientId: string;
@@ -37,12 +38,14 @@ export default function GestationForm({ patientId, gestation }: Props) {
   };
 
   return (
-    <Container isLoading={isLoading}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormFieldsMapper register={register} fields={fields} />
-        <SubmitButton isLoading={isLoading}>Guardar</SubmitButton>
-      </form>
-    </Container>
+    <Form
+      buttonText={'Guardar'}
+      fields={fields}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+      onSubmit={onSubmit}
+      register={register}
+    />
   );
 }
 

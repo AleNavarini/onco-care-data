@@ -26,7 +26,6 @@ export default function ComplicationForm({
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const dimensions = getContainerDimensions();
   const fields = getFields(oldComplication);
 
   const onSubmit = async (data: any) => {
@@ -50,7 +49,7 @@ export default function ComplicationForm({
   };
 
   return (
-    <Container dimensions={dimensions} isLoading={isLoading}>
+    <Container isLoading={isLoading}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormFieldsMapper register={register} fields={fields} />
         <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
@@ -91,14 +90,4 @@ function getFields(oldComplication: Complication | undefined): FieldConfig[] {
       defaultValue: oldComplication?.transfusions,
     },
   ];
-}
-
-function getContainerDimensions() {
-  const width = {
-    sm: '90%',
-    md: '60%',
-    lg: '50%',
-    xl: '30%',
-  };
-  return { width };
 }

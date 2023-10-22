@@ -52,9 +52,8 @@ export default function FollowUpForm({
   };
 
   const dateString = oldFollowUp?.date.toString();
-  const dimensions = getContainerDimensions();
   return (
-    <Container dimensions={dimensions} isLoading={isLoading}>
+    <Container isLoading={isLoading}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
           <Field
@@ -167,14 +166,4 @@ export default function FollowUpForm({
       </form>
     </Container>
   );
-}
-function getContainerDimensions() {
-  const width = {
-    sm: '90%',
-    md: '60%',
-    lg: '50%',
-    xl: '30%',
-  };
-  const dimensions = { width };
-  return dimensions;
 }

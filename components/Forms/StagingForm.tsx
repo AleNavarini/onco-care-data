@@ -46,11 +46,10 @@ export default function StagingForm({
     }
   };
 
-  const dimensions = getContainerDimensions();
   const fields = getFields(oldStaging);
 
   return (
-    <Container dimensions={dimensions} isLoading={isLoading}>
+    <Container isLoading={isLoading}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormFieldsMapper register={register} fields={fields} />
         <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
@@ -95,15 +94,4 @@ function getFields(oldStaging: Staging | undefined): FieldConfig[] {
       defaultValue: oldStaging?.figo,
     },
   ];
-}
-
-function getContainerDimensions() {
-  const width = {
-    sm: '90%',
-    md: '60%',
-    lg: '50%',
-    xl: '30%',
-  };
-  const dimensions = { width };
-  return dimensions;
 }

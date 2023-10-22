@@ -50,28 +50,16 @@ export default function TreatmentTypeAttributeForm({
     }
   };
 
-  const dimensions = getContainerDimensions();
   const fields = getFields(oldTreatmentTypeAttribute, treatmentId);
 
   return (
-    <Container dimensions={dimensions} isLoading={isLoading}>
+    <Container isLoading={isLoading}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormFieldsMapper register={register} fields={fields} />
         <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
       </form>
     </Container>
   );
-}
-
-function getContainerDimensions() {
-  const width = {
-    sm: '90%',
-    md: '60%',
-    lg: '50%',
-    xl: '30%',
-  };
-  const dimensions = { width };
-  return dimensions;
 }
 
 function getFields(

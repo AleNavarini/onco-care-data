@@ -49,28 +49,16 @@ export default function StudyTypeAttributeForm({
       setIsLoading(false);
     }
   };
-  const dimensions = getContainerDimensions();
   const fields = getFields(oldStudyTypeAttribute, studyId);
 
   return (
-    <Container dimensions={dimensions} isLoading={isLoading}>
+    <Container isLoading={isLoading}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormFieldsMapper register={register} fields={fields} />
         <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
       </form>
     </Container>
   );
-}
-
-function getContainerDimensions() {
-  const width = {
-    sm: '90%',
-    md: '60%',
-    lg: '50%',
-    xl: '30%',
-  };
-  const dimension = { width };
-  return dimension;
 }
 
 function getFields(

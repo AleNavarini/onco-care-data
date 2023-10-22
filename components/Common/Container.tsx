@@ -10,7 +10,7 @@ interface Props {
 export default function Container({
   isLoading,
   children,
-  dimensions = null,
+  dimensions = getContainerDimensions(),
 }: Props) {
   return (
     <Box
@@ -35,4 +35,15 @@ export default function Container({
       </Sheet>
     </Box>
   );
+}
+
+function getContainerDimensions() {
+  const width = {
+    sm: '90%',
+    md: '60%',
+    lg: '50%',
+    xl: '30%',
+  };
+  const dimensions = { width };
+  return dimensions;
 }

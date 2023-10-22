@@ -7,6 +7,8 @@ import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
 import { fetchData } from '@/utils/fetchData';
+import Form from '../Common/Form';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 export default function AffiliatoryDataForm({
   patientId,
@@ -16,29 +18,29 @@ export default function AffiliatoryDataForm({
   affiliatoryData: AffiliatoryData;
 }) {
   const { register, handleSubmit } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
   const fields = getFields(affiliatoryData);
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, patientId };
+  const dataModifier = (data: any) => ({
+    ...data,
+    patientId,
+  });
 
-    try {
-      setIsLoading(true);
-      await fetchData('affiliatory-data', 'POST', data);
-    } catch (error) {
-      alert(`Error: ${error}`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'affiliatory-data',
+    endpoint: '',
+    oldEntity: null,
+    dataModifier,
+  });
 
   return (
-    <Container isLoading={isLoading}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormFieldsMapper register={register} fields={fields} />
-        <SubmitButton isLoading={isLoading}>Guardar</SubmitButton>
-      </form>
-    </Container>
+    <Form
+      buttonText="Guardar"
+      fields={fields}
+      handleSubmit={handleSubmit}
+      onSubmit={onSubmit}
+      isLoading={isLoading}
+      register={register}
+    />
   );
 }
 

@@ -148,7 +148,7 @@ function getContainerDimensions() {
     lg: '50%',
     xl: '30%',
   };
-  const minHeight = '50%'
+  const minHeight = '50%';
   const dimensions = { width, minHeight };
   return dimensions;
 }

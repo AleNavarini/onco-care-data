@@ -4,6 +4,10 @@ import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { StudyType } from '@prisma/client';
 import Container from '../Common/Container';
+import { fetchData } from '@/utils/fetchData';
+import SubmitButton from '../Common/SubmitButton';
+import { FieldConfig } from '@/types/FieldConfig';
+import FormFieldsMapper from '../Common/FormFieldsMapper';
 
 interface Props {
   buttonText: string;
@@ -12,27 +16,25 @@ interface Props {
   setModalOpen: (state: boolean) => void;
 }
 
-export default function StudyTypeForm(props: Props) {
+export default function StudyTypeForm({
+  buttonText,
+  setModalOpen,
+  handler,
+  oldStudyType,
+}: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: any) => {
     try {
       setIsLoading(true);
-      const endpoint = props.oldStudyType ? `/${props.oldStudyType.id}` : '';
-      const response = await fetch(`/api/study-types${endpoint}`, {
-        method: props.oldStudyType ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
+      const entity = 'study-types';
+      const endpoint = oldStudyType ? `/${oldStudyType.id}` : '';
+      const method = oldStudyType ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data);
       if (result.status === 200) reset();
-      if (props.handler) {
-        props.handler(result.studyType);
-      }
-      props.setModalOpen(false);
+      if (handler) handler(result.studyType);
+      setModalOpen(false);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -40,57 +42,46 @@ export default function StudyTypeForm(props: Props) {
     }
   };
 
+  const dimensions = getContainerDimensions();
+  const fields = getFields(oldStudyType)
+
   return (
-    <Sheet
-      variant="outlined"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: {
-          sm: '90%',
-          md: '60%',
-          lg: '50%',
-          xl: '30%',
-        },
-        p: 5,
-        borderRadius: 'md',
-      }}
-    >
-      <Container isLoading={isLoading}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={2}>
-            <Field
-              fieldName="id"
-              label="ID"
-              placeholder="Id del tipo de estudio"
-              register={register}
-              type="text"
-              visible={false}
-              defaultValue={props.oldStudyType?.id}
-            />
-            <Field
-              fieldName="name"
-              label="Nombre"
-              placeholder="Nombre del tipo de estudio"
-              register={register}
-              type="text"
-              required={true}
-              defaultValue={props.oldStudyType?.name}
-            />
-          </Stack>
-          <Button
-            loading={isLoading}
-            sx={{
-              my: 2,
-              width: '100%',
-            }}
-            variant="solid"
-            type="submit"
-          >
-            {props.buttonText}
-          </Button>
-        </form>
-      </Container>
-    </Sheet>
+    <Container dimensions={dimensions} isLoading={isLoading}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormFieldsMapper register={register} fields={fields} />
+        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
+      </form>
+    </Container>
   );
+}
+function getContainerDimensions() {
+  const width = {
+    sm: '90%',
+    md: '60%',
+    lg: '50%',
+    xl: '30%',
+  };
+  const dimensions = { width };
+  return dimensions;
+}
+
+function getFields(oldStudyType: StudyType | undefined): FieldConfig[] {
+  return [
+    {
+      fieldName: 'id',
+      label: 'ID',
+      placeholder: 'Id del tipo de estudio',
+      type: 'text',
+      visible: false,
+      defaultValue: oldStudyType?.id,
+    },
+    {
+      fieldName: 'name',
+      label: 'Nombre',
+      placeholder: 'Nombre del tipo de estudio',
+      type: 'text',
+      required: true,
+      defaultValue: oldStudyType?.name,
+    },
+  ];
 }

@@ -6,8 +6,10 @@ import '../../lib/bigIntExtensions';
 import useSWR from 'swr';
 import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
 import Container from '../Common/Container';
+import { fetchData } from '@/utils/fetchData';
+import SubmitButton from '../Common/SubmitButton';
 
-const fetchData = async (url: string) => {
+const fetchStudies = async (url: string) => {
   const response = await fetch(url);
   const data = await response.json();
   return data;
@@ -40,14 +42,13 @@ export default function StudyForm({
 
   const { data: studyTypesData, isLoading } = useSWR(
     `/api/study-types`,
-    fetchData,
+    fetchStudies,
     { refreshInterval: 5000 },
   );
   const studyTypes: FullStudyType[] = studyTypesData?.studyTypes;
   const studyTypeAttributes = studyTypes?.filter(
     (st: FullStudyType) => st.id.toString() === selectedStudyType,
   )[0]?.attributes;
-  console.log(studyTypeAttributes);
 
   const handleChange = async (_e: null, value: string) => {
     setSelectedStudyType(value);
@@ -58,19 +59,12 @@ export default function StudyForm({
 
     try {
       setLoading(true);
+      const entity = 'studies';
       const endpoint = oldStudy ? `/${oldStudy.id}` : '';
-      const response = await fetch(`/api/studies${endpoint}`, {
-        method: oldStudy ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
+      const method = oldStudy ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data);
 
-      if (response.ok) {
-        reset();
-      }
+      if (result.status === 200) reset();
       if (handler) handler(result.study);
       setModalOpen(false);
     } catch (error) {
@@ -80,96 +74,81 @@ export default function StudyForm({
     }
   };
 
+  const dimensions = getContainerDimensions();
+
   return (
-    <Sheet
-      variant="outlined"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: {
-          sm: '90%',
-          md: '60%',
-          lg: '50%',
-          xl: '30%',
-        },
-        p: 5,
-        borderRadius: 'md',
-        maxHeight: '95vh',
-        overflow: studyTypeAttributes === undefined ? 'visible' : 'auto',
-      }}
-    >
-      <Container isLoading={isLoading}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={2}>
-            <Field
-              fieldName="id"
-              label="ID"
-              placeholder="Id de la gesta"
-              register={register}
-              type="text"
-              visible={false}
-              defaultValue={oldStudy?.id}
-            />
-            <Field
-              fieldName="date"
-              label="Fecha"
-              placeholder="Fecha del estudio"
-              required={true}
-              register={register}
-              type="date"
-              defaultValue={oldStudy?.date.toString().split('T')[0]}
-            />
+    <Container dimensions={dimensions} isLoading={isLoading}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={2}>
+          <Field
+            fieldName="id"
+            label="ID"
+            placeholder="Id de la gesta"
+            register={register}
+            type="text"
+            visible={false}
+            defaultValue={oldStudy?.id}
+          />
+          <Field
+            fieldName="date"
+            label="Fecha"
+            placeholder="Fecha del estudio"
+            required={true}
+            register={register}
+            type="date"
+            defaultValue={oldStudy?.date.toString().split('T')[0]}
+          />
 
-            <Select
-              // @ts-ignore
-              onChange={handleChange}
-              sx={{
-                width: {
-                  sm: 'auto',
-                  md: '20dvw',
-                },
-                overflow: 'visible',
-              }}
-              placeholder="Choose one…"
-              defaultValue={oldStudy?.studyTypeId}
-            >
-              {studyTypes?.map((studyType: StudyType) => (
-                <Option key={studyType.id.toString()} value={studyType.id}>
-                  {studyType?.name}
-                </Option>
-              ))}
-            </Select>
-
-            {studyTypeAttributes?.map((attribute: StudyTypeAttribute) => {
-              const defaultValue = oldStudy?.studyTypeAttributes.filter(
-                (attr: StudyTypeAttribute) => attr.name === attribute.name,
-              )[0].value;
-              return (
-                <Field
-                  key={attribute.id.toString()}
-                  fieldName={attribute.name}
-                  label={attribute.name}
-                  placeholder={`${attribute.name}...`}
-                  register={register}
-                  type="text"
-                  defaultValue={defaultValue}
-                />
-              );
-            })}
-          </Stack>
-          <Button
-            loading={loading}
+          <Select
+            // @ts-ignore
+            onChange={handleChange}
             sx={{
-              my: 2,
-              width: '100%',
+              width: {
+                sm: 'auto',
+                md: '20dvw',
+              },
+              overflow: 'visible',
             }}
-            variant="solid"
-            type="submit"
+            placeholder="Choose one…"
+            defaultValue={oldStudy?.studyTypeId}
           >
-            {buttonText}
-          </Button>
-        </form>
-      </Container>
-    </Sheet>
+            {studyTypes?.map((studyType: StudyType) => (
+              <Option key={studyType.id.toString()} value={studyType.id}>
+                {studyType?.name}
+              </Option>
+            ))}
+          </Select>
+
+          {studyTypeAttributes?.map((attribute: StudyTypeAttribute) => {
+            const defaultValue = oldStudy?.studyTypeAttributes.filter(
+              (attr: StudyTypeAttribute) => attr.name === attribute.name,
+            )[0].value;
+            return (
+              <Field
+                key={attribute.id.toString()}
+                fieldName={attribute.name}
+                label={attribute.name}
+                placeholder={`${attribute.name}...`}
+                register={register}
+                type="text"
+                defaultValue={defaultValue}
+              />
+            );
+          })}
+        </Stack>
+        <SubmitButton isLoading={loading}>{buttonText}</SubmitButton>
+      </form>
+    </Container>
   );
+}
+function getContainerDimensions() {
+  const width = {
+    sm: '90%',
+    md: '60%',
+    lg: '50%',
+    xl: '30%',
+  };
+  const minHeight = '50%';
+  const dimensions = { width, minHeight };
+  return dimensions;
 }

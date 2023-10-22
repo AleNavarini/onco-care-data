@@ -4,6 +4,10 @@ import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { Symptom } from '@prisma/client';
 import Container from '../Common/Container';
+import { fetchData } from '@/utils/fetchData';
+import SubmitButton from '../Common/SubmitButton';
+import { FieldConfig } from '@/types/FieldConfig';
+import FormFieldsMapper from '../Common/FormFieldsMapper';
 
 interface Props {
   buttonText: string;
@@ -13,31 +17,29 @@ interface Props {
   setModalOpen: (state: boolean) => void;
 }
 
-export default function SymptomForm(props: Props) {
+export default function SymptomForm({
+  buttonText,
+  patientId,
+  setModalOpen,
+  addSymptom,
+  oldSymptom,
+}: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: any) => {
-    data = { ...data, patientId: props.patientId };
-
+    data = { ...data, patientId };
     if (data.id === '') delete data.id;
 
     try {
       setIsLoading(true);
-      const endpoint = props.oldSymptom ? `/${props.oldSymptom.id}` : '';
-      const response = await fetch(`/api/symptoms${endpoint}`, {
-        method: props.oldSymptom ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
+      const entity = 'symptoms';
+      const endpoint = oldSymptom ? `/${oldSymptom.id}` : '';
+      const method = oldSymptom ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data);
       if (result.status === 200) reset();
-      if (props.addSymptom) {
-        props.addSymptom(result.symptom);
-      }
-      props.setModalOpen(false);
+      if (addSymptom) addSymptom(result.symptom);
+      setModalOpen(false);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -45,65 +47,54 @@ export default function SymptomForm(props: Props) {
     }
   };
 
+  const dimensions = getContainerDimensions();
+  const fields = getFields(oldSymptom);
+
   return (
-    <Sheet
-      variant="outlined"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: {
-          sm: '90%',
-          md: '60%',
-          lg: '50%',
-          xl: '30%',
-        },
-        p: 5,
-        borderRadius: 'md',
-      }}
-    >
-      <Container isLoading={isLoading}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={2}>
-            <Field
-              fieldName="id"
-              label="ID"
-              placeholder="Id del sintoma"
-              register={register}
-              type="text"
-              visible={false}
-              defaultValue={props.oldSymptom?.id}
-            />
-            <Field
-              fieldName="name"
-              label="Nombre"
-              placeholder="Nombre del sintoma"
-              register={register}
-              type="text"
-              required={true}
-              defaultValue={props.oldSymptom?.name}
-            />
-            <Field
-              fieldName="value"
-              label="Valor"
-              placeholder="Valor del sintoma ... (opcional)"
-              register={register}
-              type="text"
-              defaultValue={props.oldSymptom?.value}
-            />
-          </Stack>
-          <Button
-            loading={isLoading}
-            sx={{
-              my: 2,
-              width: '100%',
-            }}
-            variant="solid"
-            type="submit"
-          >
-            {props.buttonText}
-          </Button>
-        </form>
-      </Container>
-    </Sheet>
+    <Container dimensions={dimensions} isLoading={isLoading}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormFieldsMapper register={register} fields={fields} />
+        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
+      </form>
+    </Container>
   );
+}
+
+function getContainerDimensions() {
+  const width = {
+    sm: '90%',
+    md: '60%',
+    lg: '50%',
+    xl: '30%',
+  };
+  const dimensions = { width };
+  return dimensions;
+}
+
+function getFields(oldSymptom: Symptom | undefined): FieldConfig[] {
+  return [
+    {
+      fieldName: 'id',
+      label: 'ID',
+      placeholder: 'Id del sintoma',
+      type: 'text',
+      visible: false,
+      defaultValue: oldSymptom?.id,
+    },
+    {
+      fieldName: 'name',
+      label: 'Nombre',
+      placeholder: 'Nombre del sintoma',
+      type: 'text',
+      required: true,
+      defaultValue: oldSymptom?.name,
+    },
+    {
+      fieldName: 'value',
+      label: 'Valor',
+      placeholder: 'Valor del sintoma ... (opcional)',
+      type: 'text',
+      defaultValue: oldSymptom?.value,
+    },
+  ];
 }

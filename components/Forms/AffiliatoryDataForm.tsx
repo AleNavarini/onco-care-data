@@ -1,10 +1,12 @@
 'use client';
-import { Box, Button, Sheet, Stack } from '@mui/joy';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Field from './Field';
 import { AffiliatoryData } from '@prisma/client';
 import Container from '../Common/Container';
+import SubmitButton from '../Common/SubmitButton';
+import { FieldConfig } from '@/types/FieldConfig';
+import FormFieldsMapper from '../Common/FormFieldsMapper';
+import { fetchData } from '@/utils/fetchData';
 
 export default function AffiliatoryDataForm({
   patientId,
@@ -15,22 +17,14 @@ export default function AffiliatoryDataForm({
 }) {
   const { register, handleSubmit } = useForm();
   const [isLoading, setIsLoading] = useState(false);
-
-  const firstConsultString = affiliatoryData?.firstConsult?.toString();
+  const fields = getFields(affiliatoryData);
 
   const onSubmit = async (data: any) => {
     data = { ...data, patientId };
 
     try {
       setIsLoading(true);
-      const response = await fetch('/api/affiliatory-data', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      await response.json();
+      await fetchData('affiliatory-data', 'POST', data);
     } catch (error) {
       alert(`Error: ${error}`);
     } finally {
@@ -41,115 +35,89 @@ export default function AffiliatoryDataForm({
   return (
     <Container isLoading={isLoading}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Sheet
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            borderRadius: 'md',
-            px: 2,
-            py: 1,
-            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-          }}
-        >
-          <Stack spacing={2}>
-            <Field
-              fieldName="firstConsult"
-              label="Primera Consulta"
-              register={register}
-              type="date"
-              defaultValue={
-                firstConsultString
-                  ? firstConsultString?.split('T')[0]
-                  : new Date().toISOString().split('T')[0]
-              }
-            />
-            <Field
-              fieldName="institution"
-              label="Institucion"
-              register={register}
-              type="text"
-              defaultValue={affiliatoryData?.institution}
-            />
-            <Field
-              fieldName="doctor"
-              label="Doctor"
-              register={register}
-              type="text"
-              defaultValue={affiliatoryData?.doctor}
-            />
-            <Field
-              fieldName="usualMedication"
-              label="Medicación habitual"
-              register={register}
-              type="text"
-              defaultValue={affiliatoryData?.usualMedication}
-            />
-            <Field
-              fieldName="socialWorkIntervention"
-              label="Intervención de trabajo social"
-              register={register}
-              type="text"
-              defaultValue={affiliatoryData?.socialWorkIntervention}
-            />
-            <Stack direction={'row'} spacing={2}>
-              <Box width="30%">
-                <Field
-                  fieldName="bmi"
-                  label="IMC"
-                  register={register}
-                  type="number"
-                  defaultValue={affiliatoryData?.bmi}
-                />
-              </Box>
-              <Box width="30%">
-                <Field
-                  fieldName="firstPregnancyAge"
-                  label="Primer embarazo"
-                  register={register}
-                  type="number"
-                  defaultValue={affiliatoryData?.firstPregnancyAge}
-                />
-              </Box>
-              <Box width="30%">
-                <Field
-                  fieldName="lastPregnancyAge"
-                  label="Ultimo embarazo"
-                  register={register}
-                  type="number"
-                  defaultValue={affiliatoryData?.lastPregnancyAge}
-                />
-              </Box>
-            </Stack>
-
-            <Field
-              fieldName="contraception"
-              label="Anticoncepción"
-              register={register}
-              type="text"
-              defaultValue={affiliatoryData?.contraception}
-            />
-
-            <Field
-              fieldName="currentPregnancyControl"
-              label="Control de embarazo actual"
-              register={register}
-              type="text"
-              defaultValue={affiliatoryData?.currentPregnancyControl}
-            />
-            <Button
-              loading={isLoading}
-              sx={{
-                my: 2,
-                width: '100%',
-              }}
-              variant="solid"
-              type="submit"
-            >
-              Guardar
-            </Button>
-          </Stack>
-        </Sheet>
+        <FormFieldsMapper register={register} fields={fields} />
+        <SubmitButton isLoading={isLoading}>Guardar</SubmitButton>
       </form>
     </Container>
   );
+}
+
+function getFields(
+  affiliatoryData: AffiliatoryData | undefined,
+): FieldConfig[] {
+  const firstConsultString = affiliatoryData?.firstConsult?.toString();
+  return [
+    {
+      fieldName: 'firstConsult',
+      label: 'Primera Consulta',
+      placeholder: 'Primera Consulta',
+      type: 'date',
+      defaultValue: firstConsultString
+        ? firstConsultString.split('T')[0]
+        : new Date().toISOString().split('T')[0],
+    },
+    {
+      fieldName: 'institution',
+      label: 'Institucion',
+      placeholder: 'Institucion',
+      type: 'text',
+      defaultValue: affiliatoryData?.institution,
+    },
+    {
+      fieldName: 'doctor',
+      label: 'Doctor',
+      placeholder: 'Doctor',
+      type: 'text',
+      defaultValue: affiliatoryData?.doctor,
+    },
+    {
+      fieldName: 'usualMedication',
+      label: 'Medicación habitual',
+      placeholder: 'Medicación habitual',
+      type: 'text',
+      defaultValue: affiliatoryData?.usualMedication,
+    },
+    {
+      fieldName: 'socialWorkIntervention',
+      label: 'Intervención de trabajo social',
+      placeholder: 'Intervención de trabajo social',
+      type: 'text',
+      defaultValue: affiliatoryData?.socialWorkIntervention,
+    },
+    {
+      fieldName: 'bmi',
+      label: 'IMC',
+      placeholder: 'IMC',
+      type: 'number',
+      defaultValue: affiliatoryData?.bmi,
+    },
+    {
+      fieldName: 'firstPregnancyAge',
+      label: 'Primer embarazo',
+      placeholder: 'Primer embarazo',
+      type: 'number',
+      defaultValue: affiliatoryData?.firstPregnancyAge,
+    },
+    {
+      fieldName: 'lastPregnancyAge',
+      label: 'Ultimo embarazo',
+      placeholder: 'Ultimo embarazo',
+      type: 'number',
+      defaultValue: affiliatoryData?.lastPregnancyAge,
+    },
+    {
+      fieldName: 'contraception',
+      label: 'Anticoncepción',
+      placeholder: 'Anticoncepción',
+      type: 'text',
+      defaultValue: affiliatoryData?.contraception,
+    },
+    {
+      fieldName: 'currentPregnancyControl',
+      label: 'Control de embarazo actual',
+      placeholder: 'Control de embarazo actual',
+      type: 'text',
+      defaultValue: affiliatoryData?.currentPregnancyControl,
+    },
+  ];
 }

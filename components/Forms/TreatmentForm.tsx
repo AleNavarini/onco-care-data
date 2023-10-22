@@ -20,8 +20,10 @@ import {
 } from '@prisma/client';
 import ComplicationsTable from '../Tables/ComplicationsTable';
 import Container from '../Common/Container';
+import { fetchData } from '@/utils/fetchData';
+import SubmitButton from '../Common/SubmitButton';
 
-const fetchData = async (url: string) => {
+const fetchTreatments = async (url: string) => {
   const response = await fetch(url);
   const data = await response.json();
   return data;
@@ -53,7 +55,7 @@ export default function TreatmentForm({
     oldTreatment ? oldTreatment.treatmentTypeId : '',
   );
 
-  const { data } = useSWR(`/api/treatment-types`, fetchData, {
+  const { data } = useSWR(`/api/treatment-types`, fetchTreatments, {
     refreshInterval: 5000,
   });
   const treatmentTypes: FullTreatmentType[] = data?.treatmentTypes;
@@ -73,19 +75,11 @@ export default function TreatmentForm({
 
     try {
       setIsLoading(true);
+      const entity = 'treatments';
       const endpoint = oldTreatment ? `/${oldTreatment.id}` : '';
-      const response = await fetch(`/api/treatments${endpoint}`, {
-        method: oldTreatment ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
-
-      if (response.ok) {
-        reset();
-      }
+      const method = oldTreatment ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data);
+      if (result.status === 200) reset();
       if (handler) handler(result.treatment);
       setModalOpen(false);
     } catch (error) {
@@ -215,17 +209,7 @@ export default function TreatmentForm({
             </>
           )}
         </Stack>
-        <Button
-          loading={isLoading}
-          sx={{
-            my: 2,
-            width: '100%',
-          }}
-          variant="solid"
-          type="submit"
-        >
-          {buttonText}
-        </Button>
+        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
       </form>
     </Container>
   );

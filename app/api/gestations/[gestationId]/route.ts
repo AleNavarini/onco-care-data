@@ -4,10 +4,6 @@ import prisma from '@/lib/prisma';
 export async function PUT(request: Request, context: { params: any }) {
   const id = context.params.gestationId;
   const { patientId, births, abortions, cesareans } = await request.json();
-
-  console.log(births);
-  console.log(births === '');
-
   try {
     const updatedGestation = await prisma.gestation.update({
       where: {

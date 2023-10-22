@@ -3,6 +3,7 @@ import { Button, FormControl, FormLabel, Input } from '@mui/joy';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Container from '../Common/Container';
+import { fetchData } from '@/utils/fetchData';
 
 export default function PasswordChangeForm() {
   const { register, handleSubmit, reset } = useForm();
@@ -11,14 +12,9 @@ export default function PasswordChangeForm() {
   const onSubmit = async (data: any) => {
     try {
       setIsLoading(true);
-      const response = await fetch('/api/profile', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
+      const entity = 'profile';
+      const method = 'PUT';
+      const result = await fetchData(entity, method, data);
       if (result.status === 204) reset();
     } catch (error) {
       console.error('Error:', error);

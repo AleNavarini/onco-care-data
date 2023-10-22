@@ -5,31 +5,29 @@ import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { Gestation } from '@prisma/client';
 import Container from '../Common/Container';
+import { fetchData } from '@/utils/fetchData';
+import SubmitButton from '../Common/SubmitButton';
+import { FieldConfig } from '@/types/FieldConfig';
+import FormFieldsMapper from '../Common/FormFieldsMapper';
 
-export default function GestationForm({
-  patientId,
-  gestation,
-}: {
+interface Props {
   patientId: string;
-  gestation: Gestation | null;
-}) {
+  gestation: Gestation | undefined;
+}
+export default function GestationForm({ patientId, gestation }: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const fields = getFields(gestation);
 
   const onSubmit = async (data: any) => {
-    data = { ...data, patientId: patientId };
+    data = { ...data, patientId };
 
     try {
       setIsLoading(true);
+      const entity = 'gestations';
       const endpoint = gestation ? `/${gestation.id}` : '';
-      const response = await fetch(`/api/gestations${endpoint}`, {
-        method: gestation ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
+      const method = gestation ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data);
       if (result.status === 200) reset();
     } catch (error) {
       console.error('Error:', error);
@@ -41,53 +39,35 @@ export default function GestationForm({
   return (
     <Container isLoading={isLoading}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Sheet
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            borderRadius: 'md',
-            px: 2,
-            py: 1,
-            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-          }}
-        >
-          <Stack spacing={2}>
-            <Field
-              fieldName="births"
-              label="Partos"
-              register={register}
-              type="number"
-              defaultValue={gestation?.births}
-            />
-            <Field
-              fieldName="abortions"
-              label="Abortos"
-              register={register}
-              type="number"
-              defaultValue={gestation?.abortions}
-            />
-            <Field
-              fieldName="cesareans"
-              label="Cesareas"
-              register={register}
-              type="number"
-              defaultValue={gestation?.cesareans}
-            />
-
-            <Button
-              loading={isLoading}
-              sx={{
-                my: 2,
-                width: '100%',
-              }}
-              variant="solid"
-              type="submit"
-            >
-              Guardar
-            </Button>
-          </Stack>
-        </Sheet>
+        <FormFieldsMapper register={register} fields={fields} />
+        <SubmitButton isLoading={isLoading}>Guardar</SubmitButton>
       </form>
     </Container>
   );
+}
+
+function getFields(gestation: Gestation | undefined): FieldConfig[] {
+  return [
+    {
+      fieldName: 'births',
+      label: 'Partos',
+      placeholder: 'Cantidad de Partos',
+      type: 'number',
+      defaultValue: gestation?.births,
+    },
+    {
+      fieldName: 'abortions',
+      label: 'Abortos',
+      placeholder: 'Cantidad de Abortos',
+      type: 'number',
+      defaultValue: gestation?.abortions,
+    },
+    {
+      fieldName: 'cesareans',
+      label: 'Cesareas',
+      placeholder: 'Cantidad de Cesareas',
+      type: 'number',
+      defaultValue: gestation?.cesareans,
+    },
+  ];
 }

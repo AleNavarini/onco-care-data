@@ -9,6 +9,7 @@ import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
 import Form from '../Common/Form';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   buttonText: string;
@@ -26,27 +27,24 @@ export default function PreviousSurgeryForm({
   setModalOpen,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, patientId };
+  const dataModifier = (data: any) => {
     if (data.id === '') delete data.id;
-
-    try {
-      setIsLoading(true);
-      const entity = 'previous-surgeries';
-      const endpoint = oldPreviousSurgery ? `/${oldPreviousSurgery.id}` : '';
-      const method = oldPreviousSurgery ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-      if (result.status === 200) reset();
-      if (addPreviousSurgery) addPreviousSurgery(result.previousSurgery);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    return {
+      ...data,
+      patientId,
+    };
   };
+
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'previous-surgeries',
+    oldEntity: oldPreviousSurgery,
+    returnEntity: 'previousSurgery',
+    dataModifier,
+    reset,
+    setModalOpen,
+  });
+
   const fields = getFields(oldPreviousSurgery);
 
   return (

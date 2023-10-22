@@ -9,6 +9,7 @@ import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
 import Form from '../Common/Form';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   buttonText: string;
@@ -28,28 +29,22 @@ export default function TreatmentTypeAttributeForm({
   treatmentId,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
+  
+  const dataModifier = (data: any) => ({
+    ...data,
+    treatmentTypeId,
+  });
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, treatmentTypeId };
-
-    try {
-      setIsLoading(true);
-      const entity = 'treatment-types-attributes';
-      const endpoint = oldTreatmentTypeAttribute
-        ? `/${oldTreatmentTypeAttribute.id}`
-        : '';
-      const method = oldTreatmentTypeAttribute ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-      if (result.status === 200) reset();
-      if (handler) handler(result.treatmentTypeAttribute);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'treatment-types-attributes',
+    oldEntity: oldTreatmentTypeAttribute,
+    returnEntity: 'treatmentTypeAttribute',
+    dataModifier,
+    reset,
+    setModalOpen,
+    handler
+  });
+  
 
   const fields = getFields(oldTreatmentTypeAttribute, treatmentId);
 

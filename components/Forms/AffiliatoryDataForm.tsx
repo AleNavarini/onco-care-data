@@ -19,6 +19,7 @@ export default function AffiliatoryDataForm({
 }) {
   const { register, handleSubmit } = useForm();
   const fields = getFields(affiliatoryData);
+  const dimensions = getContainerDimensions();
 
   const dataModifier = (data: any) => ({
     ...data,
@@ -40,6 +41,7 @@ export default function AffiliatoryDataForm({
       onSubmit={onSubmit}
       isLoading={isLoading}
       register={register}
+      dimensions={dimensions}
     />
   );
 }
@@ -122,4 +124,8 @@ function getFields(
       defaultValue: affiliatoryData?.currentPregnancyControl,
     },
   ];
+}
+
+function getContainerDimensions() {
+  return { width: '100%' };
 }

@@ -7,11 +7,7 @@ interface Props {
   children: ReactNode;
   dimensions?: any;
 }
-export default function Container({
-  isLoading,
-  children,
-  dimensions = getContainerDimensions(),
-}: Props) {
+export default function Container({ isLoading, children, dimensions }: Props) {
   return (
     <Box
       sx={{
@@ -35,15 +31,4 @@ export default function Container({
       </Sheet>
     </Box>
   );
-}
-
-function getContainerDimensions() {
-  const width = {
-    sm: '90%',
-    md: '60%',
-    lg: '50%',
-    xl: '30%',
-  };
-  const dimensions = { width };
-  return dimensions;
 }

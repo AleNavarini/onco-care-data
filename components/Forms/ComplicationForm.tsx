@@ -9,6 +9,7 @@ import FormFieldsMapper from '../Common/FormFieldsMapper';
 import { FieldConfig } from '@/types/FieldConfig';
 import SubmitButton from '../Common/SubmitButton';
 import Form from '../Common/Form';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   buttonText: string;
@@ -26,28 +27,23 @@ export default function ComplicationForm({
   buttonText,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
   const fields = getFields(oldComplication);
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, treatmentId: treatmentId };
+  const dataModifier = (data: any) => ({
+    ...data,
+    treatmentId,
+  });
 
-    try {
-      setIsLoading(true);
-      const entity = 'complications';
-      const endpoint = oldComplication ? `/${oldComplication.id}` : '';
-      const method = oldComplication ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-
-      if (result.status === 200) reset();
-      if (handler) handler(result.complication);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'complications',
+    endpoint: oldComplication ? `/${oldComplication.id}` : '',
+    oldEntity: oldComplication,
+    returnEntity: 'complication',
+    handler,
+    dataModifier,
+    setModalOpen,
+    reset,
+  });
 
   return (
     <Form

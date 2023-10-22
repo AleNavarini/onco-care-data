@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 interface UseSubmitFormProps {
   entity: string;
-  endpoint: string;
+  endpoint?: string;
   oldEntity?: any | null;
   dataModifier?: (data: any) => any; // Function to modify data
   handler?: (complication: any) => void;
@@ -20,7 +20,7 @@ interface UseSubmitFormReturn {
 
 export const useSubmitForm = ({
   entity,
-  endpoint,
+  endpoint = '',
   oldEntity,
   dataModifier,
   handler,
@@ -28,15 +28,12 @@ export const useSubmitForm = ({
   setModalOpen,
   returnEntity,
 }: UseSubmitFormProps): UseSubmitFormReturn => {
-  console.log('got here');
-
   const [isLoading, setIsLoading] = useState(false);
-  console.log('got here');
 
   const onSubmit = async (data: any): Promise<void> => {
     data = dataModifier ? dataModifier(data) : data;
     const method = oldEntity ? 'PUT' : 'POST';
-
+    if (endpoint === '') endpoint = oldEntity ? `/${oldEntity.id}` : '';
     try {
       setIsLoading(true);
       const result = await fetchData(entity + endpoint, method, data);

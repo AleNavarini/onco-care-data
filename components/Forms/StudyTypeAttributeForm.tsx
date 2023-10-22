@@ -9,6 +9,7 @@ import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
 import Form from '../Common/Form';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   buttonText: string;
@@ -28,28 +29,22 @@ export default function StudyTypeAttributeForm({
   studyId,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, studyTypeId };
+  const dataModifier = (data: any) => ({
+    ...data,
+    studyTypeId,
+  });
 
-    try {
-      setIsLoading(true);
-      const entity = 'study-types-attributes';
-      const endpoint = oldStudyTypeAttribute
-        ? `/${oldStudyTypeAttribute.id}`
-        : '';
-      const method = oldStudyTypeAttribute ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-      if (result.status === 200) reset();
-      if (handler) handler(result.studyTypeAttribute);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'study-types-attributes',
+    oldEntity: oldStudyTypeAttribute,
+    returnEntity: 'studyTypeAttribute',
+    dataModifier,
+    reset,
+    setModalOpen,
+    handler,
+  });
+
   const fields = getFields(oldStudyTypeAttribute, studyId);
 
   return (

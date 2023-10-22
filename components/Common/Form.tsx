@@ -18,7 +18,7 @@ export default function Form({
   isLoading,
   onSubmit,
   register,
-  dimensions,
+  dimensions = getContainerDimensions(),
 }: Props) {
   return (
     <Container dimensions={dimensions} isLoading={isLoading}>
@@ -28,4 +28,17 @@ export default function Form({
       </form>
     </Container>
   );
+}
+
+function getContainerDimensions() {
+  const width = {
+    sm: '90%',
+    md: '60%',
+    lg: '50%',
+    xl: '30%',
+  };
+  const maxHeight = '95%';
+  const overflow = 'scroll';
+  const dimensions = { width, maxHeight, overflow };
+  return dimensions;
 }

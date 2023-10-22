@@ -9,6 +9,7 @@ import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
 import Form from '../Common/Form';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   buttonText: string;
@@ -28,27 +29,22 @@ export default function RiskFactorForm({
   setModalOpen,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (data: any) => {
+  const dataModifier = (data: any) => {
     if (patientId) data = { ...data, patientId };
     if (diseaseId) data = { ...data, diseaseId };
-
-    try {
-      setIsLoading(true);
-      const entity = 'risk-factors';
-      const endpoint = oldRiskFactor ? `/${oldRiskFactor.id}` : '';
-      const method = oldRiskFactor ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-      if (result.status === 200) reset();
-      if (handler) handler(result.riskFactor);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    return data;
   };
+
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'risk-factors',
+    oldEntity: oldRiskFactor,
+    returnEntity: 'riskFactor',
+    dataModifier,
+    reset,
+    setModalOpen,
+    handler,
+  });
 
   const fields = getFields(oldRiskFactor, patientId);
 

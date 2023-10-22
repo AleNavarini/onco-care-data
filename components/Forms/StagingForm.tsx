@@ -9,6 +9,7 @@ import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
 import Form from '../Common/Form';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   buttonText: string;
@@ -26,26 +27,21 @@ export default function StagingForm({
   setModalOpen,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, patientId: patientId };
+  const dataModifier = (data: any) => ({
+    ...data,
+    patientId,
+  });
 
-    try {
-      setIsLoading(true);
-      const entity = 'stagings';
-      const endpoint = oldStaging ? `/${oldStaging.id}` : '';
-      const method = oldStaging ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-      if (result.status === 200) reset();
-      if (handler) handler(result.staging);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'stagings',
+    oldEntity: oldStaging,
+    returnEntity: 'staging',
+    dataModifier,
+    reset,
+    setModalOpen,
+    handler,
+  });
 
   const fields = getFields(oldStaging);
 
@@ -63,7 +59,6 @@ export default function StagingForm({
 
 function getFields(oldStaging: Staging | undefined): FieldConfig[] {
   const dateString = oldStaging?.date.toString();
-
   return [
     {
       fieldName: 'id',

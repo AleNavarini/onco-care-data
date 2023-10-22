@@ -4,6 +4,10 @@ import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { TreatmentType } from '@prisma/client';
 import Container from '../Common/Container';
+import { fetchData } from '@/utils/fetchData';
+import SubmitButton from '../Common/SubmitButton';
+import { FieldConfig } from '@/types/FieldConfig';
+import FormFieldsMapper from '../Common/FormFieldsMapper';
 
 interface Props {
   buttonText: string;
@@ -12,29 +16,27 @@ interface Props {
   setModalOpen: (state: boolean) => void;
 }
 
-export default function TreatmentTypeForm(props: Props) {
+export default function TreatmentTypeForm({
+  buttonText,
+  setModalOpen,
+  handler,
+  oldTreatmentType,
+}: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: any) => {
     try {
       setIsLoading(true);
-      const endpoint = props.oldTreatmentType
-        ? `/${props.oldTreatmentType.id}`
-        : '';
-      const response = await fetch(`/api/treatment-types${endpoint}`, {
-        method: props.oldTreatmentType ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
+      const entity = 'treatment-types';
+      const endpoint = oldTreatmentType ? `/${oldTreatmentType.id}` : '';
+      const method = oldTreatmentType ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data);
+
       if (result.status === 200) reset();
-      if (props.handler) {
-        props.handler(result.treatmentType);
-      }
-      props.setModalOpen(false);
+      if (handler) handler(result.treatmentType);
+
+      setModalOpen(false);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -42,57 +44,46 @@ export default function TreatmentTypeForm(props: Props) {
     }
   };
 
+  const dimensions = getContainerDimensions();
+  const fields = getFields(oldTreatmentType);
+
   return (
-    <Sheet
-      variant="outlined"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: {
-          sm: '90%',
-          md: '60%',
-          lg: '50%',
-          xl: '30%',
-        },
-        p: 5,
-        borderRadius: 'md',
-      }}
-    >
-      <Container isLoading={isLoading}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={2}>
-            <Field
-              fieldName="id"
-              label="ID"
-              placeholder="Id del tipo de tratamiento"
-              register={register}
-              type="text"
-              visible={false}
-              defaultValue={props.oldTreatmentType?.id}
-            />
-            <Field
-              fieldName="name"
-              label="Nombre"
-              placeholder="Nombre del tipo de tratamiento"
-              register={register}
-              type="text"
-              required={true}
-              defaultValue={props.oldTreatmentType?.name}
-            />
-          </Stack>
-          <Button
-            loading={isLoading}
-            sx={{
-              my: 2,
-              width: '100%',
-            }}
-            variant="solid"
-            type="submit"
-          >
-            {props.buttonText}
-          </Button>
-        </form>
-      </Container>
-    </Sheet>
+    <Container dimensions={dimensions} isLoading={isLoading}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormFieldsMapper register={register} fields={fields} />
+        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
+      </form>
+    </Container>
   );
+}
+function getContainerDimensions() {
+  const width = {
+    sm: '90%',
+    md: '60%',
+    lg: '50%',
+    xl: '30%',
+  };
+  const dimensions = { width };
+  return dimensions;
+}
+
+function getFields(oldTreatmentType: TreatmentType | undefined): FieldConfig[] {
+  return [
+    {
+      fieldName: 'id',
+      label: 'ID',
+      placeholder: 'Id del tipo de tratamiento',
+      type: 'text',
+      visible: false,
+      defaultValue: oldTreatmentType?.id,
+    },
+    {
+      fieldName: 'name',
+      label: 'Nombre',
+      placeholder: 'Nombre del tipo de tratamiento',
+      type: 'text',
+      required: true,
+      defaultValue: oldTreatmentType?.name,
+    },
+  ];
 }

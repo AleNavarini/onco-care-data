@@ -4,6 +4,10 @@ import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { TreatmentTypeAttribute } from '@prisma/client';
 import Container from '../Common/Container';
+import { fetchData } from '@/utils/fetchData';
+import SubmitButton from '../Common/SubmitButton';
+import { FieldConfig } from '@/types/FieldConfig';
+import FormFieldsMapper from '../Common/FormFieldsMapper';
 
 interface Props {
   buttonText: string;
@@ -14,34 +18,31 @@ interface Props {
   setModalOpen: (state: boolean) => void;
 }
 
-export default function TreatmentTypeAttributeForm(props: Props) {
+export default function TreatmentTypeAttributeForm({
+  buttonText,
+  setModalOpen,
+  treatmentTypeId,
+  handler,
+  oldTreatmentTypeAttribute,
+  treatmentId,
+}: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: any) => {
-    data = { ...data, treatmentTypeId: props.treatmentTypeId };
+    data = { ...data, treatmentTypeId };
 
     try {
       setIsLoading(true);
-      const endpoint = props.oldTreatmentTypeAttribute
-        ? `/${props.oldTreatmentTypeAttribute.id}`
+      const entity = 'treatment-types-attributes';
+      const endpoint = oldTreatmentTypeAttribute
+        ? `/${oldTreatmentTypeAttribute.id}`
         : '';
-      const response = await fetch(
-        `/api/treatment-types-attributes${endpoint}`,
-        {
-          method: props.oldTreatmentTypeAttribute ? 'PUT' : 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        },
-      );
-      const result = await response.json();
+      const method = oldTreatmentTypeAttribute ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data);
       if (result.status === 200) reset();
-      if (props.handler) {
-        props.handler(result.treatmentTypeAttribute);
-      }
-      props.setModalOpen(false);
+      if (handler) handler(result.treatmentTypeAttribute);
+      setModalOpen(false);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -49,67 +50,62 @@ export default function TreatmentTypeAttributeForm(props: Props) {
     }
   };
 
+  const dimensions = getContainerDimensions();
+  const fields = getFields(oldTreatmentTypeAttribute, treatmentId);
+
   return (
-    <Sheet
-      variant="outlined"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: {
-          sm: '90%',
-          md: '60%',
-          lg: '50%',
-          xl: '30%',
-        },
-        p: 5,
-        borderRadius: 'md',
-      }}
-    >
-      <Container isLoading={isLoading}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={2}>
-            <Field
-              fieldName="id"
-              label="ID"
-              placeholder="Id del atributo"
-              register={register}
-              type="text"
-              visible={false}
-              defaultValue={props.oldTreatmentTypeAttribute?.id}
-            />
-            <Field
-              fieldName="name"
-              label="Nombre"
-              placeholder="Nombre del atributo"
-              register={register}
-              type="text"
-              required={true}
-              defaultValue={props.oldTreatmentTypeAttribute?.name}
-            />
-            {props.treatmentId && (
-              <Field
-                fieldName="value"
-                label="Valor"
-                placeholder="Valor del atributo ..."
-                register={register}
-                type="text"
-                defaultValue={props.oldTreatmentTypeAttribute?.value}
-              />
-            )}
-          </Stack>
-          <Button
-            loading={isLoading}
-            sx={{
-              my: 2,
-              width: '100%',
-            }}
-            variant="solid"
-            type="submit"
-          >
-            {props.buttonText}
-          </Button>
-        </form>
-      </Container>
-    </Sheet>
+    <Container dimensions={dimensions} isLoading={isLoading}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormFieldsMapper register={register} fields={fields} />
+        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
+      </form>
+    </Container>
   );
+}
+
+function getContainerDimensions() {
+  const width = {
+    sm: '90%',
+    md: '60%',
+    lg: '50%',
+    xl: '30%',
+  };
+  const dimensions = { width };
+  return dimensions;
+}
+
+function getFields(
+  oldTreatmentTypeAttribute: TreatmentTypeAttribute | undefined,
+  treatmentId: string | undefined,
+): FieldConfig[] {
+  const fields: FieldConfig[] = [
+    {
+      fieldName: 'id',
+      label: 'ID',
+      placeholder: 'Id del atributo',
+      type: 'text',
+      visible: false,
+      defaultValue: oldTreatmentTypeAttribute?.id,
+    },
+    {
+      fieldName: 'name',
+      label: 'Nombre',
+      placeholder: 'Nombre del atributo',
+      type: 'text',
+      required: true,
+      defaultValue: oldTreatmentTypeAttribute?.name,
+    },
+  ];
+
+  if (treatmentId) {
+    fields.push({
+      fieldName: 'value',
+      label: 'Valor',
+      placeholder: 'Valor del atributo ...',
+      type: 'text',
+      defaultValue: oldTreatmentTypeAttribute?.value,
+    });
+  }
+
+  return fields;
 }

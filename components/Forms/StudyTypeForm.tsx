@@ -43,7 +43,7 @@ export default function StudyTypeForm({
   };
 
   const dimensions = getContainerDimensions();
-  const fields = getFields(oldStudyType)
+  const fields = getFields(oldStudyType);
 
   return (
     <Container dimensions={dimensions} isLoading={isLoading}>

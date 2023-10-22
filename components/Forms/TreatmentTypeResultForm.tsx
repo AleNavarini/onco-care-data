@@ -4,6 +4,10 @@ import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { TreatmentTypeResult } from '@prisma/client';
 import Container from '../Common/Container';
+import { fetchData } from '@/utils/fetchData';
+import SubmitButton from '../Common/SubmitButton';
+import { FieldConfig } from '@/types/FieldConfig';
+import FormFieldsMapper from '../Common/FormFieldsMapper';
 
 interface Props {
   buttonText: string;
@@ -14,31 +18,32 @@ interface Props {
   setModalOpen: (state: boolean) => void;
 }
 
-export default function TreatmentTypeResultForm(props: Props) {
+export default function TreatmentTypeResultForm({
+  buttonText,
+  setModalOpen,
+  treatmentTypeId,
+  handler,
+  oldTreatmentTypeResult,
+  treatmentId,
+}: Props) {
   const { register, handleSubmit, reset } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = async (data: any) => {
-    data = { ...data, treatmentTypeId: props.treatmentTypeId };
+    data = { ...data, treatmentTypeId };
 
     try {
       setIsLoading(true);
-      const endpoint = props.oldTreatmentTypeResult
-        ? `/${props.oldTreatmentTypeResult.id}`
+      const entity = 'treatment-types-results';
+      const endpoint = oldTreatmentTypeResult
+        ? `/${oldTreatmentTypeResult.id}`
         : '';
-      const response = await fetch(`/api/treatment-types-results${endpoint}`, {
-        method: props.oldTreatmentTypeResult ? 'PUT' : 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
-      const result = await response.json();
+      const method = oldTreatmentTypeResult ? 'PUT' : 'POST';
+      const result = await fetchData(entity + endpoint, method, data);
       if (result.status === 200) reset();
-      if (props.handler) {
-        props.handler(result.treatmentTypeResult);
-      }
-      props.setModalOpen(false);
+      if (handler) handler(result.treatmentTypeResult);
+
+      setModalOpen(false);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -46,67 +51,62 @@ export default function TreatmentTypeResultForm(props: Props) {
     }
   };
 
+  const dimensions = getContainerDimensions();
+  const fields = getFields(oldTreatmentTypeResult, treatmentId);
+
   return (
-    <Sheet
-      variant="outlined"
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: {
-          sm: '90%',
-          md: '60%',
-          lg: '50%',
-          xl: '30%',
-        },
-        p: 5,
-        borderRadius: 'md',
-      }}
-    >
-      <Container isLoading={isLoading}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Stack spacing={2}>
-            <Field
-              fieldName="id"
-              label="ID"
-              placeholder="Id del resultado"
-              register={register}
-              type="text"
-              visible={false}
-              defaultValue={props.oldTreatmentTypeResult?.id}
-            />
-            <Field
-              fieldName="name"
-              label="Nombre"
-              placeholder="Nombre del resultado"
-              register={register}
-              type="text"
-              required={true}
-              defaultValue={props.oldTreatmentTypeResult?.name}
-            />
-            {props.treatmentId && (
-              <Field
-                fieldName="value"
-                label="Valor"
-                placeholder="Valor del resultado ..."
-                register={register}
-                type="text"
-                defaultValue={props.oldTreatmentTypeResult?.value}
-              />
-            )}
-          </Stack>
-          <Button
-            loading={isLoading}
-            sx={{
-              my: 2,
-              width: '100%',
-            }}
-            variant="solid"
-            type="submit"
-          >
-            {props.buttonText}
-          </Button>
-        </form>
-      </Container>
-    </Sheet>
+    <Container dimensions={dimensions} isLoading={isLoading}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormFieldsMapper register={register} fields={fields} />
+        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
+      </form>
+    </Container>
   );
+}
+
+function getContainerDimensions() {
+  const width = {
+    sm: '90%',
+    md: '60%',
+    lg: '50%',
+    xl: '30%',
+  };
+  const dimensions = { width };
+  return dimensions;
+}
+
+function getFields(
+  oldTreatmentTypeResult: TreatmentTypeResult | undefined,
+  treatmentId: string | undefined,
+): FieldConfig[] {
+  const fields: FieldConfig[] = [
+    {
+      fieldName: 'id',
+      label: 'ID',
+      placeholder: 'Id del resultado',
+      type: 'text',
+      visible: false,
+      defaultValue: oldTreatmentTypeResult?.id,
+    },
+    {
+      fieldName: 'name',
+      label: 'Nombre',
+      placeholder: 'Nombre del resultado',
+      type: 'text',
+      required: true,
+      defaultValue: oldTreatmentTypeResult?.name,
+    },
+  ];
+
+  if (treatmentId) {
+    fields.push({
+      fieldName: 'value',
+      label: 'Valor',
+      placeholder: 'Valor del resultado ...',
+      type: 'text',
+      defaultValue: oldTreatmentTypeResult?.value,
+    });
+  }
+
+  return fields;
 }

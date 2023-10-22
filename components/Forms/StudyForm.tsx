@@ -8,6 +8,7 @@ import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
 import Container from '../Common/Container';
 import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 const fetchStudies = async (url: string) => {
   const response = await fetch(url);
@@ -40,7 +41,7 @@ export default function StudyForm({
     oldStudy ? oldStudy.studyTypeId : '',
   );
 
-  const { data: studyTypesData, isLoading } = useSWR(
+  const { data: studyTypesData, isLoading: isLoadingStudyTypes } = useSWR(
     `/api/study-types`,
     fetchStudies,
     { refreshInterval: 5000 },
@@ -54,25 +55,21 @@ export default function StudyForm({
     setSelectedStudyType(value);
   };
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, patientId, studyTypeId: selectedStudyType };
+  const dataModifier = (data: any) => ({
+    ...data,
+    patientId,
+    studyTypeId: selectedStudyType,
+  });
 
-    try {
-      setLoading(true);
-      const entity = 'studies';
-      const endpoint = oldStudy ? `/${oldStudy.id}` : '';
-      const method = oldStudy ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-
-      if (result.status === 200) reset();
-      if (handler) handler(result.study);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'studies',
+    oldEntity: oldStudy,
+    returnEntity: 'study',
+    dataModifier,
+    reset,
+    setModalOpen,
+    handler,
+  });
 
   const dimensions = getContainerDimensions();
 
@@ -149,6 +146,8 @@ function getContainerDimensions() {
     xl: '30%',
   };
   const minHeight = '50%';
-  const dimensions = { width, minHeight };
+  const maxHeight = '95%';
+  const overflow = 'scroll'
+  const dimensions = { width, minHeight, maxHeight, overflow };
   return dimensions;
 }

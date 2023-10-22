@@ -15,6 +15,7 @@ import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   buttonText: string;
@@ -30,29 +31,26 @@ export default function PatientForm({
   setModalOpen,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedStatus, setSelectedStatus] = useState(
     oldPatient ? oldPatient.status : 'active',
   );
   const handleChange = async (_e: null, value: string) =>
     setSelectedStatus(value);
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, status: selectedStatus };
-    try {
-      setIsLoading(true);
-      const entity = 'patients';
-      const method = oldPatient ? 'PUT' : 'POST';
-      const result = await fetchData(entity, method, data);
-      if (result.status === 200) reset();
-      if (addPatient) addPatient(result.patient);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const dataModifier = (data: any) => ({
+    ...data,
+    status: selectedStatus,
+  });
+
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'patients',
+    oldEntity: oldPatient,
+    returnEntity: 'patient',
+    dataModifier,
+    reset,
+    handler: addPatient,
+    setModalOpen,
+  });
 
   const dimensions = getContainerDimensions();
   const fields = getFields(oldPatient);

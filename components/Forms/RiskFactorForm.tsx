@@ -8,6 +8,8 @@ import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
+import Form from '../Common/Form';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   buttonText: string;
@@ -27,49 +29,35 @@ export default function RiskFactorForm({
   setModalOpen,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (data: any) => {
+  const dataModifier = (data: any) => {
     if (patientId) data = { ...data, patientId };
     if (diseaseId) data = { ...data, diseaseId };
-
-    try {
-      setIsLoading(true);
-      const entity = 'risk-factors';
-      const endpoint = oldRiskFactor ? `/${oldRiskFactor.id}` : '';
-      const method = oldRiskFactor ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-      if (result.status === 200) reset();
-      if (handler) handler(result.riskFactor);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    return data;
   };
 
-  const dimensions = getContainerDimensions();
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'risk-factors',
+    oldEntity: oldRiskFactor,
+    returnEntity: 'riskFactor',
+    dataModifier,
+    reset,
+    setModalOpen,
+    handler,
+  });
+
   const fields = getFields(oldRiskFactor, patientId);
 
   return (
-    <Container dimensions={dimensions} isLoading={isLoading}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormFieldsMapper register={register} fields={fields} />
-        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
-      </form>
-    </Container>
+    <Form
+      buttonText={buttonText}
+      fields={fields}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+      onSubmit={onSubmit}
+      register={register}
+    />
   );
-}
-
-function getContainerDimensions() {
-  const width = {
-    sm: '90%',
-    md: '60%',
-    lg: '50%',
-    xl: '30%',
-  };
-  return { width };
 }
 
 function getFields(

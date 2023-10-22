@@ -13,6 +13,7 @@ import { FollowUp } from '@prisma/client';
 import Container from '../Common/Container';
 import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   buttonText: string;
@@ -30,30 +31,27 @@ export default function FollowUpForm({
   setModalOpen,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, patientId };
+  const dataModifier = (data: any) => ({
+    ...data,
+    patientId,
+  });
 
-    try {
-      setIsLoading(true);
-      const entity = 'follow-ups';
-      const endpoint = oldFollowUp ? `/${oldFollowUp.id}` : '';
-      const method = oldFollowUp ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-      if (result.status === 200) reset();
-      if (handler) handler(result.followUp);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'follow-ups',
+    endpoint: oldFollowUp ? `/${oldFollowUp.id}` : '',
+    oldEntity: oldFollowUp,
+    returnEntity: 'followUp',
+    handler,
+    dataModifier,
+    setModalOpen,
+    reset,
+  });
 
   const dateString = oldFollowUp?.date.toString();
   const dimensions = getContainerDimensions();
   return (
+
     <Container dimensions={dimensions} isLoading={isLoading}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
@@ -168,6 +166,8 @@ export default function FollowUpForm({
     </Container>
   );
 }
+
+
 function getContainerDimensions() {
   const width = {
     sm: '90%',

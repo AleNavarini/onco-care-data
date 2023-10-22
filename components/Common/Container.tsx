@@ -7,11 +7,7 @@ interface Props {
   children: ReactNode;
   dimensions?: any;
 }
-export default function Container({
-  isLoading,
-  children,
-  dimensions = null,
-}: Props) {
+export default function Container({ isLoading, children, dimensions }: Props) {
   return (
     <Box
       sx={{

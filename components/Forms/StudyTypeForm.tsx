@@ -8,6 +8,8 @@ import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
+import Form from '../Common/Form';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   buttonText: string;
@@ -23,46 +25,27 @@ export default function StudyTypeForm({
   oldStudyType,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
-
-  const onSubmit = async (data: any) => {
-    try {
-      setIsLoading(true);
-      const entity = 'study-types';
-      const endpoint = oldStudyType ? `/${oldStudyType.id}` : '';
-      const method = oldStudyType ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-      if (result.status === 200) reset();
-      if (handler) handler(result.studyType);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const dimensions = getContainerDimensions();
   const fields = getFields(oldStudyType);
 
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'study-types',
+    oldEntity: oldStudyType,
+    returnEntity: 'studyType',
+    reset,
+    setModalOpen,
+    handler,
+  });
+
   return (
-    <Container dimensions={dimensions} isLoading={isLoading}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormFieldsMapper register={register} fields={fields} />
-        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
-      </form>
-    </Container>
+    <Form
+      buttonText={buttonText}
+      fields={fields}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+      onSubmit={onSubmit}
+      register={register}
+    />
   );
-}
-function getContainerDimensions() {
-  const width = {
-    sm: '90%',
-    md: '60%',
-    lg: '50%',
-    xl: '30%',
-  };
-  const dimensions = { width };
-  return dimensions;
 }
 
 function getFields(oldStudyType: StudyType | undefined): FieldConfig[] {

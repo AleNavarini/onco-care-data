@@ -9,6 +9,8 @@ import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
+import Form from '../Common/Form';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   patientId: string;
@@ -16,33 +18,32 @@ interface Props {
 }
 export default function GestationForm({ patientId, gestation }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
   const fields = getFields(gestation);
+  const dimensions = getContainerDimensions();
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, patientId };
+  const dataModifier = (data: any) => ({
+    ...data,
+    patientId,
+  });
 
-    try {
-      setIsLoading(true);
-      const entity = 'gestations';
-      const endpoint = gestation ? `/${gestation.id}` : '';
-      const method = gestation ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-      if (result.status === 200) reset();
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'gestations',
+    oldEntity: gestation,
+    returnEntity: 'followUp',
+    dataModifier,
+    reset,
+  });
 
   return (
-    <Container isLoading={isLoading}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormFieldsMapper register={register} fields={fields} />
-        <SubmitButton isLoading={isLoading}>Guardar</SubmitButton>
-      </form>
-    </Container>
+    <Form
+      buttonText={'Guardar'}
+      fields={fields}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+      onSubmit={onSubmit}
+      register={register}
+      dimensions={dimensions}
+    />
   );
 }
 
@@ -70,4 +71,8 @@ function getFields(gestation: Gestation | undefined): FieldConfig[] {
       defaultValue: gestation?.cesareans,
     },
   ];
+}
+
+function getContainerDimensions() {
+  return { width: '100%' };
 }

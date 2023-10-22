@@ -8,6 +8,8 @@ import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
+import Form from '../Common/Form';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   buttonText: string;
@@ -25,48 +27,36 @@ export default function PreviousSurgeryForm({
   setModalOpen,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, patientId };
+  const dataModifier = (data: any) => {
     if (data.id === '') delete data.id;
-
-    try {
-      setIsLoading(true);
-      const entity = 'previous-surgeries';
-      const endpoint = oldPreviousSurgery ? `/${oldPreviousSurgery.id}` : '';
-      const method = oldPreviousSurgery ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-      if (result.status === 200) reset();
-      if (addPreviousSurgery) addPreviousSurgery(result.previousSurgery);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
+    return {
+      ...data,
+      patientId,
+    };
   };
 
-  const dimensions = getContainerDimensions();
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'previous-surgeries',
+    oldEntity: oldPreviousSurgery,
+    returnEntity: 'previousSurgery',
+    dataModifier,
+    reset,
+    setModalOpen,
+  });
+
   const fields = getFields(oldPreviousSurgery);
 
   return (
-    <Container dimensions={dimensions} isLoading={isLoading}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormFieldsMapper register={register} fields={fields} />
-        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
-      </form>
-    </Container>
+    <Form
+      buttonText={buttonText}
+      fields={fields}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+      onSubmit={onSubmit}
+      register={register}
+    />
   );
-}
-function getContainerDimensions() {
-  const width = {
-    sm: '90%',
-    md: '60%',
-    lg: '50%',
-    xl: '30%',
-  };
-  return { width };
 }
 
 function getFields(

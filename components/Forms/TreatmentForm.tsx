@@ -22,6 +22,7 @@ import ComplicationsTable from '../Tables/ComplicationsTable';
 import Container from '../Common/Container';
 import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 const fetchTreatments = async (url: string) => {
   const response = await fetch(url);
@@ -50,7 +51,6 @@ export default function TreatmentForm({
   handler,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
   const [selectedTreatmentType, setSelectedTreatmentType] = useState(
     oldTreatment ? oldTreatment.treatmentTypeId : '',
   );
@@ -70,24 +70,22 @@ export default function TreatmentForm({
     setSelectedTreatmentType(value);
   };
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, patientId, treatmentTypeId: selectedTreatmentType };
+  const dataModifier = (data: any) => ({
+    ...data,
+    patientId,
+    treatmentTypeId: selectedTreatmentType
+  });
 
-    try {
-      setIsLoading(true);
-      const entity = 'treatments';
-      const endpoint = oldTreatment ? `/${oldTreatment.id}` : '';
-      const method = oldTreatment ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-      if (result.status === 200) reset();
-      if (handler) handler(result.treatment);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'treatments',
+    oldEntity: oldTreatment,
+    returnEntity: 'treatment',
+    dataModifier,
+    reset,
+    setModalOpen,
+    handler
+  });
+
   const dimensions = getContainerDimensions();
   return (
     <Container dimensions={dimensions} isLoading={isLoading}>

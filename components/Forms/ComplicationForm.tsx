@@ -8,6 +8,8 @@ import { fetchData } from '@/utils/fetchData';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
 import { FieldConfig } from '@/types/FieldConfig';
 import SubmitButton from '../Common/SubmitButton';
+import Form from '../Common/Form';
+import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {
   buttonText: string;
@@ -25,37 +27,33 @@ export default function ComplicationForm({
   buttonText,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
-  const dimensions = getContainerDimensions();
   const fields = getFields(oldComplication);
 
-  const onSubmit = async (data: any) => {
-    data = { ...data, treatmentId: treatmentId };
+  const dataModifier = (data: any) => ({
+    ...data,
+    treatmentId,
+  });
 
-    try {
-      setIsLoading(true);
-      const entity = 'complications';
-      const endpoint = oldComplication ? `/${oldComplication.id}` : '';
-      const method = oldComplication ? 'PUT' : 'POST';
-      const result = await fetchData(entity + endpoint, method, data);
-
-      if (result.status === 200) reset();
-      if (handler) handler(result.complication);
-      setModalOpen(false);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { onSubmit, isLoading } = useSubmitForm({
+    entity: 'complications',
+    endpoint: oldComplication ? `/${oldComplication.id}` : '',
+    oldEntity: oldComplication,
+    returnEntity: 'complication',
+    handler,
+    dataModifier,
+    setModalOpen,
+    reset,
+  });
 
   return (
-    <Container dimensions={dimensions} isLoading={isLoading}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormFieldsMapper register={register} fields={fields} />
-        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
-      </form>
-    </Container>
+    <Form
+      buttonText={buttonText}
+      fields={fields}
+      handleSubmit={handleSubmit}
+      isLoading={isLoading}
+      onSubmit={onSubmit}
+      register={register}
+    />
   );
 }
 
@@ -91,14 +89,4 @@ function getFields(oldComplication: Complication | undefined): FieldConfig[] {
       defaultValue: oldComplication?.transfusions,
     },
   ];
-}
-
-function getContainerDimensions() {
-  const width = {
-    sm: '90%',
-    md: '60%',
-    lg: '50%',
-    xl: '30%',
-  };
-  return { width };
 }

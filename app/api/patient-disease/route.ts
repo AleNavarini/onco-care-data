@@ -25,6 +25,7 @@ export async function PUT(request: Request) {
         where: {
           disease: {
             name: name,
+            patientId: null,
           },
         },
       });

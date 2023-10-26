@@ -1,14 +1,8 @@
 'use client';
-import { Button, Sheet, Stack } from '@mui/joy';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Field from './Field';
 import { Gestation } from '@prisma/client';
-import Container from '../Common/Container';
-import { fetchData } from '@/utils/fetchData';
-import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
-import FormFieldsMapper from '../Common/FormFieldsMapper';
 import Form from '../Common/Form';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
 
@@ -16,22 +10,38 @@ interface Props {
   patientId: string;
   gestation: Gestation | undefined;
 }
-export default function GestationForm({ patientId, gestation }: Props) {
+export default function GestationForm({
+  patientId,
+  gestation: initialGestation,
+}: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const fields = getFields(gestation);
-  const dimensions = getContainerDimensions();
+  const [gestation, setGestation] = useState(initialGestation);
+  const [fields, setFields] = useState<FieldConfig[]>(
+    getFields(initialGestation),
+  );
 
-  const dataModifier = (data: any) => ({
-    ...data,
-    patientId,
-  });
+  useEffect(() => {
+    setFields(getFields(gestation));
+  }, [gestation]);
+
+  const dataModifier = (data: any) => {
+    if (data.births === '') data.births = 0;
+    if (data.abortions === '') data.abortions = 0;
+    if (data.cesareans === '') data.cesareans = 0;
+
+    return {
+      ...data,
+      patientId,
+    };
+  };
 
   const { onSubmit, isLoading } = useSubmitForm({
     entity: 'gestations',
     oldEntity: gestation,
-    returnEntity: 'followUp',
+    returnEntity: 'gestation',
     dataModifier,
     reset,
+    handler: setGestation,
   });
 
   return (
@@ -42,7 +52,7 @@ export default function GestationForm({ patientId, gestation }: Props) {
       isLoading={isLoading}
       onSubmit={onSubmit}
       register={register}
-      dimensions={dimensions}
+      dimensions={getContainerDimensions()}
     />
   );
 }
@@ -52,21 +62,21 @@ function getFields(gestation: Gestation | undefined): FieldConfig[] {
     {
       fieldName: 'births',
       label: 'Partos',
-      placeholder: 'Cantidad de Partos',
+      placeholder: 'Cantidad o 0 por defecto',
       type: 'number',
       defaultValue: gestation?.births,
     },
     {
       fieldName: 'abortions',
       label: 'Abortos',
-      placeholder: 'Cantidad de Abortos',
+      placeholder: 'Cantidad o 0 por defecto',
       type: 'number',
       defaultValue: gestation?.abortions,
     },
     {
       fieldName: 'cesareans',
       label: 'Cesareas',
-      placeholder: 'Cantidad de Cesareas',
+      placeholder: 'Cantidad o 0 por defecto',
       type: 'number',
       defaultValue: gestation?.cesareans,
     },

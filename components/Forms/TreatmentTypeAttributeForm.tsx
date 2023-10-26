@@ -29,7 +29,7 @@ export default function TreatmentTypeAttributeForm({
   treatmentId,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  
+
   const dataModifier = (data: any) => ({
     ...data,
     treatmentTypeId,
@@ -42,9 +42,8 @@ export default function TreatmentTypeAttributeForm({
     dataModifier,
     reset,
     setModalOpen,
-    handler
+    handler,
   });
-  
 
   const fields = getFields(oldTreatmentTypeAttribute, treatmentId);
 

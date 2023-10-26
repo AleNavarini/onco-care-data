@@ -34,15 +34,19 @@ export default function Navbar() {
           },
           transition: 'transform 0.4s',
           zIndex: 10000,
-          height: '100vh',
+          minHeight: '100%',
+          maxHeight: '100%',
           width: 'var(--FirstSidebar-width)',
-          // top: 0,
+          top: 0,
           py: 3,
           px: 2,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           gap: 2,
+          flexShrink: 0,
+          borderRight: '1px solid',
+          borderColor: 'divider',
         }}
       >
         <GlobalStyles

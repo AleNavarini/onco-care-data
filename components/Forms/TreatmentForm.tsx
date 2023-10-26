@@ -73,7 +73,7 @@ export default function TreatmentForm({
   const dataModifier = (data: any) => ({
     ...data,
     patientId,
-    treatmentTypeId: selectedTreatmentType
+    treatmentTypeId: selectedTreatmentType,
   });
 
   const { onSubmit, isLoading } = useSubmitForm({
@@ -83,7 +83,7 @@ export default function TreatmentForm({
     dataModifier,
     reset,
     setModalOpen,
-    handler
+    handler,
   });
 
   const dimensions = getContainerDimensions();

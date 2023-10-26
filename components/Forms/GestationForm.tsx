@@ -42,6 +42,7 @@ export default function GestationForm({
     dataModifier,
     reset,
     handler: setGestation,
+    patientId,
   });
 
   return (

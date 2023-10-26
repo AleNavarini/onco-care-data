@@ -55,18 +55,20 @@ export default function ManagePage() {
         width: {
           md: '95%',
         },
-        mt: 2
+        mt: 2,
       }}
     >
-      <Sheet sx={{
-        width: {
-          sm: '100%',
-          md: '30%',
-        },
-
-      }}
+      <Sheet
+        sx={{
+          width: {
+            sm: '100%',
+            md: '30%',
+          },
+        }}
       >
-        <Typography mb={1} level='h3'>Enfermedades</Typography>
+        <Typography mb={1} level="h3">
+          Enfermedades
+        </Typography>
         <DiseasesDashboard diseases={filteredDiseases} />
       </Sheet>
       <Sheet
@@ -77,7 +79,9 @@ export default function ManagePage() {
           },
         }}
       >
-        <Typography mb={1} level='h3'>Tratamientos</Typography>
+        <Typography mb={1} level="h3">
+          Tratamientos
+        </Typography>
         <TreatmentTypesDasboard treatmentTypes={treatmentTypes} />
       </Sheet>
       <Sheet
@@ -88,7 +92,9 @@ export default function ManagePage() {
           },
         }}
       >
-        <Typography mb={1} level='h3'>Estudios</Typography>
+        <Typography mb={1} level="h3">
+          Estudios
+        </Typography>
         <StudyTypesDasboard studyTypes={studyTypes} />
       </Sheet>
     </Sheet>

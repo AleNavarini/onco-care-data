@@ -1,14 +1,16 @@
-import { LinearProgress, Sheet } from '@mui/joy';
+import { Sheet, Typography } from '@mui/joy';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import LoadingOverlay from './LoadingOverlay';
 
-export default function MainContent(props: { children?: React.ReactNode }) {
+interface Props {
+  children?: React.ReactNode;
+}
+export default function MainContent({ children }: Props) {
   const session = useSession();
   if (session.status === 'unauthenticated') redirect('/api/auth/signin');
+  if (session.status === 'loading') return <LoadingOverlay />;
 
-  if (session.status === 'loading') {
-    return <LinearProgress />;
-  }
   return (
     <Sheet
       sx={{
@@ -24,7 +26,7 @@ export default function MainContent(props: { children?: React.ReactNode }) {
         },
       }}
     >
-      {props.children}
+      {children}
     </Sheet>
   );
 }

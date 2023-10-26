@@ -2,7 +2,7 @@
 import DiseasesDashboard from '@/components/Dashboards/DiseasesDashboard';
 import StudyTypesDasboard from '@/components/Dashboards/StudyTypesDasboard';
 import TreatmentTypesDasboard from '@/components/Dashboards/TreatmentTypesDashboard';
-import { LinearProgress, Sheet } from '@mui/joy';
+import { LinearProgress, Sheet, Typography } from '@mui/joy';
 import { Disease } from '@prisma/client';
 import useSWR from 'swr';
 
@@ -55,39 +55,40 @@ export default function ManagePage() {
         width: {
           md: '95%',
         },
+        mt: 2
       }}
     >
-      <Sheet
-        sx={{
-          width: {
-            sm: '100%',
-            md: '40%',
-          },
-        }}
+      <Sheet sx={{
+        width: {
+          sm: '100%',
+          md: '30%',
+        },
+
+      }}
       >
-        Enfermedades
+        <Typography mb={1} level='h3'>Enfermedades</Typography>
         <DiseasesDashboard diseases={filteredDiseases} />
       </Sheet>
       <Sheet
         sx={{
           width: {
             sm: '100%',
-            md: '40%',
+            md: '30%',
           },
         }}
       >
-        Tratamientos
+        <Typography mb={1} level='h3'>Tratamientos</Typography>
         <TreatmentTypesDasboard treatmentTypes={treatmentTypes} />
       </Sheet>
       <Sheet
         sx={{
           width: {
             sm: '100%',
-            md: '70%',
+            md: '30%',
           },
         }}
       >
-        Tipos de Estudios
+        <Typography mb={1} level='h3'>Estudios</Typography>
         <StudyTypesDasboard studyTypes={studyTypes} />
       </Sheet>
     </Sheet>

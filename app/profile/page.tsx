@@ -21,7 +21,7 @@ export default function ProfilePage() {
         alignItems: 'center',
       }}
     >
-      <Typography level="h1">Profile Page</Typography>
+      <Typography level="h1">Mi Perfil</Typography>
       <Divider sx={{ my: 1 }} />
       <FormControl
         sx={{

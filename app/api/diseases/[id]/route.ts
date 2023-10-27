@@ -31,7 +31,11 @@ export async function GET(request: Request, context: { params: any }) {
         id: BigInt(id),
       },
       include: {
-        riskFactors: true,
+        riskFactors: {
+          where: {
+            patientId: null,
+          },
+        },
       },
     });
 

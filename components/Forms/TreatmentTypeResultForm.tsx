@@ -42,7 +42,7 @@ export default function TreatmentTypeResultForm({
     dataModifier,
     reset,
     setModalOpen,
-    handler
+    handler,
   });
 
   const fields = getFields(oldTreatmentTypeResult, treatmentId);

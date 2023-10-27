@@ -33,7 +33,7 @@ export default function TreatmentTypeForm({
     returnEntity: 'treatmentType',
     reset,
     setModalOpen,
-    handler
+    handler,
   });
 
   return (

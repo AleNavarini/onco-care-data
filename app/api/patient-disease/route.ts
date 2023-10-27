@@ -1,16 +1,80 @@
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
+
+export async function POST(request: Request) {
+  const { name, patientId } = await request.json();
+
+  const disease = await prisma.disease.findFirst({
+    where: {
+      name: name,
+    },
+    include: {
+      riskFactors: {
+        where: {
+          patientId: null,
+        },
+      },
+    },
+  });
+
+  if (!disease) return NextResponse.error();
+
+  const patient = await prisma.patient.update({
+    where: {
+      id: BigInt(patientId),
+    },
+    data: {
+      disease: {
+        connect: {
+          id: disease.id,
+        },
+      },
+    },
+  });
+
+  const riskFactors = disease.riskFactors;
+  await prisma.riskFactor.createMany({
+    data: riskFactors.map((riskFactor) => ({
+      name: riskFactor.name,
+      patientId: BigInt(patientId),
+      diseaseId: BigInt(disease.id),
+    })),
+  });
+
+  return NextResponse.json({
+    status: 204,
+    patient,
+  });
+}
+
 export async function PUT(request: Request) {
-  const data = await request.json();
-  const { name, patientId, deleteRiskFactors } = data;
+  const { name, patientId, deleteRiskFactors } = await request.json();
 
   try {
-    const disease = await prisma.disease.update({
+    const disease = await prisma.disease.findFirst({
       where: {
-        patientId: BigInt(patientId),
+        name: name,
+      },
+      include: {
+        riskFactors: {
+          where: {
+            patientId: null,
+          },
+        },
+      },
+    });
+    if (!disease) return NextResponse.error();
+
+    const patient = await prisma.patient.update({
+      where: {
+        id: BigInt(patientId),
       },
       data: {
-        name: name,
+        disease: {
+          connect: {
+            id: disease.id,
+          },
+        },
       },
     });
 
@@ -21,28 +85,17 @@ export async function PUT(request: Request) {
         },
       });
 
-      const riskFactors = await prisma.riskFactor.findMany({
-        where: {
-          disease: {
-            name: name,
-            patientId: null,
-          },
-        },
+      await prisma.riskFactor.createMany({
+        data: disease.riskFactors.map(riskFactor => ({
+          name: riskFactor.name,
+          patientId: BigInt(patientId),
+          diseaseId: BigInt(disease.id),
+        })),
       });
-
-      for (const riskFactor of riskFactors) {
-        await prisma.riskFactor.create({
-          data: {
-            name: riskFactor.name,
-            patientId: BigInt(patientId),
-            diseaseId: BigInt(disease.id),
-          },
-        });
-      }
     }
     return NextResponse.json({
       status: 204,
-      disease,
+      patient,
     });
   } catch (error) {
     console.error(error);

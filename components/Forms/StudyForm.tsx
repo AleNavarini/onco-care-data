@@ -147,7 +147,7 @@ function getContainerDimensions() {
   };
   const minHeight = '50%';
   const maxHeight = '95%';
-  const overflow = 'scroll'
+  const overflow = 'scroll';
   const dimensions = { width, minHeight, maxHeight, overflow };
   return dimensions;
 }

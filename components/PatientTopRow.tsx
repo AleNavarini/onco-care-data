@@ -38,7 +38,7 @@ export default function PatientTopRow({ patientId }: Props) {
         diseases={diseases}
         defaultValue={patient.disease?.name}
       />
-      <StatusChip status={patient.status} />
+      <StatusChip status={patient.status} size="lg" />
     </Box>
   );
 }

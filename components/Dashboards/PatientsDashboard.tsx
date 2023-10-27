@@ -1,13 +1,5 @@
 'use client';
-import {
-  Chip,
-  ColorPaletteProp,
-  IconButton,
-  Modal,
-  Sheet,
-  Table,
-  Typography,
-} from '@mui/joy';
+import { IconButton, Modal, Sheet, Table, Typography } from '@mui/joy';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -15,39 +7,25 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import { useState } from 'react';
 import Link from 'next/link';
 import PatientForm from '../Forms/PatientForm';
-import { FollowUp } from '@prisma/client';
+import { FullPatient } from '@/types/FullPatient';
+import StatusChip from '../StatusChip';
+import { mutate } from 'swr';
 
 interface Props {
   patients: FullPatient[];
 }
 
-export interface FullPatient {
-  id: bigint;
-  dni: string;
-  name: string | null;
-  dateOfBirth: string | null;
-  phone: string | null;
-  email: string | null;
-  address: string | null;
-  healthInsurance: string | null;
-  clinicHistory: bigint | null;
-  status?: string;
-  followUps?: FollowUp[];
-}
-
-const getStatus = (status: string) => {
-  if (status === 'following') return 'En Seguimiento';
-  return 'Activa';
-};
-
-export default function PatientsDashboard(props: Props) {
-  const [patients, setPatients] = useState<FullPatient[]>(props.patients);
+export default function PatientsDashboard({
+  patients: initialPatients,
+}: Props) {
+  const [patients, setPatients] = useState<FullPatient[]>(initialPatients);
   const [editPatient, setEditPatient] = useState<FullPatient | null>(null);
   const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
   const addPatient = (patient: FullPatient) => {
     setPatients((prevPatients) => [...prevPatients, patient]);
+    mutate('/api/patients')
   };
 
   const updatePatient = (patient: FullPatient) => {
@@ -73,6 +51,7 @@ export default function PatientsDashboard(props: Props) {
       setPatients((prevPatients) =>
         prevPatients.filter((p: FullPatient) => p.id !== patient.id),
       );
+      mutate('/api/patients')
     }
   };
 
@@ -204,18 +183,7 @@ export default function PatientsDashboard(props: Props) {
                 </Typography>
               </td>
               <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                <Chip
-                  variant="soft"
-                  size="sm"
-                  color={
-                    {
-                      Activa: 'success',
-                      'En Seguimiento': 'primary',
-                    }[getStatus(patient.status!)] as ColorPaletteProp
-                  }
-                >
-                  {getStatus(patient.status!)}
-                </Chip>
+                <StatusChip status={patient.status} />
               </td>
               <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                 <IconButton

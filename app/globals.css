@@ -4,3 +4,7 @@
   margin: 0;
   font: 1em sans-serif;
 }
+
+.body-class {
+  background-color: var(--joy-palette-background-surface);
+}

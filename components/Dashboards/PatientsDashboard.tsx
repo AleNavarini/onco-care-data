@@ -59,13 +59,6 @@ export default function PatientsDashboard({
     <Sheet
       variant="outlined"
       sx={{
-        width: {
-          xs: '100%',
-          sm: '95%',
-          md: '80%',
-          lg: '75%',
-        },
-        mx: 'auto',
         borderRadius: 'md',
         overflow: 'auto',
         my: 2,

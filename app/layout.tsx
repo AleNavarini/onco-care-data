@@ -22,21 +22,15 @@ export default function RootLayout({
           <head>
             <title>Onco-Care-Data</title>
           </head>
-          <body className={publicSans.className}>
-            <Box
-              sx={{
-                display: 'flex',
-                minHeight: '100dvh',
-                overflow: 'hidden',
-              }}
-            >
-              <Header />
-              <Navbar />
-              <MainContent>{children}</MainContent>
-            </Box>
+          <body className={`${publicSans.className} body-class`}>
+
+            <Header />
+            <Navbar />
+            <MainContent>{children}</MainContent>
+          
           </body>
         </html>
       </ClientCssVarsProvider>
-    </NextAuthProvider>
+    </NextAuthProvider >
   );
 }

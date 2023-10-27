@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { Typography } from '@mui/joy';
+import { Box, Typography } from '@mui/joy';
 import PatientsDashboard from '@/components/Dashboards/PatientsDashboard';
 import LoadingOverlay from '@/components/Common/LoadingOverlay';
 import fetcher from '@/utils/fetcher';

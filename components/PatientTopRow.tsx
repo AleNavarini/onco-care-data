@@ -26,10 +26,6 @@ export default function PatientTopRow({ patientId }: Props) {
         display: 'flex',
         justifyContent: 'space-between',
         gap: 1,
-        width: {
-          sm: '100%',
-          md: '90%',
-        },
       }}
     >
       <Typography level="h2">{patient.name}</Typography>

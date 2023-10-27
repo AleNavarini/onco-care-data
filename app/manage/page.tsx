@@ -35,7 +35,6 @@ export default function ManagePage() {
   if (error) return <h1>Ha ocurrido un error ... </h1>;
   if (isLoading) return <LinearProgress />;
 
-
   const diseases = diseasesData.diseases;
   const studyTypes = studyTypesData?.studyTypes;
   const treatmentTypes = treatmentTypesData?.treatmentTypes;

@@ -9,11 +9,9 @@ interface Props {
 }
 
 export default function PatientTopRow({ patientId }: Props) {
-  const { data: diseasesData } = useSWR(
-    `/api/diseases`,
-    fetcher,
-    { suspense: true },
-  );
+  const { data: diseasesData } = useSWR(`/api/diseases`, fetcher, {
+    suspense: true,
+  });
   const { data: patientData } = useSWR(
     `/api/patients/${patientId}?detailed=true`,
     fetcher,

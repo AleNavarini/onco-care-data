@@ -86,7 +86,7 @@ export async function PUT(request: Request) {
       });
 
       await prisma.riskFactor.createMany({
-        data: disease.riskFactors.map(riskFactor => ({
+        data: disease.riskFactors.map((riskFactor) => ({
           name: riskFactor.name,
           patientId: BigInt(patientId),
           diseaseId: BigInt(disease.id),

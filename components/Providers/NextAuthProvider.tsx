@@ -3,8 +3,9 @@ import { NextPage } from 'next';
 import { SessionProvider } from 'next-auth/react';
 import { ReactNode } from 'react';
 
-export const NextAuthProvider: NextPage<{
+interface Props {
   children?: ReactNode;
-}> = (props) => {
-  return <SessionProvider>{props.children}</SessionProvider>;
-};
+}
+export default function NextAuthProvider({ children }: Props) {
+  return <SessionProvider>{children}</SessionProvider>;
+}

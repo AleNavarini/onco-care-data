@@ -1,6 +1,7 @@
 // useSubmitForm.ts
 import { fetchData } from '@/utils/fetchData';
 import { useState } from 'react';
+import { mutate } from 'swr';
 
 interface UseSubmitFormProps {
   entity: string;
@@ -11,6 +12,7 @@ interface UseSubmitFormProps {
   reset?: () => void;
   setModalOpen?: (isOpen: boolean) => void;
   returnEntity?: string;
+  patientId?: string;
 }
 
 interface UseSubmitFormReturn {
@@ -27,6 +29,7 @@ export const useSubmitForm = ({
   reset,
   setModalOpen,
   returnEntity,
+  patientId,
 }: UseSubmitFormProps): UseSubmitFormReturn => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -40,6 +43,7 @@ export const useSubmitForm = ({
       if (result.status === 200 && reset) reset();
       if (handler && returnEntity) handler(result[returnEntity]);
       if (setModalOpen) setModalOpen(false);
+      if (patientId) mutate(`/api/patients/${patientId}?detailed=true`, null);
     } catch (error) {
       alert(`Error: ${error}`);
     } finally {

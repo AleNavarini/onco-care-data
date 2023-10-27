@@ -35,9 +35,8 @@ export default function ManagePage() {
   if (error) return <h1>Ha ocurrido un error ... </h1>;
   if (isLoading) return <LinearProgress />;
 
-  const filteredDiseases = diseasesData?.diseases?.filter(
-    (d: Disease) => d.patientId === null,
-  );
+
+  const diseases = diseasesData.diseases;
   const studyTypes = studyTypesData?.studyTypes;
   const treatmentTypes = treatmentTypesData?.treatmentTypes;
   return (
@@ -69,7 +68,7 @@ export default function ManagePage() {
         <Typography mb={1} level="h3">
           Enfermedades
         </Typography>
-        <DiseasesDashboard diseases={filteredDiseases} />
+        <DiseasesDashboard diseases={diseases} />
       </Sheet>
       <Sheet
         sx={{

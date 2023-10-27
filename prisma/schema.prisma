@@ -14,11 +14,6 @@ model User {
   password String
 }
 
-enum Status {
-  active
-  following
-}
-
 model Patient {
   id                BigInt            @id @default(autoincrement())
   dni               String
@@ -31,20 +26,37 @@ model Patient {
   clinicHistory     BigInt?
   status            Status
   affiliatoryData   AffiliatoryData?
-  gestations        Gestation?
-  symptoms          Symptom[]
-  previousSurgeries PreviousSurgery[]
-  disease           Disease?
-  riskFactors       RiskFactor[]
-  stagings          Staging[]
   followUps         FollowUp[]
+  gestations        Gestation?
+  previousSurgeries PreviousSurgery[]
+  stagings          Staging[]
   studies           Study[]
+  symptoms          Symptom[]
   treatments        Treatment[]
+  diseaseId   BigInt?      // Foreign key to Disease
+  disease     Disease?     @relation(fields: [diseaseId], references: [id])      
+  riskFactors       RiskFactor[]
+}
+
+model Disease {
+  id          BigInt       @id @default(autoincrement())
+  name        String
+  patient     Patient[]     
+  riskFactors RiskFactor[]
+}
+
+model RiskFactor {
+  id        BigInt   @id @default(autoincrement())
+  name      String
+  value     String?
+  disease   Disease? @relation(fields: [diseaseId], references: [id])
+  diseaseId BigInt?
+  patient   Patient? @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  patientId BigInt?
 }
 
 model AffiliatoryData {
   id                      BigInt    @id @default(autoincrement())
-  patient                 Patient?  @relation(fields: [patientId], references: [id])
   patientId               BigInt?   @unique
   firstConsult            DateTime?
   institution             String?
@@ -56,63 +68,45 @@ model AffiliatoryData {
   lastPregnancyAge        Int?
   contraception           String?
   currentPregnancyControl String?
+  patient                 Patient?  @relation(fields: [patientId], references: [id])
 }
 
 model Gestation {
   id        BigInt   @id @default(autoincrement())
-  patient   Patient? @relation(fields: [patientId], references: [id])
   patientId BigInt?  @unique
-  births    Int
   abortions Int
+  births    Int
   cesareans Int
+  patient   Patient? @relation(fields: [patientId], references: [id])
 }
 
 model Symptom {
   id        BigInt   @id @default(autoincrement())
-  patient   Patient? @relation(fields: [patientId], references: [id])
   patientId BigInt?
   name      String
   value     String?
+  patient   Patient? @relation(fields: [patientId], references: [id])
 }
 
 model PreviousSurgery {
   id           BigInt   @id @default(autoincrement())
-  patient      Patient? @relation(fields: [patientId], references: [id])
   patientId    BigInt?
   surgeryType  String
   observations String?
-}
-
-model Disease {
-  id          BigInt       @id @default(autoincrement())
-  name        String
-  patient     Patient?     @relation(fields: [patientId], references: [id])
-  patientId   BigInt?      @unique
-  riskFactors RiskFactor[]
-}
-
-model RiskFactor {
-  id        BigInt   @id @default(autoincrement())
-  name      String
-  value     String?
-  disease   Disease? @relation(fields: [diseaseId], references: [id])
-  diseaseId BigInt?
-  patient   Patient? @relation(fields: [patientId], references: [id])
-  patientId BigInt?
+  patient      Patient? @relation(fields: [patientId], references: [id])
 }
 
 model Staging {
   id        BigInt   @id @default(autoincrement())
-  patient   Patient? @relation(fields: [patientId], references: [id])
   patientId BigInt?
   date      DateTime
   type      String
   figo      String
+  patient   Patient? @relation(fields: [patientId], references: [id])
 }
 
 model FollowUp {
   id             BigInt   @id @default(autoincrement())
-  patient        Patient? @relation(fields: [patientId], references: [id])
   patientId      BigInt?
   date           DateTime
   attended       Boolean?
@@ -121,32 +115,33 @@ model FollowUp {
   died           Boolean?
   causeOfDeath   String?
   observations   String?
+  patient        Patient? @relation(fields: [patientId], references: [id])
 }
 
 model StudyType {
   id         BigInt               @id @default(autoincrement())
   name       String
-  attributes StudyTypeAttribute[]
   studies    Study[]
+  attributes StudyTypeAttribute[]
 }
 
 model StudyTypeAttribute {
   id          BigInt    @id @default(autoincrement())
   studyTypeId BigInt
-  studyType   StudyType @relation(fields: [studyTypeId], references: [id])
   name        String
   value       String?
   studyId     BigInt?
   study       Study?    @relation(fields: [studyId], references: [id])
+  studyType   StudyType @relation(fields: [studyTypeId], references: [id])
 }
 
 model Study {
   id                  BigInt               @id @default(autoincrement())
-  date                DateTime
   studyTypeId         BigInt
-  studyType           StudyType            @relation(fields: [studyTypeId], references: [id])
-  patient             Patient?             @relation(fields: [patientId], references: [id])
   patientId           BigInt?
+  date                DateTime
+  patient             Patient?             @relation(fields: [patientId], references: [id])
+  studyType           StudyType            @relation(fields: [studyTypeId], references: [id])
   studyTypeAttributes StudyTypeAttribute[]
 }
 
@@ -161,41 +156,46 @@ model TreatmentType {
 model TreatmentTypeAttribute {
   id              BigInt        @id @default(autoincrement())
   treatmentTypeId BigInt
-  treatmentType   TreatmentType @relation(fields: [treatmentTypeId], references: [id])
   name            String
   value           String?
   treatmentId     BigInt?
   treatment       Treatment?    @relation(fields: [treatmentId], references: [id], onDelete: Cascade)
+  treatmentType   TreatmentType @relation(fields: [treatmentTypeId], references: [id])
 }
 
 model TreatmentTypeResult {
   id              BigInt        @id @default(autoincrement())
   treatmentTypeId BigInt
-  treatmentType   TreatmentType @relation(fields: [treatmentTypeId], references: [id])
   name            String
   value           String?
   treatmentId     BigInt?
   treatment       Treatment?    @relation(fields: [treatmentId], references: [id], onDelete: Cascade)
+  treatmentType   TreatmentType @relation(fields: [treatmentTypeId], references: [id])
 }
 
 model Treatment {
   id                      BigInt                   @id @default(autoincrement())
   treatmentTypeId         BigInt
-  treatmentType           TreatmentType            @relation(fields: [treatmentTypeId], references: [id])
-  patient                 Patient?                 @relation(fields: [patientId], references: [id])
   patientId               BigInt?
-  treatmentTypeAttributes TreatmentTypeAttribute[]
-  treatmentTypeResults    TreatmentTypeResult[]
   startDate               DateTime?
   endDate                 DateTime?
   complications           Complication[]
+  patient                 Patient?                 @relation(fields: [patientId], references: [id])
+  treatmentType           TreatmentType            @relation(fields: [treatmentTypeId], references: [id])
+  treatmentTypeAttributes TreatmentTypeAttribute[]
+  treatmentTypeResults    TreatmentTypeResult[]
 }
 
 model Complication {
   id           BigInt     @id @default(autoincrement())
   treatmentId  BigInt?
-  treatment    Treatment? @relation(fields: [treatmentId], references: [id], onDelete: Cascade)
   time         String?
   type         String?
   transfusions String?
+  treatment    Treatment? @relation(fields: [treatmentId], references: [id], onDelete: Cascade)
+}
+
+enum Status {
+  active
+  following
 }

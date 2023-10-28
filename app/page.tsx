@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <Suspense fallback={<LoadingOverlay />}>
       <Typography level="h1">Pacientes</Typography>
-      <PatientsDashboard patients={data.patients} />
+      <PatientsDashboard />
     </Suspense>
   );
 }

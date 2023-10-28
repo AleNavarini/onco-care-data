@@ -23,14 +23,12 @@ export default function RootLayout({
             <title>Onco-Care-Data</title>
           </head>
           <body className={`${publicSans.className} body-class`}>
-
             <Header />
             <Navbar />
             <MainContent>{children}</MainContent>
-          
           </body>
         </html>
       </ClientCssVarsProvider>
-    </NextAuthProvider >
+    </NextAuthProvider>
   );
 }

@@ -46,39 +46,37 @@ export default function PatientForm({
   const statuses = getStatuses();
 
   return (
-    <Container isLoading={isLoading}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormFieldsMapper register={register} fields={fields} />
-        <FormControl>
-          <FormLabel
-            sx={(theme) => ({
-              '--FormLabel-color': theme.vars.palette.primary.plainColor,
-            })}
-          >
-            Estado
-          </FormLabel>
-          <Select
-            // @ts-ignore
-            onChange={handleChange}
-            sx={{
-              width: {
-                sm: 'auto',
-                md: '20dvw',
-              },
-            }}
-            placeholder="Choose one…"
-            defaultValue={'active'}
-          >
-            {statuses.map((status: any) => (
-              <Option key={status.text} value={status.value}>
-                {status.text}
-              </Option>
-            ))}
-          </Select>
-        </FormControl>
-        <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
-      </form>
-    </Container>
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormFieldsMapper register={register} fields={fields} />
+      <FormControl>
+        <FormLabel
+          sx={(theme) => ({
+            '--FormLabel-color': theme.vars.palette.primary.plainColor,
+          })}
+        >
+          Estado
+        </FormLabel>
+        <Select
+          // @ts-ignore
+          onChange={handleChange}
+          sx={{
+            width: {
+              sm: 'auto',
+              md: '20dvw',
+            },
+          }}
+          placeholder="Choose one…"
+          defaultValue={'active'}
+        >
+          {statuses.map((status: any) => (
+            <Option key={status.text} value={status.value}>
+              {status.text}
+            </Option>
+          ))}
+        </Select>
+      </FormControl>
+      <SubmitButton isLoading={isLoading}>{buttonText}</SubmitButton>
+    </form>
   );
 }
 

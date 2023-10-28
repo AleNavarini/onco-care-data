@@ -11,6 +11,9 @@ export async function GET(request: NextRequest, context: { params: any }) {
     include: {
       followUps: detailed,
     },
+    orderBy: {
+      status: 'asc',
+    },
   });
 
   return NextResponse.json({ status: 200, patients });

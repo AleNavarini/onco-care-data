@@ -3,7 +3,7 @@ import { FollowUp } from '@prisma/client';
 export type FullPatient = {
   id: bigint;
   dni: string;
-  name: string | null;
+  name: string;
   dateOfBirth: string | null;
   phone: string | null;
   email: string | null;

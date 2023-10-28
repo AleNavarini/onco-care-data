@@ -11,7 +11,10 @@ export default function TableRow({ row, columns, edit, del }: TableRowProps) {
   return (
     <tr key={row.id}>
       {columns.map((column, index) => (
-        <td key={`table-cell-${column.field}-${index}`}>
+        <td
+          key={`table-cell-${column.field}-${index}`}
+          style={{ textAlign: 'center' }}
+        >
           {column.renderCell ? column.renderCell(row) : row[column.field]}
         </td>
       ))}

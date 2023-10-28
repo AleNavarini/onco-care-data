@@ -5,26 +5,45 @@ import Datagrid from '../Table/Datagrid';
 import { columns } from './Patients/patients.columns';
 import fetcher from '@/utils/fetcher';
 import AddPatientButton from './Patients/AddPatientButton';
+import { useEffect, useState } from 'react';
+import { Patient } from '@prisma/client';
+import PatientsFilter from './Patients/PatientsFilter';
 
 export default function PatientsDashboard() {
   const { data: patientData } = useSWR('/api/patients', fetcher, {
     suspense: true,
   });
-  const patients = patientData.patients;
+  const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
+
+  useEffect(() => {
+    setFilteredPatients(patientData.patients);
+  }, [patientData]);
+
+  const handleFilter = (filteredPatients: Patient[]) => {
+    setFilteredPatients(filteredPatients);
+  };
+
+  useEffect(() => {
+    setFilteredPatients(patientData.patients);
+  }, [patientData]);
 
   return (
     <>
-      <AddPatientButton />
       <Sheet
-        variant="outlined"
         sx={{
-          borderRadius: 'md',
-          overflow: 'auto',
-          my: 2,
+          display: 'flex',
+          width: '100%',
+          justifyContent: 'end',
+          gap: 1,
         }}
       >
-        <Datagrid rows={patients} columns={columns} />
+        <PatientsFilter
+          patients={patientData.patients}
+          onFilter={handleFilter}
+        />
+        <AddPatientButton />
       </Sheet>
+      <Datagrid rows={filteredPatients} columns={columns} />
     </>
   );
 }

@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react';
+
 export type Comparator<T> = (a: T, b: T) => number;
 export type ComparatorKey<T> = keyof T | Comparator<T>;
 export type ComparatorFn<T> = (a: T, b: T) => number;
@@ -17,5 +19,6 @@ export type ColumnType = {
   width?: number;
   padding?: number;
   hidden?: boolean;
+  style?: CSSProperties;
   renderCell?: (row: any) => React.ReactNode;
 };

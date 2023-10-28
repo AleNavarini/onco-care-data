@@ -8,10 +8,10 @@ export default function TableHead({ columns }: Props) {
       <tr>
         {columns
           .filter((column) => !column.hidden)
-          .map((column) => {
+          .map((column, index) => {
             return (
               <th
-                key={column.field}
+                key={`table-head-${column.field}-${index}`}
                 style={{
                   width: column.width,
                   padding: 12,

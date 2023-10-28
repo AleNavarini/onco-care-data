@@ -33,7 +33,7 @@ export default function PatientsFilter({
     }
 
     onFilter(filtered);
-  }, [textFilter, statusFilter, patients, onFilter]);
+  }, [textFilter, statusFilter, patients]);
 
   return (
     <Sheet sx={{ display: 'flex', gap: 1 }}>

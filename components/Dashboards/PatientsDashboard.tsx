@@ -17,15 +17,11 @@ export default function PatientsDashboard() {
 
   useEffect(() => {
     setFilteredPatients(patientData.patients);
-  }, [patientData]);
+  }, [patientData.patients]);
 
   const handleFilter = (filteredPatients: Patient[]) => {
     setFilteredPatients(filteredPatients);
   };
-
-  useEffect(() => {
-    setFilteredPatients(patientData.patients);
-  }, [patientData]);
 
   return (
     <>

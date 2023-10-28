@@ -9,6 +9,7 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import EditPatientButton from './EditPatientButton';
 import React from 'react';
 import { capitalize } from '@mui/material';
+import { Patient } from '@prisma/client';
 
 const deletePatientWrapper = async (patientId: string) => {
   let result = confirm('Seguro que quiere borrar el paciente?');
@@ -21,23 +22,29 @@ export const columns: ColumnType[] = [
   {
     headerName: 'Nombre',
     field: 'name',
+    style: { textAlign: 'center', textTransform: 'capitalize' },
+    renderCell: (row: FullPatient) => row.name.toLowerCase(),
   },
   {
     headerName: 'Telefono',
     field: 'phone',
+    style: { textAlign: 'center' },
   },
   {
     headerName: 'Mail',
-    field: 'mail',
+    field: 'email',
+    style: { textAlign: 'center' },
   },
   {
     headerName: 'Estado',
     field: 'status',
+    style: { textAlign: 'center' },
     renderCell: (row: any) => <StatusChip status={row.status} />,
   },
   {
     headerName: 'Accion',
     field: '',
+    style: { textAlign: 'center' },
     renderCell: (row: FullPatient) => {
       return (
         <React.Fragment>

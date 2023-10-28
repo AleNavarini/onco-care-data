@@ -34,7 +34,6 @@ export default function PatientPage({ params }: Props) {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        width: '97%',
       }}
     >
       <Suspense fallback={<LinearProgress />}>

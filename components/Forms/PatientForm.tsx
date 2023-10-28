@@ -1,35 +1,25 @@
-import {
-  Button,
-  Select,
-  Option,
-  Stack,
-  FormControl,
-  FormLabel,
-} from '@mui/joy';
+import { Select, Option, FormControl, FormLabel } from '@mui/joy';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Field from './Field';
-import { FullPatient } from '../Dashboards/PatientsDashboard';
 import Container from '../Common/Container';
-import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
+import { FullPatient } from '@/types/FullPatient';
 
 interface Props {
-  buttonText: string;
   oldPatient?: FullPatient;
-  addPatient?: (patient: FullPatient) => void;
+  handler?: (patient: FullPatient) => void;
   setModalOpen: (state: boolean) => void;
 }
 
 export default function PatientForm({
-  buttonText,
   oldPatient,
-  addPatient,
+  handler,
   setModalOpen,
 }: Props) {
+  const buttonText = oldPatient ? 'Actualizar' : 'Agregar';
   const { register, handleSubmit, reset } = useForm();
   const [selectedStatus, setSelectedStatus] = useState(
     oldPatient ? oldPatient.status : 'active',
@@ -48,16 +38,15 @@ export default function PatientForm({
     returnEntity: 'patient',
     dataModifier,
     reset,
-    handler: addPatient,
+    handler,
     setModalOpen,
   });
 
-  const dimensions = getContainerDimensions();
   const fields = getFields(oldPatient);
   const statuses = getStatuses();
 
   return (
-    <Container dimensions={dimensions} isLoading={isLoading}>
+    <Container isLoading={isLoading}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormFieldsMapper register={register} fields={fields} />
         <FormControl>
@@ -91,23 +80,6 @@ export default function PatientForm({
       </form>
     </Container>
   );
-
-  function getContainerDimensions() {
-    const width = {
-      xs: '90%',
-      sm: '90%',
-      md: '80%',
-      lg: '50%',
-      xl: '30%',
-    };
-    const maxHeight = {
-      sm: '90%',
-      md: '90%',
-      lg: '100%',
-      xl: '100%',
-    };
-    return { width, maxHeight };
-  }
 }
 
 function getStatuses() {

@@ -77,3 +77,45 @@ export async function DELETE(request: Request, context: { params: any }) {
     return NextResponse.error();
   }
 }
+
+export async function PUT(request: Request, context: { params: any }) {
+  const id = context.params.id;
+  const {
+    dni,
+    name,
+    dateOfBirth,
+    phone,
+    email,
+    address,
+    healthInsurance,
+    clinicHistory,
+    status,
+  } = await request.json();
+  try {
+    const newPatient = await prisma.patient.update({
+      where: {
+        id: BigInt(id),
+      },
+      data: {
+        dni,
+        name,
+        dateOfBirth: dateOfBirth ? new Date(dateOfBirth) : null,
+        phone: phone || null,
+        email: email || null,
+        address: address || null,
+        healthInsurance: healthInsurance || null,
+        clinicHistory: clinicHistory ? BigInt(clinicHistory) : null,
+        status: status,
+      },
+    });
+    return NextResponse.json({
+      status: 204,
+      message: 'Patient updated',
+      patient: newPatient,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return NextResponse.error();
+  }
+}

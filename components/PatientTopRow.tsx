@@ -26,10 +26,6 @@ export default function PatientTopRow({ patientId }: Props) {
         display: 'flex',
         justifyContent: 'space-between',
         gap: 1,
-        width: {
-          sm: '100%',
-          md: '90%',
-        },
       }}
     >
       <Typography level="h2">{patient.name}</Typography>
@@ -38,7 +34,7 @@ export default function PatientTopRow({ patientId }: Props) {
         diseases={diseases}
         defaultValue={patient.disease?.name}
       />
-      <StatusChip status={patient.status} />
+      <StatusChip status={patient.status} size="lg" />
     </Box>
   );
 }

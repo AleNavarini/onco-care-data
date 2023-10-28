@@ -1,9 +1,12 @@
+import { getStatus } from '@/utils/getStatus';
 import { Chip, ColorPaletteProp } from '@mui/joy';
 
 interface Props {
   status: string;
+  size?: 'md' | 'lg';
 }
-export default function StatusChip({ status }: Props) {
+
+export default function StatusChip({ status, size = 'md' }: Props) {
   return (
     <Chip
       color={
@@ -13,14 +16,9 @@ export default function StatusChip({ status }: Props) {
         }[getStatus(status)] as ColorPaletteProp
       }
       variant="soft"
-      size="lg"
+      size={size}
     >
       {getStatus(status)}
     </Chip>
   );
-}
-
-function getStatus(status: string) {
-  if (status === 'following') return 'En seguimiento';
-  return 'Activa';
 }

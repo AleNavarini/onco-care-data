@@ -40,6 +40,7 @@ export const useSubmitForm = ({
     try {
       setIsLoading(true);
       const result = await fetchData(entity + endpoint, method, data);
+      console.log(JSON.stringify(result, null, 2));
       if (result.status === 200 && reset) reset();
       if (handler && returnEntity) handler(result[returnEntity]);
       if (setModalOpen) setModalOpen(false);

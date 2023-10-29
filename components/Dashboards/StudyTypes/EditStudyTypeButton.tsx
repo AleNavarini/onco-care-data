@@ -13,7 +13,9 @@ interface EditDiseaseButtonProps {
   studyType: StudyType;
 }
 
-export default function EditStudyTypeButton({ studyType }: EditDiseaseButtonProps) {
+export default function EditStudyTypeButton({
+  studyType,
+}: EditDiseaseButtonProps) {
   const { open, openModal, closeModal, modalContent } = useModal();
   return (
     <React.Fragment>

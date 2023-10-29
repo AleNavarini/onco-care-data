@@ -9,7 +9,6 @@ import TreatmentTypesDasboard from '@/components/Dashboards/TreatmentTypes/Treat
 import { Box, CircularProgress, Sheet, Typography } from '@mui/joy';
 import { Suspense } from 'react';
 
-
 export default function ManagePage() {
   return (
     <Sheet
@@ -35,20 +34,24 @@ export default function ManagePage() {
         }}
       >
         <Suspense fallback={<CircularProgress />}>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
             <Typography level="h3">Enfermedades</Typography>
             <AddDiseaseButton />
           </Box>
           <DiseasesDashboard />
         </Suspense>
         <Suspense fallback={<CircularProgress />}>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
             <Typography level="h3">Tratamientos</Typography>
             <AddTreatmentTypeButton />
           </Box>
@@ -64,14 +67,16 @@ export default function ManagePage() {
           },
           display: 'flex',
           flexDirection: 'column',
-          rowGap: 2
+          rowGap: 2,
         }}
       >
         <Suspense fallback={<CircularProgress />}>
-          <Box sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-          }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+            }}
+          >
             <Typography level="h3">Estudios</Typography>
             <AddStudyTypeButton />
           </Box>

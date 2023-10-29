@@ -23,7 +23,7 @@ export default function EditStudyTypeButton({
         onClick={() =>
           openModal(
             <StudyTypeForm
-              handler={() => mutate('/api/diseases')}
+              handler={() => mutate('/api/study-types')}
               setModalOpen={closeModal}
               oldStudyType={studyType}
             />,

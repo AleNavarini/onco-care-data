@@ -1,7 +1,7 @@
 'use client';
 
 import { Typography } from '@mui/joy';
-import PatientsDashboard from '@/components/Dashboards/PatientsDashboard';
+import PatientsDashboard from '@/components/Dashboards/Patients/PatientsDashboard';
 import LoadingOverlay from '@/components/Common/LoadingOverlay';
 import { Suspense } from 'react';
 

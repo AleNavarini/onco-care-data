@@ -1,5 +1,7 @@
+import { ColumnType } from './table.types';
+
 interface Props {
-  columns: any[];
+  columns: ColumnType[];
 }
 
 export default function TableHead({ columns }: Props) {
@@ -17,9 +19,12 @@ export default function TableHead({ columns }: Props) {
                   padding: 12,
                   zIndex: 1,
                   textAlign: 'center',
+                  ...column.style,
                 }}
               >
-                {column.headerName}
+                {typeof column.headerName === 'string'
+                  ? column.headerName
+                  : column.headerName()}
               </th>
             );
           })}

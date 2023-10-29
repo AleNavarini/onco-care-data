@@ -1,13 +1,13 @@
 'use client';
 import { Sheet } from '@mui/joy';
 import useSWR from 'swr';
-import Datagrid from '../Table/Datagrid';
-import { columns } from './Patients/patients.columns';
+import Datagrid from '../../Table/Datagrid';
+import { columns } from './patients.columns';
 import fetcher from '@/utils/fetcher';
-import AddPatientButton from './Patients/AddPatientButton';
+import AddPatientButton from './AddPatientButton';
 import { useEffect, useState } from 'react';
 import { Patient } from '@prisma/client';
-import PatientsFilter from './Patients/PatientsFilter';
+import PatientsFilter from './PatientsFilter';
 
 export default function PatientsDashboard() {
   const { data: patientData } = useSWR('/api/patients', fetcher, {

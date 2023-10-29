@@ -10,16 +10,15 @@ import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
 import Form from '../Common/Form';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
+import NewForm from '../Common/NewForm';
 
 interface Props {
-  buttonText: string;
   oldTreatmentType?: TreatmentType;
   handler?: (treatmentType: TreatmentType) => void;
   setModalOpen: (state: boolean) => void;
 }
 
 export default function TreatmentTypeForm({
-  buttonText,
   setModalOpen,
   handler,
   oldTreatmentType,
@@ -37,13 +36,13 @@ export default function TreatmentTypeForm({
   });
 
   return (
-    <Form
-      buttonText={buttonText}
+    <NewForm
       fields={fields}
       handleSubmit={handleSubmit}
       isLoading={isLoading}
       onSubmit={onSubmit}
       register={register}
+      oldEntity={oldTreatmentType}
     />
   );
 }

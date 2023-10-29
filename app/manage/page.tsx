@@ -1,10 +1,11 @@
 'use client';
-import DiseasesDashboard from '@/components/Dashboards/DiseasesDashboard';
+import AddDiseaseButton from '@/components/Dashboards/Diseases/AddDiseaseButton';
+import DiseasesDashboard from '@/components/Dashboards/Diseases/DiseasesDashboard';
 import StudyTypesDasboard from '@/components/Dashboards/StudyTypesDasboard';
-import TreatmentTypesDasboard from '@/components/Dashboards/TreatmentTypesDashboard';
+import AddTreatmentTypeButton from '@/components/Dashboards/TreatmentTypes/AddTreatmentTypeButton';
+import TreatmentTypesDasboard from '@/components/Dashboards/TreatmentTypes/TreatmentTypesDashboard';
 import fetcher from '@/utils/fetcher';
-import { CircularProgress, LinearProgress, Sheet, Typography } from '@mui/joy';
-import { Disease } from '@prisma/client';
+import { Box, CircularProgress, Sheet, Typography } from '@mui/joy';
 import { Suspense } from 'react';
 import useSWR from 'swr';
 
@@ -15,19 +16,11 @@ const fetchData = async (url: string) => {
 };
 
 export default function ManagePage() {
-  const { data: diseasesData } = useSWR(`/api/diseases`, fetcher, {
-    suspense: true,
-  });
   const { data: studyTypesData } = useSWR(`/api/study-types`, fetcher, {
     suspense: true,
   });
-  const { data: treatmentTypesData } = useSWR(`/api/treatment-types`, fetcher, {
-    suspense: true,
-  });
 
-  const diseases = diseasesData.diseases;
   const studyTypes = studyTypesData?.studyTypes;
-  const treatmentTypes = treatmentTypesData?.treatmentTypes;
 
   return (
     <Sheet
@@ -49,16 +42,28 @@ export default function ManagePage() {
           },
           display: 'flex',
           flexDirection: 'column',
-          rowGap: 1,
+          rowGap: 2,
         }}
       >
         <Suspense fallback={<CircularProgress />}>
-          <Typography level="h3">Enfermedades</Typography>
-          <DiseasesDashboard diseases={diseases} />
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}>
+            <Typography level="h3">Enfermedades</Typography>
+            <AddDiseaseButton />
+          </Box>
+          <DiseasesDashboard />
         </Suspense>
         <Suspense fallback={<CircularProgress />}>
-          <Typography level="h3">Tratamientos</Typography>
-          <TreatmentTypesDasboard treatmentTypes={treatmentTypes} />
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}>
+            <Typography level="h3">Tratamientos</Typography>
+            <AddTreatmentTypeButton />
+          </Box>
+          <TreatmentTypesDasboard />
         </Suspense>
       </Sheet>
 
@@ -71,7 +76,9 @@ export default function ManagePage() {
         }}
       >
         <Suspense fallback={<CircularProgress />}>
-          <Typography mb={1} level="h3">Estudios</Typography>
+          <Typography mb={1} level="h3">
+            Estudios
+          </Typography>
           <StudyTypesDasboard studyTypes={studyTypes} />
         </Suspense>
       </Sheet>

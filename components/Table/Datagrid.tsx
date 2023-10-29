@@ -15,7 +15,6 @@ export default function Datagrid({ rows, columns }: Props) {
       sx={{
         borderRadius: 'md',
         overflow: 'auto',
-        my: 2,
       }}
     >
       <Table

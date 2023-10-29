@@ -16,7 +16,7 @@ import { usePathname } from 'next/navigation';
 import useUser from '@/hooks/useUser';
 import SignOutButton from '../SignOutButton';
 
-export default function Navbar() {
+export default function FirstSidebar() {
   const activePath = usePathname();
   const user = useUser();
   return (

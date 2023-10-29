@@ -12,7 +12,7 @@ export type SortType<T> = {
 };
 
 export type ColumnType = {
-  headerName: string;
+  headerName: string | (() => React.ReactNode);
   field: string;
   sortable?: boolean;
   filter?: boolean;

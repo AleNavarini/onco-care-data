@@ -1,26 +1,18 @@
-import { Button, Sheet, Stack } from '@mui/joy';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Disease } from '@prisma/client';
-import Container from '../Common/Container';
-import { fetchData } from '@/utils/fetchData';
-import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
-import FormFieldsMapper from '../Common/FormFieldsMapper';
-import Form from '../Common/Form';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
+import NewForm from '../Common/NewForm';
 
 interface Props {
-  buttonText: string;
   oldDisease?: Disease;
-  addDisease?: (disease: Disease) => void;
+  handler?: (disease: Disease) => void;
   setModalOpen: (state: boolean) => void;
 }
 
 export default function DiseaseForm({
-  buttonText,
   oldDisease,
-  addDisease,
+  handler,
   setModalOpen,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
@@ -30,7 +22,7 @@ export default function DiseaseForm({
     endpoint: oldDisease ? `/${oldDisease.id}` : '',
     oldEntity: oldDisease,
     returnEntity: 'disease',
-    handler: addDisease,
+    handler,
     setModalOpen,
     reset,
   });
@@ -38,13 +30,13 @@ export default function DiseaseForm({
   const fields = getFields(oldDisease);
 
   return (
-    <Form
-      buttonText={buttonText}
+    <NewForm
       fields={fields}
       handleSubmit={handleSubmit}
       isLoading={isLoading}
       onSubmit={onSubmit}
       register={register}
+      oldEntity={oldDisease}
     />
   );
 }

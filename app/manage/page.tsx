@@ -2,8 +2,10 @@
 import DiseasesDashboard from '@/components/Dashboards/DiseasesDashboard';
 import StudyTypesDasboard from '@/components/Dashboards/StudyTypesDasboard';
 import TreatmentTypesDasboard from '@/components/Dashboards/TreatmentTypesDashboard';
-import { LinearProgress, Sheet, Typography } from '@mui/joy';
+import fetcher from '@/utils/fetcher';
+import { CircularProgress, LinearProgress, Sheet, Typography } from '@mui/joy';
 import { Disease } from '@prisma/client';
+import { Suspense } from 'react';
 import useSWR from 'swr';
 
 const fetchData = async (url: string) => {
@@ -13,31 +15,20 @@ const fetchData = async (url: string) => {
 };
 
 export default function ManagePage() {
-  const {
-    data: diseasesData,
-    isLoading: diseasesLoading,
-    error: diseasesError,
-  } = useSWR(`/api/diseases`, fetchData, { refreshInterval: 5000 });
-  const {
-    data: studyTypesData,
-    isLoading: studyTypesLoading,
-    error: studyTypesError,
-  } = useSWR(`/api/study-types`, fetchData, { refreshInterval: 5000 });
-  const {
-    data: treatmentTypesData,
-    isLoading: treatmentTypesLoading,
-    error: treatmentTypesError,
-  } = useSWR(`/api/treatment-types`, fetchData, { refreshInterval: 5000 });
-
-  const error = diseasesError || studyTypesError || treatmentTypesError;
-  const isLoading =
-    diseasesLoading || studyTypesLoading || treatmentTypesLoading;
-  if (error) return <h1>Ha ocurrido un error ... </h1>;
-  if (isLoading) return <LinearProgress />;
+  const { data: diseasesData } = useSWR(`/api/diseases`, fetcher, {
+    suspense: true,
+  });
+  const { data: studyTypesData } = useSWR(`/api/study-types`, fetcher, {
+    suspense: true,
+  });
+  const { data: treatmentTypesData } = useSWR(`/api/treatment-types`, fetcher, {
+    suspense: true,
+  });
 
   const diseases = diseasesData.diseases;
   const studyTypes = studyTypesData?.studyTypes;
   const treatmentTypes = treatmentTypesData?.treatmentTypes;
+
   return (
     <Sheet
       sx={{
@@ -58,13 +49,17 @@ export default function ManagePage() {
           },
           display: 'flex',
           flexDirection: 'column',
-          rowGap: 1
+          rowGap: 1,
         }}
       >
-        <Typography level="h3">Enfermedades</Typography>
-        <DiseasesDashboard diseases={diseases} />
-        <Typography level="h3">Tratamientos</Typography>
-        <TreatmentTypesDasboard treatmentTypes={treatmentTypes} />
+        <Suspense fallback={<CircularProgress />}>
+          <Typography level="h3">Enfermedades</Typography>
+          <DiseasesDashboard diseases={diseases} />
+        </Suspense>
+        <Suspense fallback={<CircularProgress />}>
+          <Typography level="h3">Tratamientos</Typography>
+          <TreatmentTypesDasboard treatmentTypes={treatmentTypes} />
+        </Suspense>
       </Sheet>
 
       <Sheet
@@ -75,10 +70,10 @@ export default function ManagePage() {
           },
         }}
       >
-        <Typography mb={1} level="h3">
-          Estudios
-        </Typography>
-        <StudyTypesDasboard studyTypes={studyTypes} />
+        <Suspense fallback={<CircularProgress />}>
+          <Typography mb={1} level="h3">Estudios</Typography>
+          <StudyTypesDasboard studyTypes={studyTypes} />
+        </Suspense>
       </Sheet>
     </Sheet>
   );

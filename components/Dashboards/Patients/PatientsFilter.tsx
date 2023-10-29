@@ -36,7 +36,15 @@ export default function PatientsFilter({
   }, [textFilter, statusFilter, patients]);
 
   return (
-    <Sheet sx={{ display: 'flex', gap: 1 }}>
+    <Sheet sx={{
+      display: 'flex',
+      gap: 1,
+      flexDirection: {
+        xs: 'column',
+        sm: 'column',
+        md: 'row'
+      }
+    }}>
       <Input
         type="text"
         placeholder="Buscar"

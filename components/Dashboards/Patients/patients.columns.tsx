@@ -22,28 +22,33 @@ export const columns: ColumnType[] = [
   {
     headerName: 'Nombre',
     field: 'name',
+    width: 150,
     style: { textAlign: 'center', textTransform: 'capitalize' },
     renderCell: (row: FullPatient) => row.name.toLowerCase(),
   },
   {
     headerName: 'Telefono',
     field: 'phone',
+    width: 150,
     style: { textAlign: 'center' },
   },
   {
     headerName: 'Mail',
     field: 'email',
-    style: { textAlign: 'center' },
+    width: 300,
+    style: { textAlign: 'center', wordWrap: 'normal' },
   },
   {
     headerName: 'Estado',
     field: 'status',
+    width: 150,
     style: { textAlign: 'center' },
     renderCell: (row: any) => <StatusChip status={row.status} />,
   },
   {
     headerName: 'Accion',
     field: '',
+    width: 90,
     style: { textAlign: 'center' },
     renderCell: (row: FullPatient) => {
       return (

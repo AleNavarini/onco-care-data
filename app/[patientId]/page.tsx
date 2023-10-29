@@ -3,7 +3,7 @@
 import Accordion from '@/components/Common/Accordion';
 import AffiliatoryDataForm from '@/components/Forms/AffiliatoryDataForm';
 import PatientTopRow from '@/components/PatientTopRow';
-import RiskFactorsDashboard from '@/components/Dashboards/RiskFactorsDashboard';
+import RiskFactorsDashboard from '@/components/Dashboards/RiskFactors/RiskFactorsDashboard';
 import PreviousSurgeriesTable from '@/components/Tables/PreviousSurgeriesTable';
 import StagingTable from '@/components/Tables/StagingTable';
 import SymptomsTable from '@/components/Tables/SymptomsTable';
@@ -48,9 +48,7 @@ export default function PatientPage({ params }: Props) {
             md: 'row',
           },
           gap: 3,
-          width: '90%',
-          my: 5,
-          mx: 'auto',
+          mt: 2
         }}
       >
         <Stack
@@ -122,12 +120,7 @@ export default function PatientPage({ params }: Props) {
           </Accordion>
 
           <Accordion title="Factores de Riesgo">
-            <RiskFactorsDashboard
-              forPatient={true}
-              riskFactors={data.patient.riskFactors}
-              diseaseId={data.patient.dise}
-              patientId={data.patient.id}
-            />
+            <RiskFactorsDashboard patientId={id} />
           </Accordion>
 
           <Accordion title="Gestas">

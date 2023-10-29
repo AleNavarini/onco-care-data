@@ -10,29 +10,24 @@ import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
 import Form from '../Common/Form';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
+import NewForm from '../Common/NewForm';
 
 interface Props {
-  buttonText: string;
   oldRiskFactor?: RiskFactor;
-  patientId?: string;
-  diseaseId?: string;
   handler?: (riskFactor: RiskFactor) => void;
-  setModalOpen: (state: boolean) => void;
+  setModalOpen?: (state: boolean) => void;
 }
 
 export default function RiskFactorForm({
-  buttonText,
   oldRiskFactor,
-  patientId,
-  diseaseId,
   handler,
   setModalOpen,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
 
   const dataModifier = (data: any) => {
-    if (patientId) data = { ...data, patientId };
-    if (diseaseId) data = { ...data, diseaseId };
+    if (oldRiskFactor?.patientId) data = { ...data, patientId: oldRiskFactor.patientId };
+    if (oldRiskFactor?.diseaseId) data = { ...data, diseaseId: oldRiskFactor.diseaseId };
     return data;
   };
 
@@ -46,23 +41,22 @@ export default function RiskFactorForm({
     handler,
   });
 
-  const fields = getFields(oldRiskFactor, patientId);
+  const fields = getFields(oldRiskFactor);
 
   return (
-    <Form
-      buttonText={buttonText}
+    <NewForm
       fields={fields}
       handleSubmit={handleSubmit}
       isLoading={isLoading}
       onSubmit={onSubmit}
       register={register}
+      oldEntity={oldRiskFactor}
     />
   );
 }
 
 function getFields(
   oldRiskFactor: RiskFactor | undefined,
-  patientId: string | undefined,
 ): FieldConfig[] {
   const fields: FieldConfig[] = [
     {
@@ -83,7 +77,7 @@ function getFields(
     },
   ];
 
-  if (patientId) {
+  if (oldRiskFactor?.patientId) {
     fields.push({
       fieldName: 'value',
       label: 'Valor',

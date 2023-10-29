@@ -46,47 +46,32 @@ export default function ManagePage() {
           sm: 'column',
           md: 'row',
         },
-        flexWrap: 'wrap',
-        borderRadius: 'md',
-        justifyContent: 'space-around',
-        gap: 2,
-        width: {
-          md: '95%',
-        },
-        mt: 2,
+        justifyContent: 'space-between',
+        gap: 3,
       }}
     >
       <Sheet
         sx={{
           width: {
             sm: '100%',
-            md: '30%',
+            md: '50%',
           },
+          display: 'flex',
+          flexDirection: 'column',
+          rowGap: 1
         }}
       >
-        <Typography mb={1} level="h3">
-          Enfermedades
-        </Typography>
+        <Typography level="h3">Enfermedades</Typography>
         <DiseasesDashboard diseases={diseases} />
-      </Sheet>
-      <Sheet
-        sx={{
-          width: {
-            sm: '100%',
-            md: '30%',
-          },
-        }}
-      >
-        <Typography mb={1} level="h3">
-          Tratamientos
-        </Typography>
+        <Typography level="h3">Tratamientos</Typography>
         <TreatmentTypesDasboard treatmentTypes={treatmentTypes} />
       </Sheet>
+
       <Sheet
         sx={{
           width: {
             sm: '100%',
-            md: '30%',
+            md: '50%',
           },
         }}
       >

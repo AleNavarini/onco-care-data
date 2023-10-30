@@ -20,6 +20,7 @@ const routes = [
 
 export default function SecondSidebar() {
   const pathname = usePathname();
+  const previousPathname = pathname.split('/')[1]
 
   return (
     <React.Fragment>
@@ -77,7 +78,7 @@ export default function SecondSidebar() {
             Menu 
           </ListSubheader>
           {routes.map((route, index) => (
-            <Link key={`link-for-${index}-${route}`} href={`${pathname}${route.href}`} style={{textDecoration: "none"}}>
+            <Link key={`link-for-${index}-${route}`} href={`/${previousPathname}${route.href}`} style={{textDecoration: "none"}}>
             <ListItem key={index}>
               <Tooltip title={route.title} placement="right">
                 <ListItemButton

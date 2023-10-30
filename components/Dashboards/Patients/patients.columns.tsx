@@ -71,7 +71,7 @@ export const columns: ColumnType[] = [
     width: 60,
     renderCell: (row: FullPatient) => {
       return (
-        <Link href={`/${row.id}`}>
+        <Link href={`/${row.id}/dashboards`}>
           <IconButton color="neutral" variant="plain">
             <ArrowCircleRightOutlinedIcon />
           </IconButton>

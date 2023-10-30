@@ -1,0 +1,23 @@
+import prisma from '@/lib/prisma';
+import { NextResponse } from 'next/server';
+import '@/lib/bigIntExtensions';
+
+export async function GET(request: Request, context: { params: any }) {
+  const { id } = context.params;
+
+  try {
+    const treatments = await prisma.treatment.findMany({
+      where: {
+        patientId: BigInt(id),
+      },
+    });
+
+    return NextResponse.json({
+      status: 200,
+      treatments,
+    });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.error();
+  }
+}

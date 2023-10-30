@@ -21,15 +21,13 @@ interface FullStudyType extends StudyType {
 }
 
 interface Props {
-  buttonText: string;
   patientId: string;
-  setModalOpen: (state: boolean) => void;
+  setModalOpen?: (state: boolean) => void;
   oldStudy?: any;
   handler?: (study: Study) => void;
 }
 
 export default function StudyForm({
-  buttonText,
   patientId,
   setModalOpen,
   oldStudy,
@@ -41,7 +39,7 @@ export default function StudyForm({
     oldStudy ? oldStudy.studyTypeId : '',
   );
 
-  const { data: studyTypesData, isLoading: isLoadingStudyTypes } = useSWR(
+  const { data: studyTypesData } = useSWR(
     `/api/study-types`,
     fetchStudies,
     { refreshInterval: 5000 },
@@ -61,7 +59,7 @@ export default function StudyForm({
     studyTypeId: selectedStudyType,
   });
 
-  const { onSubmit, isLoading } = useSubmitForm({
+  const { onSubmit } = useSubmitForm({
     entity: 'studies',
     oldEntity: oldStudy,
     returnEntity: 'study',
@@ -71,83 +69,67 @@ export default function StudyForm({
     handler,
   });
 
-  const dimensions = getContainerDimensions();
 
   return (
-    <Container dimensions={dimensions} isLoading={isLoading}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={2}>
-          <Field
-            fieldName="id"
-            label="ID"
-            placeholder="Id de la gesta"
-            register={register}
-            type="text"
-            visible={false}
-            defaultValue={oldStudy?.id}
-          />
-          <Field
-            fieldName="date"
-            label="Fecha"
-            placeholder="Fecha del estudio"
-            required={true}
-            register={register}
-            type="date"
-            defaultValue={oldStudy?.date.toString().split('T')[0]}
-          />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Stack spacing={2}>
+        <Field
+          fieldName="id"
+          label="ID"
+          placeholder="Id de la gesta"
+          register={register}
+          type="text"
+          visible={false}
+          defaultValue={oldStudy?.id}
+        />
+        <Field
+          fieldName="date"
+          label="Fecha"
+          placeholder="Fecha del estudio"
+          required={true}
+          register={register}
+          type="date"
+          defaultValue={oldStudy?.date.toString().split('T')[0]}
+        />
 
-          <Select
-            // @ts-ignore
-            onChange={handleChange}
-            sx={{
-              width: {
-                sm: 'auto',
-                md: '20dvw',
-              },
-              overflow: 'visible',
-            }}
-            placeholder="Choose one…"
-            defaultValue={oldStudy?.studyTypeId}
-          >
-            {studyTypes?.map((studyType: StudyType) => (
-              <Option key={studyType.id.toString()} value={studyType.id}>
-                {studyType?.name}
-              </Option>
-            ))}
-          </Select>
+        <Select
+          // @ts-ignore
+          onChange={handleChange}
+          sx={{
+            width: {
+              sm: 'auto',
+              md: '20dvw',
+            },
+            overflow: 'visible',
+          }}
+          placeholder="Choose one…"
+          defaultValue={oldStudy?.studyTypeId}
+        >
+          {studyTypes?.map((studyType: StudyType) => (
+            <Option key={studyType.id.toString()} value={studyType.id}>
+              {studyType?.name}
+            </Option>
+          ))}
+        </Select>
 
-          {studyTypeAttributes?.map((attribute: StudyTypeAttribute) => {
-            const defaultValue = oldStudy?.studyTypeAttributes.filter(
-              (attr: StudyTypeAttribute) => attr.name === attribute.name,
-            )[0].value;
-            return (
-              <Field
-                key={attribute.id.toString()}
-                fieldName={attribute.name}
-                label={attribute.name}
-                placeholder={`${attribute.name}...`}
-                register={register}
-                type="text"
-                defaultValue={defaultValue}
-              />
-            );
-          })}
-        </Stack>
-        <SubmitButton isLoading={loading}>{buttonText}</SubmitButton>
-      </form>
-    </Container>
+        {studyTypeAttributes?.map((attribute: StudyTypeAttribute) => {
+          const defaultValue = oldStudy?.studyTypeAttributes.filter(
+            (attr: StudyTypeAttribute) => attr.name === attribute.name,
+          )[0].value;
+          return (
+            <Field
+              key={attribute.id.toString()}
+              fieldName={attribute.name}
+              label={attribute.name}
+              placeholder={`${attribute.name}...`}
+              register={register}
+              type="text"
+              defaultValue={defaultValue}
+            />
+          );
+        })}
+      </Stack>
+      <SubmitButton isLoading={loading}>{oldStudy ? "Actualizar" : "Agregar"}</SubmitButton>
+    </form>
   );
-}
-function getContainerDimensions() {
-  const width = {
-    sm: '90%',
-    md: '60%',
-    lg: '50%',
-    xl: '30%',
-  };
-  const minHeight = '50%';
-  const maxHeight = '95%';
-  const overflow = 'scroll';
-  const dimensions = { width, minHeight, maxHeight, overflow };
-  return dimensions;
 }

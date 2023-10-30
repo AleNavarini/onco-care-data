@@ -19,6 +19,7 @@ export default function TableHead({ columns }: Props) {
                   padding: 12,
                   zIndex: 1,
                   textAlign: 'center',
+                  verticalAlign: 'middle',
                   ...column.style,
                 }}
               >

@@ -1,3 +1,4 @@
+import { Typography } from '@mui/joy';
 import TableRow from './TableRow';
 import { ColumnType } from './table.types';
 
@@ -7,6 +8,7 @@ interface TableBodyProps {
 }
 
 export default function TableBody({ rows, columns }: TableBodyProps) {
+
   return (
     <tbody>
       {rows.map((row: any, index: number) => (

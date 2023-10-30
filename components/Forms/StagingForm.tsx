@@ -10,17 +10,16 @@ import { FieldConfig } from '@/types/FieldConfig';
 import FormFieldsMapper from '../Common/FormFieldsMapper';
 import Form from '../Common/Form';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
+import NewForm from '../Common/NewForm';
 
 interface Props {
-  buttonText: string;
   oldStaging?: Staging;
   patientId: string;
   handler?: (staging: Staging) => void;
-  setModalOpen: (state: boolean) => void;
+  setModalOpen?: (state: boolean) => void;
 }
 
 export default function StagingForm({
-  buttonText,
   oldStaging,
   patientId,
   handler,
@@ -46,13 +45,13 @@ export default function StagingForm({
   const fields = getFields(oldStaging);
 
   return (
-    <Form
-      buttonText={buttonText}
+    <NewForm
       fields={fields}
       handleSubmit={handleSubmit}
       isLoading={isLoading}
       onSubmit={onSubmit}
       register={register}
+      oldEntity={oldStaging}
     />
   );
 }

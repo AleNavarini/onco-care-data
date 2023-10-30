@@ -9,7 +9,7 @@ interface FollowUpsDashboardProps {
   patientId: string;
 }
 
-export default function PatientsDashboard({
+export default function FollowUpsDashboard({
   patientId,
 }: FollowUpsDashboardProps) {
   const { data } = useSWR(`/api/patient-follow-ups/${patientId}`, fetcher, {

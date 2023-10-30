@@ -7,7 +7,7 @@ import ListItemContent from '@mui/joy/ListItemContent';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import ListItemButton from '@mui/joy/ListItemButton';
 import Sheet from '@mui/joy/Sheet';
-import { Clipboard, Grid } from 'react-feather';
+import { Archive, Clipboard, Grid, Scissors } from 'react-feather';
 import { Tooltip } from '@mui/joy';
 import { usePathname } from 'next/navigation';
 import { closeSidebar } from '@/utils';
@@ -15,7 +15,8 @@ import Link from 'next/link';
 
 const routes = [
   { icon: <Grid size={20} />, title: 'Dashboards', href: '/dashboards' },
-  { icon: <Clipboard size={20} />, title: 'Info', href: '/info' },
+  { icon: <Clipboard size={20} />, title: 'Estudios', href: '/studies' },
+  { icon: <Scissors size={20} />, title: 'Tratamientos', href: '/treatments' },
 ];
 
 export default function SecondSidebar() {
@@ -86,7 +87,7 @@ export default function SecondSidebar() {
               <ListItem key={index}>
                 <Tooltip title={route.title} placement="right">
                   <ListItemButton
-                    selected={route.href === pathname}
+                    selected={pathname.includes(route.href)}
                     variant={route.href === pathname ? 'solid' : 'plain'}
                     sx={{
                       borderRadius: '8px',
@@ -95,6 +96,7 @@ export default function SecondSidebar() {
                   >
                     <ListItemDecorator>{route.icon}</ListItemDecorator>
                     <ListItemContent>{route.title}</ListItemContent>
+
                   </ListItemButton>
                 </Tooltip>
               </ListItem>

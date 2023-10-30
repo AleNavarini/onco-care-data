@@ -20,7 +20,7 @@ const routes = [
 
 export default function SecondSidebar() {
   const pathname = usePathname();
-  const previousPathname = pathname.split('/')[1]
+  const previousPathname = pathname.split('/')[1];
 
   return (
     <React.Fragment>
@@ -60,7 +60,7 @@ export default function SecondSidebar() {
           height: '100dvh',
           top: 0,
           py: 3,
-          px:1,
+          px: 1,
           flexShrink: 0,
           display: 'flex',
           flexDirection: 'column',
@@ -75,26 +75,30 @@ export default function SecondSidebar() {
           }}
         >
           <ListSubheader role="presentation" sx={{ color: 'text.primary' }}>
-            Menu 
+            Menu
           </ListSubheader>
           {routes.map((route, index) => (
-            <Link key={`link-for-${index}-${route}`} href={`/${previousPathname}${route.href}`} style={{textDecoration: "none"}}>
-            <ListItem key={index}>
-              <Tooltip title={route.title} placement="right">
-                <ListItemButton
-                  selected={route.href === pathname}
-                  variant={route.href === pathname ? 'solid' : 'plain'}
-                  sx={{
-                    borderRadius: '8px',
-                  }}
-                  onClick={closeSidebar}
+            <Link
+              key={`link-for-${index}-${route}`}
+              href={`/${previousPathname}${route.href}`}
+              style={{ textDecoration: 'none' }}
+            >
+              <ListItem key={index}>
+                <Tooltip title={route.title} placement="right">
+                  <ListItemButton
+                    selected={route.href === pathname}
+                    variant={route.href === pathname ? 'solid' : 'plain'}
+                    sx={{
+                      borderRadius: '8px',
+                    }}
+                    onClick={closeSidebar}
                   >
-                  <ListItemDecorator>{route.icon}</ListItemDecorator>
-                  <ListItemContent>{route.title}</ListItemContent>
-                </ListItemButton>
-              </Tooltip>
-            </ListItem>
-                  </Link>
+                    <ListItemDecorator>{route.icon}</ListItemDecorator>
+                    <ListItemContent>{route.title}</ListItemContent>
+                  </ListItemButton>
+                </Tooltip>
+              </ListItem>
+            </Link>
           ))}
         </List>
       </Sheet>

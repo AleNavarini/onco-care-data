@@ -35,9 +35,7 @@ export const columns: ColumnType[] = [
     renderCell: (row: RiskFactor) => {
       return (
         <React.Fragment>
-          <EditButton
-            form={<RiskFactorForm oldRiskFactor={row} />}
-          />
+          <EditButton form={<RiskFactorForm oldRiskFactor={row} />} />
           <IconButton
             color="neutral"
             variant="plain"
@@ -56,8 +54,8 @@ export const getColumns = (withPatient: boolean): ColumnType[] => {
     headerName: 'Valor',
     field: 'value',
     width: 150,
-    style: { textAlign: 'center', verticalAlign: 'middle' }
-  }
+    style: { textAlign: 'center', verticalAlign: 'middle' },
+  };
   return [
     {
       headerName: 'Nombre',
@@ -79,9 +77,7 @@ export const getColumns = (withPatient: boolean): ColumnType[] => {
       renderCell: (row: RiskFactor) => {
         return (
           <React.Fragment>
-            <EditButton
-              form={<RiskFactorForm oldRiskFactor={row} />}
-            />
+            <EditButton form={<RiskFactorForm oldRiskFactor={row} />} />
             <IconButton
               color="neutral"
               variant="plain"
@@ -94,4 +90,4 @@ export const getColumns = (withPatient: boolean): ColumnType[] => {
       },
     },
   ];
-}
+};

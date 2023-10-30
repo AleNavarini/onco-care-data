@@ -48,7 +48,7 @@ export default function PatientPage({ params }: Props) {
             md: 'row',
           },
           gap: 3,
-          mt: 2
+          mt: 2,
         }}
       >
         <Stack

@@ -16,6 +16,8 @@ import TreatmentsTable from '@/components/Tables/TreatmentsTable';
 import LoadingOverlay from '@/components/Common/LoadingOverlay';
 import { Suspense } from 'react';
 import fetcher from '@/utils/fetcher';
+import FollowUpWidget from '@/components/Dashboards/FollowUps/FollowUpWidget';
+import StagingsWidget from '@/components/Dashboards/Stagings/StagingsWidget';
 
 interface Props {
   params: {
@@ -48,7 +50,7 @@ export default function PatientPage({ params }: Props) {
             md: 'row',
           },
           gap: 3,
-          mt: 2
+          mt: 2,
         }}
       >
         <Stack
@@ -65,33 +67,12 @@ export default function PatientPage({ params }: Props) {
           }}
         >
           <Suspense fallback={<LinearProgress />}>
-            <Accordion title="Estadificaciones">
-              <StagingTable
-                patientId={data?.patient.id}
-                stagings={data?.patient.stagings}
-              />
-            </Accordion>
+            <FollowUpWidget width={100} patientId={id} />
           </Suspense>
 
-          <Accordion title="Seguimientos">
-            <FollowUpsTable
-              patientId={data.patient.id}
-              followUps={data.patient.followUps}
-            />
-          </Accordion>
-          <Accordion title="Estudios">
-            <StudiesTable
-              patientId={data.patient.id}
-              studies={data.patient.studies}
-            />
-          </Accordion>
-
-          <Accordion title="Tratamientos">
-            <TreatmentsTable
-              patientId={data.patient.id}
-              treatments={data.patient.treatments}
-            />
-          </Accordion>
+          <Suspense fallback={<LinearProgress />}>
+            <StagingsWidget width={100} patientId={id} />
+          </Suspense>
         </Stack>
         <Stack
           spacing={2}

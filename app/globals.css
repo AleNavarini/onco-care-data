@@ -8,3 +8,27 @@
 .body-class {
   background-color: var(--joy-palette-background-surface);
 }
+
+/* This will apply to all scrollbars */
+::-webkit-scrollbar {
+  width: 20px; /* Width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(
+    --joy-palette-background-surface
+  ); /* Color of the track */
+  border-radius: 5px; /* Roundness of the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--joy-palette-neutral-700); /* Color of the thumb */
+  border-radius: 5px; /* Roundness of the thumb */
+}
+
+/* This will apply to all scrollable elements */
+* {
+  scrollbar-width: none; /* Width of the scrollbar */
+  scrollbar-color: var(--joy-palette-neutral-700)
+    var(--joy-palette-background-surface); /* Color of the thumb and track */
+}

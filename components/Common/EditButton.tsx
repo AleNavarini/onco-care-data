@@ -5,15 +5,13 @@ import React from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 
 interface EditButtonProps {
-  form: React.ReactElement
+  form: React.ReactElement;
 }
 
-export default function EditButton({
-  form,
-}: EditButtonProps) {
+export default function EditButton({ form }: EditButtonProps) {
   const { open, openModal, closeModal, modalContent } = useModal();
 
-  const formWithProps = React.cloneElement(form, { openModal })
+  const formWithProps = React.cloneElement(form, { openModal });
 
   return (
     <React.Fragment>

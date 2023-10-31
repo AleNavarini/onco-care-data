@@ -16,9 +16,11 @@ export default function TableHead({ columns }: Props) {
                 key={`table-head-${column.field}-${index}`}
                 style={{
                   width: column.width,
-                  padding: 12,
+                  paddingLeft: 12,
+                  paddingRight: 12,
                   zIndex: 1,
                   textAlign: 'center',
+                  verticalAlign: 'middle',
                   ...column.style,
                 }}
               >

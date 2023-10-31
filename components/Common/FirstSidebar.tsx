@@ -16,7 +16,7 @@ import { usePathname } from 'next/navigation';
 import useUser from '@/hooks/useUser';
 import SignOutButton from '../SignOutButton';
 
-export default function Navbar() {
+export default function FirstSidebar() {
   const activePath = usePathname();
   const user = useUser();
   return (
@@ -33,13 +33,12 @@ export default function Navbar() {
             md: 'none',
           },
           transition: 'transform 0.4s',
-          zIndex: 10000,
+          zIndex: 4,
           minHeight: '100%',
           maxHeight: '100%',
           width: 'var(--FirstSidebar-width)',
           top: 0,
           py: 3,
-          px: 2,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',

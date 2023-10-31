@@ -7,14 +7,11 @@ import React from 'react';
 import { mutate } from 'swr';
 
 interface AddButtonProps {
-  text: string
-  form: React.ReactNode
+  text: string;
+  form: React.ReactNode;
 }
 
-export default function AddButton({
-  form,
-  text
-}: AddButtonProps) {
+export default function AddButton({ form, text }: AddButtonProps) {
   const { open, openModal, closeModal, modalContent } = useModal();
   return (
     <React.Fragment>

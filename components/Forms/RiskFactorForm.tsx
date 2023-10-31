@@ -26,8 +26,10 @@ export default function RiskFactorForm({
   const { register, handleSubmit, reset } = useForm();
 
   const dataModifier = (data: any) => {
-    if (oldRiskFactor?.patientId) data = { ...data, patientId: oldRiskFactor.patientId };
-    if (oldRiskFactor?.diseaseId) data = { ...data, diseaseId: oldRiskFactor.diseaseId };
+    if (oldRiskFactor?.patientId)
+      data = { ...data, patientId: oldRiskFactor.patientId };
+    if (oldRiskFactor?.diseaseId)
+      data = { ...data, diseaseId: oldRiskFactor.diseaseId };
     return data;
   };
 
@@ -55,9 +57,7 @@ export default function RiskFactorForm({
   );
 }
 
-function getFields(
-  oldRiskFactor: RiskFactor | undefined,
-): FieldConfig[] {
+function getFields(oldRiskFactor: RiskFactor | undefined): FieldConfig[] {
   const fields: FieldConfig[] = [
     {
       fieldName: 'id',

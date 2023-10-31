@@ -204,8 +204,9 @@ export default function TreatmentForm({
           </React.Fragment>
         )}
       </Stack>
-      <SubmitButton isLoading={isLoading}>{oldTreatment ? "Actualizar" : "Agregar"}</SubmitButton>
+      <SubmitButton isLoading={isLoading}>
+        {oldTreatment ? 'Actualizar' : 'Agregar'}
+      </SubmitButton>
     </form>
   );
 }
-

@@ -2,8 +2,8 @@ import { ColumnType } from '@/components/Table/table.types';
 import React from 'react';
 import { Study, Treatment } from '@prisma/client';
 import Datagrid from '@/components/Table/Datagrid';
-import { columns as treatmentTypeAttributesColumns } from '../TreatmentTypes/treatment-type-attributes.columns'
-import { columns as treatmentTypeResultsColumns } from '../TreatmentTypes/treatment-type-results.columns'
+import { columns as treatmentTypeAttributesColumns } from '../TreatmentTypes/treatment-type-attributes.columns';
+import { columns as treatmentTypeResultsColumns } from '../TreatmentTypes/treatment-type-results.columns';
 import TableHead from '@/components/Table/TableHead';
 import TableBody from '@/components/Table/TableBody';
 import EditButton from '@/components/Common/EditButton';
@@ -18,13 +18,15 @@ export const columns: ColumnType[] = [
     headerName: 'Inicio',
     field: '',
     width: 80,
-    renderCell: (row: Treatment) => row.startDate ? new Date(row.startDate).toLocaleDateString() : "",
+    renderCell: (row: Treatment) =>
+      row.startDate ? new Date(row.startDate).toLocaleDateString() : '',
   },
   {
     headerName: 'Fin',
     field: '',
     width: 80,
-    renderCell: (row: Treatment) => row.endDate ? new Date(row.endDate).toLocaleDateString() : "",
+    renderCell: (row: Treatment) =>
+      row.endDate ? new Date(row.endDate).toLocaleDateString() : '',
   },
   {
     headerName: 'Atributos',
@@ -98,7 +100,10 @@ export const columns: ColumnType[] = [
         <React.Fragment>
           <EditButton
             form={
-              <TreatmentForm oldTreatment={row} patientId={row.patientId!.toString()} />
+              <TreatmentForm
+                oldTreatment={row}
+                patientId={row.patientId!.toString()}
+              />
             }
           />
           <IconButton

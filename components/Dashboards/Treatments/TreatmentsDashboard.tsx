@@ -14,6 +14,5 @@ export default function StudiesDashboard({ patientId }: StudiesDashboardProps) {
   });
   const treatments: any[] = data.treatments;
 
-  return <Datagrid rows={treatments} columns={columns} />
-
+  return <Datagrid rows={treatments} columns={columns} />;
 }

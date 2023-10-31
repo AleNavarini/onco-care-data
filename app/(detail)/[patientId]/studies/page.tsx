@@ -11,5 +11,4 @@ interface StudiesPageProps {
 export default function Studies({ params }: StudiesPageProps) {
   const { patientId } = params;
   return <StudiesWidget width={100} patientId={patientId} />;
-
 }

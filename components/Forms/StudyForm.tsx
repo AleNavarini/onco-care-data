@@ -1,4 +1,11 @@
-import { Sheet, Stack, Button, Select, Option, CircularProgress } from '@mui/joy';
+import {
+  Sheet,
+  Stack,
+  Button,
+  Select,
+  Option,
+  CircularProgress,
+} from '@mui/joy';
 import Field from './Field';
 import { useForm } from 'react-hook-form';
 import { Suspense, useState } from 'react';
@@ -92,7 +99,7 @@ export default function StudyForm({
                 md: 'auto',
               },
               overflow: 'visible',
-              zIndex: 9
+              zIndex: 9,
             }}
             placeholder="Choose one…"
             defaultValue={oldStudy?.studyTypeId}

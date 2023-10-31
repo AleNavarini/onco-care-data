@@ -1,7 +1,5 @@
 import {
-  Sheet,
   Stack,
-  Button,
   Select,
   Option,
   Typography,
@@ -9,7 +7,7 @@ import {
 } from '@mui/joy';
 import Field from './Field';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import '../../lib/bigIntExtensions';
 import useSWR from 'swr';
 import {
@@ -19,11 +17,9 @@ import {
   TreatmentTypeResult,
 } from '@prisma/client';
 import ComplicationsTable from '../Tables/ComplicationsTable';
-import Container from '../Common/Container';
-import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
-import React from 'react';
+
 
 const fetchTreatments = async (url: string) => {
   const response = await fetch(url);

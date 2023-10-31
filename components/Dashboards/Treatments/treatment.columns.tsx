@@ -1,13 +1,10 @@
 import { ColumnType } from '@/components/Table/table.types';
 import React from 'react';
-import { Study, Treatment } from '@prisma/client';
-import Datagrid from '@/components/Table/Datagrid';
+import { Treatment } from '@prisma/client';
 import { columns as treatmentTypeAttributesColumns } from '../TreatmentTypes/treatment-type-attributes.columns';
 import { columns as treatmentTypeResultsColumns } from '../TreatmentTypes/treatment-type-results.columns';
-import TableHead from '@/components/Table/TableHead';
 import TableBody from '@/components/Table/TableBody';
 import EditButton from '@/components/Common/EditButton';
-import StudyForm from '@/components/Forms/StudyForm';
 import { IconButton, Sheet } from '@mui/joy';
 import { deleteStudy } from './treatment.service';
 import DeleteIcon from '@mui/icons-material/Delete';

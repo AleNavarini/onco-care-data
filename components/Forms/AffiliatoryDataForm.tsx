@@ -1,12 +1,7 @@
 'use client';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AffiliatoryData } from '@prisma/client';
-import Container from '../Common/Container';
-import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
-import FormFieldsMapper from '../Common/FormFieldsMapper';
-import { fetchData } from '@/utils/fetchData';
 import Form from '../Common/Form';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
 

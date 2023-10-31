@@ -7,7 +7,7 @@ import ListItemContent from '@mui/joy/ListItemContent';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import ListItemButton from '@mui/joy/ListItemButton';
 import Sheet from '@mui/joy/Sheet';
-import { Archive, Clipboard, Grid, Scissors } from 'react-feather';
+import { Clipboard, Grid, Scissors } from 'react-feather';
 import { Tooltip } from '@mui/joy';
 import { usePathname } from 'next/navigation';
 import { closeSidebar } from '@/utils';
@@ -80,11 +80,11 @@ export default function SecondSidebar() {
           </ListSubheader>
           {routes.map((route, index) => (
             <Link
-              key={`link-for-${index}-${route}`}
+              key={`link-for-${route.href}`}
               href={`/${previousPathname}${route.href}`}
               style={{ textDecoration: 'none' }}
             >
-              <ListItem key={index}>
+              <ListItem key={route.href}>
                 <Tooltip title={route.title} placement="right">
                   <ListItemButton
                     selected={pathname.includes(route.href)}

@@ -3,6 +3,9 @@
   padding: 0;
   margin: 0;
   font: 1em sans-serif;
+  scrollbar-width: none; /* Width of the scrollbar */
+  scrollbar-color: var(--joy-palette-neutral-700)
+    var(--joy-palette-background-surface);
 }
 
 .body-class {
@@ -26,9 +29,3 @@
   border-radius: 5px; /* Roundness of the thumb */
 }
 
-/* This will apply to all scrollable elements */
-* {
-  scrollbar-width: none; /* Width of the scrollbar */
-  scrollbar-color: var(--joy-palette-neutral-700)
-    var(--joy-palette-background-surface); /* Color of the thumb and track */
-}

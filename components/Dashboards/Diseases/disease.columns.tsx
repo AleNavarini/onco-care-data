@@ -7,7 +7,6 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import EditDiseaseButton from './EditDiseaseButton';
 import React from 'react';
 import { Disease } from '@prisma/client';
-import AddDiseaseButton from './AddDiseaseButton';
 
 const deleteDiseaseWrapper = async (diseaseId: string) => {
   let result = confirm('Seguro que quiere borrar la enfermedad?');

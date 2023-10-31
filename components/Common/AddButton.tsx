@@ -1,10 +1,8 @@
 import Modal from '@/components/Common/Modal';
-import RiskFactorForm from '@/components/Forms/RiskFactorForm';
 import useModal from '@/hooks/useModal';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { Button } from '@mui/joy';
 import React from 'react';
-import { mutate } from 'swr';
 
 interface AddButtonProps {
   text: string;

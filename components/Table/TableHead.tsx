@@ -10,10 +10,10 @@ export default function TableHead({ columns }: Props) {
       <tr>
         {columns
           .filter((column) => !column.hidden)
-          .map((column, index) => {
+          .map((column) => {
             return (
               <th
-                key={`table-head-${column.field}-${index}`}
+                key={`table-head-${column.field}`}
                 style={{
                   width: column.width,
                   paddingLeft: 12,

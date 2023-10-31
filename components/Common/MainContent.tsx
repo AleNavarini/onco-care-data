@@ -1,4 +1,4 @@
-import { Box, Sheet, Typography } from '@mui/joy';
+import { Box } from '@mui/joy';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 import LoadingOverlay from './LoadingOverlay';

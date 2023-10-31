@@ -1,7 +1,5 @@
 import {
-  Sheet,
   Stack,
-  Button,
   Select,
   Option,
   CircularProgress,
@@ -12,8 +10,6 @@ import { Suspense, useState } from 'react';
 import '../../lib/bigIntExtensions';
 import useSWR from 'swr';
 import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
-import Container from '../Common/Container';
-import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
 import fetcher from '@/utils/fetcher';

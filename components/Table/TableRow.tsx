@@ -8,9 +8,9 @@ interface TableRowProps {
 export default function TableRow({ row, columns }: TableRowProps) {
   return (
     <tr key={row.id}>
-      {columns.map((column, index) => (
+      {columns.map((column) => (
         <td
-          key={`table-cell-${column.field}-${index}`}
+          key={`table-cell-${column.field}`}
           style={
             column.style
               ? column.style

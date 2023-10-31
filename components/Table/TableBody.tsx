@@ -1,4 +1,3 @@
-import { Typography } from '@mui/joy';
 import TableRow from './TableRow';
 import { ColumnType } from './table.types';
 

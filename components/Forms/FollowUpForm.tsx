@@ -1,17 +1,13 @@
 import {
-  Button,
   FormControl,
   FormLabel,
   Radio,
   RadioGroup,
   Stack,
 } from '@mui/joy';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { FollowUp } from '@prisma/client';
-import Container from '../Common/Container';
-import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
 

@@ -1,9 +1,7 @@
 import { ColumnType } from '@/components/Table/table.types';
 import React from 'react';
 import { Study } from '@prisma/client';
-import Datagrid from '@/components/Table/Datagrid';
 import { columns as studyTypeAttributesColumns } from '../StudyTypeAttributes/study-type-attributes.columns';
-import TableHead from '@/components/Table/TableHead';
 import TableBody from '@/components/Table/TableBody';
 import EditButton from '@/components/Common/EditButton';
 import StudyForm from '@/components/Forms/StudyForm';

@@ -1,5 +1,4 @@
 import Modal from '@/components/Common/Modal';
-import DiseaseForm from '@/components/Forms/DiseaseForm';
 import StudyTypeForm from '@/components/Forms/StudyTypeForm';
 import useModal from '@/hooks/useModal';
 import AddBoxIcon from '@mui/icons-material/AddBox';

@@ -1,9 +1,8 @@
 import { ColumnType } from '@/components/Table/table.types';
-import { IconButton, Link } from '@mui/joy';
+import { IconButton } from '@mui/joy';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import React from 'react';
-import { Disease, FollowUp } from '@prisma/client';
+import { FollowUp } from '@prisma/client';
 import EditButton from '@/components/Common/EditButton';
 import FollowUpForm from '@/components/Forms/FollowUpForm';
 import { deleteFollowUp } from './follow-up.service';

@@ -1,7 +1,6 @@
 import AddButton from '@/components/Common/AddButton';
 import { Box, Typography } from '@mui/joy';
 import StudiesDashboard from './TreatmentsDashboard';
-import StudyForm from '@/components/Forms/StudyForm';
 import TreatmentForm from '@/components/Forms/TreatmentForm';
 
 interface TreatmentsWidgetProps {

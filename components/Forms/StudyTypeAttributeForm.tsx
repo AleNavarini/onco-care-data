@@ -1,13 +1,6 @@
-import { Button, Sheet, Stack } from '@mui/joy';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import Field from './Field';
 import { StudyTypeAttribute } from '@prisma/client';
-import Container from '../Common/Container';
-import { fetchData } from '@/utils/fetchData';
-import SubmitButton from '../Common/SubmitButton';
 import { FieldConfig } from '@/types/FieldConfig';
-import FormFieldsMapper from '../Common/FormFieldsMapper';
 import Form from '../Common/Form';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
 

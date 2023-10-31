@@ -6,7 +6,7 @@ import { mutate } from 'swr';
 interface UseSubmitFormProps {
   entity: string;
   endpoint?: string;
-  oldEntity?: any | null;
+  oldEntity?: any;
   dataModifier?: (data: any) => any; // Function to modify data
   handler?: (complication: any) => void;
   reset?: () => void;

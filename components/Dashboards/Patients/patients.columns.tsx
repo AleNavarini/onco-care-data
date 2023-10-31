@@ -8,8 +8,6 @@ import { deletePatient } from './patient.service';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import EditPatientButton from './EditPatientButton';
 import React from 'react';
-import { capitalize } from '@mui/material';
-import { Patient } from '@prisma/client';
 
 const deletePatientWrapper = async (patientId: string) => {
   let result = confirm('Seguro que quiere borrar el paciente?');

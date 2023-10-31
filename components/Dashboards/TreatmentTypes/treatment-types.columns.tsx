@@ -7,7 +7,6 @@ import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOu
 import EditTreatmentTypeButton from './EditTreatmentTypeButton';
 import React from 'react';
 import { TreatmentType } from '@prisma/client';
-import AddTreatmentTypeButton from './AddTreatmentTypeButton';
 
 const deleteTreatmentTypeWrapper = async (treatmentTypeId: string) => {
   let result = confirm('Seguro que quiere borrar el tipo de tratamiento?');

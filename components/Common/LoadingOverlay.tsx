@@ -15,7 +15,7 @@ export default function LoadingOverlay() {
         left: 0,
         width: '100%',
         height: '100%',
-        zIndex: 100000,
+        zIndex: 7,
         display: 'flex',
       }}
     >

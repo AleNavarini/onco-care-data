@@ -9,6 +9,10 @@ export async function GET(request: Request, context: { params: any }) {
       where: {
         patientId: BigInt(id),
       },
+      include: {
+        studyType: true,
+        studyTypeAttributes: true,
+      },
     });
 
     return NextResponse.json({

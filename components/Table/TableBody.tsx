@@ -8,7 +8,6 @@ interface TableBodyProps {
 }
 
 export default function TableBody({ rows, columns }: TableBodyProps) {
-
   return (
     <tbody>
       {rows.map((row: any, index: number) => (

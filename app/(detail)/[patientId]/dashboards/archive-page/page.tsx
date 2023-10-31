@@ -19,7 +19,7 @@ export default function DashboardsPage({ params }: DashboardsPageProps) {
         flexWrap: 'wrap',
         gap: 2,
         justifyContent: 'space-between',
-        placeItems: 'flex-start'
+        placeItems: 'flex-start',
       }}
     >
       <FollowUpWidget width={WIDTH} patientId={patientId} />

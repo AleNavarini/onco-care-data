@@ -1,7 +1,7 @@
-import { Sheet, Stack, Button, Select, Option } from '@mui/joy';
+import { Sheet, Stack, Button, Select, Option, CircularProgress } from '@mui/joy';
 import Field from './Field';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import '../../lib/bigIntExtensions';
 import useSWR from 'swr';
 import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
@@ -9,12 +9,7 @@ import Container from '../Common/Container';
 import { fetchData } from '@/utils/fetchData';
 import SubmitButton from '../Common/SubmitButton';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
-
-const fetchStudies = async (url: string) => {
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
-};
+import fetcher from '@/utils/fetcher';
 
 interface FullStudyType extends StudyType {
   attributes: StudyTypeAttribute[];
@@ -34,16 +29,13 @@ export default function StudyForm({
   handler,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
-  const [loading, setLoading] = useState(false);
   const [selectedStudyType, setSelectedStudyType] = useState(
     oldStudy ? oldStudy.studyTypeId : '',
   );
 
-  const { data: studyTypesData } = useSWR(
-    `/api/study-types`,
-    fetchStudies,
-    { refreshInterval: 5000 },
-  );
+  const { data: studyTypesData } = useSWR(`/api/study-types`, fetcher, {
+    suspense: true,
+  });
   const studyTypes: FullStudyType[] = studyTypesData?.studyTypes;
   const studyTypeAttributes = studyTypes?.filter(
     (st: FullStudyType) => st.id.toString() === selectedStudyType,
@@ -59,7 +51,7 @@ export default function StudyForm({
     studyTypeId: selectedStudyType,
   });
 
-  const { onSubmit } = useSubmitForm({
+  const { onSubmit, isLoading } = useSubmitForm({
     entity: 'studies',
     oldEntity: oldStudy,
     returnEntity: 'study',
@@ -68,7 +60,6 @@ export default function StudyForm({
     setModalOpen,
     handler,
   });
-
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -91,26 +82,28 @@ export default function StudyForm({
           type="date"
           defaultValue={oldStudy?.date.toString().split('T')[0]}
         />
-
-        <Select
-          // @ts-ignore
-          onChange={handleChange}
-          sx={{
-            width: {
-              sm: 'auto',
-              md: '20dvw',
-            },
-            overflow: 'visible',
-          }}
-          placeholder="Choose one…"
-          defaultValue={oldStudy?.studyTypeId}
-        >
-          {studyTypes?.map((studyType: StudyType) => (
-            <Option key={studyType.id.toString()} value={studyType.id}>
-              {studyType?.name}
-            </Option>
-          ))}
-        </Select>
+        <Suspense fallback={<CircularProgress />}>
+          <Select
+            // @ts-ignore
+            onChange={handleChange}
+            sx={{
+              width: {
+                sm: 'auto',
+                md: 'auto',
+              },
+              overflow: 'visible',
+              zIndex: 9
+            }}
+            placeholder="Choose one…"
+            defaultValue={oldStudy?.studyTypeId}
+          >
+            {studyTypes?.map((studyType: StudyType) => (
+              <Option key={studyType.id.toString()} value={studyType.id}>
+                {studyType?.name}
+              </Option>
+            ))}
+          </Select>
+        </Suspense>
 
         {studyTypeAttributes?.map((attribute: StudyTypeAttribute) => {
           const defaultValue = oldStudy?.studyTypeAttributes.filter(
@@ -129,7 +122,9 @@ export default function StudyForm({
           );
         })}
       </Stack>
-      <SubmitButton isLoading={loading}>{oldStudy ? "Actualizar" : "Agregar"}</SubmitButton>
+      <SubmitButton isLoading={isLoading}>
+        {oldStudy ? 'Actualizar' : 'Agregar'}
+      </SubmitButton>
     </form>
   );
 }

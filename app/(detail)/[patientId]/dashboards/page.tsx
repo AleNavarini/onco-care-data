@@ -73,20 +73,6 @@ export default function PatientPage({ params }: Props) {
           <Suspense fallback={<LinearProgress />}>
             <StagingsWidget width={100} patientId={id} />
           </Suspense>
-
-          <Accordion title="Estudios">
-            <StudiesTable
-              patientId={data.patient.id}
-              studies={data.patient.studies}
-            />
-          </Accordion>
-
-          <Accordion title="Tratamientos">
-            <TreatmentsTable
-              patientId={data.patient.id}
-              treatments={data.patient.treatments}
-            />
-          </Accordion>
         </Stack>
         <Stack
           spacing={2}

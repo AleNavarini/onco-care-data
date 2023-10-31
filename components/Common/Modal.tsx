@@ -13,7 +13,7 @@ export default function Modal({ open, handleClose, children }: ModalProps) {
       onClose={handleClose}
       sx={{
         backdropFilter: 'blur(0)',
-        zIndex: 100,
+        zIndex: 8,
       }}
     >
       <ModalDialog

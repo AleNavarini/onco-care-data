@@ -33,7 +33,7 @@ export default function FirstSidebar() {
             md: 'none',
           },
           transition: 'transform 0.4s',
-          zIndex: 10000,
+          zIndex: 4,
           minHeight: '100%',
           maxHeight: '100%',
           width: 'var(--FirstSidebar-width)',

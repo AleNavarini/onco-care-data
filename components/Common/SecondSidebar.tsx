@@ -29,7 +29,7 @@ export default function SecondSidebar() {
         className="SecondSidebar-overlay"
         sx={{
           position: 'fixed',
-          zIndex: 9998,
+          zIndex: 5,
           width: '100vw',
           height: '100vh',
           bgcolor: 'background.body',
@@ -48,16 +48,16 @@ export default function SecondSidebar() {
         sx={{
           position: {
             xs: 'fixed',
-            lg: 'sticky',
+            md: 'sticky',
           },
           transform: {
             xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1) + var(--SideNavigation-slideIn, 0) * var(--FirstSidebar-width, 0px)))',
-            lg: 'translateX(var(--FirstSidebar-width))',
+            md: 'translateX(var(--FirstSidebar-width))',
           },
           borderRight: '1px solid',
           borderColor: 'divider',
           transition: 'transform 0.4s',
-          zIndex: 99999,
+          zIndex: 6,
           height: '100dvh',
           top: 0,
           py: 3,
@@ -96,7 +96,6 @@ export default function SecondSidebar() {
                   >
                     <ListItemDecorator>{route.icon}</ListItemDecorator>
                     <ListItemContent>{route.title}</ListItemContent>
-
                   </ListItemButton>
                 </Tooltip>
               </ListItem>

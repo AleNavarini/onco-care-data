@@ -1,16 +1,17 @@
 import AddButton from '@/components/Common/AddButton';
 import { Box, Typography } from '@mui/joy';
-import StudiesDashboard from './StudiesDashboard';
+import StudiesDashboard from './TreatmentsDashboard';
 import StudyForm from '@/components/Forms/StudyForm';
+import TreatmentForm from '@/components/Forms/TreatmentForm';
 
-interface StudiesWidgetProps {
-  width: number;
+interface TreatmentsWidgetProps {
   patientId: string;
+  width?: number;
 }
-export default function StudiesWidget({
-  width,
+export default function TreatmentsWidget({
   patientId,
-}: StudiesWidgetProps) {
+  width = 100,
+}: TreatmentsWidgetProps) {
   return (
     <Box
       sx={{
@@ -22,10 +23,10 @@ export default function StudiesWidget({
       }}
     >
       <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography level="h3">Estudios</Typography>
+        <Typography level="h3">Tratamientos</Typography>
         <AddButton
-          text="Crear Estudio"
-          form={<StudyForm patientId={patientId} />}
+          text="Crear Tratamiento"
+          form={<TreatmentForm patientId={patientId} />}
         />
       </Box>
       <StudiesDashboard patientId={patientId} />

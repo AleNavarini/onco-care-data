@@ -25,7 +25,6 @@ export default function DiseaseSelect({
     const submitData: any = { name: value, patientId: patient.id };
 
     if (patient.disease) submitData.deleteRiskFactors = true;
-    console.log(JSON.stringify(submitData, null, 2));
     const endpoint = 'patient-disease';
     const method = patient.disease ? 'PUT' : 'POST';
     const result = await fetchData(endpoint, method, submitData);

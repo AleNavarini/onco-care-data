@@ -33,6 +33,7 @@ export default function PatientsFilter({
     }
 
     onFilter(filtered);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [textFilter, statusFilter, patients]);
 
   return (

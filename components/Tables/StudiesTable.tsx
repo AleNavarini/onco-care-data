@@ -103,7 +103,6 @@ export default function StudiesTable({
                 }}
               >
                 <StudyForm
-                  buttonText="Crear"
                   patientId={patientId}
                   setModalOpen={setNewModalOpen}
                   handler={addStudy}
@@ -151,7 +150,6 @@ export default function StudiesTable({
                       }}
                     >
                       <StudyForm
-                        buttonText="Actualizar"
                         oldStudy={editStudy!}
                         patientId={patientId}
                         setModalOpen={setNewModalOpen}

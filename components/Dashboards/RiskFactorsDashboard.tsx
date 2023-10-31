@@ -132,7 +132,6 @@ export default function RiskFactorsDashboard(props: Props) {
                 <RiskFactorForm
                   diseaseId={!props.forPatient ? props.diseaseId : undefined}
                   patientId={props.forPatient ? props.patientId : undefined}
-                  buttonText="Agregar"
                   handler={addRiskFactor}
                   setModalOpen={setNewModalOpen}
                 />
@@ -180,7 +179,6 @@ export default function RiskFactorsDashboard(props: Props) {
                         !props.forPatient ? props.diseaseId : undefined
                       }
                       patientId={props.forPatient ? props.patientId : undefined}
-                      buttonText="Actualizar"
                       handler={updateRiskFactor}
                       setModalOpen={setEditModalOpen}
                       oldRiskFactor={editRiskFactor!}

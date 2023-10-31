@@ -109,7 +109,6 @@ export default function StagingTable({
               >
                 <StagingForm
                   patientId={patientId}
-                  buttonText="Agregar"
                   handler={addStaging}
                   setModalOpen={setNewModalOpen}
                 />
@@ -163,7 +162,6 @@ export default function StagingTable({
                     >
                       <StagingForm
                         patientId={patientId}
-                        buttonText="Actualizar"
                         handler={updateStaging}
                         setModalOpen={setEditModalOpen}
                         oldStaging={editStaging!}

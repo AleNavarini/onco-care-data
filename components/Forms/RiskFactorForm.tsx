@@ -13,12 +13,16 @@ import { useSubmitForm } from '@/hooks/useSubmitForm';
 import NewForm from '../Common/NewForm';
 
 interface Props {
+  patientId?: string;
+  diseaseId?: string;
   oldRiskFactor?: RiskFactor;
   handler?: (riskFactor: RiskFactor) => void;
   setModalOpen?: (state: boolean) => void;
 }
 
 export default function RiskFactorForm({
+  patientId,
+  diseaseId,
   oldRiskFactor,
   handler,
   setModalOpen,
@@ -26,10 +30,8 @@ export default function RiskFactorForm({
   const { register, handleSubmit, reset } = useForm();
 
   const dataModifier = (data: any) => {
-    if (oldRiskFactor?.patientId)
-      data = { ...data, patientId: oldRiskFactor.patientId };
-    if (oldRiskFactor?.diseaseId)
-      data = { ...data, diseaseId: oldRiskFactor.diseaseId };
+    if (patientId) data = { ...data, patientId };
+    if (diseaseId) data = { ...data, diseaseId };
     return data;
   };
 

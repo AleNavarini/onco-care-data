@@ -118,7 +118,6 @@ export default function FollowUpsTable({
               >
                 <FollowUpForm
                   patientId={patientId}
-                  buttonText="Agregar"
                   handler={addFollowUp}
                   setModalOpen={setNewModalOpen}
                 />
@@ -195,7 +194,6 @@ export default function FollowUpsTable({
                     >
                       <FollowUpForm
                         patientId={patientId}
-                        buttonText="Actualizar"
                         handler={updateFollowUp}
                         setModalOpen={setEditModalOpen}
                         oldFollowUp={editFollowUp!}

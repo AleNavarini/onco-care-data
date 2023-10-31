@@ -107,7 +107,6 @@ export default function TreatmentsTable({
                 }}
               >
                 <TreatmentForm
-                  buttonText="Crear"
                   patientId={patientId}
                   setModalOpen={setNewModalOpen}
                   handler={addTreatment}
@@ -160,7 +159,6 @@ export default function TreatmentsTable({
                       }}
                     >
                       <TreatmentForm
-                        buttonText="Actualizar"
                         oldTreatment={editTreatment!}
                         patientId={patientId}
                         setModalOpen={setNewModalOpen}

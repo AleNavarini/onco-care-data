@@ -29,7 +29,7 @@ export const columns: ColumnType[] = [
   {
     headerName: 'Atributos',
     field: '',
-    width: 200,
+    width: 300,
     style: { textAlign: 'center', verticalAlign: 'middle' },
     renderCell: (row: any) => (
       <Sheet
@@ -49,7 +49,7 @@ export const columns: ColumnType[] = [
   {
     headerName: 'Resultados',
     field: '',
-    width: 200,
+    width: 300,
     style: { textAlign: 'center', verticalAlign: 'middle' },
     renderCell: (row: any) => (
       <Sheet

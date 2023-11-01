@@ -7,15 +7,13 @@ import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
 import FormControl from '@mui/joy/FormControl';
 import FormLabel, { formLabelClasses } from '@mui/joy/FormLabel';
-import IconButton, { IconButtonProps } from '@mui/joy/IconButton';
 import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import Stack from '@mui/joy/Stack';
-
 import ThemeToggle from '@/components/ThemeToggle';
-import Image from 'next/image';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import Logo from '@/components/Common/Logo';
 
 
 type FormValues = {
@@ -91,7 +89,7 @@ export default function JoySignInSideTemplate() {
                 alignItems: 'center',
               }}
             >
-              <Image alt="Mountains" src={'/favicon.ico'} width={40} height={40} />
+              <Logo />
               <Typography level="title-lg">Onco Care Data</Typography>
             </Box>
             <ThemeToggle />
@@ -177,3 +175,5 @@ export default function JoySignInSideTemplate() {
     </CssVarsProvider >
   );
 }
+
+

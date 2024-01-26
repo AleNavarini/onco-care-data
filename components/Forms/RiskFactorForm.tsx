@@ -10,6 +10,7 @@ interface Props {
   oldRiskFactor?: RiskFactor;
   handler?: (riskFactor: RiskFactor) => void;
   setModalOpen?: (state: boolean) => void;
+  closeModal?: () => void;
 }
 
 export default function RiskFactorForm({
@@ -18,6 +19,7 @@ export default function RiskFactorForm({
   oldRiskFactor,
   handler,
   setModalOpen,
+  closeModal,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
 
@@ -35,6 +37,7 @@ export default function RiskFactorForm({
     reset,
     setModalOpen,
     handler,
+    closeModal,
   });
 
   const fields = getFields(oldRiskFactor);

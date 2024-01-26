@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 export async function PUT(request: Request, context: { params: any }) {
   const id = context.params.id;
   const data = await request.json();
+
   try {
     const riskFactor = await prisma.riskFactor.update({
       where: {

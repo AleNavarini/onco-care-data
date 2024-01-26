@@ -1,10 +1,4 @@
-import {
-  Stack,
-  Select,
-  Option,
-  Typography,
-  Box,
-} from '@mui/joy';
+import { Stack, Select, Option, Typography, Box } from '@mui/joy';
 import Field from './Field';
 import { useForm } from 'react-hook-form';
 import React, { useState } from 'react';
@@ -19,7 +13,6 @@ import {
 import ComplicationsTable from '../Tables/ComplicationsTable';
 import SubmitButton from '../Common/SubmitButton';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
-
 
 const fetchTreatments = async (url: string) => {
   const response = await fetch(url);

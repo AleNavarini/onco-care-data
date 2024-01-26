@@ -11,6 +11,7 @@ interface UseSubmitFormProps {
   handler?: (complication: any) => void;
   reset?: () => void;
   setModalOpen?: (isOpen: boolean) => void;
+  closeModal?: () => void;
   returnEntity?: string;
   patientId?: string;
 }
@@ -30,6 +31,7 @@ export const useSubmitForm = ({
   setModalOpen,
   returnEntity,
   patientId,
+  closeModal,
 }: UseSubmitFormProps): UseSubmitFormReturn => {
   const [isLoading, setIsLoading] = useState(false);
 
@@ -43,6 +45,7 @@ export const useSubmitForm = ({
       if (result.status === 200 && reset) reset();
       if (handler && returnEntity) handler(result[returnEntity]);
       if (setModalOpen) setModalOpen(false);
+      if (closeModal) closeModal();
       if (patientId) mutate(`/api/patients/${patientId}?detailed=true`, null);
     } catch (error) {
       alert(`Error: ${error}`);

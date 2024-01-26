@@ -27,7 +27,10 @@ const PatientsTable = ({ children, headerColumns }: Props) => {
       <thead>
         <tr>
           {headerColumns.map((header: any) => (
-            <th style={tableColumnStyle} key={`${header}-head-for-treatment-types-table`}>
+            <th
+              style={tableColumnStyle}
+              key={`${header}-head-for-treatment-types-table`}
+            >
               {header}
             </th>
           ))}

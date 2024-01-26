@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import * as React from 'react';
 import { CssVarsProvider } from '@mui/joy/styles';
 import GlobalStyles from '@mui/joy/GlobalStyles';
@@ -14,7 +14,6 @@ import ThemeToggle from '@/components/ThemeToggle';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Logo from '@/components/Common/Logo';
-
 
 type FormValues = {
   email: string;
@@ -118,8 +117,7 @@ export default function JoySignInSideTemplate() {
             }}
           >
             <Stack gap={4} sx={{ mb: 2 }}>
-
-              <Typography level='h2'>Bienvenido de vuelta</Typography>
+              <Typography level="h2">Bienvenido de vuelta</Typography>
               <Typography level="body-md" sx={{ mb: 3 }}>
                 Comencemos! Por favor ingresa tus credenciales.
               </Typography>
@@ -128,11 +126,19 @@ export default function JoySignInSideTemplate() {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <FormControl required>
                   <FormLabel>Email</FormLabel>
-                  <Input {...register('email', { required: true })} type="email" name="email" />
+                  <Input
+                    {...register('email', { required: true })}
+                    type="email"
+                    name="email"
+                  />
                 </FormControl>
                 <FormControl required>
                   <FormLabel>Password</FormLabel>
-                  <Input {...register('password', { required: true })} type="password" name="password" />
+                  <Input
+                    {...register('password', { required: true })}
+                    type="password"
+                    name="password"
+                  />
                 </FormControl>
                 <Stack gap={4} sx={{ mt: 2 }}>
                   <Button type="submit" fullWidth>
@@ -172,8 +178,6 @@ export default function JoySignInSideTemplate() {
           },
         })}
       />
-    </CssVarsProvider >
+    </CssVarsProvider>
   );
 }
-
-

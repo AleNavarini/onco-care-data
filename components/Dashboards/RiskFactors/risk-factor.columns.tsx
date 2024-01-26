@@ -15,6 +15,10 @@ const deleteRiskFactorWrapper = async (id: string) => {
   if (response.status === 200) mutate('/api/patient-risk-factors');
 };
 
+const updateHandler = async (riskFactor: RiskFactor) => {
+  mutate(`/api/patient-risk-factors/${riskFactor.patientId}`);
+};
+
 export const columns: ColumnType[] = [
   {
     headerName: 'Nombre',
@@ -77,7 +81,15 @@ export const getColumns = (withPatient: boolean): ColumnType[] => {
       renderCell: (row: RiskFactor) => {
         return (
           <React.Fragment>
-            <EditButton form={<RiskFactorForm oldRiskFactor={row} />} />
+            <EditButton
+              form={
+                <RiskFactorForm
+                  oldRiskFactor={row}
+                  patientId={row.patientId?.toString()}
+                  handler={updateHandler}
+                />
+              }
+            />
             <IconButton
               color="neutral"
               variant="plain"

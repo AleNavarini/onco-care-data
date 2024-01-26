@@ -11,7 +11,7 @@ interface EditButtonProps {
 export default function EditButton({ form }: EditButtonProps) {
   const { open, openModal, closeModal, modalContent } = useModal();
 
-  const formWithProps = React.cloneElement(form, { openModal });
+  const formWithProps = React.cloneElement(form, { closeModal });
 
   return (
     <React.Fragment>

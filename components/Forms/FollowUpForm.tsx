@@ -1,10 +1,4 @@
-import {
-  FormControl,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  Stack,
-} from '@mui/joy';
+import { FormControl, FormLabel, Radio, RadioGroup, Stack } from '@mui/joy';
 import { useForm } from 'react-hook-form';
 import Field from './Field';
 import { FollowUp } from '@prisma/client';

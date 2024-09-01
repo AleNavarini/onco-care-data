@@ -1,88 +1,100 @@
 'use client';
+import React, { ReactNode, Suspense } from 'react';
+import { Box, Sheet, Typography } from '@mui/joy';
+
 import AddDiseaseButton from '@/components/Dashboards/Diseases/AddDiseaseButton';
 import DiseasesDashboard from '@/components/Dashboards/Diseases/DiseasesDashboard';
 import AddStudyTypeButton from '@/components/Dashboards/StudyTypes/AddStudyTypeButton';
 import StudyTypesDashboard from '@/components/Dashboards/StudyTypes/StudyTypesDashboard';
-
 import AddTreatmentTypeButton from '@/components/Dashboards/TreatmentTypes/AddTreatmentTypeButton';
 import TreatmentTypesDasboard from '@/components/Dashboards/TreatmentTypes/TreatmentTypesDashboard';
-import { Box, CircularProgress, Sheet, Typography } from '@mui/joy';
-import { Suspense } from 'react';
+import CenteredLoading from '@/components/ui/centered-loading';
 
-export default function ManagePage() {
+interface SectionWrapperProps {
+  children: ReactNode;
+  title: string;
+  addButton: ReactNode;
+}
+
+const SectionWrapper: React.FC<SectionWrapperProps> = ({ children, title, addButton }) => (
+  <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+      <Typography level="h3">{title}</Typography>
+      {addButton}
+    </Box>
+    <Box sx={{ flexGrow: 1, position: 'relative' }}>
+      <Suspense fallback={<CenteredLoading />}>
+        {children}
+      </Suspense>
+    </Box>
+  </Box>
+);
+
+const ManagePage: React.FC = () => {
   return (
     <Sheet
       sx={{
         display: 'flex',
         flexDirection: {
-          sm: 'column',
+          xs: 'column',
           md: 'row',
         },
-        justifyContent: 'space-between',
         gap: 3,
+        height: 'calc(100vh - 100px)',
+        maxWidth: '1200px',
+        margin: '0 auto',
       }}
     >
       <Sheet
         sx={{
           width: {
-            sm: '100%',
+            xs: '100%',
             md: '50%',
+          },
+          minWidth: {
+            md: '30vw',
           },
           display: 'flex',
           flexDirection: 'column',
-          rowGap: 2,
+          gap: 3,
         }}
       >
-        <Suspense fallback={<CircularProgress />}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Typography level="h3">Enfermedades</Typography>
-            <AddDiseaseButton />
-          </Box>
-          <DiseasesDashboard />
-        </Suspense>
-        <Suspense fallback={<CircularProgress />}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Typography level="h3">Tratamientos</Typography>
-            <AddTreatmentTypeButton />
-          </Box>
-          <TreatmentTypesDasboard />
-        </Suspense>
+        <Box sx={{ height: '50%' }}>
+          <SectionWrapper title="Enfermedades" addButton={<AddDiseaseButton />}>
+            <Suspense fallback={<CenteredLoading />}>
+              <DiseasesDashboard />
+            </Suspense>
+          </SectionWrapper>
+        </Box>
+        <Box sx={{ height: '50%' }}>
+          <SectionWrapper title="Tratamientos" addButton={<AddTreatmentTypeButton />}>
+            <Suspense fallback={<CenteredLoading />}>
+              <TreatmentTypesDasboard />
+            </Suspense>
+          </SectionWrapper>
+        </Box>
       </Sheet>
 
       <Sheet
         sx={{
           width: {
-            sm: '100%',
+            xs: '100%',
             md: '50%',
           },
-          display: 'flex',
-          flexDirection: 'column',
-          rowGap: 2,
+          minWidth: {
+            md: '50%',
+          },
+          height: '100%',
         }}
       >
-        <Suspense fallback={<CircularProgress />}>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Typography level="h3">Estudios</Typography>
-            <AddStudyTypeButton />
-          </Box>
-          <StudyTypesDashboard />
-        </Suspense>
+        <SectionWrapper title="Estudios" addButton={<AddStudyTypeButton />}>
+          <Suspense fallback={<CenteredLoading />}>
+            <StudyTypesDashboard />
+          </Suspense>
+        </SectionWrapper>
       </Sheet>
     </Sheet>
   );
-}
+};
+
+export default ManagePage;

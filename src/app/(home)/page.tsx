@@ -2,12 +2,19 @@
 
 import { Typography } from '@mui/joy';
 import PatientsDashboard from '@/components/Dashboards/Patients/PatientsDashboard';
-import LoadingOverlay from '@/components/Common/LoadingOverlay';
 import { Suspense } from 'react';
+import CenteredPage from '@/components/ui/centered-page';
+import { CircularProgress } from '@mui/material';
 
 export default function Home() {
   return (
-    <Suspense fallback={<LoadingOverlay />}>
+    <Suspense
+      fallback={
+        <CenteredPage>
+          <CircularProgress />
+        </CenteredPage>
+      }
+    >
       <Typography level="h1">Pacientes</Typography>
       <PatientsDashboard />
     </Suspense>

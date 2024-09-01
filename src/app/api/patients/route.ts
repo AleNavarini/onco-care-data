@@ -10,6 +10,7 @@ export async function GET(request: NextRequest, context: { params: any }) {
   const patients = await prisma.patient.findMany({
     include: {
       followUps: detailed,
+      disease: true,
     },
     orderBy: {
       status: 'asc',

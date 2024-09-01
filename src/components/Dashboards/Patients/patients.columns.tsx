@@ -44,6 +44,13 @@ export const columns: ColumnType[] = [
     renderCell: (row: any) => <StatusChip status={row.status} />,
   },
   {
+    headerName: 'Enfermedad',
+    field: 'disease.name',
+    width: 150,
+    style: { textAlign: 'center' },
+    renderCell: (row: any) => row.disease?.name,
+  },
+  {
     headerName: 'Accion',
     field: '',
     width: 90,

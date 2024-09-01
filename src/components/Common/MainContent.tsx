@@ -10,11 +10,12 @@ interface Props {
 export default function MainContent({ children }: Props) {
   const session = useSession();
   if (session.status === 'unauthenticated') redirect('/api/auth/signin');
-  if (session.status === 'loading') return (
-    <CenteredPage>
-      <CircularProgress />
-    </CenteredPage>
-  )
+  if (session.status === 'loading')
+    return (
+      <CenteredPage>
+        <CircularProgress />
+      </CenteredPage>
+    );
 
   return (
     <Box

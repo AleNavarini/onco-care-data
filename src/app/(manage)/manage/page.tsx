@@ -16,16 +16,25 @@ interface SectionWrapperProps {
   addButton: ReactNode;
 }
 
-const SectionWrapper: React.FC<SectionWrapperProps> = ({ children, title, addButton }) => (
-  <Box sx={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
+const SectionWrapper: React.FC<SectionWrapperProps> = ({
+  children,
+  title,
+  addButton,
+}) => (
+  <Box
+    sx={{
+      height: '100%',
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+    }}
+  >
     <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
       <Typography level="h3">{title}</Typography>
       {addButton}
     </Box>
     <Box sx={{ flexGrow: 1, position: 'relative' }}>
-      <Suspense fallback={<CenteredLoading />}>
-        {children}
-      </Suspense>
+      <Suspense fallback={<CenteredLoading />}>{children}</Suspense>
     </Box>
   </Box>
 );
@@ -67,7 +76,10 @@ const ManagePage: React.FC = () => {
           </SectionWrapper>
         </Box>
         <Box sx={{ height: '50%' }}>
-          <SectionWrapper title="Tratamientos" addButton={<AddTreatmentTypeButton />}>
+          <SectionWrapper
+            title="Tratamientos"
+            addButton={<AddTreatmentTypeButton />}
+          >
             <Suspense fallback={<CenteredLoading />}>
               <TreatmentTypesDasboard />
             </Suspense>

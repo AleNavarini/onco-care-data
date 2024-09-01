@@ -1,40 +1,57 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Input, Select, Sheet, Option } from '@mui/joy';
 import SearchIcon from '@mui/icons-material/Search';
-import { Patient } from '@prisma/client';
+import useSWR from 'swr';
+import fetcher from '@/utils/fetcher';
+
+export interface FilterCriteria {
+  text: string;
+  status: string;
+  disease: string;
+}
 
 interface PatientsFilterProps {
-  patients: Patient[];
-  onFilter: (filteredPatients: Patient[]) => void;
+  filterCriteria: FilterCriteria;
+  onFilterChange: (newCriteria: FilterCriteria) => void;
+}
+
+interface Disease {
+  id: string;
+  name: string;
+}
+
+interface DiseasesResponse {
+  status: number;
+  diseases: Disease[];
 }
 
 export default function PatientsFilter({
-  patients,
-  onFilter,
-}: PatientsFilterProps) {
-  const [textFilter, setTextFilter] = useState('');
-  const [statusFilter, setStatusFilter] = useState('');
+  filterCriteria,
+  onFilterChange,
+}: PatientsFilterProps): JSX.Element {
+  const { data, error } = useSWR<DiseasesResponse>('/api/diseases', fetcher);
 
-  useEffect(() => {
-    let filtered = [...patients];
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    onFilterChange({ ...filterCriteria, text: e.target.value });
+  };
 
-    if (textFilter) {
-      filtered = filtered.filter((patient: Patient) =>
-        JSON.stringify(patient)
-          .toLowerCase()
-          .includes(textFilter.toLowerCase()),
-      );
-    }
+  const handleStatusChange = (
+    _: React.SyntheticEvent | null,
+    value: string | null,
+  ): void => {
+    onFilterChange({ ...filterCriteria, status: value || '' });
+  };
 
-    if (statusFilter) {
-      filtered = filtered.filter(
-        (patient: Patient) => patient.status === statusFilter,
-      );
-    }
+  const handleDiseaseChange = (
+    _: React.SyntheticEvent | null,
+    value: string | null,
+  ): void => {
+    onFilterChange({ ...filterCriteria, disease: value || '' });
+  };
 
-    onFilter(filtered);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [textFilter, statusFilter, patients]);
+  const diseases = data?.diseases || [];
+
+  if (error) return <div>Failed to load diseases</div>;
 
   return (
     <Sheet
@@ -51,19 +68,32 @@ export default function PatientsFilter({
       <Input
         type="text"
         placeholder="Buscar"
-        value={textFilter}
+        value={filterCriteria.text}
         startDecorator={<SearchIcon />}
-        onChange={(e: any) => setTextFilter(e.target.value)}
+        onChange={handleTextChange}
       />
-      <Select
+      <Select<string>
         size="sm"
         placeholder="Filtrar por estado"
-        onChange={(_, value) => setStatusFilter(value!)}
-        value={statusFilter}
+        onChange={handleStatusChange}
+        value={filterCriteria.status}
       >
         <Option value="">Todos</Option>
         <Option value="active">Activa</Option>
         <Option value="following">En Seguimiento</Option>
+      </Select>
+      <Select<string>
+        size="sm"
+        placeholder="Filtrar por enfermedad"
+        onChange={handleDiseaseChange}
+        value={filterCriteria.disease}
+      >
+        <Option value="">Todas</Option>
+        {diseases.map((disease: Disease) => (
+          <Option key={disease.id} value={disease.id}>
+            {disease.name}
+          </Option>
+        ))}
       </Select>
     </Sheet>
   );

@@ -1,7 +1,14 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
-import { Box, LinearProgress, Sheet, Stack, Typography } from '@mui/joy';
+import { Suspense } from 'react';
+import {
+  Box,
+  LinearProgress,
+  Sheet,
+  Stack,
+  Typography,
+  CircularProgress,
+} from '@mui/joy';
 import useSWR from 'swr';
 
 import Accordion from '@/components/Common/Accordion';
@@ -15,6 +22,7 @@ import FollowUpWidget from '@/components/Dashboards/FollowUps/FollowUpWidget';
 import StagingsWidget from '@/components/Dashboards/Stagings/StagingsWidget';
 
 import fetcher from '@/utils/fetcher';
+import CenteredPage from '@/components/ui/centered-page';
 
 interface Props {
   params: {
@@ -24,29 +32,27 @@ interface Props {
 
 export default function PatientPage({ params }: Props) {
   const id = params.patientId;
-  const { data, error } = useSWR(`/api/patients/${id}?detailed=true`, fetcher);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data, error, isLoading } = useSWR(
+    `/api/patients/${id}?detailed=true`,
+    fetcher,
+  );
 
-  useEffect(() => {
-    if (data || error) {
-      setIsLoading(false);
-    }
-  }, [data, error]);
-
-  if (isLoading) {
-    return <LinearProgress />;
+  if (isLoading || !data || !data.patient) {
+    return (
+      <CenteredPage>
+        <CircularProgress size='lg' />
+      </CenteredPage>
+    );
   }
 
   if (error) {
     return (
-      <Typography color="danger">
-        Failed to load patient data. Please try again.
-      </Typography>
+      <CenteredPage>
+        <Typography color="danger">
+          Failed to load patient data. Please try again.
+        </Typography>
+      </CenteredPage>
     );
-  }
-
-  if (!data || !data.patient) {
-    return <Typography>No patient data available.</Typography>;
   }
 
   const { patient } = data;
@@ -113,6 +119,22 @@ export default function PatientPage({ params }: Props) {
           </Accordion>
         </Stack>
       </Box>
+    </Sheet>
+  );
+}
+function CircularLoadingPage() {
+  return (
+    <Sheet
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        height: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <CircularProgress />
     </Sheet>
   );
 }

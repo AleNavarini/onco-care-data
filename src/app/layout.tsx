@@ -1,6 +1,7 @@
 'use client';
 
 import './globals.css';
+import '@/lib/bigIntExtensions';
 import { Public_Sans } from 'next/font/google';
 import ClientCssVarsProvider from '@/components/Providers/ClientCssVarsProvider';
 import NextAuthProvider from '@/components/Providers/NextAuthProvider';

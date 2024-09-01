@@ -40,7 +40,7 @@ export default function PatientPage({ params }: Props) {
   if (isLoading || !data || !data.patient) {
     return (
       <CenteredPage>
-        <CircularProgress size='lg' />
+        <CircularProgress size="lg" />
       </CenteredPage>
     );
   }

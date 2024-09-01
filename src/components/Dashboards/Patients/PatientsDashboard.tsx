@@ -1,5 +1,5 @@
 'use client';
-import { Sheet } from '@mui/joy';
+import { Box, Sheet } from '@mui/joy';
 import useSWR from 'swr';
 import Datagrid from '../../Table/Datagrid';
 import { columns } from './patients.columns';
@@ -7,7 +7,8 @@ import fetcher from '@/utils/fetcher';
 import AddPatientButton from './AddPatientButton';
 import { useMemo, useState, useCallback } from 'react';
 import { Patient } from '@prisma/client';
-import PatientsFilter, { FilterCriteria } from './PatientsFilter';
+import PatientsFilter from './PatientsFilter';
+import { FilterCriteria } from '@/types/filter-criteria';
 
 interface PatientData {
   patients: Patient[];
@@ -24,19 +25,16 @@ export default function PatientsDashboard(): JSX.Element {
     disease: '',
   });
 
-  const filteredPatients: Patient[] = useMemo(() => {
+  const filteredPatients = useMemo(() => {
     if (!patientData) return [];
+    const { text, status, disease } = filterCriteria;
     return patientData.patients.filter((patient: Patient) => {
-      const matchesText: boolean =
-        !filterCriteria.text ||
-        JSON.stringify(patient)
-          .toLowerCase()
-          .includes(filterCriteria.text.toLowerCase());
-      const matchesStatus: boolean =
-        !filterCriteria.status || patient.status === filterCriteria.status;
-      const matchesDisease: boolean =
-        !filterCriteria.disease || patient.diseaseId?.toString() === filterCriteria.disease;
-      return matchesText && matchesStatus && matchesDisease;
+      return (
+        (!text ||
+          JSON.stringify(patient).toLowerCase().includes(text.toLowerCase())) &&
+        (!status || patient.status === status) &&
+        (!disease || patient.diseaseId?.toString() === disease)
+      );
     });
   }, [patientData, filterCriteria]);
 
@@ -51,13 +49,22 @@ export default function PatientsDashboard(): JSX.Element {
   if (!patientData) return <div>Loading...</div>;
 
   return (
-    <>
-      <Sheet
+    <Sheet
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        justifyContent: 'end',
+        gap: 1,
+      }}
+    >
+      <Box
         sx={{
           display: 'flex',
-          width: '100%',
-          justifyContent: 'end',
-          gap: 1,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          mb: 2,
+          alignItems: 'end',
         }}
       >
         <PatientsFilter
@@ -65,8 +72,8 @@ export default function PatientsDashboard(): JSX.Element {
           onFilterChange={handleFilterChange}
         />
         <AddPatientButton />
-      </Sheet>
+      </Box>
       <Datagrid rows={filteredPatients} columns={columns} />
-    </>
+    </Sheet>
   );
 }

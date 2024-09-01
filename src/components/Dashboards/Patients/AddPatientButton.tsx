@@ -13,6 +13,7 @@ export default function AddPatientButton() {
       <Button
         variant="outlined"
         color="neutral"
+        size='md'
         startDecorator={<AddBoxIcon />}
         onClick={() =>
           openModal(

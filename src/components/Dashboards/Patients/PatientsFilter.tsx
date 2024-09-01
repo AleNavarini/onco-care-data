@@ -1,5 +1,13 @@
 import React from 'react';
-import { Input, Select, Sheet, Option } from '@mui/joy';
+import {
+  Input,
+  Select,
+  Sheet,
+  Option,
+  MenuItem,
+  FormControl,
+  FormLabel,
+} from '@mui/joy';
 import SearchIcon from '@mui/icons-material/Search';
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
@@ -65,36 +73,36 @@ export default function PatientsFilter({
         },
       }}
     >
-      <Input
-        type="text"
-        placeholder="Buscar"
-        value={filterCriteria.text}
-        startDecorator={<SearchIcon />}
-        onChange={handleTextChange}
-      />
-      <Select<string>
-        size="sm"
-        placeholder="Filtrar por estado"
-        onChange={handleStatusChange}
-        value={filterCriteria.status}
-      >
-        <Option value="">Todos</Option>
-        <Option value="active">Activa</Option>
-        <Option value="following">En Seguimiento</Option>
-      </Select>
-      <Select<string>
-        size="sm"
-        placeholder="Filtrar por enfermedad"
-        onChange={handleDiseaseChange}
-        value={filterCriteria.disease}
-      >
-        <Option value="">Todas</Option>
-        {diseases.map((disease: Disease) => (
-          <Option key={disease.id} value={disease.id}>
-            {disease.name}
-          </Option>
-        ))}
-      </Select>
+      <FormControl>
+        <FormLabel>Buscar</FormLabel>
+        <Input
+          type="text"
+          placeholder="Buscar"
+          value={filterCriteria.text}
+          startDecorator={<SearchIcon />}
+          onChange={handleTextChange}
+        />
+      </FormControl>
+      <FormControl>
+        <FormLabel>Estado</FormLabel>
+        <Select onChange={handleStatusChange} value={filterCriteria.status}>
+          <Option value="">Todos</Option>
+          <Option value="active">Activa</Option>
+          <Option value="following">En Seguimiento</Option>
+        </Select>
+      </FormControl>
+
+      <FormControl>
+        <FormLabel>Enfermedad</FormLabel>
+        <Select onChange={handleDiseaseChange} value={filterCriteria.disease}>
+          <Option value="">Todas</Option>
+          {diseases.map((disease: Disease) => (
+            <Option key={disease.id} value={disease.id}>
+              {disease.name}
+            </Option>
+          ))}
+        </Select>
+      </FormControl>
     </Sheet>
   );
 }

@@ -1,34 +1,68 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Onco-Care-Data
+
+## Description
+
+Onco-Care-Data is a web application designed for managing patient data in an oncology care setting. It provides a user-friendly interface for healthcare professionals to view and filter patient information.
+
+## Key Features
+
+- Patient dashboard with advanced filtering capabilities
+- Responsive design for various screen sizes
+- Server-side rendering with Next.js
+- Authentication system (likely using NextAuth.js)
+
+## Technologies Used
+
+- React
+- Next.js (App Router)
+- TypeScript
+- Material-UI (MUI Joy)
+- SWR for data fetching
+- NextAuth.js for authentication
+
+## Project Structure
+
+The project follows the Next.js 13+ App Router structure:
+
+- src/app/layout.tsx: The root layout component
+- src/app/(home)/page.tsx: The main page component
+- src/components/: Directory for React components
+  - Dashboards/Patients/: Components related to the patients dashboard
+  - Providers/: Custom provider components
+  - ui/: Reusable UI components
 
 ## Getting Started
 
-First, run the development server:
+1. Clone the repository
+2. Install dependencies:
+   `yarn install`
+3. Set up environment variables
+4. Run the development server:
+   `yarn dev`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Usage
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application provides a patients dashboard where users can:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- View a list of patients
+- Filter patients by text search, status, and disease type
+- (Additional features to be described)
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Authentication
 
-## Learn More
+The application uses NextAuth.js for authentication. Ensure you've set up the necessary providers and environment variables.
 
-To learn more about Next.js, take a look at the following resources:
+## Contributing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Fork the repository
+2. Create your feature branch (git checkout -b feature/AmazingFeature)
+3. Commit your changes (git commit -m 'Add some AmazingFeature')
+4. Push to the branch (git push origin feature/AmazingFeature)
+5. Open a Pull Request
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Acknowledgements
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Next.js
+- Material-UI
+- SWR
+- NextAuth.js

@@ -1,4 +1,3 @@
-
 import prisma from '@/lib/prisma';
 import { getFollowUpsData } from '@/utils/get-follow-ups-data';
 import { NextResponse } from 'next/server';

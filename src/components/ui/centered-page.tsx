@@ -7,7 +7,11 @@ interface CenteredPageProps {
   height?: string;
 }
 
-export default function CenteredPage({ children, width = '100%', height = '100%' }: CenteredPageProps) {
+export default function CenteredPage({
+  children,
+  width = '100%',
+  height = '100%',
+}: CenteredPageProps) {
   return (
     <Sheet
       sx={{

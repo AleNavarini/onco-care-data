@@ -3,6 +3,7 @@ import { Sheet } from '@mui/joy';
 import useSWR from 'swr';
 import BarChart from '@/components/charts/bar';
 import CenteredLoading from '../ui/centered-loading';
+import { useEffect, useState } from 'react';
 
 interface DiseasesData {
     name: string;
@@ -11,6 +12,21 @@ interface DiseasesData {
 
 const DiseasesChart: React.FC = () => {
     const { data, isLoading, error } = useSWR('/api/stats/diseases', fetcher);
+    const [chartWidth, setChartWidth] = useState(800);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setChartWidth(window.innerWidth < 768 ? window.innerWidth - 30 : 800);
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
 
     if (isLoading) return <CenteredLoading />;
     if (error) return <div>Error: {error.message}</div>;
@@ -24,7 +40,7 @@ const DiseasesChart: React.FC = () => {
         <Sheet>
             <BarChart
                 data={transformedData}
-                width={600}
+                width={chartWidth}
                 height={400}
             />
         </Sheet>

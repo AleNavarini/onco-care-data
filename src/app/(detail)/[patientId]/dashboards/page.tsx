@@ -12,14 +12,14 @@ import {
 import useSWR from 'swr';
 
 import Accordion from '@/components/Common/Accordion';
-import AffiliatoryDataForm from '@/components/Forms/AffiliatoryDataForm';
+import AffiliatoryDataForm from '@/components/forms/AffiliatoryDataForm';
 import PatientTopRow from '@/components/PatientTopRow';
-import RiskFactorsDashboard from '@/components/Dashboards/RiskFactors/RiskFactorsDashboard';
-import PreviousSurgeriesTable from '@/components/Tables/PreviousSurgeriesTable';
-import SymptomsTable from '@/components/Tables/SymptomsTable';
-import GestationForm from '@/components/Forms/GestationForm';
-import FollowUpWidget from '@/components/Dashboards/FollowUps/FollowUpWidget';
-import StagingsWidget from '@/components/Dashboards/Stagings/StagingsWidget';
+import RiskFactorsDashboard from '@/components/dashboards/RiskFactors/RiskFactorsDashboard';
+import PreviousSurgeriesTable from '@/components/tables/PreviousSurgeriesTable';
+import SymptomsTable from '@/components/tables/SymptomsTable';
+import GestationForm from '@/components/forms/GestationForm';
+import FollowUpWidget from '@/components/dashboards/FollowUps/FollowUpWidget';
+import StagingsWidget from '@/components/dashboards/Stagings/StagingsWidget';
 
 import fetcher from '@/utils/fetcher';
 import CenteredPage from '@/components/ui/centered-page';

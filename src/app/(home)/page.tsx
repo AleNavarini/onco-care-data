@@ -1,7 +1,7 @@
 'use client';
 
 import { Sheet, Typography } from '@mui/joy';
-import PatientsDashboard from '@/components/Dashboards/Patients/PatientsDashboard';
+import PatientsDashboard from '@/components/dashboards/Patients/PatientsDashboard';
 import { Suspense } from 'react';
 import CenteredPage from '@/components/ui/centered-page';
 import { CircularProgress } from '@mui/material';

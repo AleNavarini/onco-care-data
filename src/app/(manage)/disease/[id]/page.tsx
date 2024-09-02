@@ -1,5 +1,5 @@
 'use client';
-import RiskFactorsDashboard from '@/components/Dashboards/RiskFactorsDashboard';
+import RiskFactorsDashboard from '@/components/dashboards/RiskFactorsDashboard';
 import { LinearProgress, Sheet, Typography } from '@mui/joy';
 import useSWR from 'swr';
 

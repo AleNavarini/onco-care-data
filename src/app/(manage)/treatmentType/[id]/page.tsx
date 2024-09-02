@@ -1,6 +1,6 @@
 'use client';
-import TreatmentTypeAttributesDashboard from '@/components/Dashboards/TreatmentTypeAttributesDashboard';
-import TreatmentTypeResultsDashboard from '@/components/Dashboards/TreatmentTypeResultsDashboard';
+import TreatmentTypeAttributesDashboard from '@/components/dashboards/TreatmentTypeAttributesDashboard';
+import TreatmentTypeResultsDashboard from '@/components/dashboards/TreatmentTypeResultsDashboard';
 import { LinearProgress, Sheet, Typography } from '@mui/joy';
 import {
   TreatmentType,

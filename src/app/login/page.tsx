@@ -13,7 +13,7 @@ import Stack from '@mui/joy/Stack';
 import ThemeToggle from '@/components/ThemeToggle';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import Logo from '@/components/Common/Logo';
+import Logo from '@/components/common/Logo';
 
 type FormValues = {
   email: string;

@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, IconButton, Modal, Typography, Sheet } from '@mui/joy';
 import { Complication } from '@prisma/client';
 import { useState } from 'react';
-import ComplicationForm from '../forms/ComplicationForm';
+import ComplicationForm from '../forms/complication-form';
 
 interface Props {
   treatmentId: string;

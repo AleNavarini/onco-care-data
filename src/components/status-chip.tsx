@@ -1,4 +1,4 @@
-import { getStatus } from '@/utils/getStatus';
+import { getStatus } from '@/utils/get-status';
 import { Chip, ColorPaletteProp } from '@mui/joy';
 
 interface Props {

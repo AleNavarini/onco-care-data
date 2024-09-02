@@ -12,12 +12,12 @@ import {
 import useSWR from 'swr';
 
 import Accordion from '@/components/ui/accordion';
-import AffiliatoryDataForm from '@/components/forms/AffiliatoryDataForm';
-import PatientTopRow from '@/components/PatientTopRow';
+import AffiliatoryDataForm from '@/components/forms/affiliatory-data-form';
+import PatientTopRow from '@/components/patient-top-row';
 import RiskFactorsDashboard from '@/components/dashboards/risk-factors/risk-factors-dashboard';
-import PreviousSurgeriesTable from '@/components/tables/PreviousSurgeriesTable';
-import SymptomsTable from '@/components/tables/SymptomsTable';
-import GestationForm from '@/components/forms/GestationForm';
+import PreviousSurgeriesTable from '@/components/tables/previous-surgeries-table';
+import SymptomsTable from '@/components/tables/symptoms-table';
+import GestationForm from '@/components/forms/gestation-form';
 import FollowUpWidget from '@/components/dashboards/follow-ups/follow-up-widget';
 import StagingsWidget from '@/components/dashboards/stagings/stagings-widget';
 

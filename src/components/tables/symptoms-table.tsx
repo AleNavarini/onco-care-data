@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, IconButton, Modal, Typography, Sheet } from '@mui/joy';
 import { Symptom } from '@prisma/client';
 import { useState } from 'react';
-import SymptomForm from '../forms/SymptomForm';
+import SymptomForm from '../forms/symptom-form';
 
 interface Props {
   patientId: string;

@@ -1,4 +1,4 @@
-import { toBool } from './toBool';
+import { toBool } from './to-bool';
 
 export function getFollowUpsData(data: any) {
   return {

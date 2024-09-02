@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { TreatmentTypeAttribute } from '@prisma/client';
-import TreatmentTypeAttributeForm from '../forms/TreatmentTypeAttributeForm';
+import TreatmentTypeAttributeForm from '../forms/treatment-type-attribute-form';
 import DashboardWrapper from '../common/dashboard-wrapper';
 
 interface Props {

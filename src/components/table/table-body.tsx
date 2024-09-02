@@ -1,4 +1,4 @@
-import TableRow from './TableRow';
+import TableRow from './table-row';
 import { ColumnType } from './table.types';
 
 interface TableBodyProps {

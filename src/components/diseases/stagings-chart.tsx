@@ -11,7 +11,7 @@ const StagingsChart: React.FC = () => {
 
     useEffect(() => {
         const handleResize = () => {
-            setChartWidth(window.innerWidth < 768 ? window.innerWidth : 800);
+            setChartWidth(window.innerWidth < 768 ? window.innerWidth - 16 : 800);
         };
 
         handleResize(); // Set the initial width based on the current window size

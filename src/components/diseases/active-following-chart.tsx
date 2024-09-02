@@ -12,7 +12,7 @@ const ActiveFollowingChart: React.FC = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setChartWidth(window.innerWidth < 768 ? window.innerWidth - 30 : 800);
+      setChartWidth(window.innerWidth < 768 ? window.innerWidth - 16 : 800);
     };
 
     handleResize();

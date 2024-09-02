@@ -41,7 +41,9 @@ const BarChart: React.FC<BarChartProps> = ({ data, width, height }) => {
     const g = svg
       .append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
-    const colorScale = d3.scaleOrdinal<string, string>(d3.schemeSet3 as string[]);
+    const colorScale = d3.scaleOrdinal<string, string>(
+      d3.schemeSet3 as string[],
+    );
 
     // Add bars
     g.selectAll('.bar')
@@ -56,10 +58,20 @@ const BarChart: React.FC<BarChartProps> = ({ data, width, height }) => {
       .attr('fill', (d) => colorScale(d.name));
 
     // Add the X Axis
-    g.append('g')
+    // Add the X Axis
+    const xAxis = g
+      .append('g')
       .attr('class', 'x-axis')
       .attr('transform', `translate(0,${innerHeight})`)
       .call(d3.axisBottom(x));
+
+    // Adjust text size and wrap text
+    xAxis
+      .selectAll('text')
+      .style('font-size', '12px')
+      .style('max-width', '12px')
+      .style('overflow', 'hidden')
+
 
     // Add the Y Axis
     g.append('g').attr('class', 'y-axis').call(d3.axisLeft(y));

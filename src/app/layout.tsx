@@ -3,8 +3,8 @@
 import './globals.css';
 import '@/lib/bigIntExtensions';
 import { Public_Sans } from 'next/font/google';
-import ClientCssVarsProvider from '@/components/Providers/ClientCssVarsProvider';
-import NextAuthProvider from '@/components/Providers/NextAuthProvider';
+import ClientCssVarsProvider from '@/components/providers/ClientCssVarsProvider';
+import NextAuthProvider from '@/components/providers/NextAuthProvider';
 const publicSans = Public_Sans({ subsets: ['latin'] });
 
 export default function RootLayout({

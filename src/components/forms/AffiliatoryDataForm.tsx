@@ -2,7 +2,7 @@
 import { useForm } from 'react-hook-form';
 import { AffiliatoryData } from '@prisma/client';
 import { FieldConfig } from '@/types/FieldConfig';
-import Form from '../common/Form';
+import Form from '../common/form';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 export default function AffiliatoryDataForm({

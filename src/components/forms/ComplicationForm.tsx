@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { Complication } from '@prisma/client';
 import { FieldConfig } from '@/types/FieldConfig';
-import Form from '../common/Form';
+import Form from '../common/form';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {

@@ -1,6 +1,6 @@
-import Container from './Container';
-import FormFieldsMapper from './FormFieldsMapper';
-import SubmitButton from './SubmitButton';
+import Container from './container';
+import FormFieldsMapper from './form-fields-mapper';
+import SubmitButton from './submit-button';
 
 interface Props {
   isLoading: boolean;

@@ -11,7 +11,7 @@ import {
   TreatmentTypeResult,
 } from '@prisma/client';
 import ComplicationsTable from '../tables/ComplicationsTable';
-import SubmitButton from '../common/SubmitButton';
+import SubmitButton from '../common/submit-button';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 const fetchTreatments = async (url: string) => {

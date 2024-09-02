@@ -1,9 +1,9 @@
 'use client';
-import Header from '@/components/common/Header';
-import MainContent from '@/components/common/MainContent';
+import Header from '@/components/common/header';
+import MainContent from '@/components/common/main-content';
 import FirstSidebar from '@/components/common/FirstSidebar';
 import React from 'react';
-import SecondSidebar from '@/components/common/SecondSidebar';
+import SecondSidebar from '@/components/common/second-sidebar';
 import { Box } from '@mui/joy';
 
 export default function RootLayout({

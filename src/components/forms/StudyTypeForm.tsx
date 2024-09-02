@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { StudyType } from '@prisma/client';
 import { FieldConfig } from '@/types/FieldConfig';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
-import NewForm from '../common/NewForm';
+import NewForm from '../common/new-form';
 
 interface Props {
   oldStudyType?: StudyType;

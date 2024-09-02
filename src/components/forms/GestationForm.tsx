@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Gestation } from '@prisma/client';
 import { FieldConfig } from '@/types/FieldConfig';
-import Form from '../common/Form';
+import Form from '../common/form';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
 
 interface Props {

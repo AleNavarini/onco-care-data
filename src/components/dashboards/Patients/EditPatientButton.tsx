@@ -1,4 +1,4 @@
-import Modal from '@/components/common/Modal';
+import Modal from '@/components/common/modal';
 import PatientForm from '@/components/forms/PatientForm';
 import useModal from '@/hooks/useModal';
 import { FullPatient } from '@/types/FullPatient';

@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { TreatmentTypeResult } from '@prisma/client';
 import TreatmentTypeResultForm from '../forms/TreatmentTypeResultForm';
-import DashboardWrapper from '../common/DashboardWrapper';
+import DashboardWrapper from '../common/dashboard-wrapper';
 
 interface Props {
   treatmentTypeResults: TreatmentTypeResult[];

@@ -5,7 +5,7 @@ import { Suspense, useState } from 'react';
 import '../../lib/bigIntExtensions';
 import useSWR from 'swr';
 import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
-import SubmitButton from '../common/SubmitButton';
+import SubmitButton from '../common/submit-button';
 import { useSubmitForm } from '@/hooks/useSubmitForm';
 import fetcher from '@/utils/fetcher';
 

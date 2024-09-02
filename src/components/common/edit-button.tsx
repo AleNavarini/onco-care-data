@@ -1,4 +1,4 @@
-import Modal from '@/components/common/Modal';
+import Modal from '@/components/common/modal';
 import useModal from '@/hooks/useModal';
 import { IconButton } from '@mui/joy';
 import React from 'react';

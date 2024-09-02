@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { StudyTypeAttribute } from '@prisma/client';
 import StudyTypeAttributeForm from '../forms/StudyTypeAttributeForm';
-import DashboardWrapper from '../common/DashboardWrapper';
+import DashboardWrapper from '../common/dashboard-wrapper';
 
 interface Props {
   studyTypeAttributes: StudyTypeAttribute[];

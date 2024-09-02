@@ -1,13 +1,17 @@
 'use client';
 
-import { Typography } from '@mui/joy';
+import { Sheet, Typography } from '@mui/joy';
 import PatientsDashboard from '@/components/dashboards/patients/patients-dashboard';
+import MissingFollowUps from '@/components/home/missing-follow-up';
 
 export default function Home() {
   return (
-    <>
-      <Typography level="h1">Pacientes</Typography>
+    <Sheet>
+      <MissingFollowUps />
+      <Typography level="h2" sx={{ mb: 2 }}>
+        Todos los Pacientes
+      </Typography>
       <PatientsDashboard />
-    </>
+    </Sheet>
   );
 }

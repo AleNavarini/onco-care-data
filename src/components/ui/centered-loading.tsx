@@ -7,7 +7,10 @@ interface CenteredLoadingProps {
   height?: string;
 }
 
-export default function CenteredLoading({ width, height }: CenteredLoadingProps) {
+export default function CenteredLoading({
+  width,
+  height,
+}: CenteredLoadingProps) {
   return (
     <CenteredPage width={width} height={height}>
       <CircularProgress />

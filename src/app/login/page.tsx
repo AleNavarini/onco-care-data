@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import Logo from '@/components/common/logo';
 import ThemeToggle from '@/components/theme-toggle';
+import Spinner from '@/components/ui/spinner';
 
 type FormValues = {
   email: string;
@@ -13,9 +14,14 @@ type FormValues = {
 };
 
 export default function JoySignInSideTemplate() {
-  const { register, handleSubmit } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    signIn('credentials', {
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<FormValues>();
+
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    await signIn('credentials', {
       redirect: true,
       callbackUrl: '/',
       email: data.email,
@@ -75,9 +81,9 @@ export default function JoySignInSideTemplate() {
             </div>
             <button
               type="submit"
-              className="w-full px-4 py-2 mt-6 text-white bg-blue-600 rounded hover:bg-blue-700"
+              className="flex items-center justify-center w-full px-4 py-2 mt-6 text-white bg-blue-600 rounded hover:bg-blue-700 disabled:bg-blue-400"
             >
-              Log in
+              {isSubmitting ? <Spinner /> : 'Log in'}
             </button>
           </form>
         </main>

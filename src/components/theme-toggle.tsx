@@ -33,15 +33,9 @@ export default function ThemeToggle() {
       className="flex items-center justify-center p-1 transition-colors duration-200 border border-gray-300 rounded dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
     >
       {theme === 'dark' ? (
-        <SunIcon
-          className="w-6 h-6"
-          aria-label="Switch to light mode"
-        />
+        <SunIcon className="w-6 h-6" aria-label="Switch to light mode" />
       ) : (
-        <MoonIcon
-          className="w-6 h-6"
-          aria-label="Switch to dark mode"
-        />
+        <MoonIcon className="w-6 h-6" aria-label="Switch to dark mode" />
       )}
     </button>
   );

@@ -7,6 +7,7 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+
   theme: {
     screens: {
       sm: '480px',
@@ -22,19 +23,6 @@ const config: Config = {
         lg: '4rem',
         xl: '5rem',
         '2xl': '6rem',
-      },
-    },
-    animation: {
-      shimmer: 'shimmer 8s infinite',
-    },
-    keyframes: {
-      shimmer: {
-        '0%, 90%, 100%': {
-          'background-position': 'calc(-100% - var(--shimmer-width)) 0',
-        },
-        '30%, 60%': {
-          'background-position': 'calc(100% + var(--shimmer-width)) 0',
-        },
       },
     },
     extend: {

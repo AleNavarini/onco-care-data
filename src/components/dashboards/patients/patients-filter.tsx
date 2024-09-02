@@ -72,6 +72,7 @@ export default function PatientsFilter({
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Enfermedades</SelectLabel>
+            <SelectItem value="all">Todos</SelectItem>
             {diseases.map((disease: Disease) => (
               <SelectItem key={disease.id.toString()} value={disease.id}>
                 {disease.name}
@@ -80,12 +81,22 @@ export default function PatientsFilter({
           </SelectGroup>
         </SelectContent>
       </Select>
-      {/* <Select
-        value={filterCriteria.disease}
-        onChange={handleDiseaseChange}
-        placeholder='Enfermedad'
-        options={diseases.map((disease) => ({ value: disease.name, label: disease.name }))}
-      /> */}
+      <Select
+        onValueChange={handleStatusChange}
+      >
+        <SelectTrigger >
+          <SelectValue placeholder="Elija un estado" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Enfermedades</SelectLabel>
+            <SelectItem value="all">Todos</SelectItem>
+            <SelectItem value="active">Activo</SelectItem>
+            <SelectItem value="following">En Seguimiento</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+
     </div>
   );
 }

@@ -33,8 +33,8 @@ export default function PatientsDashboard(): JSX.Element {
       return (
         (!text ||
           JSON.stringify(patient).toLowerCase().includes(text.toLowerCase())) &&
-        (!status || patient.status === status) &&
-        (!disease || patient.diseaseId?.toString() === disease)
+        (!status || status === 'all' || patient.status === status) &&
+        (!disease || disease === 'all' || patient.diseaseId?.toString() === disease)
       );
     });
   }, [patientData, filterCriteria]);

@@ -24,9 +24,9 @@ export default function JoySignInSideTemplate() {
   };
 
   return (
-    <div className="flex w-full h-screen bg-gray-100 dark:bg-gray-800">
-      <div className="w-1/2 flex flex-col">
-        <header className="w-full flex justify-between items-center px-7 py-3">
+    <div className="flex flex-col w-full h-screen bg-gray-100 md:flex-row dark:bg-gray-800">
+      <div className="flex flex-col w-full h-screen md:w-1/2">
+        <header className="flex items-center justify-between w-full py-3 px-7">
           <Logo />
           <ThemeToggle />
         </header>
@@ -35,10 +35,10 @@ export default function JoySignInSideTemplate() {
             onSubmit={handleSubmit(onSubmit)}
             className="w-full max-w-sm mx-auto"
           >
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+            <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100">
               Bienvenido de vuelta
             </h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-8">
+            <p className="mb-8 text-gray-600 dark:text-gray-300">
               Comencemos! Por favor ingresa tus credenciales.
             </p>
             <div className="space-y-4">
@@ -75,19 +75,19 @@ export default function JoySignInSideTemplate() {
             </div>
             <button
               type="submit"
-              className="mt-6 w-full py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700"
+              className="w-full px-4 py-2 mt-6 text-white bg-blue-600 rounded hover:bg-blue-700"
             >
               Log in
             </button>
           </form>
         </main>
         <footer className="py-4">
-          <p className="text-center text-xs text-gray-500 dark:text-gray-400">
+          <p className="text-xs text-center text-gray-500 dark:text-gray-400">
             © Onco-Care-Data {new Date().getFullYear()}
           </p>
         </footer>
       </div>
-      <div className="w-1/2 h-full relative">
+      <div className="relative hidden h-full md:block md:w-1/2">
         <Image
           src={
             'https://images.unsplash.com/photo-1527181152855-fc03fc7949c8?auto=format&w=1000&dpr=2'

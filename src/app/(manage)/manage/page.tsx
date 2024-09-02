@@ -2,12 +2,12 @@
 import React, { ReactNode, Suspense } from 'react';
 import { Box, Sheet, Typography } from '@mui/joy';
 
-import AddDiseaseButton from '@/components/Dashboards/Diseases/AddDiseaseButton';
-import DiseasesDashboard from '@/components/Dashboards/Diseases/DiseasesDashboard';
-import AddStudyTypeButton from '@/components/Dashboards/StudyTypes/AddStudyTypeButton';
-import StudyTypesDashboard from '@/components/Dashboards/StudyTypes/StudyTypesDashboard';
-import AddTreatmentTypeButton from '@/components/Dashboards/TreatmentTypes/AddTreatmentTypeButton';
-import TreatmentTypesDasboard from '@/components/Dashboards/TreatmentTypes/TreatmentTypesDashboard';
+import AddDiseaseButton from '@/components/dashboards/diseases/add-disease-button';
+import DiseasesDashboard from '@/components/dashboards/diseases/diseases-dashboard';
+import AddStudyTypeButton from '@/components/dashboards/study-types/add-study-type-button';
+import StudyTypesDashboard from '@/components/dashboards/study-types/study-types-dashboard';
+import AddTreatmentTypeButton from '@/components/dashboards/treatment-types/add-treatment-type-button';
+import TreatmentTypesDasboard from '@/components/dashboards/treatment-types/treatment-types-dashboard';
 import CenteredLoading from '@/components/ui/centered-loading';
 
 interface SectionWrapperProps {

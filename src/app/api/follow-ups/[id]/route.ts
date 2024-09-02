@@ -1,5 +1,6 @@
+
 import prisma from '@/lib/prisma';
-import { getFollowUpsData } from '@/utils/getFollowUpsData';
+import { getFollowUpsData } from '@/utils/get-follow-ups-data';
 import { NextResponse } from 'next/server';
 
 export async function PUT(request: Request, context: { params: any }) {

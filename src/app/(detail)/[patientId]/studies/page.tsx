@@ -1,6 +1,6 @@
 'use client';
 
-import StudiesWidget from '@/components/Dashboards/Studies/StudiesWidget';
+import StudiesWidget from '@/components/dashboards/studies/studies-widget';
 
 interface StudiesPageProps {
   params: {

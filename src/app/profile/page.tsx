@@ -1,6 +1,6 @@
 'use client';
-import PasswordChangeForm from '@/components/Forms/PasswordChangeForm';
-import useUser from '@/hooks/useUser';
+import PasswordChangeForm from '@/components/forms/password-change-form';
+import useUser from '@/hooks/use-user';
 import {
   Box,
   Divider,

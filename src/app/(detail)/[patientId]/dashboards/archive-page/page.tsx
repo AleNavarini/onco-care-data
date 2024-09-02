@@ -1,6 +1,6 @@
 'use client';
-import FollowUpWidget from '@/components/Dashboards/FollowUps/FollowUpWidget';
-import StagingsWidget from '@/components/Dashboards/Stagings/StagingsWidget';
+import FollowUpWidget from '@/components/dashboards/follow-ups/follow-up-widget';
+import StagingsWidget from '@/components/dashboards/stagings/stagings-widget';
 import { Sheet } from '@mui/joy';
 
 interface DashboardsPageProps {

@@ -1,7 +1,7 @@
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-import '../../../lib/bigIntExtensions';
-import { getAttributesAndResults } from '@/utils/getAttributesAndResults';
+import '../../../lib/big-int-extensions';
+import { getAttributesAndResults } from '@/utils/get-attributes-and-results';
 
 export async function POST(request: Request) {
   const data = await request.json();

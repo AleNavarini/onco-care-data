@@ -1,5 +1,5 @@
 import prisma from '@/lib/prisma';
-import '../../../lib/bigIntExtensions';
+import '../../../lib/big-int-extensions';
 import { NextResponse } from 'next/server';
 
 export async function GET() {

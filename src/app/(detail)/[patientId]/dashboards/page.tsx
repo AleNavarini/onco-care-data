@@ -11,15 +11,15 @@ import {
 } from '@mui/joy';
 import useSWR from 'swr';
 
-import Accordion from '@/components/Common/Accordion';
-import AffiliatoryDataForm from '@/components/Forms/AffiliatoryDataForm';
-import PatientTopRow from '@/components/PatientTopRow';
-import RiskFactorsDashboard from '@/components/Dashboards/RiskFactors/RiskFactorsDashboard';
-import PreviousSurgeriesTable from '@/components/Tables/PreviousSurgeriesTable';
-import SymptomsTable from '@/components/Tables/SymptomsTable';
-import GestationForm from '@/components/Forms/GestationForm';
-import FollowUpWidget from '@/components/Dashboards/FollowUps/FollowUpWidget';
-import StagingsWidget from '@/components/Dashboards/Stagings/StagingsWidget';
+import Accordion from '@/components/ui/accordion';
+import AffiliatoryDataForm from '@/components/forms/affiliatory-data-form';
+import PatientTopRow from '@/components/patient-top-row';
+import RiskFactorsDashboard from '@/components/dashboards/risk-factors/risk-factors-dashboard';
+import PreviousSurgeriesTable from '@/components/tables/previous-surgeries-table';
+import SymptomsTable from '@/components/tables/symptoms-table';
+import GestationForm from '@/components/forms/gestation-form';
+import FollowUpWidget from '@/components/dashboards/follow-ups/follow-up-widget';
+import StagingsWidget from '@/components/dashboards/stagings/stagings-widget';
 
 import fetcher from '@/utils/fetcher';
 import CenteredPage from '@/components/ui/centered-page';

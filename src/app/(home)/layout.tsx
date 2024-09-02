@@ -1,7 +1,7 @@
 'use client';
-import Header from '@/components/Common/Header';
-import MainContent from '@/components/Common/MainContent';
-import FirstSidebar from '@/components/Common/FirstSidebar';
+import Header from '@/components/common/header';
+import MainContent from '@/components/common/main-content';
+import FirstSidebar from '@/components/common/first-sidebar';
 import React from 'react';
 
 export default function RootLayout({

@@ -25,7 +25,6 @@ export default function ManagePage() {
       <ActiveFollowingChart />
       <DiseasesChart />
       <StagingsChart />
-
     </Sheet>
   );
 }

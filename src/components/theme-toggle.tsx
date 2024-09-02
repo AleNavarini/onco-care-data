@@ -1,25 +1,48 @@
-import { Button, useColorScheme } from '@mui/joy';
-import React from 'react';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
+import React, { useEffect, useState } from 'react';
+import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
 
 export default function ThemeToggle() {
-  const { mode, setMode } = useColorScheme();
-  const [mounted, setMounted] = React.useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>(() =>
+    typeof window !== 'undefined' && localStorage.getItem('theme') === 'dark'
+      ? 'dark'
+      : 'light',
+  );
+  const [mounted, setMounted] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [theme]);
+
+  useEffect(() => {
     setMounted(true);
   }, []);
+
   if (!mounted) {
     return null;
   }
+
   return (
-    <Button
-      variant="outlined"
-      color="primary"
-      onClick={() => setMode(mode === 'dark' ? 'light' : 'dark')}
+    <button
+      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      className="flex items-center justify-center p-1 transition-colors duration-200 border border-gray-300 rounded dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
     >
-      {mode === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
-    </Button>
+      {theme === 'dark' ? (
+        <SunIcon
+          className="w-6 h-6"
+          aria-label="Switch to light mode"
+        />
+      ) : (
+        <MoonIcon
+          className="w-6 h-6"
+          aria-label="Switch to dark mode"
+        />
+      )}
+    </button>
   );
 }

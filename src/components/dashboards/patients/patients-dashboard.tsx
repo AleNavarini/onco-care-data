@@ -34,7 +34,9 @@ export default function PatientsDashboard(): JSX.Element {
         (!text ||
           JSON.stringify(patient).toLowerCase().includes(text.toLowerCase())) &&
         (!status || status === 'all' || patient.status === status) &&
-        (!disease || disease === 'all' || patient.diseaseId?.toString() === disease)
+        (!disease ||
+          disease === 'all' ||
+          patient.diseaseId?.toString() === disease)
       );
     });
   }, [patientData, filterCriteria]);

@@ -1,46 +1,22 @@
-import { Box, CircularProgress } from '@mui/joy';
 import { useSession } from 'next-auth/react';
-import { redirect, useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import CenteredLoading from '../ui/centered-loading';
 
 interface Props {
   children?: React.ReactNode;
 }
+
 export default function MainContent({ children }: Props) {
   const session = useSession();
   if (session.status === 'unauthenticated') redirect('/api/auth/signin');
   if (session.status === 'loading') return <CenteredLoading />;
+
   return (
-    <Box
-      component="main"
-      className="MainContent"
-      sx={(theme) => ({
-        px: {
-          xs: 2,
-          md: 6,
-        },
-        pt: {
-          xs: `calc(${theme.spacing(2)} + var(--Header-height))`,
-          sm: `calc(${theme.spacing(2)} + var(--Header-height))`,
-          md: 3,
-        },
-        pb: {
-          xs: 2,
-          sm: 2,
-          md: 3,
-        },
-        flex: 1,
-        display: 'flex',
-        flexDirection: 'column',
-        minWidth: 0,
-        height: '100dvh',
-        gap: 1,
-        marginLeft: {
-          md: 'var(--FirstSidebar-width)',
-        },
-      })}
+    <main
+      className={`
+        flex flex-col h-screen gap-1 px-2 pb-2 md:ml-[var(--FirstSidebar-width)] sm:pt-[calc(theme(spacing.2)+var(--Header-height))]`}
     >
       {children}
-    </Box>
+    </main>
   );
 }

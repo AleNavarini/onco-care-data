@@ -18,7 +18,9 @@ export default function RootLayout({
           <head>
             <title>Onco-Care-Data</title>
           </head>
-          <body className={`${publicSans.className} body-class`}>
+          <body
+            className={`${publicSans.className} bg-gray-100 dark:bg-gray-800`}
+          >
             {children}
           </body>
         </html>

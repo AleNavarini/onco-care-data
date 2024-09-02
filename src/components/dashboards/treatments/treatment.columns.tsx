@@ -1,8 +1,8 @@
 import { ColumnType } from '@/components/table/table.types';
 import React from 'react';
 import { Treatment } from '@prisma/client';
-import { columns as treatmentTypeAttributesColumns } from '../TreatmentTypes/treatment-type-attributes.columns';
-import { columns as treatmentTypeResultsColumns } from '../TreatmentTypes/treatment-type-results.columns';
+import { columns as treatmentTypeAttributesColumns } from '../treatment-types/treatment-type-attributes.columns';
+import { columns as treatmentTypeResultsColumns } from '../treatment-types/treatment-type-results.columns';
 import TableBody from '@/components/table/TableBody';
 import EditButton from '@/components/common/EditButton';
 import { IconButton, Sheet } from '@mui/joy';

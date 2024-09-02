@@ -1,9 +1,9 @@
 import { ColumnType } from '@/components/table/table.types';
 import React from 'react';
 import { Study } from '@prisma/client';
-import { columns as studyTypeAttributesColumns } from '../StudyTypeAttributes/study-type-attributes.columns';
+import { columns as studyTypeAttributesColumns } from '../study-type-attributes/study-type-attributes.columns';
 import TableBody from '@/components/table/TableBody';
-import EditButton from '@/components/common/EditButton';
+import EditButton from '@/components/common/edit-button';
 import StudyForm from '@/components/forms/StudyForm';
 import { IconButton, Sheet } from '@mui/joy';
 import { deleteStudy } from './study.service';

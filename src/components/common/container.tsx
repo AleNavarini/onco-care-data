@@ -1,5 +1,5 @@
 import { Box, Sheet } from '@mui/joy';
-import LoadingOverlay from './LoadingOverlay';
+import LoadingOverlay from './loading-overlay';
 import { ReactNode } from 'react';
 
 interface Props {

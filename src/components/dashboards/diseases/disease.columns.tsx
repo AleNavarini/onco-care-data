@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { mutate } from 'swr';
 import { deleteDisease } from './disease.service';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
-import EditDiseaseButton from './EditDiseaseButton';
+import EditDiseaseButton from './edit-disease-button';
 import React from 'react';
 import { Disease } from '@prisma/client';
 

@@ -1,5 +1,4 @@
 'use client';
-import * as React from 'react';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
@@ -7,6 +6,7 @@ import Image from 'next/image';
 import Logo from '@/components/common/logo';
 import ThemeToggle from '@/components/theme-toggle';
 import Spinner from '@/components/ui/spinner';
+import { Button } from '@/components/ui/button';
 
 type FormValues = {
   email: string;
@@ -79,12 +79,12 @@ export default function JoySignInSideTemplate() {
                 />
               </div>
             </div>
-            <button
+            <Button
               type="submit"
-              className="flex items-center justify-center w-full px-4 py-2 mt-6 text-white bg-blue-600 rounded hover:bg-blue-700 disabled:bg-blue-400"
+              className="flex items-center justify-center w-full px-4 py-2 mt-6 "
             >
               {isSubmitting ? <Spinner /> : 'Log in'}
-            </button>
+            </Button>
           </form>
         </main>
         <footer className="py-4">

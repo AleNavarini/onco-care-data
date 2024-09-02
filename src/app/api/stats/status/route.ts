@@ -15,8 +15,6 @@ export async function GET() {
       { name: 'En Seguimiento', value: following.length },
     ];
 
-    console.log(data);
-
     return NextResponse.json(data);
   } catch (error) {
     console.error(error);

@@ -1,5 +1,5 @@
 'use client';
-import { Box, CircularProgress, Sheet, Typography } from '@mui/joy';
+import { CircularProgress, Typography } from '@mui/joy';
 import useSWR from 'swr';
 import Datagrid from '../../table/datagrid';
 import { columns } from './patients.columns';
@@ -63,31 +63,15 @@ export default function PatientsDashboard(): JSX.Element {
   }
 
   return (
-    <Sheet
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        justifyContent: 'end',
-        gap: 1,
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          mb: 2,
-          alignItems: 'end',
-        }}
-      >
+    <div className="flex flex-col justify-end w-full gap-1">
+      <div className="flex flex-row items-end justify-between mb-2">
         <PatientsFilter
           filterCriteria={filterCriteria}
           onFilterChange={handleFilterChange}
         />
         <AddPatientButton />
-      </Box>
+      </div>
       <Datagrid rows={filteredPatients} columns={columns} />
-    </Sheet>
+    </div>
   );
 }

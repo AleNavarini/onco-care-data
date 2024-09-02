@@ -8,7 +8,7 @@ const MissingFollowUpAlert: React.FC<MissingFollowUpAlertProps> = ({
   patient,
 }) => {
   return (
-    <div className='p-2 mb-2 text-yellow-800 bg-yellow-200 border rounded-md dark:bg-yellow-600 dark:text-yellow-100'>
+    <div className='p-2 mb-2 bg-yellow-300 border rounded-md dark:bg-yellow-800'>
       <p className='font-bold'>
         {patient.name} necesita un seguimiento
       </p>

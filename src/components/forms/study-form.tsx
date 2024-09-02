@@ -1,12 +1,12 @@
 import { Stack, Select, Option, CircularProgress } from '@mui/joy';
-import Field from './Field';
+import Field from './field';
 import { useForm } from 'react-hook-form';
 import { Suspense, useState } from 'react';
-import '../../lib/bigIntExtensions';
+import '../../lib/big-int-extensions';
 import useSWR from 'swr';
 import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
 import SubmitButton from '../common/submit-button';
-import { useSubmitForm } from '@/hooks/useSubmitForm';
+import { useSubmitForm } from '@/hooks/use-submit-form';
 import fetcher from '@/utils/fetcher';
 
 interface FullStudyType extends StudyType {

@@ -1,8 +1,8 @@
 import fetcher from '@/utils/fetcher';
 import { Box, Typography } from '@mui/joy';
 import useSWR from 'swr';
-import DiseaseSelect from './DiseaseSelect';
-import StatusChip from './StatusChip';
+import DiseaseSelect from './disease-select';
+import StatusChip from './status-chip';
 
 interface Props {
   patientId: any;

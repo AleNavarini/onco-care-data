@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import React from 'react';
 import { Staging } from '@prisma/client';
 import { deleteStaging } from './staging.service';
-import StagingForm from '@/components/forms/StagingForm';
+import StagingForm from '@/components/forms/staging-form';
 import EditButton from '@/components/common/edit-button';
 
 export const columns: ColumnType[] = [

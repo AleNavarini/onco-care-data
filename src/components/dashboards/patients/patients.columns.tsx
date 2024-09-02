@@ -1,9 +1,9 @@
-import StatusChip from '@/components/StatusChip';
+import StatusChip from '@/components/status-chip';
 import { ColumnType } from '@/components/table/table.types';
 import { IconButton, Link } from '@mui/joy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { mutate } from 'swr';
-import { FullPatient } from '@/types/FullPatient';
+import { FullPatient } from '@/types/full-patient';
 import { deletePatient } from './patient.service';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import EditPatientButton from './edit-patient-button';

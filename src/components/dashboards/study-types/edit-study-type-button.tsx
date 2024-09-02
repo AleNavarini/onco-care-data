@@ -1,6 +1,6 @@
 import Modal from '@/components/common/modal';
-import StudyTypeForm from '@/components/forms/StudyTypeForm';
-import useModal from '@/hooks/useModal';
+import StudyTypeForm from '@/components/forms/study-type-form';
+import useModal from '@/hooks/use-modal';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/joy';
 import { StudyType } from '@prisma/client';

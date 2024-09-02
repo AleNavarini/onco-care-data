@@ -1,7 +1,7 @@
 import AddButton from '@/components/common/add-button';
 import { Box, Typography } from '@mui/joy';
 import StudiesDashboard from './studies-dashboard';
-import StudyForm from '@/components/forms/StudyForm';
+import StudyForm from '@/components/forms/study-form';
 
 interface StudiesWidgetProps {
   width: number;

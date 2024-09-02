@@ -5,7 +5,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { RiskFactor } from '@prisma/client';
-import RiskFactorForm from '../forms/RiskFactorForm';
+import RiskFactorForm from '../forms/risk-factor-form';
 
 interface Props {
   riskFactors: RiskFactor[];

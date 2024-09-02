@@ -1,7 +1,7 @@
 'use client';
 import { Box, CircularProgress, Sheet, Typography } from '@mui/joy';
 import useSWR from 'swr';
-import Datagrid from '../../table/Datagrid';
+import Datagrid from '../../table/datagrid';
 import { columns } from './patients.columns';
 import fetcher from '@/utils/fetcher';
 import AddPatientButton from './add-patient-button';

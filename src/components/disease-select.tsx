@@ -1,4 +1,4 @@
-import { fetchData } from '@/utils/fetchData';
+import { fetchData } from '@/utils/fetch-data';
 import { Select, Option, CircularProgress } from '@mui/joy';
 import { Disease } from '@prisma/client';
 import { useState } from 'react';

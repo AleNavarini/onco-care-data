@@ -2,9 +2,9 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Gestation } from '@prisma/client';
-import { FieldConfig } from '@/types/FieldConfig';
+import { FieldConfig } from '@/types/field-config';
 import Form from '../common/form';
-import { useSubmitForm } from '@/hooks/useSubmitForm';
+import { useSubmitForm } from '@/hooks/use-submit-form';
 
 interface Props {
   patientId: string;

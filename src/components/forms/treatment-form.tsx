@@ -1,8 +1,8 @@
 import { Stack, Select, Option, Typography, Box } from '@mui/joy';
-import Field from './Field';
+import Field from './field';
 import { useForm } from 'react-hook-form';
 import React, { useState } from 'react';
-import '../../lib/bigIntExtensions';
+import '../../lib/big-int-extensions';
 import useSWR from 'swr';
 import {
   Treatment,
@@ -10,9 +10,9 @@ import {
   TreatmentTypeAttribute,
   TreatmentTypeResult,
 } from '@prisma/client';
-import ComplicationsTable from '../tables/ComplicationsTable';
+import ComplicationsTable from '../tables/complications-table';
 import SubmitButton from '../common/submit-button';
-import { useSubmitForm } from '@/hooks/useSubmitForm';
+import { useSubmitForm } from '@/hooks/use-submit-form';
 
 const fetchTreatments = async (url: string) => {
   const response = await fetch(url);

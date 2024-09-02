@@ -1,6 +1,6 @@
 import Modal from '@/components/common/modal';
-import TreatmentTypeForm from '@/components/forms/TreatmentTypeForm';
-import useModal from '@/hooks/useModal';
+import TreatmentTypeForm from '@/components/forms/treatment-type-form';
+import useModal from '@/hooks/use-modal';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { Button } from '@mui/joy';
 import React from 'react';

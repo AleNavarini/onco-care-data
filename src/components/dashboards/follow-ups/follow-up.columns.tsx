@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import React from 'react';
 import { FollowUp } from '@prisma/client';
 import EditButton from '@/components/common/edit-button';
-import FollowUpForm from '@/components/forms/FollowUpForm';
+import FollowUpForm from '@/components/forms/follow-up-form';
 import { deleteFollowUp } from './follow-up.service';
 
 export const columns: ColumnType[] = [

@@ -10,7 +10,7 @@ import FormLabel, { formLabelClasses } from '@mui/joy/FormLabel';
 import Input from '@mui/joy/Input';
 import Typography from '@mui/joy/Typography';
 import Stack from '@mui/joy/Stack';
-import ThemeToggle from '@/components/ThemeToggle';
+import ThemeToggle from '@/components/theme-toggle';
 import { signIn } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Logo from '@/components/common/logo';

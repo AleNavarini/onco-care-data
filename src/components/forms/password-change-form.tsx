@@ -3,7 +3,7 @@ import { Button, FormControl, FormLabel, Input } from '@mui/joy';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Container from '../common/container';
-import { fetchData } from '@/utils/fetchData';
+import { fetchData } from '@/utils/fetch-data';
 
 export default function PasswordChangeForm() {
   const { register, handleSubmit, reset } = useForm();

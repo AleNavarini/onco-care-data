@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, IconButton, Modal, Typography, Sheet } from '@mui/joy';
 import { Staging } from '@prisma/client';
 import { useState } from 'react';
-import StagingForm from '../forms/StagingForm';
+import StagingForm from '../forms/staging-form';
 
 interface Props {
   patientId: string;

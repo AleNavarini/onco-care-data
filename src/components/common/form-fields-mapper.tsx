@@ -1,6 +1,6 @@
 import { Stack } from '@mui/joy';
-import Field from '../forms/Field';
-import { FieldConfig } from '@/types/FieldConfig';
+import Field from '../forms/field';
+import { FieldConfig } from '@/types/field-config';
 
 type FormComponentProps = {
   fields: FieldConfig[];

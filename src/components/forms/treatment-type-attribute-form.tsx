@@ -1,44 +1,44 @@
 import { useForm } from 'react-hook-form';
-import { StudyTypeAttribute } from '@prisma/client';
-import { FieldConfig } from '@/types/FieldConfig';
+import { TreatmentTypeAttribute } from '@prisma/client';
+import { FieldConfig } from '@/types/field-config';
 import Form from '../common/form';
-import { useSubmitForm } from '@/hooks/useSubmitForm';
+import { useSubmitForm } from '@/hooks/use-submit-form';
 
 interface Props {
   buttonText: string;
-  oldStudyTypeAttribute?: StudyTypeAttribute;
-  studyTypeId: string;
-  studyId?: string;
-  handler?: (riskFactor: StudyTypeAttribute) => void;
+  oldTreatmentTypeAttribute?: TreatmentTypeAttribute;
+  treatmentTypeId: string;
+  treatmentId?: string;
+  handler?: (treatmentTypeAttribute: TreatmentTypeAttribute) => void;
   setModalOpen: (state: boolean) => void;
 }
 
-export default function StudyTypeAttributeForm({
+export default function TreatmentTypeAttributeForm({
   buttonText,
   setModalOpen,
-  studyTypeId,
+  treatmentTypeId,
   handler,
-  oldStudyTypeAttribute,
-  studyId,
+  oldTreatmentTypeAttribute,
+  treatmentId,
 }: Props) {
   const { register, handleSubmit, reset } = useForm();
 
   const dataModifier = (data: any) => ({
     ...data,
-    studyTypeId,
+    treatmentTypeId,
   });
 
   const { onSubmit, isLoading } = useSubmitForm({
-    entity: 'study-types-attributes',
-    oldEntity: oldStudyTypeAttribute,
-    returnEntity: 'studyTypeAttribute',
+    entity: 'treatment-types-attributes',
+    oldEntity: oldTreatmentTypeAttribute,
+    returnEntity: 'treatmentTypeAttribute',
     dataModifier,
     reset,
     setModalOpen,
     handler,
   });
 
-  const fields = getFields(oldStudyTypeAttribute, studyId);
+  const fields = getFields(oldTreatmentTypeAttribute, treatmentId);
 
   return (
     <Form
@@ -53,8 +53,8 @@ export default function StudyTypeAttributeForm({
 }
 
 function getFields(
-  oldStudyTypeAttribute: StudyTypeAttribute | undefined,
-  studyId: string | undefined,
+  oldTreatmentTypeAttribute: TreatmentTypeAttribute | undefined,
+  treatmentId: string | undefined,
 ): FieldConfig[] {
   const fields: FieldConfig[] = [
     {
@@ -63,7 +63,7 @@ function getFields(
       placeholder: 'Id del atributo',
       type: 'text',
       visible: false,
-      defaultValue: oldStudyTypeAttribute?.id,
+      defaultValue: oldTreatmentTypeAttribute?.id,
     },
     {
       fieldName: 'name',
@@ -71,17 +71,17 @@ function getFields(
       placeholder: 'Nombre del atributo',
       type: 'text',
       required: true,
-      defaultValue: oldStudyTypeAttribute?.name,
+      defaultValue: oldTreatmentTypeAttribute?.name,
     },
   ];
 
-  if (studyId) {
+  if (treatmentId) {
     fields.push({
       fieldName: 'value',
       label: 'Valor',
       placeholder: 'Valor del atributo ...',
       type: 'text',
-      defaultValue: oldStudyTypeAttribute?.value,
+      defaultValue: oldTreatmentTypeAttribute?.value,
     });
   }
 

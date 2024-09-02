@@ -1,7 +1,7 @@
 import Modal from '@/components/common/modal';
-import PatientForm from '@/components/forms/PatientForm';
-import useModal from '@/hooks/useModal';
-import { FullPatient } from '@/types/FullPatient';
+import PatientForm from '@/components/forms/patient-form';
+import useModal from '@/hooks/use-modal';
+import { FullPatient } from '@/types/full-patient';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/joy';
 import React from 'react';

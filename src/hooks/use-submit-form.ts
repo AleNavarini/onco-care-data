@@ -1,5 +1,5 @@
 // useSubmitForm.ts
-import { fetchData } from '@/utils/fetchData';
+import { fetchData } from '@/utils/fetch-data';
 import { useState } from 'react';
 import { mutate } from 'swr';
 

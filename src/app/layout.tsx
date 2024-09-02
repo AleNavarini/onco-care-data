@@ -1,10 +1,10 @@
 'use client';
 
 import './globals.css';
-import '@/lib/bigIntExtensions';
+import '@/lib/big-int-extensions';
 import { Public_Sans } from 'next/font/google';
-import ClientCssVarsProvider from '@/components/providers/ClientCssVarsProvider';
-import NextAuthProvider from '@/components/providers/NextAuthProvider';
+import ClientCssVarsProvider from '@/components/providers/client-css-vars-provider';
+import NextAuthProvider from '@/components/providers/next-auth-provider';
 const publicSans = Public_Sans({ subsets: ['latin'] });
 
 export default function RootLayout({

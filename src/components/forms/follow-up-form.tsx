@@ -1,9 +1,9 @@
 import { FormControl, FormLabel, Radio, RadioGroup, Stack } from '@mui/joy';
 import { useForm } from 'react-hook-form';
-import Field from './Field';
+import Field from './field';
 import { FollowUp } from '@prisma/client';
 import SubmitButton from '../common/submit-button';
-import { useSubmitForm } from '@/hooks/useSubmitForm';
+import { useSubmitForm } from '@/hooks/use-submit-form';
 
 interface FollowUpFormProps {
   oldFollowUp?: FollowUp;

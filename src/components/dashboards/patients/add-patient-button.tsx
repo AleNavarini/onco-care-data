@@ -1,6 +1,6 @@
 import Modal from '@/components/common/modal';
-import PatientForm from '@/components/forms/PatientForm';
-import useModal from '@/hooks/useModal';
+import PatientForm from '@/components/forms/patient-form';
+import useModal from '@/hooks/use-modal';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { Button } from '@mui/joy';
 import React from 'react';

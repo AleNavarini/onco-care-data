@@ -2,39 +2,38 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, IconButton, Modal, Typography, Sheet } from '@mui/joy';
-import { Study } from '@prisma/client';
+import { FollowUp } from '@prisma/client';
 import { useState } from 'react';
-import StudyForm from '../forms/StudyForm';
+import FollowUpForm from '../forms/follow-up-form';
 
 interface Props {
   patientId: string;
-  studies: Study[];
+  followUps: FollowUp[];
 }
 
-export default function StudiesTable({
+export default function FollowUpsTable({
   patientId,
-  studies: initialStudies,
+  followUps: initialFollowUps,
 }: Props) {
-  const [studies, setStudies] = useState<Study[]>(initialStudies);
-  const [editStudy, setEditStudy] = useState<Study | null>(null);
+  const [followUps, setFollowUps] = useState<FollowUp[]>(initialFollowUps);
+  const [editFollowUp, setEditFollowUp] = useState<FollowUp | null>(null);
   const [newModalOpen, setNewModalOpen] = useState<boolean>(false);
   const [editModalOpen, setEditModalOpen] = useState<boolean>(false);
 
-  const addStudy = (study: Study) =>
-    setStudies((prevStudies) => [...prevStudies, study]);
+  const addFollowUp = (followUp: FollowUp) =>
+    setFollowUps((prevFollowUps) => [...prevFollowUps, followUp]);
 
-  const updateStudy = (study: Study) => {
-    setEditStudy(study);
-    setStudies((prevStudies) =>
-      prevStudies.map((st: Study) => {
-        if (st.id === study.id) return study;
-        return st;
+  const updateFollowUp = (followUp: FollowUp) => {
+    setFollowUps((prevFollowUps) =>
+      prevFollowUps.map((fu: FollowUp) => {
+        if (fu.id === followUp.id) return followUp;
+        return fu;
       }),
     );
   };
 
-  const deleteStudy = async (study: Study) => {
-    const response = await fetch(`/api/studies/${study.id}`, {
+  const deleteFollowUp = async (followUp: FollowUp) => {
+    const response = await fetch(`/api/follow-ups/${followUp.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -42,8 +41,8 @@ export default function StudiesTable({
     });
 
     if (response.status === 200) {
-      setStudies((prevStudies) =>
-        prevStudies.filter((fu: Study) => fu.id !== study.id),
+      setFollowUps((prevFollowUps) =>
+        prevFollowUps.filter((fu: FollowUp) => fu.id !== followUp.id),
       );
     }
   };
@@ -66,13 +65,28 @@ export default function StudiesTable({
       >
         <thead>
           <tr>
-            {studies.length > 0 && (
+            {followUps.length > 0 && (
               <>
                 <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                   Fecha
                 </th>
                 <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
-                  Tipo
+                  Vino
+                </th>
+                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                  Tiene Enfermedad
+                </th>
+                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                  Sitio Recidiva
+                </th>
+                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                  Murio
+                </th>
+                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                  Causa Muerte
+                </th>
+                <th style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                  Observaciones
                 </th>
               </>
             )}
@@ -102,45 +116,74 @@ export default function StudiesTable({
                   alignItems: 'center',
                 }}
               >
-                <StudyForm
+                <FollowUpForm
                   patientId={patientId}
+                  handler={addFollowUp}
                   setModalOpen={setNewModalOpen}
-                  handler={addStudy}
                 />
               </Modal>
             </th>
           </tr>
         </thead>
         <tbody>
-          {studies &&
-            studies.length > 0 &&
-            studies.map((study: any) => {
-              const date = study.date.toString().split('T')[0];
-
+          {followUps &&
+            followUps.length > 0 &&
+            followUps.map((followUp: FollowUp) => {
+              const date = followUp.date.toString().split('T')[0];
+              function getStringForBoolean(bool: boolean | null) {
+                if (bool === null) return '';
+                return bool ? 'Si' : 'No';
+              }
               return (
-                <tr key={study.id.toString()}>
+                <tr key={followUp.id.toString()}>
                   <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                     <Typography fontWeight="md">{date}</Typography>
                   </td>
                   <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                     <Typography fontWeight="md">
-                      {study.studyType?.name}
+                      {getStringForBoolean(followUp.attended)}
                     </Typography>
                   </td>
+                  <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                    <Typography fontWeight="md">
+                      {getStringForBoolean(followUp.hasDisease)}
+                    </Typography>
+                  </td>
+                  <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                    <Typography fontWeight="md">
+                      {followUp.recurrenceSite}
+                    </Typography>
+                  </td>
+                  <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                    <Typography fontWeight="md">
+                      {getStringForBoolean(followUp.died)}
+                    </Typography>
+                  </td>
+                  <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                    <Typography fontWeight="md">
+                      {followUp.causeOfDeath}
+                    </Typography>
+                  </td>
+                  <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
+                    <Typography fontWeight="md">
+                      {followUp.observations}
+                    </Typography>
+                  </td>
+
                   <td style={{ textAlign: 'center', verticalAlign: 'middle' }}>
                     <IconButton
                       color="neutral"
                       variant="plain"
                       onClick={() => {
-                        setEditStudy(study);
+                        setEditFollowUp(followUp);
                         setEditModalOpen(true);
                       }}
                     >
                       <EditIcon />
                     </IconButton>
                     <Modal
-                      aria-labelledby="Update study modal"
-                      aria-describedby="Update study form"
+                      aria-labelledby="Update followUp modal"
+                      aria-describedby="Update followUp form"
                       open={editModalOpen}
                       onClose={() => setEditModalOpen(false)}
                       sx={{
@@ -149,11 +192,11 @@ export default function StudiesTable({
                         alignItems: 'center',
                       }}
                     >
-                      <StudyForm
-                        oldStudy={editStudy!}
+                      <FollowUpForm
                         patientId={patientId}
-                        setModalOpen={setNewModalOpen}
-                        handler={updateStudy}
+                        handler={updateFollowUp}
+                        setModalOpen={setEditModalOpen}
+                        oldFollowUp={editFollowUp!}
                       />
                     </Modal>
                     <IconButton
@@ -162,7 +205,7 @@ export default function StudiesTable({
                       onClick={() => {
                         const result = confirm('Quiere borrar el seguimiento?');
                         if (!result) return;
-                        deleteStudy(study);
+                        deleteFollowUp(followUp);
                       }}
                     >
                       <DeleteIcon />

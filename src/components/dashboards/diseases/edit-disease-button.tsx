@@ -1,6 +1,6 @@
 import Modal from '@/components/common/modal';
-import DiseaseForm from '@/components/forms/DiseaseForm';
-import useModal from '@/hooks/useModal';
+import DiseaseForm from '@/components/forms/disease-form';
+import useModal from '@/hooks/use-modal';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/joy';
 import { Disease } from '@prisma/client';

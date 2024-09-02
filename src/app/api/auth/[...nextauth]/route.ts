@@ -1,5 +1,5 @@
 import NextAuth from 'next-auth';
-import '@/lib/bigIntExtensions';
+import '@/lib/big-int-extensions';
 import { authOptions } from '@/lib/auth';
 
 const handler = NextAuth(authOptions);

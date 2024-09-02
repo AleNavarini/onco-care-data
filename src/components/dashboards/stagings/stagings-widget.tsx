@@ -1,7 +1,7 @@
 import AddButton from '@/components/common/add-button';
 import { Box, Typography } from '@mui/joy';
 import FollowUpsDashboard from './stagings-dashboard';
-import StagingForm from '@/components/forms/StagingForm';
+import StagingForm from '@/components/forms/staging-form';
 
 interface FollowUpWidgetProps {
   width: number;

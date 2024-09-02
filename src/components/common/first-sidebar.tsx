@@ -7,14 +7,14 @@ import {
   ListItemButton,
   Sheet,
 } from '@mui/joy';
-import ThemeToggle from '../ThemeToggle';
+import ThemeToggle from '../theme-toggle';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import SettingsIcon from '@mui/icons-material/Settings';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import useUser from '@/hooks/useUser';
-import SignOutButton from '../SignOutButton';
+import useUser from '@/hooks/use-user';
+import SignOutButton from '../sign-out-button';
 
 export default function FirstSidebar() {
   const activePath = usePathname();

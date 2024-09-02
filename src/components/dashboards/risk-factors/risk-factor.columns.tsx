@@ -6,7 +6,7 @@ import { deleteRiskFactor } from './risk-factor.service';
 import React from 'react';
 import { RiskFactor } from '@prisma/client';
 import EditButton from '@/components/common/edit-button';
-import RiskFactorForm from '@/components/forms/RiskFactorForm';
+import RiskFactorForm from '@/components/forms/risk-factor-form';
 
 const deleteRiskFactorWrapper = async (id: string) => {
   let result = confirm('Seguro que quiere borrar la enfermedad?');

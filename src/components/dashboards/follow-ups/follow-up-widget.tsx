@@ -1,5 +1,5 @@
 import AddButton from '@/components/common/add-button';
-import FollowUpForm from '@/components/forms/FollowUpForm';
+import FollowUpForm from '@/components/forms/follow-up-form';
 import { Box, Typography } from '@mui/joy';
 import FollowUpsDashboard from './follow-ups-dashboard';
 

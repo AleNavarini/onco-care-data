@@ -1,6 +1,6 @@
 'use client';
 import useSWR from 'swr';
-import Datagrid from '../../table/Datagrid';
+import Datagrid from '../../table/datagrid';
 import { columns } from './treatment-types.columns';
 import fetcher from '@/utils/fetcher';
 

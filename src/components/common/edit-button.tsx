@@ -1,5 +1,5 @@
 import Modal from '@/components/common/modal';
-import useModal from '@/hooks/useModal';
+import useModal from '@/hooks/use-modal';
 import { IconButton } from '@mui/joy';
 import React from 'react';
 import EditIcon from '@mui/icons-material/Edit';

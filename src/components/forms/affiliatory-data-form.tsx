@@ -1,9 +1,9 @@
 'use client';
 import { useForm } from 'react-hook-form';
 import { AffiliatoryData } from '@prisma/client';
-import { FieldConfig } from '@/types/FieldConfig';
+import { FieldConfig } from '@/types/field-config';
 import Form from '../common/form';
-import { useSubmitForm } from '@/hooks/useSubmitForm';
+import { useSubmitForm } from '@/hooks/use-submit-form';
 
 export default function AffiliatoryDataForm({
   patientId,

@@ -1,7 +1,7 @@
 import { Sheet, Table } from '@mui/joy';
 import { ColumnType } from './table.types';
 import TableHead from './TableHead';
-import TableBody from './TableBody';
+import TableBody from './table-body';
 
 interface Props {
   rows: any[];

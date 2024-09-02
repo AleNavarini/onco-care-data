@@ -2,10 +2,10 @@ import { Select, Option, FormControl, FormLabel } from '@mui/joy';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import SubmitButton from '../common/submit-button';
-import { FieldConfig } from '@/types/FieldConfig';
+import { FieldConfig } from '@/types/field-config';
 import FormFieldsMapper from '../common/form-fields-mapper';
-import { useSubmitForm } from '@/hooks/useSubmitForm';
-import { FullPatient } from '@/types/FullPatient';
+import { useSubmitForm } from '@/hooks/use-submit-form';
+import { FullPatient } from '@/types/full-patient';
 
 interface Props {
   oldPatient?: FullPatient;

@@ -1,6 +1,6 @@
 import Modal from '@/components/common/modal';
-import TreatmentTypeForm from '@/components/forms/TreatmentTypeForm';
-import useModal from '@/hooks/useModal';
+import TreatmentTypeForm from '@/components/forms/treatment-type-form';
+import useModal from '@/hooks/use-modal';
 import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/joy';
 import { TreatmentType } from '@prisma/client';

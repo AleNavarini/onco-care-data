@@ -1,4 +1,3 @@
-import { Alert, Typography } from '@mui/joy';
 import { Patient } from '@prisma/client';
 
 interface MissingFollowUpAlertProps {
@@ -9,13 +8,13 @@ const MissingFollowUpAlert: React.FC<MissingFollowUpAlertProps> = ({
   patient,
 }) => {
   return (
-    <Alert variant="soft" color="warning" sx={{ mb: 2 }}>
-      <Typography fontWeight="bold">
+    <div className='p-2 mb-2 text-yellow-800 bg-yellow-200 border rounded-md dark:bg-yellow-600 dark:text-yellow-100'>
+      <p className='font-bold'>
         {patient.name} necesita un seguimiento
-      </Typography>
-      {patient.email && <Typography>Email: {patient.email}</Typography>}
-      {patient.phone && <Typography>Telefono: {patient.phone}</Typography>}
-    </Alert>
+      </p>
+      {patient.email && <p>Email: {patient.email}</p>}
+      {patient.phone && <p>Telefono: {patient.phone}</p>}
+    </div>
   );
 };
 

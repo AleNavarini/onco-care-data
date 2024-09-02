@@ -1,5 +1,5 @@
 'use client';
-import { Box, Sheet } from '@mui/joy';
+import { Box, CircularProgress, Sheet, Typography } from '@mui/joy';
 import useSWR from 'swr';
 import Datagrid from '../../Table/Datagrid';
 import { columns } from './patients.columns';
@@ -9,6 +9,7 @@ import { useMemo, useState, useCallback } from 'react';
 import { Patient } from '@prisma/client';
 import PatientsFilter from './PatientsFilter';
 import { FilterCriteria } from '@/types/filter-criteria';
+import CenteredPage from '@/components/ui/centered-page';
 
 interface PatientData {
   patients: Patient[];
@@ -45,8 +46,19 @@ export default function PatientsDashboard(): JSX.Element {
     [],
   );
 
-  if (error) return <div>Error loading patients</div>;
-  if (!patientData) return <div>Loading...</div>;
+  if (error)
+    return (
+      <CenteredPage>
+        <Typography color="danger">Error loading patients</Typography>
+      </CenteredPage>
+    );
+  if (!patientData) {
+    return (
+      <CenteredPage>
+        <CircularProgress />
+      </CenteredPage>
+    );
+  }
 
   return (
     <Sheet

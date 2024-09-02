@@ -1,6 +1,7 @@
 import { Box, CircularProgress } from '@mui/joy';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import CenteredLoading from '../ui/centered-loading';
 
 interface Props {
   children?: React.ReactNode;
@@ -8,6 +9,7 @@ interface Props {
 export default function MainContent({ children }: Props) {
   const session = useSession();
   if (session.status === 'unauthenticated') redirect('/api/auth/signin');
+  if (session.status === 'loading') return <CenteredLoading width='100%' height='100vh' />;
 
   return (
     <Box

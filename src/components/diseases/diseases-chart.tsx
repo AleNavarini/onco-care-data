@@ -2,6 +2,7 @@ import fetcher from '@/utils/fetcher';
 import { Sheet } from '@mui/joy';
 import useSWR from 'swr';
 import BarChart from '@/components/charts/bar';
+import CenteredLoading from '../ui/centered-loading';
 
 interface DiseasesData {
     name: string;

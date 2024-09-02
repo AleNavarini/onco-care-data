@@ -1,6 +1,7 @@
 'use client';
 import ActiveFollowingChart from '@/components/diseases/active-following-chart';
 import DiseasesChart from '@/components/diseases/diseases-chart';
+import StagingsChart from '@/components/diseases/stagings-chart';
 import { Sheet } from '@mui/joy';
 import React from 'react';
 
@@ -13,6 +14,7 @@ export default function ManagePage() {
           xs: '1fr',
           md: '1fr 1fr',
         },
+        gridTemplateRows: 'auto',
         gap: 3,
         width: '100%',
         height: '100%',
@@ -22,6 +24,8 @@ export default function ManagePage() {
     >
       <ActiveFollowingChart />
       <DiseasesChart />
+      <StagingsChart />
+
     </Sheet>
   );
 }

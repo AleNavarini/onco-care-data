@@ -41,7 +41,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, width, height }) => {
     const g = svg
       .append('g')
       .attr('transform', `translate(${margin.left},${margin.top})`);
-
+    const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#33FFA8', '#A833FF', '#FFA833'];
     // Add bars
     g.selectAll('.bar')
       .data(data)
@@ -52,7 +52,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, width, height }) => {
       .attr('y', (d) => y(d.value))
       .attr('width', x.bandwidth())
       .attr('height', (d) => innerHeight - y(d.value))
-      .attr('fill', 'steelblue');
+      .attr('fill', (d, i) => colors[i % colors.length])
 
     // Add the X Axis
     g.append('g')

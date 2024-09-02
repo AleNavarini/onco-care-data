@@ -21,40 +21,38 @@ export const columns: ColumnType[] = [
     headerName: 'Nombre',
     field: 'name',
     width: 150,
-    style: { textAlign: 'center', textTransform: 'capitalize' },
+    className: 'capitalize text-center',
     renderCell: (row: FullPatient) => row.name.toLowerCase(),
   },
   {
     headerName: 'Telefono',
     field: 'phone',
     width: 150,
-    style: { textAlign: 'center' },
   },
   {
     headerName: 'Mail',
     field: 'email',
     width: 300,
-    style: { textAlign: 'center', wordWrap: 'normal' },
   },
   {
     headerName: 'Estado',
     field: 'status',
     width: 150,
-    style: { textAlign: 'center' },
+
     renderCell: (row: any) => <StatusChip status={row.status} />,
   },
   {
     headerName: 'Enfermedad',
     field: 'disease.name',
     width: 150,
-    style: { textAlign: 'center' },
+
     renderCell: (row: any) => row.disease?.name,
   },
   {
     headerName: 'Accion',
     field: '',
     width: 90,
-    style: { textAlign: 'center' },
+
     renderCell: (row: FullPatient) => {
       return (
         <React.Fragment>
@@ -66,22 +64,23 @@ export const columns: ColumnType[] = [
           >
             <DeleteIcon />
           </IconButton>
+          <Link href={`/${row.id}/dashboards`}>
+            <IconButton color="neutral" variant="plain">
+              <ArrowCircleRightOutlinedIcon />
+            </IconButton>
+          </Link>
         </React.Fragment>
       );
     },
   },
-  {
-    headerName: '',
-    field: '',
-    width: 60,
-    renderCell: (row: FullPatient) => {
-      return (
-        <Link href={`/${row.id}/dashboards`}>
-          <IconButton color="neutral" variant="plain">
-            <ArrowCircleRightOutlinedIcon />
-          </IconButton>
-        </Link>
-      );
-    },
-  },
+  // {
+  //   headerName: '',
+  //   field: '',
+  //   width: 60,
+  //   renderCell: (row: FullPatient) => {
+  //     return (
+
+  //     );
+  //   },
+  // },
 ];

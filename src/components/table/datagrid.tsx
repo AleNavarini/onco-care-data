@@ -1,7 +1,12 @@
-import { Sheet, Table } from '@mui/joy';
 import { ColumnType } from './table.types';
-import TableHead from './table-head';
-import TableBody from './table-body';
+import {
+  Table,
+  TableHeader,
+  TableRow,
+  TableHead,
+  TableBody,
+  TableCell,
+} from '@/components/ui/table';
 
 interface Props {
   rows: any[];
@@ -10,27 +15,35 @@ interface Props {
 
 export default function Datagrid({ rows, columns }: Props) {
   return (
-    <Sheet
-      variant="outlined"
-      sx={{
-        borderRadius: 'md',
-        overflow: 'auto',
-      }}
-    >
-      <Table
-        stickyHeader
-        hoverRow
-        sx={{
-          '--TableCell-headBackground': (theme) =>
-            theme.vars.palette.background.level1,
-          '--Table-headerUnderlineThickness': '1px',
-          '--TableRow-hoverBackground': (theme) =>
-            theme.vars.palette.background.level1,
-        }}
-      >
-        <TableHead columns={columns} />
-        <TableBody rows={rows} columns={columns} />
-      </Table>
-    </Sheet>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          {columns.map((column) => (
+            <TableHead key={column.field} className='text-center'>
+              <p>
+                {' '}
+                {typeof column.headerName === 'string'
+                  ? column.headerName
+                  : column.headerName()}
+              </p>
+            </TableHead>
+          ))}
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {rows.map((row) => (
+          <TableRow key={row.id}>
+            {columns.map((column: ColumnType) => (
+              <TableCell
+                key={column.field}
+                className={column.className ? column.className : 'text-center'}
+              >
+                {column.renderCell ? column.renderCell(row) : row[column.field]}
+              </TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 }

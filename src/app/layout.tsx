@@ -18,11 +18,7 @@ export default function RootLayout({
           <head>
             <title>Onco-Care-Data</title>
           </head>
-          <body
-            className={`${publicSans.className}`}
-          >
-            {children}
-          </body>
+          <body className={`${publicSans.className}`}>{children}</body>
         </html>
       </ClientCssVarsProvider>
     </NextAuthProvider>

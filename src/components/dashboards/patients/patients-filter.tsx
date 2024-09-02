@@ -1,16 +1,16 @@
 import React from 'react';
-import {
-  Input,
-  Select,
-  Sheet,
-  Option,
-  MenuItem,
-  FormControl,
-  FormLabel,
-} from '@mui/joy';
-import SearchIcon from '@mui/icons-material/Search';
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+  SelectGroup,
+  SelectContent,
+  SelectLabel
+} from '@/components/ui/select';
 
 export interface FilterCriteria {
   text: string;
@@ -43,18 +43,12 @@ export default function PatientsFilter({
     onFilterChange({ ...filterCriteria, text: e.target.value });
   };
 
-  const handleStatusChange = (
-    _: React.SyntheticEvent | null,
-    value: string | null,
-  ): void => {
-    onFilterChange({ ...filterCriteria, status: value || '' });
+  const handleStatusChange = (value: string): void => {
+    onFilterChange({ ...filterCriteria, status: value });
   };
 
-  const handleDiseaseChange = (
-    _: React.SyntheticEvent | null,
-    value: string | null,
-  ): void => {
-    onFilterChange({ ...filterCriteria, disease: value || '' });
+  const handleDiseaseChange = (value: string): void => {
+    onFilterChange({ ...filterCriteria, disease: value });
   };
 
   const diseases = data?.diseases || [];
@@ -62,47 +56,47 @@ export default function PatientsFilter({
   if (error) return <div>Failed to load diseases</div>;
 
   return (
-    <Sheet
-      sx={{
-        display: 'flex',
-        gap: 1,
-        flexDirection: {
-          xs: 'column',
-          sm: 'column',
-          md: 'row',
-        },
-      }}
-    >
-      <FormControl>
-        <FormLabel>Buscar</FormLabel>
-        <Input
-          type="text"
-          placeholder="Buscar"
-          value={filterCriteria.text}
-          startDecorator={<SearchIcon />}
-          onChange={handleTextChange}
-        />
-      </FormControl>
-      <FormControl>
-        <FormLabel>Estado</FormLabel>
-        <Select onChange={handleStatusChange} value={filterCriteria.status}>
-          <Option value="">Todos</Option>
-          <Option value="active">Activa</Option>
-          <Option value="following">En Seguimiento</Option>
-        </Select>
-      </FormControl>
+    <div className="flex flex-col gap-4 md:flex-row">
+      <Input
+        type="text"
+        placeholder="Buscar"
+        value={filterCriteria.text}
+        onChange={handleTextChange}
+      />
+      <Select
+        onValueChange={handleDiseaseChange}
+      >
+        <SelectTrigger >
+          <SelectValue placeholder="Elija una enfermedad" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Enfermedades</SelectLabel>
+            <SelectItem value="all">Todos</SelectItem>
+            {diseases.map((disease: Disease) => (
+              <SelectItem key={disease.id.toString()} value={disease.id}>
+                {disease.name}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <Select
+        onValueChange={handleStatusChange}
+      >
+        <SelectTrigger >
+          <SelectValue placeholder="Elija un estado" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Enfermedades</SelectLabel>
+            <SelectItem value="all">Todos</SelectItem>
+            <SelectItem value="active">Activo</SelectItem>
+            <SelectItem value="following">En Seguimiento</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
 
-      <FormControl>
-        <FormLabel>Enfermedad</FormLabel>
-        <Select onChange={handleDiseaseChange} value={filterCriteria.disease}>
-          <Option value="">Todas</Option>
-          {diseases.map((disease: Disease) => (
-            <Option key={disease.id} value={disease.id}>
-              {disease.name}
-            </Option>
-          ))}
-        </Select>
-      </FormControl>
-    </Sheet>
+    </div>
   );
 }

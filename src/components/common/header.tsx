@@ -1,51 +1,17 @@
 'use client';
 import { toggleSidebar } from '@/utils';
-import { Divider, GlobalStyles, IconButton, Sheet } from '@mui/joy';
-import MenuIcon from '@mui/icons-material/Menu';
+import { Bars3Icon } from "@heroicons/react/24/outline";
 
 export default function Header() {
   return (
-    <Sheet
-      sx={{
-        display: { xs: 'flex', md: 'none' },
-        alignItems: 'center',
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: 'var(--Header-height)',
-        zIndex: 6,
-        py: 1,
-        px: 2,
-        gap: 1,
-        ml: 0,
-        boxShadow: 'sm',
-      }}
-    >
-      <GlobalStyles
-        styles={(theme) => ({
-          ':root': {
-            '--Header-height': '52px',
-            [theme.breakpoints.up('md')]: {
-              '--Header-height': '0px',
-            },
-          },
-        })}
-      />
-      <IconButton
-        onClick={() => toggleSidebar()}
-        variant="outlined"
-        color="neutral"
-        size="md"
-        sx={{
-          position: 'relative',
-          width: '5%',
-          left: '90%',
-        }}
+    <div className="relative top-0 right-0 flex items-end justify-end w-full px-4 py-2 md:hidden">
+      <button
+        onClick={toggleSidebar}
+        aria-label="Toggle Sidebar"
+        className="p-2 border rounded-md"
       >
-        <MenuIcon />
-      </IconButton>
-      <Divider />
-    </Sheet>
+        <Bars3Icon className="w-6 h-6" />
+      </button>
+    </div>
   );
 }

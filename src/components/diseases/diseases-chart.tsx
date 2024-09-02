@@ -11,7 +11,7 @@ interface DiseasesData {
 const DiseasesChart: React.FC = () => {
     const { data, isLoading, error } = useSWR('/api/stats/diseases', fetcher);
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) return <CenteredLoading />;
     if (error) return <div>Error: {error.message}</div>;
 
     const transformedData = data.map((disease: DiseasesData) => ({

@@ -31,7 +31,7 @@ const MissingFollowUps: React.FC = () => {
 
     return (
         <Box>
-            {data && data.length > 0 ? (
+            {data && data.length > 0 && (
                 <Box sx={{ mb: 4 }}>
                     {data.map((patient: Patient) => (
                         <MissingFollowUpAlert
@@ -40,8 +40,6 @@ const MissingFollowUps: React.FC = () => {
                         />
                     ))}
                 </Box>
-            ) : (
-                <Typography>No hay pacientes con seguimiento pendiente.</Typography>
             )}
         </Box>
     );

@@ -1,8 +1,7 @@
 import Modal from '@/components/common/modal';
 import PatientForm from '@/components/forms/patient-form';
+import { Button } from '@/components/ui/button';
 import useModal from '@/hooks/use-modal';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import { Button } from '@mui/joy';
 import React from 'react';
 import { mutate } from 'swr';
 
@@ -11,10 +10,7 @@ export default function AddPatientButton() {
   return (
     <React.Fragment>
       <Button
-        variant="outlined"
-        color="neutral"
-        size="md"
-        startDecorator={<AddBoxIcon />}
+        variant={'default'}
         onClick={() =>
           openModal(
             <PatientForm

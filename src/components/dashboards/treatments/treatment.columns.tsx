@@ -4,7 +4,7 @@ import { Treatment } from '@prisma/client';
 import { columns as treatmentTypeAttributesColumns } from '../treatment-types/treatment-type-attributes.columns';
 import { columns as treatmentTypeResultsColumns } from '../treatment-types/treatment-type-results.columns';
 import TableBody from '@/components/table/TableBody';
-import EditButton from '@/components/common/EditButton';
+import EditButton from '@/components/common/edit-button';
 import { IconButton, Sheet } from '@mui/joy';
 import { deleteStudy } from './treatment.service';
 import DeleteIcon from '@mui/icons-material/Delete';

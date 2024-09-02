@@ -1,6 +1,6 @@
-import AddButton from '@/components/common/AddButton';
+import AddButton from '@/components/common/add-button';
 import { Box, Typography } from '@mui/joy';
-import FollowUpsDashboard from './StagingsDashboard';
+import FollowUpsDashboard from './stagings-dashboard';
 import StagingForm from '@/components/forms/StagingForm';
 
 interface FollowUpWidgetProps {

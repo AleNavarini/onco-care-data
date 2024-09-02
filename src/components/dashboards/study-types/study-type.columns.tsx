@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { mutate } from 'swr';
 import { deleteStudyType } from './study-type.service';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
-import EditStudyTypeButton from './EditStudyTypeButton';
+import EditStudyTypeButton from './edit-study-type-button';
 import React from 'react';
 import { StudyType } from '@prisma/client';
 

@@ -4,10 +4,10 @@ import useSWR from 'swr';
 import Datagrid from '../../table/Datagrid';
 import { columns } from './patients.columns';
 import fetcher from '@/utils/fetcher';
-import AddPatientButton from './AddPatientButton';
+import AddPatientButton from './add-patient-button';
 import { useMemo, useState, useCallback } from 'react';
 import { Patient } from '@prisma/client';
-import PatientsFilter from './PatientsFilter';
+import PatientsFilter from './patients-filter';
 import { FilterCriteria } from '@/types/filter-criteria';
 import CenteredPage from '@/components/ui/centered-page';
 

@@ -6,7 +6,7 @@ import { mutate } from 'swr';
 import { FullPatient } from '@/types/FullPatient';
 import { deletePatient } from './patient.service';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
-import EditPatientButton from './EditPatientButton';
+import EditPatientButton from './edit-patient-button';
 import React from 'react';
 
 const deletePatientWrapper = async (patientId: string) => {

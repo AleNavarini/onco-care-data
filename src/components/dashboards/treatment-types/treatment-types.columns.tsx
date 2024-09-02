@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { mutate } from 'swr';
 import { deleteTreatmentType } from './treatment-type.service';
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
-import EditTreatmentTypeButton from './EditTreatmentTypeButton';
+import EditTreatmentTypeButton from './edit-treatment-type-button';
 import React from 'react';
 import { TreatmentType } from '@prisma/client';
 

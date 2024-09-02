@@ -1,6 +1,6 @@
 'use client';
 
-import TreatmentsWidget from '@/components/dashboards/treatments/TreatmentsWidget';
+import TreatmentsWidget from '@/components/dashboards/treatments/treatments-widget';
 
 interface TreatmentsPageProps {
   params: {

@@ -3,7 +3,7 @@ import { IconButton } from '@mui/joy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import React from 'react';
 import { FollowUp } from '@prisma/client';
-import EditButton from '@/components/common/EditButton';
+import EditButton from '@/components/common/edit-button';
 import FollowUpForm from '@/components/forms/FollowUpForm';
 import { deleteFollowUp } from './follow-up.service';
 

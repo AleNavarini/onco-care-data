@@ -1,7 +1,7 @@
-import AddButton from '@/components/common/AddButton';
+import AddButton from '@/components/common/add-button';
 import FollowUpForm from '@/components/forms/FollowUpForm';
 import { Box, Typography } from '@mui/joy';
-import FollowUpsDashboard from './FollowUpsDashboard';
+import FollowUpsDashboard from './follow-ups-dashboard';
 
 interface FollowUpWidgetProps {
   width: number;

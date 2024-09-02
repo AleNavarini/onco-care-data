@@ -70,8 +70,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, width, height }) => {
       .selectAll('text')
       .style('font-size', '12px')
       .style('max-width', '12px')
-      .style('overflow', 'hidden')
-
+      .style('overflow', 'hidden');
 
     // Add the Y Axis
     g.append('g').attr('class', 'y-axis').call(d3.axisLeft(y));

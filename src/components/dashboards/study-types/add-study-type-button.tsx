@@ -3,25 +3,17 @@ import StudyTypeForm from '@/components/forms/study-type-form';
 import { Button } from '@/components/ui/button';
 import useModal from '@/hooks/use-modal';
 import React from 'react';
-import { mutate } from 'swr';
 
 export default function AddStudyTypeButton() {
   const { open, openModal, closeModal, modalContent } = useModal();
   return (
     <React.Fragment>
       <Button
-        onClick={() =>
-          openModal(
-            <StudyTypeForm
-              handler={() => mutate('/api/study-types')}
-              setModalOpen={closeModal}
-            />,
-          )
-        }
+        onClick={() => openModal(<StudyTypeForm closeModal={closeModal} />)}
       >
         Crear Estudio
       </Button>
-      <Modal title='Crear Estudio' open={open} handleClose={closeModal}>
+      <Modal title="Crear Estudio" open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

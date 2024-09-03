@@ -22,7 +22,7 @@ export default function EditStudyTypeButton({
           openModal(
             <StudyTypeForm
               handler={() => mutate('/api/study-types')}
-              setModalOpen={closeModal}
+              closeModal={closeModal}
               oldStudyType={studyType}
             />,
           )
@@ -30,7 +30,7 @@ export default function EditStudyTypeButton({
       >
         <EditIcon />
       </IconButton>
-      <Modal title='Editar Estudio' open={open} handleClose={closeModal}>
+      <Modal title="Editar Estudio" open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

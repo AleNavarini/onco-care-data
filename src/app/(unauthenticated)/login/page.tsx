@@ -41,18 +41,13 @@ export default function JoySignInSideTemplate() {
             onSubmit={handleSubmit(onSubmit)}
             className="w-full max-w-sm mx-auto"
           >
-            <h2 className="mb-4 text-2xl font-bold">
-              Bienvenido de vuelta
-            </h2>
+            <h2 className="mb-4 text-2xl font-bold">Bienvenido de vuelta</h2>
             <p className="mb-8 font-extralight">
               Comencemos! Por favor ingresa tus credenciales.
             </p>
             <div className="space-y-4">
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium "
-                >
+                <label htmlFor="email" className="block text-sm font-medium ">
                   Email
                 </label>
                 <Input

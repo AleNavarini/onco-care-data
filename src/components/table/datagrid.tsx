@@ -19,7 +19,7 @@ export default function Datagrid({ rows, columns }: Props) {
       <TableHeader>
         <TableRow>
           {columns.map((column) => (
-            <TableHead key={column.field} className='text-center'>
+            <TableHead key={column.field} className="text-center">
               <p>
                 {' '}
                 {typeof column.headerName === 'string'

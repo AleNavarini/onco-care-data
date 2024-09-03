@@ -35,15 +35,15 @@ const ActiveFollowingChart: React.FC = () => {
   }));
 
   return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] max-h-full w-full">
+    <ChartContainer
+      config={chartConfig}
+      className="min-h-[200px] max-h-full w-full"
+    >
       <BarChart data={dataWithColors}>
         <CartesianGrid vertical={false} />
         <XAxis dataKey="name" />
         <ChartTooltip content={<ChartTooltipContent />} />
-        <Bar
-          dataKey="value"
-          radius={4}
-        />
+        <Bar dataKey="value" radius={4} />
       </BarChart>
     </ChartContainer>
   );

@@ -17,8 +17,9 @@ export async function PUT(request: Request) {
     });
 
     if (!foundUser) return NextResponse.error();
-    const { changedPassword } = await request.json();
-    const encodedPassword = Buffer.from(changedPassword).toString('base64');
+    const { password } = await request.json();
+
+    const encodedPassword = Buffer.from(password).toString('base64');
     await prisma.user.update({
       where: {
         id: foundUser.id,

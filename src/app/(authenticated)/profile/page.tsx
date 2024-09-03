@@ -1,77 +1,27 @@
 'use client';
 import PasswordChangeForm from '@/components/forms/password-change-form';
+import { FormLabel } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import useUser from '@/hooks/use-user';
-import {
-  Box,
-  Divider,
-  FormControl,
-  FormLabel,
-  Input,
-  Typography,
-} from '@mui/joy';
+
 
 export default function ProfilePage() {
   const user = useUser();
-  return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyItems: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Typography level="h1">Mi Perfil</Typography>
-      <Divider sx={{ my: 1 }} />
-      <FormControl
-        sx={{
-          display: 'flex',
-          margin: 'auto',
-          width: '50%',
-          py: 3,
-        }}
-      >
-        <FormLabel
-          sx={(theme) => ({
-            '--FormLabel-color': theme.vars.palette.primary.plainColor,
-          })}
-        >
-          Nombre
-        </FormLabel>
-        <Input
-          sx={{
-            pr: 0,
-          }}
-          type="text"
-          value={user?.name?.toString()}
-        />
-      </FormControl>
-      <FormControl
-        sx={{
-          display: 'flex',
-          margin: 'auto',
-          width: '50%',
-          pb: 3,
-        }}
-      >
-        <FormLabel
-          sx={(theme) => ({
-            '--FormLabel-color': theme.vars.palette.primary.plainColor,
-          })}
-        >
-          Mail
-        </FormLabel>
-        <Input
-          sx={{
-            pr: 0,
-          }}
-          type="text"
-          value={user?.email?.toString()}
-        />
-      </FormControl>
 
-      <Divider sx={{ my: 2 }} />
-      <PasswordChangeForm />
-    </Box>
+  return (
+    <div className="flex flex-col justify-center items-center">
+      <h1 className="text-2xl font-semibold mb-6">Mi Perfil</h1>
+      <div className='w-60 flex flex-col gap-4'>
+        <div>
+          <p className='text-sm font-semibold pb-1'>Nombre</p>
+          <Input value={user?.name?.toString()} />
+        </div>
+        <div>
+          <p className='text-sm font-semibold pb-1'>Mail</p>
+          <Input value={user?.email?.toString()} />
+        </div>
+        <PasswordChangeForm />
+      </div>
+    </div>
   );
 }

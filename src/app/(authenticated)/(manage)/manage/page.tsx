@@ -21,22 +21,20 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({
   title,
   addButton,
 }) => (
-  <div className='h-auto w-full flex flex-col'>
-    <div className='flex justify-between pb-4 items-center'>
+  <div className="h-auto w-full flex flex-col">
+    <div className="flex justify-between pb-4 items-center">
       <p>{title}</p>
       {addButton}
     </div>
-    <div className='flex-grow relative'>
-      <Suspense fallback={<CenteredLoading />}>
-        {children}
-      </Suspense>
+    <div className="flex-grow relative">
+      <Suspense fallback={<CenteredLoading />}>{children}</Suspense>
     </div>
   </div>
 );
 
 const ManagePage: React.FC = () => {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 gap-3 w-full '>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full ">
       <SectionWrapper title="Enfermedades" addButton={<AddDiseaseButton />}>
         <Suspense fallback={<CenteredLoading />}>
           <DiseasesDashboard />

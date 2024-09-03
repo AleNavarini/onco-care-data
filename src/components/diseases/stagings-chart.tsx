@@ -2,7 +2,12 @@ import fetcher from '@/utils/fetcher';
 import useSWR from 'swr';
 import CenteredLoading from '../ui/centered-loading';
 import { CartesianGrid, XAxis, Bar, BarChart } from 'recharts';
-import { ChartConfig, ChartTooltip, ChartTooltipContent, ChartContainer } from '../ui/chart';
+import {
+  ChartConfig,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartContainer,
+} from '../ui/chart';
 
 const StagingsChart: React.FC = () => {
   const { data, isLoading, error } = useSWR('/api/stats/stagings', fetcher);
@@ -29,15 +34,15 @@ const StagingsChart: React.FC = () => {
   }));
 
   return (
-    <ChartContainer config={chartConfig} className="min-h-[200px] max-h-full w-full">
+    <ChartContainer
+      config={chartConfig}
+      className="min-h-[200px] max-h-full w-full"
+    >
       <BarChart data={dataWithColors}>
         <CartesianGrid vertical={false} />
         <XAxis dataKey="name" />
         <ChartTooltip content={<ChartTooltipContent />} />
-        <Bar
-          dataKey="value"
-          radius={4}
-        />
+        <Bar dataKey="value" radius={4} />
       </BarChart>
     </ChartContainer>
   );

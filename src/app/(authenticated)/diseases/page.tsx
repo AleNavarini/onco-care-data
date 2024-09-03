@@ -7,7 +7,7 @@ import React from 'react';
 
 export default function ManagePage() {
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 gap-3 w-full'>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
       <ActiveFollowingChart />
       <DiseasesChart />
       <StagingsChart />

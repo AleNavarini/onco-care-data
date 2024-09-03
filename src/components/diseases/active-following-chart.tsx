@@ -1,7 +1,12 @@
 import fetcher from '@/utils/fetcher';
 import useSWR from 'swr';
 import CenteredLoading from '../ui/centered-loading';
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '../ui/chart';
 import { Bar, CartesianGrid, BarChart, XAxis } from 'recharts';
 
 const ActiveFollowingChart: React.FC = () => {
@@ -12,10 +17,10 @@ const ActiveFollowingChart: React.FC = () => {
 
   const chartConfig = {
     active: {
-      label: "Activa",
-      color: "#2563ec",
+      label: 'Activa',
+      color: '#2563ec',
     },
-  } satisfies ChartConfig
+  } satisfies ChartConfig;
 
   return (
     <ChartContainer config={chartConfig} className="min-h-[200px] w-full">

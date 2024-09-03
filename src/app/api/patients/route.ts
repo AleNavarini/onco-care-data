@@ -1,7 +1,6 @@
 import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
-import '../../../lib/big-int-extensions';
-
+import '@/lib/big-int-extensions';
 export async function GET(request: NextRequest, context: { params: any }) {
   const { nextUrl } = request;
   const params = new URLSearchParams(nextUrl.search);

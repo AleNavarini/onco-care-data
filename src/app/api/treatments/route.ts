@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-import '../../../lib/big-int-extensions';
+import '@/lib/big-int-extensions';
 import { getAttributesAndResults } from '@/utils/get-attributes-and-results';
 
 export async function POST(request: Request) {

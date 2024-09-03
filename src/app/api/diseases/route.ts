@@ -1,4 +1,4 @@
-import '../../../lib/big-int-extensions';
+import '@/lib/big-int-extensions';
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 export async function GET(request: Request) {

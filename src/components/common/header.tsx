@@ -1,6 +1,6 @@
 'use client';
 import { toggleSidebar } from '@/utils';
-import { Bars3Icon } from "@heroicons/react/24/outline";
+import { Bars3Icon } from '@heroicons/react/24/outline';
 
 export default function Header() {
   return (

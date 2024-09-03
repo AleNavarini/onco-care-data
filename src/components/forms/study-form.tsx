@@ -2,7 +2,7 @@ import { Stack, Select, Option, CircularProgress } from '@mui/joy';
 import Field from './field';
 import { useForm } from 'react-hook-form';
 import { Suspense, useState } from 'react';
-import '../../lib/big-int-extensions';
+import '@/lib/big-int-extensions';
 import useSWR from 'swr';
 import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
 import SubmitButton from '../common/submit-button';

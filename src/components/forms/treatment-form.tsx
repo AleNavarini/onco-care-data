@@ -2,7 +2,7 @@ import { Stack, Select, Option, Typography, Box } from '@mui/joy';
 import Field from './field';
 import { useForm } from 'react-hook-form';
 import React, { useState } from 'react';
-import '../../lib/big-int-extensions';
+import '@/lib/big-int-extensions';
 import useSWR from 'swr';
 import {
   Treatment,

@@ -1,5 +1,3 @@
-'use client';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z, ZodObject, ZodTypeAny } from 'zod';
@@ -15,9 +13,19 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectItem,
+  SelectGroup,
+  SelectContent,
+  SelectLabel,
+} from '@/components/ui/select';
 import { useState } from 'react';
 import useSWR, { mutate } from 'swr';
-import Spinner from '../ui/spinner';
+import Spinner from '../../ui/spinner';
+import ZodFormSelect from './zod-form-select';
 
 interface Props {
   formSchema: ZodObject<{ [key: string]: ZodTypeAny }>;
@@ -46,6 +54,8 @@ export default function ZodForm({
     const isHidden = hiddenFields.includes(fieldName);
     const fieldSchema = formSchema.shape[fieldName];
     const fieldLabel = fieldSchema.description || fieldName;
+    const isDate = fieldLabel.toLowerCase().includes('fecha');
+    const isEnum = fieldSchema._def.typeName === 'ZodEnum';
 
     return (
       <FormField
@@ -56,9 +66,20 @@ export default function ZodForm({
           <FormItem className={isHidden ? 'hidden' : ''}>
             <FormLabel>{fieldLabel}</FormLabel>
             <FormControl>
-              <Input placeholder={fieldLabel} {...field} />
+              {isEnum ? (
+                <ZodFormSelect
+                  field={field}
+                  fieldLabel={fieldLabel}
+                  fieldSchema={fieldSchema}
+                />
+              ) : (
+                <Input placeholder={fieldLabel} {...field} />
+              )}
             </FormControl>
-            <FormDescription>Ingrese el {fieldLabel}.</FormDescription>
+            <FormDescription>
+              {isEnum && <p>Seleccione una opción.</p>}
+              {isDate && <p>Ingrese la fecha en formato aaaa-mm-dd.</p>}
+            </FormDescription>
             <FormMessage />
           </FormItem>
         )}
@@ -114,17 +135,21 @@ export default function ZodForm({
     }
   }
 
+  const className =
+    formFields.length > 5 ? ' grid grid-cols-1 md:grid-cols-2 gap-3' : '';
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className={`${className} space-y-4`}
+      >
         {formFields}
-
         {error && <div className="text-red-500">{error}</div>}
 
         <Button
           type="submit"
           disabled={loading}
-          className="w-full flex justify-center"
+          className="w-full flex justify-center md:col-span-2"
         >
           {loading ? (
             <Spinner className="w-4 h-4" />

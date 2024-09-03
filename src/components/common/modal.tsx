@@ -24,7 +24,7 @@ export default function Modal({
 }: ModalProps) {
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="flex flex-col items-center justify-center w-max max-w-full max-h-[80vh]">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>

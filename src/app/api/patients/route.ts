@@ -1,6 +1,8 @@
 import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import '@/lib/big-int-extensions';
+import { mapStatus } from '@/utils';
+
 export async function GET(request: NextRequest, context: { params: any }) {
   const { nextUrl } = request;
   const params = new URLSearchParams(nextUrl.search);
@@ -31,6 +33,8 @@ export async function POST(request: Request) {
     clinicHistory,
     status,
   } = await request.json();
+  const mappedStatus = mapStatus(status);
+
   try {
     const newPatient = await prisma.patient.create({
       data: {
@@ -42,7 +46,7 @@ export async function POST(request: Request) {
         address: address || null,
         healthInsurance: healthInsurance || null,
         clinicHistory: clinicHistory ? BigInt(clinicHistory) : null,
-        status: status,
+        status: mappedStatus,
       },
     });
     return NextResponse.json({

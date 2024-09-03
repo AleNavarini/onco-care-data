@@ -1,6 +1,6 @@
 import { Disease } from '@prisma/client';
 import { z } from 'zod';
-import ZodForm from './ZodForm';
+import ZodForm from './zod-form/zod-form';
 
 interface Props {
   oldDisease?: Disease;

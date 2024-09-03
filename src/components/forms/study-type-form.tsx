@@ -1,5 +1,5 @@
 import { StudyType } from '@prisma/client';
-import ZodForm from './ZodForm';
+import ZodForm from './zod-form/zod-form';
 import { z } from 'zod';
 
 interface Props {

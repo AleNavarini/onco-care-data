@@ -19,18 +19,12 @@ export const columns: ColumnType[] = [
   {
     headerName: 'Nombre',
     field: 'name',
-    width: 150,
-    style: {
-      textAlign: 'center',
-      textTransform: 'capitalize',
-      verticalAlign: 'middle',
-    },
+    className: 'capitalize text-center align-middle',
     renderCell: (row: Disease) => row.name.toLowerCase(),
   },
   {
     headerName: 'Accion',
     field: '',
-    width: 90,
     style: { textAlign: 'center', verticalAlign: 'middle' },
     renderCell: (row: Disease) => {
       return (
@@ -43,23 +37,14 @@ export const columns: ColumnType[] = [
           >
             <DeleteIcon />
           </IconButton>
+          <Link href={`disease/${row.id}`}>
+            <IconButton color="neutral" variant="plain">
+              <ArrowCircleRightOutlinedIcon />
+            </IconButton>
+          </Link>
         </React.Fragment>
       );
     },
   },
-  {
-    headerName: '',
-    field: '',
-    width: 100,
-    style: { textAlign: 'center', verticalAlign: 'middle' },
-    renderCell: (row: Disease) => {
-      return (
-        <Link href={`disease/${row.id}`}>
-          <IconButton color="neutral" variant="plain">
-            <ArrowCircleRightOutlinedIcon />
-          </IconButton>
-        </Link>
-      );
-    },
-  },
+
 ];

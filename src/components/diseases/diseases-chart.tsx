@@ -18,17 +18,32 @@ const DiseasesChart: React.FC = () => {
   const chartConfig = {
     active: {
       label: 'Activa',
-      color: '#2563ec',
     },
   } satisfies ChartConfig;
 
+  const colorVars = [
+    'hsl(var(--chart-1))',
+    'hsl(var(--chart-2))',
+    'hsl(var(--chart-3))',
+    'hsl(var(--chart-4))',
+    'hsl(var(--chart-5))',
+  ];
+
+  const dataWithColors = data.map((item, index) => ({
+    ...item,
+    fill: colorVars[index % colorVars.length],
+  }));
+
   return (
     <ChartContainer config={chartConfig} className="min-h-[200px] max-h-full w-full">
-      <BarChart accessibilityLayer data={data}>
+      <BarChart data={dataWithColors}>
         <CartesianGrid vertical={false} />
         <XAxis dataKey="name" />
         <ChartTooltip content={<ChartTooltipContent />} />
-        <Bar dataKey="value" fill="var(--color-active)" radius={4} />
+        <Bar
+          dataKey="value"
+          radius={4}
+        />
       </BarChart>
     </ChartContainer>
   );

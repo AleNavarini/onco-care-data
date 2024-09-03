@@ -1,13 +1,7 @@
-import { Select, Option, FormControl, FormLabel } from '@mui/joy';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import SubmitButton from '../common/submit-button';
-import { FieldConfig } from '@/types/field-config';
-import FormFieldsMapper from '../common/form-fields-mapper';
-import { useSubmitForm } from '@/hooks/use-submit-form';
 import { FullPatient } from '@/types/full-patient';
 import { z } from 'zod';
 import ZodForm from '@/components/forms/zod-form/zod-form';
+import { reverseMapStatus } from '@/utils';
 interface Props {
   oldPatient?: FullPatient;
   setModalOpen: (state: boolean) => void;
@@ -27,7 +21,12 @@ export default function PatientForm({ oldPatient, setModalOpen }: Props) {
     clinicHistory: z.number().describe('Historia Clinica').optional(),
     status: z.enum(['Activa', 'En Seguimiento']).describe('Estado'),
   });
-
+  if (oldPatient) {
+    oldPatient.dateOfBirth = oldPatient.dateOfBirth
+      ? new Date(oldPatient.dateOfBirth).toISOString().split('T')[0]
+      : null;
+    oldPatient.status = reverseMapStatus(oldPatient.status);
+  }
   return (
     <ZodForm
       key={'patient-form'}

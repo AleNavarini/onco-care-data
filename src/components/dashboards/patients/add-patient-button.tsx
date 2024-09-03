@@ -10,7 +10,6 @@ export default function AddPatientButton() {
   return (
     <React.Fragment>
       <Button
-        variant={'default'}
         onClick={() =>
           openModal(
             <PatientForm
@@ -22,7 +21,7 @@ export default function AddPatientButton() {
       >
         Crear Paciente
       </Button>
-      <Modal open={open} handleClose={closeModal}>
+      <Modal open={open} handleClose={closeModal} title="Crear Paciente">
         {modalContent}
       </Modal>
     </React.Fragment>

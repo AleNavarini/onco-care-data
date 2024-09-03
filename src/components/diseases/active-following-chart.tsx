@@ -1,35 +1,31 @@
 import fetcher from '@/utils/fetcher';
-import { Sheet } from '@mui/joy';
 import useSWR from 'swr';
-import BarChart from '@/components/charts/bar';
 import CenteredLoading from '../ui/centered-loading';
-import { useState, useEffect } from 'react';
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart';
+import { Bar, CartesianGrid, BarChart, XAxis } from 'recharts';
 
 const ActiveFollowingChart: React.FC = () => {
   const { data, isLoading, error } = useSWR('/api/stats/status', fetcher);
 
-  const [chartWidth, setChartWidth] = useState(800);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setChartWidth(window.innerWidth < 768 ? window.innerWidth - 16 : 800);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   if (isLoading) return <CenteredLoading />;
   if (error) return <div>Error: {error.message}</div>;
 
+  const chartConfig = {
+    active: {
+      label: "Activa",
+      color: "#2563ec",
+    },
+  } satisfies ChartConfig
+
   return (
-    <Sheet>
-      <BarChart data={data} width={chartWidth} height={400} />
-    </Sheet>
+    <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+      <BarChart accessibilityLayer data={data}>
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="name" />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Bar dataKey="value" fill="var(--color-active)" radius={4} />
+      </BarChart>
+    </ChartContainer>
   );
 };
 export default ActiveFollowingChart;

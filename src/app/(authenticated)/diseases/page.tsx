@@ -7,24 +7,10 @@ import React from 'react';
 
 export default function ManagePage() {
   return (
-    <Sheet
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: {
-          xs: '1fr',
-          md: '1fr 1fr',
-        },
-        gridTemplateRows: 'auto',
-        gap: 3,
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
+    <div className='grid grid-cols-1 md:grid-cols-2 gap-3 w-full'>
       <ActiveFollowingChart />
       <DiseasesChart />
       <StagingsChart />
-    </Sheet>
+    </div>
   );
 }

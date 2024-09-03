@@ -24,18 +24,14 @@ export const columns: ColumnType[] = [
     headerName: 'Nombre',
     field: 'name',
     width: 150,
-    style: {
-      textAlign: 'center',
-      textTransform: 'capitalize',
-      verticalAlign: 'middle',
-    },
+    className: 'capitalize text-center align-middle ',
     renderCell: (row: RiskFactor) => row.name.toLowerCase(),
   },
   {
     headerName: 'Accion',
     field: '',
     width: 90,
-    style: { textAlign: 'center', verticalAlign: 'middle' },
+    className: 'capitalize text-center align-middle ',
     renderCell: (row: RiskFactor) => {
       return (
         <React.Fragment>

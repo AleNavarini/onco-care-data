@@ -33,9 +33,7 @@ export function mapStatus(status: any) {
   return mappedStatus;
 }
 
-
 export function reverseMapStatus(status: any) {
   if (status === 'active') return 'Activa';
   return 'En Seguimiento';
 }
-

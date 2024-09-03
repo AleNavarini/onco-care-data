@@ -17,6 +17,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useState } from 'react';
 import useSWR, { mutate } from 'swr';
+import Spinner from '../ui/spinner';
 
 interface Props {
   formSchema: ZodObject<{ [key: string]: ZodTypeAny }>;
@@ -120,8 +121,18 @@ export default function ZodForm({
 
         {error && <div className="text-red-500">{error}</div>}
 
-        <Button type="submit" disabled={loading}>
-          {loading ? 'Submitting...' : entity ? 'Actualizar' : 'Agregar'}
+        <Button
+          type="submit"
+          disabled={loading}
+          className="w-full flex justify-center"
+        >
+          {loading ? (
+            <Spinner className="w-4 h-4" />
+          ) : entity ? (
+            'Actualizar'
+          ) : (
+            'Agregar'
+          )}
         </Button>
       </form>
     </Form>

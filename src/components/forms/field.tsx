@@ -25,7 +25,7 @@ export default function Field({
     <FormControl sx={{ display: visible === false ? 'none' : 'auto' }}>
       <FormLabel
         sx={(theme) => ({
-          '--FormLabel-color': theme.vars.palette.primary.plainColor,
+          '--FormLabel-color': '#fff',
         })}
       >
         {capitalize(label)}
@@ -36,6 +36,10 @@ export default function Field({
         type={type}
         placeholder={placeholder}
         defaultValue={defaultValue}
+        sx={{
+          background: 'transparent',
+          color: 'white',
+        }}
       />
     </FormControl>
   );

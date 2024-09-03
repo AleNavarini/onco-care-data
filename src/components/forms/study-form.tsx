@@ -1,4 +1,4 @@
-import { Stack, Select, Option, CircularProgress } from '@mui/joy';
+import { Stack, Select, Option } from '@mui/joy';
 import Field from './field';
 import { useForm } from 'react-hook-form';
 import { Suspense, useState } from 'react';
@@ -8,6 +8,7 @@ import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
 import SubmitButton from '../common/submit-button';
 import { useSubmitForm } from '@/hooks/use-submit-form';
 import fetcher from '@/utils/fetcher';
+import Spinner from '../ui/spinner';
 
 interface FullStudyType extends StudyType {
   attributes: StudyTypeAttribute[];
@@ -80,7 +81,7 @@ export default function StudyForm({
           type="date"
           defaultValue={oldStudy?.date.toString().split('T')[0]}
         />
-        <Suspense fallback={<CircularProgress />}>
+        <Suspense fallback={<Spinner className='w-8 h-8' />}>
           <Select
             // @ts-ignore
             onChange={handleChange}

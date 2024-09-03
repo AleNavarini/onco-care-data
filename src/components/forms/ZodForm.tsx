@@ -15,8 +15,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { fetchData } from '@/utils/fetch-data';
-import { mutate } from 'swr';
+import { useState } from 'react';
+import useSWR, { mutate } from 'swr';
 
 interface Props {
   formSchema: ZodObject<{ [key: string]: ZodTypeAny }>;
@@ -33,6 +33,9 @@ export default function ZodForm({
   endpoint = '',
   closeModal,
 }: Props) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: entity || {},
@@ -63,18 +66,63 @@ export default function ZodForm({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    setLoading(true);
+    setError(null);
+
     const method = entity ? 'PUT' : 'POST';
-    if (endpoint === '') endpoint = entity ? `/${entity.id}` : '';
-    const result = await fetchData(endpoint, method, values);
-    mutate(`api/${endpoint}`, null);
-    closeModal(true);
+    const baseUrl = 'api';
+    let finalEndpoint = '';
+    if (entity?.id) finalEndpoint = `${endpoint}/${entity.id}`;
+    else finalEndpoint = `${endpoint}`;
+    const url = `${baseUrl}/${finalEndpoint}`;
+    const mutatedEndpoint = baseUrl + '/' + endpoint;
+
+    try {
+      await mutate(
+        url,
+        async (data) => {
+          const response = await fetch(url, {
+            method,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(values),
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to submit data');
+          }
+
+          const result = await response.json();
+
+          if (result.success) {
+            mutate(mutatedEndpoint);
+            return { ...data, ...result.data };
+          } else {
+            throw new Error(result.message || 'Submission failed');
+          }
+        },
+        { revalidate: true },
+      );
+
+      closeModal(true);
+    } catch (err) {
+      setError(err.message || 'An unexpected error occurred.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {formFields}
-        <Button type="submit">{entity ? 'Actualizar' : 'Agregar'}</Button>
+
+        {error && <div className="text-red-500">{error}</div>}
+
+        <Button type="submit" disabled={loading}>
+          {loading ? 'Submitting...' : entity ? 'Actualizar' : 'Agregar'}
+        </Button>
       </form>
     </Form>
   );

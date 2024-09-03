@@ -33,7 +33,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       status: 201,
-      studyType,
+      data: studyType,
+      success: true,
     });
   } catch (error) {
     console.error(error);

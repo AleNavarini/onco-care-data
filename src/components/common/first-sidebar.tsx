@@ -1,5 +1,4 @@
 import { usePathname } from 'next/navigation';
-import useUser from '@/hooks/use-user';
 import Link from 'next/link';
 import {
   HomeIcon,
@@ -13,7 +12,7 @@ import UserAvatar from '../ui/user-avatar';
 export default function FirstSidebar() {
   const activePath = usePathname();
   return (
-    <div className="relative left-0 flex flex-col items-center justify-between h-screen px-2 border border-r-2">
+    <div className="fixed top-0 bottom-0 left-0 flex flex-col items-center justify-between w-16 h-screen px-2 border border-r-2">
       <div className="flex flex-col items-center gap-3 py-4 text-gray-600">
         <Link href="/" className={`w-full flex justify-center`}>
           <HomeIcon

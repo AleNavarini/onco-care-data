@@ -14,14 +14,14 @@ export default function AddPatientButton() {
           openModal(
             <DiseaseForm
               handler={() => mutate('/api/diseases')}
-              setModalOpen={closeModal}
+              closeModal={closeModal}
             />,
           )
         }
       >
         Crear Enfermedad
       </Button>
-      <Modal title='Crear Enfermedad' open={open} handleClose={closeModal}>
+      <Modal title="Crear Enfermedad" open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

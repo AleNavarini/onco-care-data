@@ -26,7 +26,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       status: 201,
-      disease,
+      data: disease,
+      success: true,
     });
   } catch (error) {
     console.error(error);

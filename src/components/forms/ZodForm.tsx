@@ -58,7 +58,7 @@ export default function ZodForm({
             <FormControl>
               <Input placeholder={fieldLabel} {...field} />
             </FormControl>
-            <FormDescription>Ingrese su {fieldLabel}.</FormDescription>
+            <FormDescription>Ingrese el {fieldLabel}.</FormDescription>
             <FormMessage />
           </FormItem>
         )}
@@ -96,7 +96,7 @@ export default function ZodForm({
 
           const result = await response.json();
 
-          if (result.success) {
+          if (response.ok) {
             mutate(mutatedEndpoint);
             return { ...data, ...result.data };
           } else {

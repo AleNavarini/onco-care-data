@@ -21,91 +21,41 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({
   title,
   addButton,
 }) => (
-  <Box
-    sx={{
-      height: '100%',
-      width: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-    }}
-  >
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
-      <Typography level="h3">{title}</Typography>
+  <div className='h-auto w-full flex flex-col'>
+    <div className='flex justify-between pb-4 items-center'>
+      <p>{title}</p>
       {addButton}
-    </Box>
-    <Box sx={{ flexGrow: 1, position: 'relative' }}>
-      <Suspense fallback={<CenteredLoading />}>{children}</Suspense>
-    </Box>
-  </Box>
+    </div>
+    <div className='flex-grow relative'>
+      <Suspense fallback={<CenteredLoading />}>
+        {children}
+      </Suspense>
+    </div>
+  </div>
 );
 
 const ManagePage: React.FC = () => {
   return (
-    <Sheet
-      sx={{
-        display: 'flex',
-        flexDirection: {
-          xs: 'column',
-          md: 'row',
-        },
-        gap: 3,
-        height: 'calc(100vh - 100px)',
-        maxWidth: '1200px',
-        margin: '0 auto',
-      }}
-    >
-      <Sheet
-        sx={{
-          width: {
-            xs: '100%',
-            md: '50%',
-          },
-          minWidth: {
-            md: '30vw',
-          },
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 3,
-        }}
+    <div className='grid grid-cols-1 md:grid-cols-2 gap-3 w-full '>
+      <SectionWrapper title="Enfermedades" addButton={<AddDiseaseButton />}>
+        <Suspense fallback={<CenteredLoading />}>
+          <DiseasesDashboard />
+        </Suspense>
+      </SectionWrapper>
+      <SectionWrapper
+        title="Tratamientos"
+        addButton={<AddTreatmentTypeButton />}
       >
-        <Box sx={{ height: '50%' }}>
-          <SectionWrapper title="Enfermedades" addButton={<AddDiseaseButton />}>
-            <Suspense fallback={<CenteredLoading />}>
-              <DiseasesDashboard />
-            </Suspense>
-          </SectionWrapper>
-        </Box>
-        <Box sx={{ height: '50%' }}>
-          <SectionWrapper
-            title="Tratamientos"
-            addButton={<AddTreatmentTypeButton />}
-          >
-            <Suspense fallback={<CenteredLoading />}>
-              <TreatmentTypesDasboard />
-            </Suspense>
-          </SectionWrapper>
-        </Box>
-      </Sheet>
-
-      <Sheet
-        sx={{
-          width: {
-            xs: '100%',
-            md: '50%',
-          },
-          minWidth: {
-            md: '50%',
-          },
-          height: '100%',
-        }}
-      >
-        <SectionWrapper title="Estudios" addButton={<AddStudyTypeButton />}>
-          <Suspense fallback={<CenteredLoading />}>
-            <StudyTypesDashboard />
-          </Suspense>
-        </SectionWrapper>
-      </Sheet>
-    </Sheet>
+        <Suspense fallback={<CenteredLoading />}>
+          <TreatmentTypesDasboard />
+        </Suspense>
+      </SectionWrapper>
+      <SectionWrapper title="Estudios" addButton={<AddStudyTypeButton />}>
+        <Suspense fallback={<CenteredLoading />}>
+          <StudyTypesDashboard />
+        </Suspense>
+      </SectionWrapper>
+    </div>
   );
 };
 

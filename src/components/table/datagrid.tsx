@@ -15,7 +15,7 @@ interface Props {
 
 export default function Datagrid({ rows, columns }: Props) {
   return (
-    <Table>
+    <Table className='overflow-auto'>
       <TableHeader>
         <TableRow>
           {columns.map((column) => (

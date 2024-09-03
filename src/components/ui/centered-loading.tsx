@@ -1,6 +1,6 @@
 import React from 'react';
-import { CircularProgress } from '@mui/joy';
 import CenteredPage from './centered-page';
+import Spinner from './spinner';
 
 interface CenteredLoadingProps {
   width?: string;
@@ -13,7 +13,7 @@ export default function CenteredLoading({
 }: CenteredLoadingProps) {
   return (
     <CenteredPage width={width} height={height}>
-      <CircularProgress />
+      <Spinner />
     </CenteredPage>
   );
 }

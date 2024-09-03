@@ -14,7 +14,7 @@ export default function MainContent({ children }: Props) {
   return (
     <main
       className={`
-        flex flex-col h-screen gap-1 p-4 md:ml-[var(--FirstSidebar-width)] sm:pt-[calc(theme(spacing.2)+var(--Header-height))]`}
+        flex flex-col h-screen gap-1 p-4 w-full`}
     >
       {children}
     </main>

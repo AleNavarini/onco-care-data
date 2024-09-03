@@ -11,9 +11,11 @@ export default function RootLayout({
 }) {
   return (
     <React.Fragment>
-      <Header />
-      <FirstSidebar />
-      <MainContent>{children}</MainContent>
+      <div className='flex h-screen'>
+        <Header />
+        <FirstSidebar />
+        <MainContent>{children}</MainContent>
+      </div>
     </React.Fragment>
   );
 }

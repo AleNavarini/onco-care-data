@@ -1,105 +1,43 @@
-import {
-  Avatar,
-  Divider,
-  GlobalStyles,
-  List,
-  ListItem,
-  ListItemButton,
-  Sheet,
-} from '@mui/joy';
-import ThemeToggle from '../theme-toggle';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import SettingsIcon from '@mui/icons-material/Settings';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import useUser from '@/hooks/use-user';
+import Link from 'next/link';
+import {
+  HomeIcon,
+  ChartPieIcon,
+  Cog6ToothIcon,
+} from '@heroicons/react/24/outline';
+import ThemeToggle from '../theme-toggle';
 import SignOutButton from '../sign-out-button';
+import UserAvatar from '../ui/user-avatar';
 
 export default function FirstSidebar() {
   const activePath = usePathname();
-  const user = useUser();
   return (
-    <>
-      <Sheet
-        className="FirstSidebar"
-        variant="soft"
-        color="primary"
-        invertedColors
-        sx={{
-          position: 'fixed',
-          transform: {
-            xs: 'translateX(calc(100% * (var(--SideNavigation-slideIn, 0) - 1)))',
-            md: 'none',
-          },
-          transition: 'transform 0.4s',
-          zIndex: 4,
-          minHeight: '100%',
-          maxHeight: '100%',
-          width: 'var(--FirstSidebar-width)',
-          top: 0,
-          py: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 2,
-          flexShrink: 0,
-          borderRight: '1px solid',
-          borderColor: 'divider',
-        }}
-      >
-        <GlobalStyles
-          styles={(theme) => ({
-            ':root': {
-              '--FirstSidebar-width': '68px',
-            },
-          })}
-        />
-        <List sx={{ '--ListItem-radius': '8px', '--List-gap': '12px' }}>
-          <ListItem>
-            <Link href={'/'}>
-              <ListItemButton
-                selected={activePath === '/'}
-                variant={activePath === '/' ? 'solid' : 'plain'}
-              >
-                <HomeRoundedIcon sx={{ fontSize: 30 }} />
-              </ListItemButton>
-            </Link>
-          </ListItem>
-          <ListItem>
-            <Link href={'/diseases'}>
-              <ListItemButton
-                selected={activePath === '/diseases'}
-                variant={activePath === '/diseases' ? 'solid' : 'plain'}
-              >
-                <BarChartIcon sx={{ fontSize: 30 }} />
-              </ListItemButton>
-            </Link>
-          </ListItem>
-          <ListItem>
-            <Link href={'/manage'}>
-              <ListItemButton
-                selected={activePath === '/manage'}
-                variant={activePath === '/manage' ? 'solid' : 'plain'}
-              >
-                <SettingsIcon sx={{ fontSize: 30 }} />
-              </ListItemButton>
-            </Link>
-          </ListItem>
-        </List>
-
-        <Divider />
-        <Link href={'/profile'}>
-          {user?.name ? (
-            <Avatar size="sm">{user?.name[0]}</Avatar>
-          ) : (
-            <Avatar variant="outlined" />
-          )}
+    <div className="relative left-0 flex flex-col items-center justify-between h-screen px-2 border border-r-2">
+      <div className="flex flex-col items-center gap-3 py-4 text-gray-600">
+        <Link href="/" className={`w-full flex justify-center`}>
+          <HomeIcon
+            className={`w-8 h-8 hover:text-blue-500 ${activePath === '/' ? 'text-blue-500' : ''}`}
+          />
         </Link>
-
+        <Link href="/diseases" className={`w-full flex justify-center`}>
+          <ChartPieIcon
+            className={`w-8 h-8 hover:text-blue-500 ${activePath === '/diseases' ? 'text-blue-500' : ''}`}
+          />
+        </Link>
+        <Link href="/manage" className={`w-full flex justify-center `}>
+          <Cog6ToothIcon
+            className={`w-8 h-8 hover:text-blue-500 ${activePath === '/manage' ? 'text-blue-500' : ''}`}
+          />
+        </Link>
+      </div>
+      <div className="flex flex-col items-center gap-3 py-4 border-t">
+        <Link href={`/profile`}>
+          <UserAvatar />
+        </Link>
         <ThemeToggle />
         <SignOutButton />
-      </Sheet>
-    </>
+      </div>
+    </div>
   );
 }

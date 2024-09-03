@@ -30,7 +30,7 @@ export default function JoySignInSideTemplate() {
   };
 
   return (
-    <div className="flex flex-col w-full h-screen bg-gray-100 md:flex-row dark:bg-gray-800">
+    <div className="flex flex-col w-full h-screen md:flex-row">
       <div className="flex flex-col w-full h-screen md:w-1/2">
         <header className="flex items-center justify-between w-full py-3 px-7">
           <Logo />
@@ -41,17 +41,17 @@ export default function JoySignInSideTemplate() {
             onSubmit={handleSubmit(onSubmit)}
             className="w-full max-w-sm mx-auto"
           >
-            <h2 className="mb-4 text-2xl font-bold text-gray-900 dark:text-gray-100">
+            <h2 className="mb-4 text-2xl font-bold">
               Bienvenido de vuelta
             </h2>
-            <p className="mb-8 text-gray-600 dark:text-gray-300">
+            <p className="mb-8 font-extralight">
               Comencemos! Por favor ingresa tus credenciales.
             </p>
             <div className="space-y-4">
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  className="block text-sm font-medium "
                 >
                   Email
                 </label>
@@ -66,7 +66,7 @@ export default function JoySignInSideTemplate() {
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                  className="block text-sm font-medium "
                 >
                   Password
                 </label>
@@ -88,7 +88,7 @@ export default function JoySignInSideTemplate() {
           </form>
         </main>
         <footer className="py-4">
-          <p className="text-xs text-center text-gray-500 dark:text-gray-400">
+          <p className="text-xs text-center ">
             © Onco-Care-Data {new Date().getFullYear()}
           </p>
         </footer>

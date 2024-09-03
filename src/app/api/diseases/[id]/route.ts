@@ -17,7 +17,7 @@ export async function PUT(request: Request, context: { params: any }) {
     return NextResponse.json({
       status: 204,
       data: disease,
-      // success: true,
+      success: true,
     });
   } catch (error) {
     console.error(error);

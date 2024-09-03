@@ -21,6 +21,8 @@ export async function GET() {
     return NextResponse.json({
       status: 200,
       treatmentTypes,
+      data: treatmentTypes,
+      success: true,
     });
   } catch (error) {
     console.error(error);
@@ -38,7 +40,9 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       status: 201,
+      data: treatmentType,
       treatmentType,
+      success: true,
     });
   } catch (error) {
     console.error(error);

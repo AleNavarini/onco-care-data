@@ -23,16 +23,14 @@ export default function Field({
 }: Props) {
   return (
     <FormControl sx={{ display: visible === false ? 'none' : 'auto' }}>
-      <FormLabel className='text-black dark:text-white'>
-        {label}
-      </FormLabel>
+      <FormLabel className="text-black dark:text-white">{label}</FormLabel>
       <Input
         required={required}
         {...register(fieldName)}
         type={type}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        className='bg-transparent text-black dark:text-white'
+        className="bg-transparent text-black dark:text-white"
       />
     </FormControl>
   );

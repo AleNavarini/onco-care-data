@@ -18,11 +18,7 @@ export default function EditDiseaseButton({ disease }: EditDiseaseButtonProps) {
       <IconButton
         onClick={() =>
           openModal(
-            <DiseaseForm
-              handler={() => mutate('/api/diseases')}
-              closeModal={closeModal}
-              oldDisease={disease}
-            />,
+            <DiseaseForm closeModal={closeModal} oldDisease={disease} />,
           )
         }
       >

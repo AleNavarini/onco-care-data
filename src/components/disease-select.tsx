@@ -33,7 +33,7 @@ export default function DiseaseSelect({
     setLoading(false);
   };
 
-  if (loading) return <Spinner className='w-8 h-8' />;
+  if (loading) return <Spinner className="w-8 h-8" />;
   return (
     <Select
       //@ts-ignore

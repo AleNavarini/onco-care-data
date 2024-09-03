@@ -81,7 +81,7 @@ export default function StudyForm({
           type="date"
           defaultValue={oldStudy?.date.toString().split('T')[0]}
         />
-        <Suspense fallback={<Spinner className='w-8 h-8' />}>
+        <Suspense fallback={<Spinner className="w-8 h-8" />}>
           <Select
             // @ts-ignore
             onChange={handleChange}

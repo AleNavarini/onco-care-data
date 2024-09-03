@@ -22,7 +22,7 @@ export default function EditButton({ form }: EditButtonProps) {
       >
         <EditIcon />
       </IconButton>
-      <Modal title='Editar' open={open} handleClose={closeModal}>
+      <Modal title="Editar" open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

@@ -62,7 +62,7 @@ export default function PatientForm({
             width: '100%',
             color: 'white',
             background: 'transparent',
-            ":hover": {
+            ':hover': {
               background: 'transparent',
               color: 'white',
             },

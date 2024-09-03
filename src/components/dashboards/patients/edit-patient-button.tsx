@@ -31,7 +31,7 @@ export default function EditPatientButton({ patient }: EditPatientButtonProps) {
         <EditIcon />
       </IconButton>
 
-      <Modal title='Editar Paciente' open={open} handleClose={closeModal}>
+      <Modal title="Editar Paciente" open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

@@ -18,6 +18,8 @@ export async function GET(request: Request, context: { params: any }) {
     return NextResponse.json({
       status: 200,
       treatmentType,
+      data: treatmentType,
+      success: true,
     });
   } catch (error) {
     console.error(error);
@@ -40,6 +42,8 @@ export async function PUT(request: Request, context: { params: any }) {
     return NextResponse.json({
       status: 204,
       treatmentType,
+      data: treatmentType,
+      success: true,
     });
   } catch (error) {
     console.error(error);
@@ -59,6 +63,8 @@ export async function DELETE(request: Request, context: { params: any }) {
     return NextResponse.json({
       status: 200,
       treatmentType,
+      data: treatmentType,
+      success: true,
     });
   } catch (error) {
     console.error(error);

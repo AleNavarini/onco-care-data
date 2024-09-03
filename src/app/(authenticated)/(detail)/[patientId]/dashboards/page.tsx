@@ -1,13 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import {
-  Box,
-  LinearProgress,
-  Sheet,
-  Stack,
-  Typography,
-} from '@mui/joy';
+import { Box, LinearProgress, Sheet, Stack, Typography } from '@mui/joy';
 import useSWR from 'swr';
 
 import Accordion from '@/components/ui/accordion';
@@ -40,7 +34,7 @@ export default function PatientPage({ params }: Props) {
   if (isLoading || !data || !data.patient) {
     return (
       <CenteredPage>
-        <Spinner className='w-20 h-20' />
+        <Spinner className="w-20 h-20" />
       </CenteredPage>
     );
   }

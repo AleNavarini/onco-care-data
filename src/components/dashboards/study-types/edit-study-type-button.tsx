@@ -5,7 +5,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import { IconButton } from '@mui/joy';
 import { StudyType } from '@prisma/client';
 import React from 'react';
-import { mutate } from 'swr';
 
 interface EditDiseaseButtonProps {
   studyType: StudyType;
@@ -20,11 +19,7 @@ export default function EditStudyTypeButton({
       <IconButton
         onClick={() =>
           openModal(
-            <StudyTypeForm
-              handler={() => mutate('/api/study-types')}
-              closeModal={closeModal}
-              oldStudyType={studyType}
-            />,
+            <StudyTypeForm closeModal={closeModal} oldStudyType={studyType} />,
           )
         }
       >

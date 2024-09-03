@@ -25,7 +25,8 @@ export default function PatientForm({ oldPatient, setModalOpen }: Props) {
     oldPatient.dateOfBirth = oldPatient.dateOfBirth
       ? new Date(oldPatient.dateOfBirth).toISOString().split('T')[0]
       : null;
-    oldPatient.status = reverseMapStatus(oldPatient.status);
+    const mappedStatus = reverseMapStatus(oldPatient.status);
+    oldPatient.status = mappedStatus;
   }
   return (
     <ZodForm

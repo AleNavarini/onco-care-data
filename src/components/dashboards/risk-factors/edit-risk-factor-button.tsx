@@ -3,32 +3,37 @@ import RiskFactorForm from '@/components/forms/risk-factor-form';
 import { Button } from '@/components/ui/button';
 import useModal from '@/hooks/use-modal';
 import React from 'react';
+import { PencilSquareIcon } from '@heroicons/react/24/outline';
+import { RiskFactor } from '@prisma/client';
 
 interface Props {
-  patientId?: string;
-  diseaseId?: string;
+  riskFactor: RiskFactor;
 }
 
-export default function AddRiskFactorButton({ patientId, diseaseId }: Props) {
+export default function EditRiskFactorButton({ riskFactor }: Props) {
   const { open, openModal, closeModal, modalContent } = useModal();
   return (
     <React.Fragment>
       <Button
+        className="bg-transparent hover:bg-transparent"
         onClick={() =>
           openModal(
             <RiskFactorForm
-              diseaseId={diseaseId}
-              patientId={patientId}
+              oldRiskFactor={riskFactor}
               closeModal={closeModal}
-              customMutate={`/api/diseases/${diseaseId}/risk-factors`}
+              customMutate={
+                riskFactor.patientId
+                  ? `/api/patient-risk-factors/${riskFactor.patientId}`
+                  : `/api/diseases/${riskFactor.diseaseId}/risk-factors`
+              }
             />,
           )
         }
       >
-        Crear Factor de Riesgo
+        <PencilSquareIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
       </Button>
       <Modal
-        title="Crear Factor de Riesgo"
+        title="Editar Factor de Riesgo"
         open={open}
         handleClose={closeModal}
       >

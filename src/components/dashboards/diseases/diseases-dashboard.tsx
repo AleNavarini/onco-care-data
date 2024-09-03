@@ -5,7 +5,7 @@ import { columns } from './disease.columns';
 import fetcher from '@/utils/fetcher';
 
 export default function PatientsDashboard() {
-  const { data: diseasesData } = useSWR('api/diseases', fetcher, {
+  const { data: diseasesData } = useSWR('/api/diseases', fetcher, {
     suspense: true,
   });
   const diseases = diseasesData.diseases;

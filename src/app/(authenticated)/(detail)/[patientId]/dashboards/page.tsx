@@ -7,7 +7,6 @@ import useSWR from 'swr';
 import Accordion from '@/components/ui/accordion';
 import AffiliatoryDataForm from '@/components/forms/affiliatory-data-form';
 import PatientTopRow from '@/components/patient-top-row';
-import RiskFactorsDashboard from '@/components/dashboards/risk-factors/risk-factors-dashboard';
 import PreviousSurgeriesTable from '@/components/tables/previous-surgeries-table';
 import SymptomsTable from '@/components/tables/symptoms-table';
 import GestationForm from '@/components/forms/gestation-form';
@@ -17,6 +16,7 @@ import StagingsWidget from '@/components/dashboards/stagings/stagings-widget';
 import fetcher from '@/utils/fetcher';
 import CenteredPage from '@/components/ui/centered-page';
 import Spinner from '@/components/ui/spinner';
+import PatientRiskFactorsDashboard from '@/components/dashboards/risk-factors/patient-risk-factors-dashboard';
 
 interface Props {
   params: {
@@ -97,7 +97,7 @@ export default function PatientPage({ params }: Props) {
             />
           </Accordion>
           <Accordion title="Factores de Riesgo">
-            <RiskFactorsDashboard patientId={id} />
+            <PatientRiskFactorsDashboard patientId={id} />
           </Accordion>
           <Accordion title="Gestas">
             <GestationForm

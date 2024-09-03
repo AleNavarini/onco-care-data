@@ -24,19 +24,22 @@ export const columns: ColumnType[] = [
   {
     headerName: 'Nombre',
     field: 'name',
-    width: 150,
     className: 'capitalize text-center align-middle ',
     renderCell: (row: RiskFactor) => row.name.toLowerCase(),
   },
   {
+    headerName: 'Valor',
+    field: 'value',
+    className: 'capitalize text-center align-middle ',
+  },
+  {
     headerName: 'Accion',
     field: '',
-    width: 90,
     className: 'capitalize text-center align-middle ',
     renderCell: (row: RiskFactor) => {
       return (
         <React.Fragment>
-          <EditRiskFactorButton riskFactor={row} />
+          <EditRiskFactorButton riskFactor={row} key={row.id.toString()} />
           <IconButton
             color="neutral"
             variant="plain"
@@ -49,54 +52,3 @@ export const columns: ColumnType[] = [
     },
   },
 ];
-
-export const getColumns = (withPatient: boolean): ColumnType[] => {
-  const valueColumn: ColumnType = {
-    headerName: 'Valor',
-    field: 'value',
-    width: 150,
-    style: { textAlign: 'center', verticalAlign: 'middle' },
-  };
-  return [
-    {
-      headerName: 'Nombre',
-      field: 'name',
-      width: 150,
-      style: {
-        textAlign: 'center',
-        textTransform: 'capitalize',
-        verticalAlign: 'middle',
-      },
-      renderCell: (row: RiskFactor) => row.name.toLowerCase(),
-    },
-    ...(withPatient ? [valueColumn] : []),
-    {
-      headerName: 'Accion',
-      field: '',
-      width: 90,
-      style: { textAlign: 'center', verticalAlign: 'middle' },
-      renderCell: (row: RiskFactor) => {
-        return (
-          <React.Fragment>
-            <EditButton
-              form={
-                <RiskFactorForm
-                  oldRiskFactor={row}
-                  patientId={row.patientId?.toString()}
-                  handler={updateHandler}
-                />
-              }
-            />
-            <IconButton
-              color="neutral"
-              variant="plain"
-              onClick={() => deleteRiskFactorWrapper(row.id.toString())}
-            >
-              <DeleteIcon />
-            </IconButton>
-          </React.Fragment>
-        );
-      },
-    },
-  ];
-};

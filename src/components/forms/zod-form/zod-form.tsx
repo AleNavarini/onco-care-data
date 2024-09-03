@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z, ZodObject, ZodTypeAny } from 'zod';
+import '@/lib/big-int-extensions';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,17 +14,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectItem,
-  SelectGroup,
-  SelectContent,
-  SelectLabel,
-} from '@/components/ui/select';
 import { useState } from 'react';
-import useSWR, { mutate } from 'swr';
+import { mutate } from 'swr';
 import Spinner from '../../ui/spinner';
 import ZodFormSelect from './zod-form-select';
 
@@ -33,6 +25,7 @@ interface Props {
   entity?: Partial<z.infer<ZodObject<{ [key: string]: ZodTypeAny }>>>;
   endpoint?: string;
   closeModal: (state: boolean) => void;
+  customMutate?: string;
 }
 
 export default function ZodForm({
@@ -41,13 +34,26 @@ export default function ZodForm({
   entity,
   endpoint = '',
   closeModal,
+  customMutate,
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const mappedEntity =
+    entity &&
+    Object.keys(entity).reduce(
+      (acc, key) => {
+        if (entity[key] !== null) {
+          acc[key] = entity[key];
+        }
+        return acc;
+      },
+      {} as typeof entity,
+    );
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: entity || {},
+    defaultValues: mappedEntity || {},
   });
 
   const formFields = Object.keys(formSchema.shape).map((fieldName) => {
@@ -92,7 +98,7 @@ export default function ZodForm({
     setError(null);
 
     const method = entity ? 'PUT' : 'POST';
-    const baseUrl = 'api';
+    const baseUrl = '/api';
     let finalEndpoint = '';
     if (entity?.id) finalEndpoint = `${endpoint}/${entity.id}`;
     else finalEndpoint = `${endpoint}`;
@@ -119,6 +125,9 @@ export default function ZodForm({
 
           if (response.ok) {
             mutate(mutatedEndpoint);
+            if (customMutate) {
+              mutate(customMutate);
+            }
             return { ...data, ...result.data };
           } else {
             throw new Error(result.message || 'Submission failed');

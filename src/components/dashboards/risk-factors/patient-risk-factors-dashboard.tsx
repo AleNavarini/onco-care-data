@@ -2,12 +2,13 @@
 import useSWR from 'swr';
 import Datagrid from '../../table/datagrid';
 import fetcher from '@/utils/fetcher';
-import { getColumns } from './risk-factor.columns';
+import { columns } from './patient-risk-factor.columns';
 
 interface RiskFactorsDashboardProps {
   patientId: string;
 }
-export default function RiskFactorsDashboard({
+
+export default function PatientRiskFactorsDashboard({
   patientId,
 }: RiskFactorsDashboardProps) {
   const { data: riskFactorsData } = useSWR(
@@ -18,6 +19,5 @@ export default function RiskFactorsDashboard({
     },
   );
   const riskFactors = riskFactorsData.riskFactors;
-  const columns = getColumns(true);
   return <Datagrid rows={riskFactors} columns={columns} />;
 }

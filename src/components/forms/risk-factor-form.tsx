@@ -1,88 +1,59 @@
-import { useForm } from 'react-hook-form';
 import { RiskFactor } from '@prisma/client';
-import { FieldConfig } from '@/types/field-config';
-import { useSubmitForm } from '@/hooks/use-submit-form';
-import NewForm from '../common/new-form';
+import { z } from 'zod';
+import ZodForm from './zod-form/zod-form';
+import '@/lib/big-int-extensions';
 
 interface Props {
   patientId?: string;
   diseaseId?: string;
-  oldRiskFactor?: RiskFactor;
-  handler?: (riskFactor: RiskFactor) => void;
-  setModalOpen?: (state: boolean) => void;
+  oldRiskFactor?: Partial<RiskFactor>;
   closeModal?: () => void;
+  customMutate?: string;
 }
 
 export default function RiskFactorForm({
+  oldRiskFactor,
+  closeModal,
   patientId,
   diseaseId,
-  oldRiskFactor,
-  handler,
-  setModalOpen,
-  closeModal,
+  customMutate,
 }: Props) {
-  const { register, handleSubmit, reset } = useForm();
-
-  const dataModifier = (data: any) => {
-    if (patientId) data = { ...data, patientId };
-    if (diseaseId) data = { ...data, diseaseId };
-    return data;
-  };
-
-  const { onSubmit, isLoading } = useSubmitForm({
-    entity: 'risk-factors',
-    oldEntity: oldRiskFactor,
-    returnEntity: 'riskFactor',
-    dataModifier,
-    reset,
-    setModalOpen,
-    handler,
-    closeModal,
+  let formSchema = z.object({
+    id: z.string().describe('Id').optional(),
+    name: z.string().describe('Nombre'),
   });
-
-  const fields = getFields(oldRiskFactor);
-
-  return (
-    <NewForm
-      fields={fields}
-      handleSubmit={handleSubmit}
-      isLoading={isLoading}
-      onSubmit={onSubmit}
-      register={register}
-      oldEntity={oldRiskFactor}
-    />
-  );
-}
-
-function getFields(oldRiskFactor: RiskFactor | undefined): FieldConfig[] {
-  const fields: FieldConfig[] = [
-    {
-      fieldName: 'id',
-      label: 'ID',
-      placeholder: 'Id del factor de riesgo',
-      type: 'text',
-      visible: false,
-      defaultValue: oldRiskFactor?.id,
-    },
-    {
-      fieldName: 'name',
-      label: 'Nombre',
-      placeholder: 'Nombre del factor del riesgo',
-      type: 'text',
-      required: true,
-      defaultValue: oldRiskFactor?.name,
-    },
-  ];
-
-  if (oldRiskFactor?.patientId) {
-    fields.push({
-      fieldName: 'value',
-      label: 'Valor',
-      placeholder: 'Valor del factor de riesgo ...',
-      type: 'text',
-      defaultValue: oldRiskFactor?.value,
+  if (oldRiskFactor) {
+    patientId = oldRiskFactor.patientId && oldRiskFactor.patientId.toString();
+    diseaseId = oldRiskFactor.diseaseId && oldRiskFactor.diseaseId.toString();
+  } else {
+    oldRiskFactor = {};
+  }
+  if (patientId) {
+    formSchema = formSchema.extend({
+      patientId: z.bigint().describe('Id del paciente').optional(),
+      value: z.string().describe('Valor del factor de riesgo'),
     });
+    oldRiskFactor.patientId = BigInt(patientId);
   }
 
-  return fields;
+  if (diseaseId) {
+    formSchema = formSchema.extend({
+      diseaseId: z.bigint().describe('Id de la enfermedad').optional(),
+    });
+    oldRiskFactor.diseaseId = BigInt(diseaseId);
+  }
+
+  const hiddenFields = ['id', 'patientId', 'diseaseId'];
+
+  return (
+    <ZodForm
+      key={'risk-factor-form'}
+      formSchema={formSchema}
+      hiddenFields={hiddenFields}
+      endpoint="risk-factors"
+      entity={oldRiskFactor}
+      closeModal={closeModal}
+      customMutate={customMutate}
+    />
+  );
 }

@@ -1,5 +1,6 @@
 'use client';
-import RiskFactorsDashboard from '@/components/dashboards/risk-factor-dashboard';
+
+import RiskFactorsDashboard from '@/components/dashboards/risk-factors/risk-factor-dashboard';
 
 interface Props {
   params: {

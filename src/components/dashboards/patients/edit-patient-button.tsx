@@ -20,11 +20,7 @@ export default function EditPatientButton({ patient }: EditPatientButtonProps) {
         variant="plain"
         onClick={() =>
           openModal(
-            <PatientForm
-              handler={() => mutate('/api/patients')}
-              setModalOpen={closeModal}
-              oldPatient={patient}
-            />,
+            <PatientForm setModalOpen={closeModal} oldPatient={patient} />,
           )
         }
       >

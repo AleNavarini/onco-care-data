@@ -21,7 +21,7 @@ export default function AddTreatmentTypeButton() {
       >
         Crear Tipo de Tratamiento
       </Button>
-      <Modal open={open} handleClose={closeModal}>
+      <Modal title='Crear Tipo de Tratamiento' open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

@@ -1,8 +1,9 @@
 import { fetchData } from '@/utils/fetch-data';
-import { Select, Option, CircularProgress } from '@mui/joy';
+import { Select, Option } from '@mui/joy';
 import { Disease } from '@prisma/client';
 import { useState } from 'react';
 import { mutate } from 'swr';
+import Spinner from './ui/spinner';
 
 interface Props {
   patient: any;
@@ -32,7 +33,7 @@ export default function DiseaseSelect({
     setLoading(false);
   };
 
-  if (loading) return <CircularProgress />;
+  if (loading) return <Spinner className='w-8 h-8' />;
   return (
     <Select
       //@ts-ignore

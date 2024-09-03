@@ -50,7 +50,7 @@ export default function PatientForm({
       <FormControl>
         <FormLabel
           sx={(theme) => ({
-            '--FormLabel-color': theme.vars.palette.primary.plainColor,
+            '--FormLabel-color': '#fff',
           })}
         >
           Estado
@@ -59,9 +59,12 @@ export default function PatientForm({
           // @ts-ignore
           onChange={handleChange}
           sx={{
-            width: {
-              sm: 'auto',
-              md: '20dvw',
+            width: '100%',
+            color: 'white',
+            background: 'transparent',
+            ":hover": {
+              background: 'transparent',
+              color: 'white',
             },
           }}
           placeholder="Choose one…"

@@ -7,7 +7,6 @@ import {
   Sheet,
   Stack,
   Typography,
-  CircularProgress,
 } from '@mui/joy';
 import useSWR from 'swr';
 
@@ -23,6 +22,7 @@ import StagingsWidget from '@/components/dashboards/stagings/stagings-widget';
 
 import fetcher from '@/utils/fetcher';
 import CenteredPage from '@/components/ui/centered-page';
+import Spinner from '@/components/ui/spinner';
 
 interface Props {
   params: {
@@ -40,7 +40,7 @@ export default function PatientPage({ params }: Props) {
   if (isLoading || !data || !data.patient) {
     return (
       <CenteredPage>
-        <CircularProgress size="lg" />
+        <Spinner className='w-20 h-20' />
       </CenteredPage>
     );
   }
@@ -119,22 +119,6 @@ export default function PatientPage({ params }: Props) {
           </Accordion>
         </Stack>
       </Box>
-    </Sheet>
-  );
-}
-function CircularLoadingPage() {
-  return (
-    <Sheet
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <CircularProgress />
     </Sheet>
   );
 }

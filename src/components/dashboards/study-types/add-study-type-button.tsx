@@ -21,7 +21,7 @@ export default function AddStudyTypeButton() {
       >
         Crear Estudio
       </Button>
-      <Modal open={open} handleClose={closeModal}>
+      <Modal title='Crear Estudio' open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

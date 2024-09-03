@@ -1,5 +1,4 @@
 'use client';
-import { CircularProgress, Typography } from '@mui/joy';
 import useSWR from 'swr';
 import Datagrid from '../../table/datagrid';
 import { columns } from './patients.columns';
@@ -10,6 +9,7 @@ import { Patient } from '@prisma/client';
 import PatientsFilter from './patients-filter';
 import { FilterCriteria } from '@/types/filter-criteria';
 import CenteredPage from '@/components/ui/centered-page';
+import Spinner from '@/components/ui/spinner';
 
 interface PatientData {
   patients: Patient[];
@@ -51,13 +51,13 @@ export default function PatientsDashboard(): JSX.Element {
   if (error)
     return (
       <CenteredPage>
-        <Typography color="danger">Error loading patients</Typography>
+        <p>Error loading patients</p>
       </CenteredPage>
     );
   if (!patientData) {
     return (
       <CenteredPage>
-        <CircularProgress />
+        <Spinner />
       </CenteredPage>
     );
   }

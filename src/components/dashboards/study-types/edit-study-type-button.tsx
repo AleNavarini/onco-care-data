@@ -30,7 +30,7 @@ export default function EditStudyTypeButton({
       >
         <EditIcon />
       </IconButton>
-      <Modal open={open} handleClose={closeModal}>
+      <Modal title='Editar Estudio' open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

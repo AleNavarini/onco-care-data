@@ -30,7 +30,7 @@ export default function EditTreatmentTypeButton({
       >
         <EditIcon />
       </IconButton>
-      <Modal open={open} handleClose={closeModal}>
+      <Modal title='Editar Tipo de Tratamiento' open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

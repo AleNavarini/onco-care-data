@@ -28,7 +28,7 @@ export default function EditDiseaseButton({ disease }: EditDiseaseButtonProps) {
       >
         <EditIcon />
       </IconButton>
-      <Modal open={open} handleClose={closeModal}>
+      <Modal title='Editar Enfermedad' open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

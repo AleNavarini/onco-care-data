@@ -21,7 +21,7 @@ export default function AddButton({ form, text }: AddButtonProps) {
       >
         {text}
       </Button>
-      <Modal open={open} handleClose={closeModal}>
+      <Modal title={text} open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

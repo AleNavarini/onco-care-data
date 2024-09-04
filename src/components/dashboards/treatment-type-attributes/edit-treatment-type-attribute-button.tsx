@@ -1,19 +1,16 @@
 import Modal from '@/components/common/modal';
-import RiskFactorForm from '@/components/forms/risk-factor-form';
 import { Button } from '@/components/ui/button';
 import useModal from '@/hooks/use-modal';
 import React from 'react';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
-import { StudyTypeAttribute } from '@prisma/client';
-import StudyTypeAttributeForm from '@/components/forms/study-type-attribute-form';
+import { TreatmentTypeAttribute } from '@prisma/client';
+import TreatmentTypeAttributeForm from '@/components/forms/treatment-type-attribute-form';
 
 interface Props {
-  studyTypeAttribute: StudyTypeAttribute;
+  entity: TreatmentTypeAttribute;
 }
 
-export default function EditStudyTypeAttributeButton({
-  studyTypeAttribute,
-}: Props) {
+export default function EditTreatmentTypeAttributeButton({ entity }: Props) {
   const { open, openModal, closeModal, modalContent } = useModal();
   return (
     <React.Fragment>
@@ -21,11 +18,11 @@ export default function EditStudyTypeAttributeButton({
         className="bg-transparent hover:bg-transparent"
         onClick={() =>
           openModal(
-            <StudyTypeAttributeForm
-              entity={studyTypeAttribute}
-              studyTypeId={studyTypeAttribute.studyTypeId.toString()}
+            <TreatmentTypeAttributeForm
+              entity={entity}
+              treatmentTypeId={entity.treatmentTypeId.toString()}
               closeModal={closeModal}
-              customMutate={`/api/study-types/${studyTypeAttribute.studyTypeId}/attributes`}
+              customMutate={`/api/treatment-types/${entity.treatmentTypeId}/attributes`}
             />,
           )
         }

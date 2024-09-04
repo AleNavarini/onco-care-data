@@ -6,7 +6,9 @@ import useModal from '@/hooks/use-modal';
 interface Props {
   treatmentTypeId?: string;
 }
-export default function AddTreatmentTypeResultButton({ treatmentTypeId }: Props) {
+export default function AddTreatmentTypeResultButton({
+  treatmentTypeId,
+}: Props) {
   const { open, openModal, closeModal, modalContent } = useModal();
   return (
     <>
@@ -16,7 +18,7 @@ export default function AddTreatmentTypeResultButton({ treatmentTypeId }: Props)
             <TreatmentTypeResultForm
               closeModal={closeModal}
               treatmentTypeId={treatmentTypeId}
-              customMutate={`/api/treatment-types/${treatmentTypeId}/results`}
+              customMutate={`/api/v1/treatment-types/${treatmentTypeId}/results`}
             />,
           )
         }

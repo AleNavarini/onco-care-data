@@ -33,7 +33,7 @@ export default function FollowUpsTable({
   };
 
   const deleteFollowUp = async (followUp: FollowUp) => {
-    const response = await fetch(`/api/follow-ups/${followUp.id}`, {
+    const response = await fetch(`/api/v1/follow-ups/${followUp.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

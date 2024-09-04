@@ -55,7 +55,7 @@ export default function FollowUpForm({
       endpoint={endpoint}
       entity={entity}
       closeModal={closeModal}
-      customMutate={`/api/patient-follow-ups/${patientId}`}
+      customMutate={`/api/v1/patient-follow-ups/${patientId}`}
     />
   );
 }

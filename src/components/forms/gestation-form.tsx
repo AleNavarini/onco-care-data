@@ -5,55 +5,40 @@ import { Gestation } from '@prisma/client';
 import { FieldConfig } from '@/types/field-config';
 import Form from '../common/form';
 import { useSubmitForm } from '@/hooks/use-submit-form';
+import useSWR from 'swr';
+import fetcher from '@/utils/fetcher';
+import { z } from 'zod';
+import ZodForm from './zod-form/zod-form';
 
+const endpoint = 'gestations';
 interface Props {
   patientId: string;
-  gestation: Gestation | undefined;
 }
-export default function GestationForm({
-  patientId,
-  gestation: initialGestation,
-}: Props) {
-  const { register, handleSubmit, reset } = useForm();
-  const [gestation, setGestation] = useState(initialGestation);
-  const [fields, setFields] = useState<FieldConfig[]>(
-    getFields(initialGestation),
-  );
 
-  useEffect(() => {
-    setFields(getFields(gestation));
-  }, [gestation]);
-
-  const dataModifier = (data: any) => {
-    if (data.births === '') data.births = 0;
-    if (data.abortions === '') data.abortions = 0;
-    if (data.cesareans === '') data.cesareans = 0;
-
-    return {
-      ...data,
-      patientId,
-    };
-  };
-
-  const { onSubmit, isLoading } = useSubmitForm({
-    entity: 'gestations',
-    oldEntity: gestation,
-    returnEntity: 'gestation',
-    dataModifier,
-    reset,
-    handler: setGestation,
-    patientId,
+export default function GestationForm({ patientId }: Props) {
+  const { data } = useSWR(`/api/v2/patients/${patientId}/gestations`, fetcher, {
+    suspense: true,
+  });
+  const formSchema = z.object({
+    id: z.string().describe('Id').optional(),
+    patientId: z.bigint().describe('Id del paciente').optional(),
+    births: z.number().describe('Cantidad de partos').optional(),
+    abortions: z.number().describe('Cantidad de abortos').optional(),
+    cesareans: z.number().describe('Cantidad de cesareas').optional(),
   });
 
+  const entity = {
+    ...data,
+    patientId: data.patientId ? BigInt(data.patientId) : BigInt(patientId),
+  };
+
   return (
-    <Form
-      buttonText={'Guardar'}
-      fields={fields}
-      handleSubmit={handleSubmit}
-      isLoading={isLoading}
-      onSubmit={onSubmit}
-      register={register}
-      dimensions={getContainerDimensions()}
+    <ZodForm
+      key={'gestation-form'}
+      formSchema={formSchema}
+      hiddenFields={['id', 'patientId']}
+      endpoint={endpoint}
+      entity={entity}
     />
   );
 }

@@ -10,7 +10,7 @@ import {
 } from '../ui/chart';
 
 const DiseasesChart: React.FC = () => {
-  const { data, isLoading, error } = useSWR('/api/stats/diseases', fetcher);
+  const { data, isLoading, error } = useSWR('/api/v1/stats/diseases', fetcher);
 
   if (isLoading) return <CenteredLoading />;
   if (error) return <div>Error: {error.message}</div>;

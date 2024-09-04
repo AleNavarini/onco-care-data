@@ -14,10 +14,9 @@ interface Props {
 }
 
 export default function AffiliatoryDataForm({ patientId }: Props) {
-  const { data } = useSWR(`/api/affiliatory-data/${patientId}`, fetcher, {
+  const { data } = useSWR(`/api/v1/affiliatory-data/${patientId}`, fetcher, {
     suspense: true,
   });
-  console.log(data);
 
   const endpoint = 'affiliatory-data';
   const formSchema = z.object({
@@ -73,7 +72,7 @@ export default function AffiliatoryDataForm({ patientId }: Props) {
         hiddenFields={hiddenFields}
         endpoint={endpoint}
         entity={entity}
-        customMutate={`/api/affiliatory-data/${patientId}`}
+        customMutate={`/api/v1/affiliatory-data/${patientId}`}
       />
     </>
   );

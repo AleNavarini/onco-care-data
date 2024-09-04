@@ -21,7 +21,7 @@ interface Props {
 }
 export default function DiseaseSelect({ patient }: Props) {
   const [loading, setLoading] = useState(false);
-  const { data } = useSWR('/api/diseases', fetcher, {
+  const { data } = useSWR('/api/v1/diseases', fetcher, {
     suspense: true,
   });
 
@@ -38,8 +38,8 @@ export default function DiseaseSelect({ patient }: Props) {
     const method = patient.diseaseId ? 'PUT' : 'POST';
     const result = await fetchData(endpoint, method, submitData);
     if (result) {
-      mutate(`/api/patient-risk-factors/${patient.id}`);
-      mutate(`/api/patients/${patient.id}?detailed=true`);
+      mutate(`/api/v1/patient-risk-factors/${patient.id}`);
+      mutate(`/api/v1/patients/${patient.id}?detailed=true`);
     }
     setLoading(false);
   };

@@ -13,11 +13,11 @@ const deleteRiskFactorWrapper = async (id: string) => {
   let result = confirm('Seguro que quiere borrar la enfermedad?');
   if (!result) return;
   const response = await deleteRiskFactor(id);
-  if (response.status === 200) mutate('/api/patient-risk-factors');
+  if (response.status === 200) mutate('/api/v1/patient-risk-factors');
 };
 
 const updateHandler = async (riskFactor: RiskFactor) => {
-  mutate(`/api/patient-risk-factors/${riskFactor.patientId}`);
+  mutate(`/api/v1/patient-risk-factors/${riskFactor.patientId}`);
 };
 
 export const columns: ColumnType[] = [

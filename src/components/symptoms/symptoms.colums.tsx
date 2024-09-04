@@ -7,14 +7,14 @@ import { TrashIcon } from '@heroicons/react/24/outline';
 import { Button } from '../ui/button';
 
 const deleteSymptom = async (symptom: Symptom) => {
-  const response = await fetch(`/api/symptoms/${symptom.id}`, {
+  const response = await fetch(`/api/v1/symptoms/${symptom.id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
     },
   });
 
-  if (response.ok) mutate(`/api/patients/symptoms/${symptom.patientId}`);
+  if (response.ok) mutate(`/api/v1/patients/symptoms/${symptom.patientId}`);
 };
 
 export const columns = [
@@ -41,7 +41,7 @@ export const columns = [
               <SymptomForm
                 oldSymptom={row}
                 patientId={row.patientId!.toString()}
-                customMutate={`/api/patients/symptoms/${row.patientId}`}
+                customMutate={`/api/v1/patients/symptoms/${row.patientId}`}
               />
             }
           />

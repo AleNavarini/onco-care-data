@@ -12,7 +12,7 @@ export default function PatientRiskFactorsDashboard({
   patientId,
 }: RiskFactorsDashboardProps) {
   const { data: riskFactorsData } = useSWR(
-    `/api/patient-risk-factors/${patientId}`,
+    `/api/v1/patient-risk-factors/${patientId}`,
     fetcher,
     {
       suspense: true,

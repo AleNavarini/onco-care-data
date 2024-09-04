@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function SymptomsTable({ patientId }: Props) {
-  const { data } = useSWR(`/api/patients/symptoms/${patientId}`, fetcher, {
+  const { data } = useSWR(`/api/v1/patients/symptoms/${patientId}`, fetcher, {
     suspense: true,
   });
 
@@ -22,7 +22,7 @@ export default function SymptomsTable({ patientId }: Props) {
           form={
             <SymptomForm
               patientId={patientId}
-              customMutate={`/api/patients/symptoms/${patientId}`}
+              customMutate={`/api/v1/patients/symptoms/${patientId}`}
             />
           }
         />

@@ -12,6 +12,7 @@ import DiseaseSelect from '@/components/detail/dashboard/disease-select';
 import AffiliatoryDataForm from '@/components/forms/affiliatory-data-form';
 import SymptomsTable from '@/components/tables/symptoms-table';
 import PatientRiskFactorsDashboard from '@/components/dashboards/risk-factors/patient-risk-factors-dashboard';
+import GestationForm from '@/components/forms/gestation-form';
 
 interface Props {
   params: {
@@ -22,7 +23,7 @@ interface Props {
 export default function PatientPage({ params }: Props) {
   const id = params.patientId;
   const { data, error, isLoading } = useSWR(
-    `/api/patients/${id}?detailed=true`,
+    `/api/v1/patients/${id}?detailed=true`,
     fetcher,
   );
 
@@ -64,6 +65,8 @@ export default function PatientPage({ params }: Props) {
           <AffiliatoryDataForm patientId={id} />
           <SymptomsTable patientId={id} />
           <PatientRiskFactorsDashboard patientId={id} />
+          <GestationForm patientId={id} />
+          {/* <PreviousSurgeriesTable patientId={id} /> */}
         </div>
       </div>
     </div>

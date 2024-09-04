@@ -23,8 +23,8 @@ export default function EditRiskFactorButton({ riskFactor }: Props) {
               closeModal={closeModal}
               customMutate={
                 riskFactor.patientId
-                  ? `/api/patient-risk-factors/${riskFactor.patientId}`
-                  : `/api/diseases/${riskFactor.diseaseId}/risk-factors`
+                  ? `/api/v1/patient-risk-factors/${riskFactor.patientId}`
+                  : `/api/v1/diseases/${riskFactor.diseaseId}/risk-factors`
               }
             />,
           )

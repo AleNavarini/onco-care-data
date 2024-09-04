@@ -13,7 +13,7 @@ export default function AddPatientButton() {
         onClick={() =>
           openModal(
             <PatientForm
-              handler={() => mutate('/api/patients')}
+              handler={() => mutate('/api/v1/patients')}
               setModalOpen={closeModal}
             />,
           )

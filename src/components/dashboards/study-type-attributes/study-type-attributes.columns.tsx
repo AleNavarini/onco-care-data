@@ -12,7 +12,7 @@ const deleteStudyTypeAttribute = async (
   let result = confirm('Seguro que quiere borrar el atributo?');
   if (!result) return;
   const response = await fetch(
-    `/api/study-types-attributes/${studyTypeAttribute.id}`,
+    `/api/v1/study-types-attributes/${studyTypeAttribute.id}`,
     {
       method: 'DELETE',
       headers: {
@@ -21,7 +21,7 @@ const deleteStudyTypeAttribute = async (
     },
   );
   if (response.ok)
-    mutate(`/api/study-types/${studyTypeAttribute.studyTypeId}/attributes`);
+    mutate(`/api/v1/study-types/${studyTypeAttribute.studyTypeId}/attributes`);
 };
 
 export const columns: ColumnType[] = [

@@ -45,7 +45,7 @@ export default function StagingForm({
       endpoint={endpoint}
       entity={entity}
       closeModal={closeModal}
-      customMutate={`/api/patient-stagings/${patientId}`}
+      customMutate={`/api/v1/patient-stagings/${patientId}`}
     />
   );
 }

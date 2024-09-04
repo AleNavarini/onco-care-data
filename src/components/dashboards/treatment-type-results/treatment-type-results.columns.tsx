@@ -11,7 +11,7 @@ const deleteTreatmentTypeResult = async (
   let result = confirm('Seguro que quiere borrar el resultado?');
   if (!result) return;
   const response = await fetch(
-    `/api/treatment-types-results/${treatmentTypeResult.id}`,
+    `/api/v1/treatment-types-results/${treatmentTypeResult.id}`,
     {
       method: 'DELETE',
       headers: {
@@ -19,8 +19,10 @@ const deleteTreatmentTypeResult = async (
       },
     },
   );
-  if (response.ok) mutate(`/api/treatment-types/${treatmentTypeResult.treatmentTypeId}/results`)
-
+  if (response.ok)
+    mutate(
+      `/api/v1/treatment-types/${treatmentTypeResult.treatmentTypeId}/results`,
+    );
 };
 
 export const columns: ColumnType[] = [

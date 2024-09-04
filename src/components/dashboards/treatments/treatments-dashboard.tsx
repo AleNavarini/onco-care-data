@@ -9,7 +9,7 @@ interface StudiesDashboardProps {
 }
 
 export default function StudiesDashboard({ patientId }: StudiesDashboardProps) {
-  const { data } = useSWR(`/api/patient-treatments/${patientId}`, fetcher, {
+  const { data } = useSWR(`/api/v1/patient-treatments/${patientId}`, fetcher, {
     suspense: true,
   });
   const treatments: any[] = data.treatments;

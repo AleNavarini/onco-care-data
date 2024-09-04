@@ -9,12 +9,18 @@ interface Props {
   treatmentTypeId?: string;
 }
 
-export default function TreatmentTypeResultsDashboard({ treatmentTypeId }: Props) {
-  const { data } = useSWR(`/api/treatment-types/${treatmentTypeId}/results`, fetcher, {
-    suspense: true,
-  });
+export default function TreatmentTypeResultsDashboard({
+  treatmentTypeId,
+}: Props) {
+  const { data } = useSWR(
+    `/api/v1/treatment-types/${treatmentTypeId}/results`,
+    fetcher,
+    {
+      suspense: true,
+    },
+  );
   return (
-    <div className='flex flex-col gap-4 items-end'>
+    <div className="flex flex-col gap-4 items-end">
       <AddTreatmentTypeResultButton treatmentTypeId={treatmentTypeId} />
       <Datagrid rows={data.data} columns={columns} />
     </div>

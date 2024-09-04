@@ -25,7 +25,7 @@ export default function EditStudyTypeAttributeButton({
               entity={studyTypeAttribute}
               studyTypeId={studyTypeAttribute.studyTypeId.toString()}
               closeModal={closeModal}
-              customMutate={`/api/study-types/${studyTypeAttribute.studyTypeId}/attributes`}
+              customMutate={`/api/v1/study-types/${studyTypeAttribute.studyTypeId}/attributes`}
             />,
           )
         }

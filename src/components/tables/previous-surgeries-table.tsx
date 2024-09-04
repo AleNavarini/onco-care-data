@@ -40,7 +40,7 @@ export default function PreviousSurgeriesTable({
 
   const deletePreviousSurgery = async (previousSurgery: PreviousSurgery) => {
     const response = await fetch(
-      `/api/previous-surgeries/${previousSurgery.id}`,
+      `/api/v1/previous-surgeries/${previousSurgery.id}`,
       {
         method: 'DELETE',
         headers: {

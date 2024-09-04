@@ -20,7 +20,7 @@ export default function AddRiskFactorButton({ patientId, diseaseId }: Props) {
               diseaseId={diseaseId}
               patientId={patientId}
               closeModal={closeModal}
-              customMutate={`/api/diseases/${diseaseId}/risk-factors`}
+              customMutate={`/api/v1/diseases/${diseaseId}/risk-factors`}
             />,
           )
         }

@@ -34,7 +34,7 @@ export default function TreatmentsTable({
   };
 
   const deleteTreatment = async (treatment: Treatment) => {
-    const response = await fetch(`/api/treatments/${treatment.id}`, {
+    const response = await fetch(`/api/v1/treatments/${treatment.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

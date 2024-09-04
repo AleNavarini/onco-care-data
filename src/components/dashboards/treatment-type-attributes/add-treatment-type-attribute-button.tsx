@@ -20,7 +20,7 @@ export default function AddTreatmentTypeAttributeButton({
             <TreatmentTypeAttributeForm
               closeModal={closeModal}
               treatmentTypeId={treatmentTypeId}
-              customMutate={`/api/treatment-types/${treatmentTypeId}/attributes`}
+              customMutate={`/api/v1/treatment-types/${treatmentTypeId}/attributes`}
             />,
           )
         }

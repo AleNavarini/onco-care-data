@@ -33,7 +33,7 @@ export default function StagingTable({
   };
 
   const deleteStaging = async (staging: Staging) => {
-    const response = await fetch(`/api/stagings/${staging.id}`, {
+    const response = await fetch(`/api/v1/stagings/${staging.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

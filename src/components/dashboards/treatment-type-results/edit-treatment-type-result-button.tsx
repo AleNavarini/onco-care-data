@@ -22,8 +22,7 @@ export default function EditTreatmentTypeResultButton({
             <TreatmentTypeResultForm
               entity={treamentTypeResult}
               closeModal={closeModal}
-              customMutate={`/api/treatment-types/${treamentTypeResult.treatmentTypeId}/results`}
-
+              customMutate={`/api/v1/treatment-types/${treamentTypeResult.treatmentTypeId}/results`}
             />,
           )
         }

@@ -11,7 +11,7 @@ interface Props {
 
 export default function StudyTypeAttributesDashboard({ studyTypeId }: Props) {
   const { data } = useSWR(
-    `/api/study-types/${studyTypeId}/attributes`,
+    `/api/v1/study-types/${studyTypeId}/attributes`,
     fetcher,
     {
       suspense: true,

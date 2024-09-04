@@ -32,7 +32,7 @@ export default function StudyForm({
     oldStudy ? oldStudy.studyTypeId : '',
   );
 
-  const { data: studyTypesData } = useSWR(`/api/study-types`, fetcher, {
+  const { data: studyTypesData } = useSWR(`/api/v1/study-types`, fetcher, {
     suspense: true,
   });
   const studyTypes: FullStudyType[] = studyTypesData?.studyTypes;

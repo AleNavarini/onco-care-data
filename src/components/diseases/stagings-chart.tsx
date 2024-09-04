@@ -10,7 +10,7 @@ import {
 } from '../ui/chart';
 
 const StagingsChart: React.FC = () => {
-  const { data, isLoading, error } = useSWR('/api/stats/stagings', fetcher);
+  const { data, isLoading, error } = useSWR('/api/v1/stats/stagings', fetcher);
 
   if (isLoading) return <CenteredLoading />;
   if (error) return <div>Error: {error.message}</div>;

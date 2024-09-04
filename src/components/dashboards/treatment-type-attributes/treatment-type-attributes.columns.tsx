@@ -11,7 +11,7 @@ const deleteTreatmentTypeAttribute = async (
   let result = confirm('Seguro que quiere borrar el atributo?');
   if (!result) return;
   const response = await fetch(
-    `/api/treatment-types-attributes/${treatmentTypeAttribute.id}`,
+    `/api/v1/treatment-types-attributes/${treatmentTypeAttribute.id}`,
     {
       method: 'DELETE',
       headers: {
@@ -19,7 +19,10 @@ const deleteTreatmentTypeAttribute = async (
       },
     },
   );
-  if (response.ok) mutate(`/api/treatment-types/${treatmentTypeAttribute.treatmentTypeId}/attributes`)
+  if (response.ok)
+    mutate(
+      `/api/v1/treatment-types/${treatmentTypeAttribute.treatmentTypeId}/attributes`,
+    );
 };
 
 export const columns: ColumnType[] = [

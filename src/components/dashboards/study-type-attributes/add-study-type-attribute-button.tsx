@@ -17,7 +17,7 @@ export default function AddStudyTypeAttributeButton({ studyTypeId }: Props) {
             <StudyTypeAttributeForm
               closeModal={closeModal}
               studyTypeId={studyTypeId}
-              customMutate={`/api/study-types/${studyTypeId}/attributes`}
+              customMutate={`/api/v1/study-types/${studyTypeId}/attributes`}
             />,
           )
         }

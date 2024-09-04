@@ -22,7 +22,7 @@ export default function EditTreatmentTypeAttributeButton({ entity }: Props) {
               entity={entity}
               treatmentTypeId={entity.treatmentTypeId.toString()}
               closeModal={closeModal}
-              customMutate={`/api/treatment-types/${entity.treatmentTypeId}/attributes`}
+              customMutate={`/api/v1/treatment-types/${entity.treatmentTypeId}/attributes`}
             />,
           )
         }

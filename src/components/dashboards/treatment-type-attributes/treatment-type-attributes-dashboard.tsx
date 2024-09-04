@@ -9,9 +9,11 @@ interface Props {
   treatmentTypeId?: string;
 }
 
-export default function TreatmentTypeAttributesDashboard({ treatmentTypeId }: Props) {
+export default function TreatmentTypeAttributesDashboard({
+  treatmentTypeId,
+}: Props) {
   const { data } = useSWR(
-    `/api/treatment-types/${treatmentTypeId}/attributes`,
+    `/api/v1/treatment-types/${treatmentTypeId}/attributes`,
     fetcher,
     {
       suspense: true,

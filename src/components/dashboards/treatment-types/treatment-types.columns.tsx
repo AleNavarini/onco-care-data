@@ -12,7 +12,7 @@ const deleteTreatmentTypeWrapper = async (treatmentTypeId: string) => {
   let result = confirm('Seguro que quiere borrar el tipo de tratamiento?');
   if (!result) return;
   const response = await deleteTreatmentType(treatmentTypeId);
-  if (response.ok) mutate('/api/treatment-types');
+  if (response.ok) mutate('/api/v1/treatment-types');
 };
 
 export const columns: ColumnType[] = [

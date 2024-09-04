@@ -48,8 +48,8 @@ export default function PatientPage({ params }: Props) {
   const { patient } = data;
 
   return (
-    <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 p-8">
-      <div className="w-full flex col-span-2 justify-between">
+    <div className="w-full grid grid-cols-1 md:grid-cols-5 gap-3 p-8">
+      <div className="w-full flex col-span-5 justify-between">
         <div className="flex gap-3 justify-center items-center">
           <p>Paciente - {patient.name}</p>
           <StatusChip status={patient.status} />
@@ -69,10 +69,9 @@ export default function PatientPage({ params }: Props) {
         </div>
       </div>
 
-      <div className="w-full h-5">
-        <FollowUpWidget width={100} patientId={id} />
+      <div className="w-full col-span-3 h-5">
+        <FollowUpWidget patientId={id} />
       </div>
-      {/* <pre>{JSON.stringify(patient, null, 2)}</pre> */}
     </div>
     // <Sheet sx={{ display: 'flex', flexDirection: 'column' }}>
     //   <Box

@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request, context: { params: any }) {
   const patientId = context.params.patientId;
   try {
-    const gestations = await prisma.gestation.findMany({
+    const gestations = await prisma.gestation.findUnique({
       where: {
         patientId: BigInt(patientId),
       },

@@ -22,7 +22,7 @@ export default function PatientRiskFactorsDashboard({
   return (
     <div className="flex flex-col gap-4 items-start">
       <p>Factores de Riesgo</p>
-      <Datagrid rows={riskFactors} columns={columns} />;
+      <Datagrid rows={riskFactors} columns={columns} />
     </div>
   );
 }

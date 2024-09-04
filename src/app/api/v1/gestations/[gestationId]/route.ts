@@ -11,9 +11,9 @@ export async function PUT(request: Request, context: { params: any }) {
       },
       data: {
         patientId: BigInt(patientId),
-        births: births === '' ? 0 : parseInt(births),
-        abortions: abortions === '' ? 0 : parseInt(abortions),
-        cesareans: cesareans === '' ? 0 : parseInt(cesareans),
+        births: births ? parseInt(births) : 0,
+        abortions: abortions ? parseInt(abortions) : 0,
+        cesareans: cesareans ? parseInt(cesareans) : 0,
       },
     });
 

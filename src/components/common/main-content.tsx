@@ -8,7 +8,7 @@ interface Props {
 
 export default function MainContent({ children }: Props) {
   const session = useSession();
-  if (session.status === 'unauthenticated') redirect('/api/v1/auth/signin');
+  if (session.status === 'unauthenticated') redirect('/api/auth/signin');
   if (session.status === 'loading') return <CenteredLoading />;
 
   return (

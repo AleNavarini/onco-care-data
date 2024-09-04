@@ -1,16 +1,10 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Gestation } from '@prisma/client';
-import { FieldConfig } from '@/types/field-config';
-import Form from '../common/form';
-import { useSubmitForm } from '@/hooks/use-submit-form';
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
 import { z } from 'zod';
 import ZodForm from './zod-form/zod-form';
 
-const endpoint = 'gestations';
+const endpoint = '/v1/gestations';
 interface Props {
   patientId: string;
 }
@@ -22,14 +16,25 @@ export default function GestationForm({ patientId }: Props) {
   const formSchema = z.object({
     id: z.string().describe('Id').optional(),
     patientId: z.bigint().describe('Id del paciente').optional(),
-    births: z.number().describe('Cantidad de partos').optional(),
-    abortions: z.number().describe('Cantidad de abortos').optional(),
-    cesareans: z.number().describe('Cantidad de cesareas').optional(),
+    births: z
+      .union([z.number().nonnegative(), z.null(), z.nan()])
+      .describe('Cantidad de partos')
+      .optional(),
+    abortions: z
+      .union([z.number().nonnegative(), z.null(), z.nan()])
+      .describe('Cantidad de abortos')
+      .optional(),
+    cesareans: z
+      .union([z.number().nonnegative(), z.null(), z.nan()])
+      .describe('Cantidad de cesareas')
+      .optional(),
   });
-
+  const gestations = data.data;
   const entity = {
-    ...data,
-    patientId: data.patientId ? BigInt(data.patientId) : BigInt(patientId),
+    ...gestations,
+    patientId: gestations?.patientId
+      ? BigInt(gestations.patientId)
+      : BigInt(patientId),
   };
 
   return (
@@ -39,36 +44,7 @@ export default function GestationForm({ patientId }: Props) {
       hiddenFields={['id', 'patientId']}
       endpoint={endpoint}
       entity={entity}
+      customMutate={`/api/v2/patients/${patientId}/gestations`}
     />
   );
-}
-
-function getFields(gestation: Gestation | undefined): FieldConfig[] {
-  return [
-    {
-      fieldName: 'births',
-      label: 'Partos',
-      placeholder: 'Cantidad o 0 por defecto',
-      type: 'number',
-      defaultValue: gestation?.births,
-    },
-    {
-      fieldName: 'abortions',
-      label: 'Abortos',
-      placeholder: 'Cantidad o 0 por defecto',
-      type: 'number',
-      defaultValue: gestation?.abortions,
-    },
-    {
-      fieldName: 'cesareans',
-      label: 'Cesareas',
-      placeholder: 'Cantidad o 0 por defecto',
-      type: 'number',
-      defaultValue: gestation?.cesareans,
-    },
-  ];
-}
-
-function getContainerDimensions() {
-  return { width: '100%' };
 }

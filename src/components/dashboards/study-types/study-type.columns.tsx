@@ -12,7 +12,7 @@ const deleteStudyTypesWrapper = async (diseaseId: string) => {
   let result = confirm('Seguro que quiere borrar el estudio?');
   if (!result) return;
   const response = await deleteStudyType(diseaseId);
-  if (response.status === 200) mutate('api/study-types');
+  if (response.status === 200) mutate('/api/study-types');
 };
 
 export const columns: ColumnType[] = [

@@ -1,31 +1,29 @@
 import Modal from '@/components/common/modal';
-import RiskFactorForm from '@/components/forms/risk-factor-form';
 import { Button } from '@/components/ui/button';
 import useModal from '@/hooks/use-modal';
-import React from 'react';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
-import { StudyTypeAttribute } from '@prisma/client';
-import StudyTypeAttributeForm from '@/components/forms/study-type-attribute-form';
+import { TreatmentTypeResult } from '@prisma/client';
+import TreatmentTypeResultForm from '@/components/forms/treatment-type-result-form';
 
 interface Props {
-  studyTypeAttribute: StudyTypeAttribute;
+  treamentTypeResult: TreatmentTypeResult;
 }
 
-export default function EditStudyTypeAttributeButton({
-  studyTypeAttribute,
+export default function EditTreatmentTypeResultButton({
+  treamentTypeResult,
 }: Props) {
   const { open, openModal, closeModal, modalContent } = useModal();
   return (
-    <React.Fragment>
+    <>
       <Button
         className="bg-transparent hover:bg-transparent"
         onClick={() =>
           openModal(
-            <StudyTypeAttributeForm
-              entity={studyTypeAttribute}
-              studyTypeId={studyTypeAttribute.studyTypeId.toString()}
+            <TreatmentTypeResultForm
+              entity={treamentTypeResult}
               closeModal={closeModal}
-              customMutate={`/api/study-types/${studyTypeAttribute.studyTypeId}/attributes`}
+              customMutate={`/api/treatment-types/${treamentTypeResult.treatmentTypeId}/results`}
+
             />,
           )
         }
@@ -35,6 +33,6 @@ export default function EditStudyTypeAttributeButton({
       <Modal title="Editar Atributo" open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
-    </React.Fragment>
+    </>
   );
 }

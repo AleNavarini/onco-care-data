@@ -1,4 +1,5 @@
 import TreatmentTypeAttributesDashboard from '@/components/dashboards/treatment-type-attributes/treatment-type-attributes-dashboard';
+import TreatmentTypeResultsDashboard from '@/components/dashboards/treatment-type-results/treatment-type-results-dashboard';
 
 interface Props {
   params: {
@@ -24,7 +25,7 @@ export default async function TreatmentTypePage({ params }: Props) {
         Tipo de tratamiento - {treatmentType.name}
       </h2>
       <TreatmentTypeAttributesDashboard treatmentTypeId={id} />
-      {/* <TreatmentTypeResultsDashboard forPatient={false} treatmentTypeId={id} /> */}
+      <TreatmentTypeResultsDashboard treatmentTypeId={id} />
     </div>
   );
 }

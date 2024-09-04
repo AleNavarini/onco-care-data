@@ -47,8 +47,6 @@ export default function FollowUpForm({
     date: date,
   };
 
-  console.log(entity);
-
   return (
     <ZodForm
       key={'follow-up-form'}

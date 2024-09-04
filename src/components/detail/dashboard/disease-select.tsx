@@ -37,7 +37,10 @@ export default function DiseaseSelect({ patient }: Props) {
     const endpoint = 'patient-disease';
     const method = patient.diseaseId ? 'PUT' : 'POST';
     const result = await fetchData(endpoint, method, submitData);
-    if (result) await mutate(`/api/patients/${patient.id}?detailed=true`);
+    if (result) {
+      mutate(`/api/patient-risk-factors/${patient.id}`);
+      mutate(`/api/patients/${patient.id}?detailed=true`);
+    }
     setLoading(false);
   };
 

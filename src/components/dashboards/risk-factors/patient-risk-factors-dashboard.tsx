@@ -19,5 +19,10 @@ export default function PatientRiskFactorsDashboard({
     },
   );
   const riskFactors = riskFactorsData.riskFactors;
-  return <Datagrid rows={riskFactors} columns={columns} />;
+  return (
+    <div className="flex flex-col gap-4 items-start">
+      <p>Factores de Riesgo</p>
+      <Datagrid rows={riskFactors} columns={columns} />;
+    </div>
+  );
 }

@@ -11,6 +11,7 @@ import StagingsWidget from '@/components/dashboards/stagings/stagings-widget';
 import DiseaseSelect from '@/components/detail/dashboard/disease-select';
 import AffiliatoryDataForm from '@/components/forms/affiliatory-data-form';
 import SymptomsTable from '@/components/tables/symptoms-table';
+import PatientRiskFactorsDashboard from '@/components/dashboards/risk-factors/patient-risk-factors-dashboard';
 
 interface Props {
   params: {
@@ -62,6 +63,7 @@ export default function PatientPage({ params }: Props) {
         <div className="flex flex-col gap-10">
           <AffiliatoryDataForm patientId={id} />
           <SymptomsTable patientId={id} />
+          <PatientRiskFactorsDashboard patientId={id} />
         </div>
       </div>
     </div>

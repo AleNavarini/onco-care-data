@@ -1,9 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
 export async function GET(request: Request, context: { params: any }) {
   const patientId = context.params.patientId;
-  console.log(patientId);
-  
+
   try {
     const symptoms = await prisma.symptom.findMany({
       where: {

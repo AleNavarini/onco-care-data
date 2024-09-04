@@ -17,7 +17,7 @@ interface PatientData {
 
 export default function PatientsDashboard(): JSX.Element {
   const { data: patientData, error } = useSWR<PatientData, Error>(
-    'api/patients',
+    '/api/patients',
     fetcher,
   );
   const [filterCriteria, setFilterCriteria] = useState<FilterCriteria>({

@@ -71,6 +71,7 @@ export default function ZodForm({
     const fieldLabel = fieldSchema.description || fieldName;
     const isDate = fieldLabel.toLowerCase().includes('fecha');
     const isEnum = JSON.stringify(fieldSchema._def).includes('ZodEnum');
+    const isNum = JSON.stringify(fieldSchema._def).includes('ZodNumber');
 
     return (
       <FormField
@@ -99,13 +100,18 @@ export default function ZodForm({
               <>
                 <FormLabel>{fieldLabel}</FormLabel>
                 <FormControl>
-                  <Input placeholder={fieldLabel} {...field} />
+                  <Input
+                    type={isDate ? 'date' : isNum ? 'number' : 'text'}
+                    {...field}
+                    placeholder={fieldLabel}
+                    onChange={(e) =>
+                      form.setValue(
+                        fieldName,
+                        isNum ? e.target.valueAsNumber : e.target.value,
+                      )
+                    } // Handle number conversion
+                  />
                 </FormControl>
-                {isDate && (
-                  <FormDescription>
-                    <p>Ingrese la fecha en formato aaaa-mm-dd.</p>
-                  </FormDescription>
-                )}
               </>
             )}
             <FormMessage />

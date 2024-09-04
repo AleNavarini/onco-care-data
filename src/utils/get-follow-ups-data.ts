@@ -1,8 +1,6 @@
 import { toBool } from './to-bool';
 
 export function getFollowUpsData(data: any) {
-  console.log(data);
-  
   return {
     patientId: BigInt(data.patientId),
     date: new Date(data.date),

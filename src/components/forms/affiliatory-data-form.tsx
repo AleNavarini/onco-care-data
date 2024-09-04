@@ -17,11 +17,16 @@ export default function AffiliatoryDataForm({ patientId }: Props) {
   const { data } = useSWR(`/api/affiliatory-data/${patientId}`, fetcher, {
     suspense: true,
   });
+  console.log(data);
 
   const endpoint = 'affiliatory-data';
   const formSchema = z.object({
     id: z.string().describe('Id').optional(),
-    firstConsult: z.string().date().describe('Primera Consulta').optional(),
+    firstConsult: z
+      .string()
+      .date()
+      .describe('Fecha de Primera Consulta')
+      .optional(),
     institution: z.string().describe('Institucion').optional(),
     doctor: z.string().describe('Doctor').optional(),
     bmi: z.number().describe('IMC').optional(),
@@ -30,8 +35,14 @@ export default function AffiliatoryDataForm({ patientId }: Props) {
       .string()
       .describe('Intervención de trabajo social')
       .optional(),
-    firstPregnancyAge: z.number().describe('Primer embarazo').optional(),
-    lastPregnancyAge: z.number().describe('Ultimo embarazo').optional(),
+    firstPregnancyAge: z
+      .number()
+      .describe('Edad del Primer embarazo')
+      .optional(),
+    lastPregnancyAge: z
+      .number()
+      .describe('Edad del Ultimo embarazo')
+      .optional(),
     contraception: z.string().describe('Anticoncepción').optional(),
     currentPregnancyControl: z
       .string()
@@ -40,97 +51,30 @@ export default function AffiliatoryDataForm({ patientId }: Props) {
     patientId: z.bigint().describe('Id del paciente').optional(),
   });
 
+  const hiddenFields = ['id', 'patientId'];
+
+  const affiliatoryData = data.affiliatoryData;
+  const date = affiliatoryData?.firstConsult
+    ? new Date(affiliatoryData.firstConsult).toISOString().split('T')[0]
+    : new Date().toISOString().split('T')[0];
+
+  const entity = {
+    ...data.affiliatoryData,
+    patientId: data.patientId ? BigInt(data.patientId) : BigInt(patientId),
+    firstConsult: date,
+  };
+
   return (
-    <ZodForm
-      key={'affiliatory-data-form'}
-      formSchema={formSchema}
-      hiddenFields={['id', 'patientId']}
-      endpoint={endpoint}
-      entity={data}
-    />
+    <>
+      <p>Datos Afiliatorios</p>
+      <ZodForm
+        key={'affiliatory-data-form'}
+        formSchema={formSchema}
+        hiddenFields={hiddenFields}
+        endpoint={endpoint}
+        entity={entity}
+        customMutate={`/api/affiliatory-data/${patientId}`}
+      />
+    </>
   );
-}
-
-function getFields(
-  affiliatoryData: AffiliatoryData | undefined,
-): FieldConfig[] {
-  const firstConsultString = affiliatoryData?.firstConsult?.toString();
-  return [
-    {
-      fieldName: 'firstConsult',
-      label: 'Primera Consulta',
-      placeholder: 'Primera Consulta',
-      type: 'date',
-      defaultValue: firstConsultString
-        ? firstConsultString.split('T')[0]
-        : new Date().toISOString().split('T')[0],
-    },
-    {
-      fieldName: 'institution',
-      label: 'Institucion',
-      placeholder: 'Institucion',
-      type: 'text',
-      defaultValue: affiliatoryData?.institution,
-    },
-    {
-      fieldName: 'doctor',
-      label: 'Doctor',
-      placeholder: 'Doctor',
-      type: 'text',
-      defaultValue: affiliatoryData?.doctor,
-    },
-    {
-      fieldName: 'usualMedication',
-      label: 'Medicación habitual',
-      placeholder: 'Medicación habitual',
-      type: 'text',
-      defaultValue: affiliatoryData?.usualMedication,
-    },
-    {
-      fieldName: 'socialWorkIntervention',
-      label: 'Intervención de trabajo social',
-      placeholder: 'Intervención de trabajo social',
-      type: 'text',
-      defaultValue: affiliatoryData?.socialWorkIntervention,
-    },
-    {
-      fieldName: 'bmi',
-      label: 'IMC',
-      placeholder: 'IMC',
-      type: 'number',
-      defaultValue: affiliatoryData?.bmi,
-    },
-    {
-      fieldName: 'firstPregnancyAge',
-      label: 'Primer embarazo',
-      placeholder: 'Primer embarazo',
-      type: 'number',
-      defaultValue: affiliatoryData?.firstPregnancyAge,
-    },
-    {
-      fieldName: 'lastPregnancyAge',
-      label: 'Ultimo embarazo',
-      placeholder: 'Ultimo embarazo',
-      type: 'number',
-      defaultValue: affiliatoryData?.lastPregnancyAge,
-    },
-    {
-      fieldName: 'contraception',
-      label: 'Anticoncepción',
-      placeholder: 'Anticoncepción',
-      type: 'text',
-      defaultValue: affiliatoryData?.contraception,
-    },
-    {
-      fieldName: 'currentPregnancyControl',
-      label: 'Control de embarazo actual',
-      placeholder: 'Control de embarazo actual',
-      type: 'text',
-      defaultValue: affiliatoryData?.currentPregnancyControl,
-    },
-  ];
-}
-
-function getContainerDimensions() {
-  return { width: '100%' };
 }

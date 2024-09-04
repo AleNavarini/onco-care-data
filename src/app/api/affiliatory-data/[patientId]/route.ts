@@ -48,7 +48,7 @@ export async function PUT(request: Request, context: { params: any }) {
       },
       data: {
         patientId: BigInt(patientId),
-        firstConsult: firstConsult || null,
+        firstConsult: firstConsult ? new Date(firstConsult) : null,
         institution: institution || null,
         doctor: doctor || null,
         bmi: bmi || null,

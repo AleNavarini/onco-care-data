@@ -12,19 +12,21 @@ export default function SymptomsTable({ patientId }: Props) {
   const { data } = useSWR(`/api/patients/symptoms/${patientId}`, fetcher, {
     suspense: true,
   });
-  console.log(data);
 
   return (
     <div className="flex flex-col gap-4 items-end">
-      <AddButton
-        text="Crear Sintoma"
-        form={
-          <SymptomForm
-            patientId={patientId}
-            customMutate={`/api/patients/symptoms/${patientId}`}
-          />
-        }
-      />
+      <div className="flex justify-between w-full items-center">
+        <p>Sintomas</p>
+        <AddButton
+          text="Crear Sintoma"
+          form={
+            <SymptomForm
+              patientId={patientId}
+              customMutate={`/api/patients/symptoms/${patientId}`}
+            />
+          }
+        />
+      </div>
       <Datagrid rows={data.data} columns={columns} />
     </div>
   );

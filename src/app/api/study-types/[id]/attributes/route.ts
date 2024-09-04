@@ -49,5 +49,4 @@ export async function POST(request: Request, context: { params: any }) {
 export async function PUT(request: Request, context: { params: any }) {
   const id = context.params.id;
   const data = await request.json();
-  console.log(data);
 }

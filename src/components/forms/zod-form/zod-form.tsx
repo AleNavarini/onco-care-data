@@ -33,7 +33,7 @@ interface Props {
   hiddenFields?: string[];
   entity?: Partial<z.infer<ZodObject<{ [key: string]: ZodTypeAny }>>>;
   endpoint?: string;
-  closeModal: (state: boolean) => void;
+  closeModal?: (state: boolean) => void;
   customMutate?: string;
 }
 
@@ -158,7 +158,7 @@ export default function ZodForm({
         { revalidate: true },
       );
 
-      closeModal(true);
+      if (closeModal) closeModal(true);
     } catch (err) {
       setError(err.message || 'An unexpected error occurred.');
     } finally {

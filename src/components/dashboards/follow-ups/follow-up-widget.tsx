@@ -7,8 +7,8 @@ interface FollowUpWidgetProps {
 }
 export default function FollowUpWidget({ patientId }: FollowUpWidgetProps) {
   return (
-    <div className="flex flex-col items-end gap-2">
-      <div className="flex justify-between w-full">
+    <div className="flex flex-col items-center justify-center gap-2">
+      <div className="flex justify-between w-full items-center">
         <p>Seguimientos</p>
         <AddButton
           text="Crear Seguimiento"

@@ -5,16 +5,12 @@ import fetcher from '@/utils/fetcher';
 import CenteredPage from '@/components/ui/centered-page';
 import Spinner from '@/components/ui/spinner';
 import StatusChip from '@/components/status-chip';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+
 import FollowUpWidget from '@/components/dashboards/follow-ups/follow-up-widget';
+import StagingsWidget from '@/components/dashboards/stagings/stagings-widget';
+import DiseaseSelect from '@/components/detail/dashboard/disease-select';
+import AffiliatoryDataForm from '@/components/forms/affiliatory-data-form';
+import SymptomsTable from '@/components/tables/symptoms-table';
 
 interface Props {
   params: {
@@ -54,23 +50,19 @@ export default function PatientPage({ params }: Props) {
           <p>Paciente - {patient.name}</p>
           <StatusChip status={patient.status} />
         </div>
-        <div className="w-max">
-          <Select>
-            <SelectTrigger>
-              <SelectValue placeholder="Elija una enfermedad" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Enfermedades</SelectLabel>
-                <SelectItem value="all">Todos</SelectItem>
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
+
+        <DiseaseSelect patient={patient} />
       </div>
 
-      <div className="w-full col-span-3 h-5">
+      <div className="w-full col-span-3 flex flex-col gap-10">
         <FollowUpWidget patientId={id} />
+        <StagingsWidget patientId={id} />
+      </div>
+      <div className="w-full col-span-2">
+        <div className="flex flex-col gap-10">
+          <AffiliatoryDataForm patientId={id} />
+          <SymptomsTable patientId={id} />
+        </div>
       </div>
     </div>
     // <Sheet sx={{ display: 'flex', flexDirection: 'column' }}>

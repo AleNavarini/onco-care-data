@@ -4,39 +4,49 @@ import { AffiliatoryData } from '@prisma/client';
 import { FieldConfig } from '@/types/field-config';
 import Form from '../common/form';
 import { useSubmitForm } from '@/hooks/use-submit-form';
+import { z } from 'zod';
+import ZodForm from './zod-form/zod-form';
+import fetcher from '@/utils/fetcher';
+import useSWR from 'swr';
 
-export default function AffiliatoryDataForm({
-  patientId,
-  affiliatoryData,
-}: {
+interface Props {
   patientId: string;
-  affiliatoryData: AffiliatoryData;
-}) {
-  const { register, handleSubmit } = useForm();
-  const fields = getFields(affiliatoryData);
-  const dimensions = getContainerDimensions();
+}
 
-  const dataModifier = (data: any) => ({
-    ...data,
-    patientId,
+export default function AffiliatoryDataForm({ patientId }: Props) {
+  const { data } = useSWR(`/api/affiliatory-data/${patientId}`, fetcher, {
+    suspense: true,
   });
 
-  const { onSubmit, isLoading } = useSubmitForm({
-    entity: 'affiliatory-data',
-    endpoint: '',
-    oldEntity: null,
-    dataModifier,
+  const endpoint = 'affiliatory-data';
+  const formSchema = z.object({
+    id: z.string().describe('Id').optional(),
+    firstConsult: z.string().date().describe('Primera Consulta').optional(),
+    institution: z.string().describe('Institucion').optional(),
+    doctor: z.string().describe('Doctor').optional(),
+    bmi: z.number().describe('IMC').optional(),
+    usualMedication: z.string().describe('Medicación habitual').optional(),
+    socialWorkIntervention: z
+      .string()
+      .describe('Intervención de trabajo social')
+      .optional(),
+    firstPregnancyAge: z.number().describe('Primer embarazo').optional(),
+    lastPregnancyAge: z.number().describe('Ultimo embarazo').optional(),
+    contraception: z.string().describe('Anticoncepción').optional(),
+    currentPregnancyControl: z
+      .string()
+      .describe('Control de embarazo actual')
+      .optional(),
+    patientId: z.bigint().describe('Id del paciente').optional(),
   });
 
   return (
-    <Form
-      buttonText="Guardar"
-      fields={fields}
-      handleSubmit={handleSubmit}
-      onSubmit={onSubmit}
-      isLoading={isLoading}
-      register={register}
-      dimensions={dimensions}
+    <ZodForm
+      key={'affiliatory-data-form'}
+      formSchema={formSchema}
+      hiddenFields={['id', 'patientId']}
+      endpoint={endpoint}
+      entity={data}
     />
   );
 }

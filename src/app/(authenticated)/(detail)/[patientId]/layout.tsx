@@ -14,7 +14,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex">
-      <div className="h-screen flex flex-col items-start pr-2 border-r-2 text-gray-600 gap-3 py-4 px-2">
+      <div className="h-screen flex flex-col items-center pr-2 border-r-2 text-gray-600 gap-3 py-4 px-2 w-16">
         <Link href={`/${previousPathname}/dashboards`}>
           <PresentationChartLineIcon
             className={`w-8 h-8 hover:text-blue-500 ${termination === 'dashboards' ? 'text-blue-500' : ''}`}

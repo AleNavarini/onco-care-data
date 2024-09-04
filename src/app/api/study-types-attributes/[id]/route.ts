@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 export async function PUT(request: Request, context: { params: any }) {
   const id = context.params.id;
   const { name, studyTypeId, studyId } = await request.json();
+
   try {
     const studyTypeAttribute = await prisma.studyTypeAttribute.update({
       where: {
@@ -19,6 +20,8 @@ export async function PUT(request: Request, context: { params: any }) {
     return NextResponse.json({
       status: 204,
       studyTypeAttribute,
+      data: studyTypeAttribute,
+      success: true,
     });
   } catch (error) {
     console.error(error);

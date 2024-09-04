@@ -1,65 +1,25 @@
-'use client';
-import StudyTypeAttributesDashboard from '@/components/dashboards/study-type-attributes-dashboard';
-import { LinearProgress, Sheet, Typography } from '@mui/joy';
-import { StudyType, StudyTypeAttribute } from '@prisma/client';
-import useSWR from 'swr';
-
-const fetchData = async (url: string) => {
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
-};
+import StudyTypeAttributesDashboard from '@/components/dashboards/study-type-attributes/study-type-attributes-dashboard';
+import prisma from '@/lib/prisma';
 
 interface Props {
-  params: {
-    id: string;
-  };
+  params: { id: string };
 }
 
-interface FullStudyType extends StudyType {
-  attributes?: StudyTypeAttribute[];
-}
-
-export default function StudyTypePage({ params }: Props) {
-  const id = params.id;
-  const { data, isLoading, error } = useSWR(
-    `/api/study-types/${id}`,
-    fetchData,
-    { refreshInterval: 5000 },
-  );
-  const studyType: FullStudyType = data?.studyType;
-  if (isLoading) {
-    return <LinearProgress />;
-  }
-
-  if (error) {
-    return <h1>Ha habido un error ...</h1>;
-  }
-
-  const filteredAttributes = studyType.attributes?.filter(
-    (a: StudyTypeAttribute) => a.value === null,
-  );
+export default async function StudyTypePage({ params }: Props) {
+  const { id } = params;
+  const studyType = await prisma.studyType.findUnique({
+    where: {
+      id: BigInt(id),
+    },
+    select: {
+      id: true,
+      name: true,
+    },
+  });
   return (
-    <>
-      <Typography level="h2">
-        Atributos - <b>{studyType.name}</b>
-      </Typography>
-      <Sheet
-        sx={{
-          width: '90%',
-          mx: 'auto',
-          borderRadius: 'md',
-          overflow: 'auto',
-          my: 2,
-        }}
-        variant={'outlined'}
-      >
-        <StudyTypeAttributesDashboard
-          forPatient={false}
-          studyTypeAttributes={filteredAttributes!}
-          studyTypeId={id}
-        />
-      </Sheet>
-    </>
+    <div className="flex flex-col justify-center items-center gap-6 py-10">
+      <h2 className="text-2xl font-bold">Tipo de estudio - {studyType.name}</h2>
+      <StudyTypeAttributesDashboard studyTypeId={studyType.id.toString()} />
+    </div>
   );
 }

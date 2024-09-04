@@ -13,6 +13,7 @@ import AffiliatoryDataForm from '@/components/forms/affiliatory-data-form';
 import SymptomsTable from '@/components/tables/symptoms-table';
 import PatientRiskFactorsDashboard from '@/components/dashboards/risk-factors/patient-risk-factors-dashboard';
 import GestationForm from '@/components/forms/gestation-form';
+import PreviousSurgeriesTable from '@/components/previous-surgeries/previous-surgeries-table';
 
 interface Props {
   params: {
@@ -66,7 +67,7 @@ export default function PatientPage({ params }: Props) {
           <SymptomsTable patientId={id} />
           <PatientRiskFactorsDashboard patientId={id} />
           <GestationForm patientId={id} />
-          {/* <PreviousSurgeriesTable patientId={id} /> */}
+          <PreviousSurgeriesTable patientId={id} />
         </div>
       </div>
     </div>

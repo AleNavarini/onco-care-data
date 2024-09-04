@@ -1,22 +1,20 @@
 'use client';
 
-import { Suspense } from 'react';
-import { Box, LinearProgress, Sheet, Stack, Typography } from '@mui/joy';
 import useSWR from 'swr';
-
-import Accordion from '@/components/ui/accordion';
-import AffiliatoryDataForm from '@/components/forms/affiliatory-data-form';
-import PatientTopRow from '@/components/patient-top-row';
-import PreviousSurgeriesTable from '@/components/tables/previous-surgeries-table';
-import SymptomsTable from '@/components/tables/symptoms-table';
-import GestationForm from '@/components/forms/gestation-form';
-import FollowUpWidget from '@/components/dashboards/follow-ups/follow-up-widget';
-import StagingsWidget from '@/components/dashboards/stagings/stagings-widget';
-
 import fetcher from '@/utils/fetcher';
 import CenteredPage from '@/components/ui/centered-page';
 import Spinner from '@/components/ui/spinner';
-import PatientRiskFactorsDashboard from '@/components/dashboards/risk-factors/patient-risk-factors-dashboard';
+import StatusChip from '@/components/status-chip';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import FollowUpWidget from '@/components/dashboards/follow-ups/follow-up-widget';
 
 interface Props {
   params: {
@@ -42,9 +40,7 @@ export default function PatientPage({ params }: Props) {
   if (error) {
     return (
       <CenteredPage>
-        <Typography color="danger">
-          Failed to load patient data. Please try again.
-        </Typography>
+        <p>Failed to load patient data. Please try again.</p>
       </CenteredPage>
     );
   }
@@ -52,67 +48,90 @@ export default function PatientPage({ params }: Props) {
   const { patient } = data;
 
   return (
-    <Sheet sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Suspense fallback={<LinearProgress />}>
-        <PatientTopRow patientId={id} />
-      </Suspense>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', sm: 'column', md: 'row' },
-          gap: 3,
-          mt: 2,
-        }}
-      >
-        <Stack
-          spacing={2}
-          sx={{
-            width: { xs: '100%', sm: '100%', md: '55%', lg: '55%', xl: '70%' },
-            mb: 2,
-          }}
-        >
-          <Suspense fallback={<LinearProgress />}>
-            <FollowUpWidget width={100} patientId={id} />
-          </Suspense>
-          <Suspense fallback={<LinearProgress />}>
-            <StagingsWidget width={100} patientId={id} />
-          </Suspense>
-        </Stack>
-        <Stack
-          spacing={2}
-          sx={{
-            width: { xs: '100%', sm: '100%', md: '45%', lg: '45%', xl: '30%' },
-          }}
-        >
-          <Accordion title="Datos Afiliatorios">
-            <AffiliatoryDataForm
-              patientId={patient.id}
-              affiliatoryData={patient.affiliatoryData || {}}
-            />
-          </Accordion>
-          <Accordion title="Sintomas">
-            <SymptomsTable
-              patientId={patient.id}
-              symptoms={patient.symptoms || []}
-            />
-          </Accordion>
-          <Accordion title="Factores de Riesgo">
-            <PatientRiskFactorsDashboard patientId={id} />
-          </Accordion>
-          <Accordion title="Gestas">
-            <GestationForm
-              patientId={patient.id}
-              gestation={patient.gestations || []}
-            />
-          </Accordion>
-          <Accordion title="Cirugias Previas">
-            <PreviousSurgeriesTable
-              patientId={patient.id}
-              previousSurgeries={patient.previousSurgeries || []}
-            />
-          </Accordion>
-        </Stack>
-      </Box>
-    </Sheet>
+    <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-3 p-8">
+      <div className="w-full flex col-span-2 justify-between">
+        <div className="flex gap-3 justify-center items-center">
+          <p>Paciente - {patient.name}</p>
+          <StatusChip status={patient.status} />
+        </div>
+        <div className="w-max">
+          <Select>
+            <SelectTrigger>
+              <SelectValue placeholder="Elija una enfermedad" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Enfermedades</SelectLabel>
+                <SelectItem value="all">Todos</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      <div className="w-full h-5">
+        <FollowUpWidget width={100} patientId={id} />
+      </div>
+      {/* <pre>{JSON.stringify(patient, null, 2)}</pre> */}
+    </div>
+    // <Sheet sx={{ display: 'flex', flexDirection: 'column' }}>
+    //   <Box
+    //     sx={{
+    //       display: 'flex',
+    //       flexDirection: { xs: 'column', sm: 'column', md: 'row' },
+    //       gap: 3,
+    //       mt: 2,
+    //     }}
+    //   >
+    //     <Stack
+    //       spacing={2}
+    //       sx={{
+    //         width: { xs: '100%', sm: '100%', md: '55%', lg: '55%', xl: '70%' },
+    //         mb: 2,
+    //       }}
+    //     >
+    //       <Suspense fallback={<LinearProgress />}>
+    //         <FollowUpWidget width={100} patientId={id} />
+    //       </Suspense>
+    //       <Suspense fallback={<LinearProgress />}>
+    //         <StagingsWidget width={100} patientId={id} />
+    //       </Suspense>
+    //     </Stack>
+    //     <Stack
+    //       spacing={2}
+    //       sx={{
+    //         width: { xs: '100%', sm: '100%', md: '45%', lg: '45%', xl: '30%' },
+    //       }}
+    //     >
+    //       <Accordion title="Datos Afiliatorios">
+    //         <AffiliatoryDataForm
+    //           patientId={patient.id}
+    //           affiliatoryData={patient.affiliatoryData || {}}
+    //         />
+    //       </Accordion>
+    //       <Accordion title="Sintomas">
+    //         <SymptomsTable
+    //           patientId={patient.id}
+    //           symptoms={patient.symptoms || []}
+    //         />
+    //       </Accordion>
+    //       <Accordion title="Factores de Riesgo">
+    //         <PatientRiskFactorsDashboard patientId={id} />
+    //       </Accordion>
+    //       <Accordion title="Gestas">
+    //         <GestationForm
+    //           patientId={patient.id}
+    //           gestation={patient.gestations || []}
+    //         />
+    //       </Accordion>
+    //       <Accordion title="Cirugias Previas">
+    //         <PreviousSurgeriesTable
+    //           patientId={patient.id}
+    //           previousSurgeries={patient.previousSurgeries || []}
+    //         />
+    //       </Accordion>
+    //     </Stack>
+    //   </Box>
+    // </Sheet>
   );
 }

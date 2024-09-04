@@ -12,23 +12,15 @@ export default function FollowUpWidget({
   patientId,
 }: FollowUpWidgetProps) {
   return (
-    <Box
-      sx={{
-        width: `${width}%`,
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
-        rowGap: 2,
-      }}
-    >
-      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-        <Typography level="h3">Seguimientos</Typography>
+    <div className="flex flex-col items-end gap-2">
+      <div className="flex justify-between w-full">
+        <p>Seguimientos</p>
         <AddButton
           text="Crear Seguimiento"
           form={<FollowUpForm patientId={patientId} />}
         />
-      </Box>
+      </div>
       <FollowUpsDashboard patientId={patientId} />
-    </Box>
+    </div>
   );
 }

@@ -18,6 +18,15 @@ import { useState } from 'react';
 import { mutate } from 'swr';
 import Spinner from '../../ui/spinner';
 import ZodFormSelect from './zod-form-select';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 interface Props {
   formSchema: ZodObject<{ [key: string]: ZodTypeAny }>;
@@ -61,8 +70,56 @@ export default function ZodForm({
     const fieldSchema = formSchema.shape[fieldName];
     const fieldLabel = fieldSchema.description || fieldName;
     const isDate = fieldLabel.toLowerCase().includes('fecha');
-    const isEnum = fieldSchema._def.typeName === 'ZodEnum';
+    const isEnum = JSON.stringify(fieldSchema._def).includes('ZodEnum');
+    const isBoolean = JSON.stringify(fieldSchema._def).includes('ZodBoolean');
 
+    const SelectFormItem = (field) => (
+      <>
+        <FormControl>
+          <ZodFormSelect
+            field={field}
+            fieldLabel={fieldLabel}
+            fieldSchema={fieldSchema}
+          />
+        </FormControl>
+        <FormDescription>
+          <p>Seleccione una opción.</p>
+        </FormDescription>
+      </>
+    );
+
+    const BooleanFormItem = (field) => (
+      <>
+        <FormLabel>{fieldLabel}</FormLabel>
+        <FormControl>
+          <Select onValueChange={field.onChange} value={field.value}>
+            <SelectTrigger>
+              <SelectValue placeholder={fieldLabel} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectItem value={'true'}>Si</SelectItem>
+                <SelectItem value={'false'}>No</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </FormControl>
+      </>
+    );
+
+    const StringFormItem = (field) => (
+      <>
+        <FormLabel>{fieldLabel}</FormLabel>
+        <FormControl>
+          <Input placeholder={fieldLabel} {...field} />
+        </FormControl>
+        {isDate && (
+          <FormDescription>
+            <p>Ingrese la fecha en formato aaaa-mm-dd.</p>
+          </FormDescription>
+        )}
+      </>
+    );
     return (
       <FormField
         key={fieldName}
@@ -70,23 +127,11 @@ export default function ZodForm({
         name={fieldName}
         render={({ field }) => (
           <FormItem className={isHidden ? 'hidden' : ''}>
-            <FormLabel>{fieldLabel}</FormLabel>
-            <FormControl>
-              {isEnum ? (
-                <ZodFormSelect
-                  field={field}
-                  fieldLabel={fieldLabel}
-                  fieldSchema={fieldSchema}
-                />
-              ) : (
-                <Input placeholder={fieldLabel} {...field} />
-              )}
-            </FormControl>
-            <FormDescription>
-              {isEnum && <p>Seleccione una opción.</p>}
-              {isDate && <p>Ingrese la fecha en formato aaaa-mm-dd.</p>}
-            </FormDescription>
+            {isEnum && <SelectFormItem field={field} />}
+            {isBoolean && <BooleanFormItem field={field} />}
+            {!isEnum && !isBoolean && <StringFormItem field={field} />}
             <FormMessage />
+            {/* <pre>{JSON.stringify(fieldSchema, null, 2)}</pre> */}
           </FormItem>
         )}
       />

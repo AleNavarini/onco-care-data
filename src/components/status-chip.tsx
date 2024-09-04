@@ -3,10 +3,9 @@ import { Badge } from './ui/badge';
 
 interface Props {
   status: string;
-  size?: 'md' | 'lg';
 }
 
-export default function StatusChip({ status, size = 'md' }: Props) {
+export default function StatusChip({ status }: Props) {
   const classname =
     getStatus(status) === 'Activa'
       ? 'border-green-500 text-green-500 dark:border-green-800 dark:text-green-800'

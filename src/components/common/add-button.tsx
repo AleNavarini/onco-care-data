@@ -18,7 +18,9 @@ export default function AddButton({ form, text, disabled }: AddButtonProps) {
 
   return (
     <React.Fragment>
-      <Button disabled={disabled} onClick={() => openModal(form)}>{text}</Button>
+      <Button disabled={disabled} onClick={() => openModal(form)}>
+        {text}
+      </Button>
       <Modal title={text} open={open} handleClose={closeModal}>
         {clonedForm}
       </Modal>

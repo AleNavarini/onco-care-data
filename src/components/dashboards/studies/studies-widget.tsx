@@ -1,19 +1,25 @@
-"use client";
+'use client';
 import AddButton from '@/components/common/add-button';
 import StudiesDashboard from './studies-dashboard';
 import StudyForm from '@/components/forms/study-form';
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { StudyType } from '@prisma/client';
 import { useState } from 'react';
 
 interface StudiesWidgetProps {
   patientId: string;
 }
-export default function StudiesWidget({
-  patientId,
-}: StudiesWidgetProps) {
+export default function StudiesWidget({ patientId }: StudiesWidgetProps) {
   const { data } = useSWR(`/api/v1/study-types`, fetcher, {
     suspense: true,
   });
@@ -21,7 +27,11 @@ export default function StudiesWidget({
   const [studyType, setStudyType] = useState<StudyType | null>(null);
 
   function handleChange(value: string) {
-    setStudyType(data.studyTypes.find((studyType: StudyType) => studyType.id.toString() === value));
+    setStudyType(
+      data.studyTypes.find(
+        (studyType: StudyType) => studyType.id.toString() === value,
+      ),
+    );
   }
 
   return (
@@ -29,7 +39,7 @@ export default function StudiesWidget({
       <div className="flex justify-between w-full items-end">
         <p>Estudios</p>
 
-        <div className='flex gap-2'>
+        <div className="flex gap-2">
           <Select onValueChange={handleChange}>
             <SelectTrigger>
               <SelectValue placeholder="Elija un tipo de estudio" />
@@ -38,7 +48,10 @@ export default function StudiesWidget({
               <SelectGroup>
                 <SelectLabel>Estudios</SelectLabel>
                 {data.studyTypes.map((studyType: StudyType) => (
-                  <SelectItem key={studyType.id.toString()} value={studyType.id.toString()}>
+                  <SelectItem
+                    key={studyType.id.toString()}
+                    value={studyType.id.toString()}
+                  >
                     {studyType.name}
                   </SelectItem>
                 ))}
@@ -47,15 +60,12 @@ export default function StudiesWidget({
           </Select>
           <AddButton
             text={`Crear ${studyType ? studyType.name : 'Estudio'}`}
-            form={<StudyForm
-              patientId={patientId}
-              studyType={studyType}
-            />}
+            form={<StudyForm patientId={patientId} studyType={studyType} />}
             disabled={studyType === null}
           />
         </div>
       </div>
       <StudiesDashboard patientId={patientId} />
-    </div >
+    </div>
   );
 }

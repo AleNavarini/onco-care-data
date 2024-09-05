@@ -7,14 +7,12 @@ import {
   TreatmentTypeAttribute,
   TreatmentTypeResult,
 } from '@prisma/client';
-import { columns as treatmentTypeAttributesColumns } from '../treatment-type-attributes/treatment-type-attributes.columns';
-import { columns as treatmentTypeResultsColumns } from '../treatment-type-results/treatment-type-results.columns';
-import TableBody from '@/components/table/table-body';
 import EditButton from '@/components/common/edit-button';
-import { IconButton, Sheet } from '@mui/joy';
 import { deleteStudy } from './treatment.service';
-import DeleteIcon from '@mui/icons-material/Delete';
 import TreatmentForm from '@/components/treatments/treatment-form';
+import { Button } from '@/components/ui/button';
+import { ArrowRightCircleIcon, TrashIcon } from '@heroicons/react/24/outline';
+import Link from 'next/link';
 
 export const columns: ColumnType[] = [
   {
@@ -103,15 +101,19 @@ export const columns: ColumnType[] = [
               />
             }
           />
-          <IconButton
-            color="neutral"
-            variant="plain"
+          <Button
+            className="bg-transparent hover:bg-transparent"
             onClick={() =>
               deleteStudy(row.id.toString(), row.patientId!.toString())
             }
           >
-            <DeleteIcon />
-          </IconButton>
+            <TrashIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
+          </Button>
+          <Button className="bg-transparent hover:bg-transparent">
+            <Link href={`treatments/${row.id}`}>
+              <ArrowRightCircleIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
+            </Link>
+          </Button>
         </React.Fragment>
       );
     },

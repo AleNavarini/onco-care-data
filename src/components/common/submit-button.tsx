@@ -1,4 +1,4 @@
-import { Button } from "../ui/button";
+import { Button } from '../ui/button';
 
 interface Props {
   children: React.ReactNode;
@@ -6,10 +6,7 @@ interface Props {
 }
 export default function SubmitButton({ children, isLoading }: Props) {
   return (
-    <Button
-      className="w-full mt-2"
-      type="submit"
-    >
+    <Button className="w-full mt-2" type="submit">
       {children}
     </Button>
   );

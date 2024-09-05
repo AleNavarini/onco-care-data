@@ -5,7 +5,15 @@ import StudiesDashboard from '@/components/dashboards/studies/studies-dashboard'
 import StudyForm from '@/components/forms/study-form';
 import fetcher from '@/utils/fetcher';
 import { StudyType } from '@prisma/client';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectGroup, SelectLabel, SelectItem } from '@/components/ui/select';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectGroup,
+  SelectLabel,
+  SelectItem,
+} from '@/components/ui/select';
 import { useState } from 'react';
 import useSWR from 'swr';
 
@@ -24,7 +32,11 @@ export default function Studies({ params }: StudiesPageProps) {
   const [studyType, setStudyType] = useState<StudyType | null>(null);
 
   function handleChange(value: string) {
-    setStudyType(data.studyTypes.find((studyType: StudyType) => studyType.id.toString() === value));
+    setStudyType(
+      data.studyTypes.find(
+        (studyType: StudyType) => studyType.id.toString() === value,
+      ),
+    );
   }
 
   return (
@@ -32,7 +44,7 @@ export default function Studies({ params }: StudiesPageProps) {
       <div className="flex justify-between w-full items-end">
         <p>Estudios</p>
 
-        <div className='flex gap-2'>
+        <div className="flex gap-2">
           <Select onValueChange={handleChange}>
             <SelectTrigger>
               <SelectValue placeholder="Elija un tipo de estudio" />
@@ -41,7 +53,10 @@ export default function Studies({ params }: StudiesPageProps) {
               <SelectGroup>
                 <SelectLabel>Estudios</SelectLabel>
                 {data.studyTypes.map((studyType: StudyType) => (
-                  <SelectItem key={studyType.id.toString()} value={studyType.id.toString()}>
+                  <SelectItem
+                    key={studyType.id.toString()}
+                    value={studyType.id.toString()}
+                  >
                     {studyType.name}
                   </SelectItem>
                 ))}
@@ -50,15 +65,12 @@ export default function Studies({ params }: StudiesPageProps) {
           </Select>
           <AddButton
             text={`Crear ${studyType ? studyType.name : 'Estudio'}`}
-            form={<StudyForm
-              patientId={patientId}
-              studyType={studyType}
-            />}
+            form={<StudyForm patientId={patientId} studyType={studyType} />}
             disabled={studyType === null}
           />
         </div>
       </div>
       <StudiesDashboard patientId={patientId} />
-    </div >
-  )
+    </div>
+  );
 }

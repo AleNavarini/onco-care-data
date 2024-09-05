@@ -11,7 +11,7 @@ const FormFieldsMapper: React.FC<FormComponentProps> = ({
   register,
 }) => {
   return (
-    <div className='flex flex-col gap-4'>
+    <div className="flex flex-col gap-4">
       {fields.map((field) => (
         <Field key={field.fieldName} register={register} {...field} />
       ))}

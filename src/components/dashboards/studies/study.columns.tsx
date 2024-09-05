@@ -28,13 +28,13 @@ export const columns: ColumnType[] = [
     style: { textAlign: 'center', verticalAlign: 'middle' },
     renderCell: (row: any) => {
       return (
-        <div className='flex flex-col gap-2 w-full justify-center items-center' >
-          {
-            row.studyTypeAttributes.map((attribute: StudyTypeAttribute) => (
-              <p key={attribute.id.toString()}>{attribute.name} - {attribute.value}</p>
-            ))
-          }
-        </div >
+        <div className="flex flex-col gap-2 w-full justify-center items-center">
+          {row.studyTypeAttributes.map((attribute: StudyTypeAttribute) => (
+            <p key={attribute.id.toString()}>
+              {attribute.name} - {attribute.value}
+            </p>
+          ))}
+        </div>
       );
     },
   },
@@ -42,7 +42,12 @@ export const columns: ColumnType[] = [
     headerName: 'Accion',
     field: '',
     style: { textAlign: 'center', verticalAlign: 'middle' },
-    renderCell: (row: Study & { studyType: StudyType, studyTypeAttributes: StudyTypeAttribute[] }) => {
+    renderCell: (
+      row: Study & {
+        studyType: StudyType;
+        studyTypeAttributes: StudyTypeAttribute[];
+      },
+    ) => {
       const studyTypeWithAttributes = {
         ...row.studyType,
         attributes: row.studyTypeAttributes,
@@ -51,11 +56,15 @@ export const columns: ColumnType[] = [
         <React.Fragment>
           <EditButton
             form={
-              <StudyForm oldStudy={row} patientId={row.patientId.toString()} studyType={studyTypeWithAttributes} />
+              <StudyForm
+                oldStudy={row}
+                patientId={row.patientId.toString()}
+                studyType={studyTypeWithAttributes}
+              />
             }
           />
           <Button
-            className='bg-transparent hover:bg-transparent'
+            className="bg-transparent hover:bg-transparent"
             onClick={() =>
               deleteStudy(row.id.toString(), row.patientId!.toString())
             }

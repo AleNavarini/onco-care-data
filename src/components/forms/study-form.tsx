@@ -7,7 +7,10 @@ import fetcher from '@/utils/fetcher';
 
 interface Props {
   patientId: string;
-  oldStudy?: Study & { studyType: StudyType, studyTypeAttributes: StudyTypeAttribute[] };
+  oldStudy?: Study & {
+    studyType: StudyType;
+    studyTypeAttributes: StudyTypeAttribute[];
+  };
   studyType?: StudyType & Partial<{ attributes: StudyTypeAttribute[] }>;
   closeModal?: () => void;
 }
@@ -23,18 +26,24 @@ export default function StudyForm({
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
   // Fetched attributes for the studyType
-  const fetchedAttributes: StudyTypeAttribute[] = fetchedAttributesData?.data || [];
+  const fetchedAttributes: StudyTypeAttribute[] =
+    fetchedAttributesData?.data || [];
 
   // Merge fetched attributes with oldStudy attributes
-  const fullAttributesList = fetchedAttributes.reduce((acc, attribute) => {
-    const existingAttribute = oldStudy?.studyTypeAttributes.find((attr) => attr.name === attribute.name);
-    acc[attribute.name] = existingAttribute?.value || ''; // Keep old value if present, else empty
-    return acc;
-  }, {} as Record<string, string>);
+  const fullAttributesList = fetchedAttributes.reduce(
+    (acc, attribute) => {
+      const existingAttribute = oldStudy?.studyTypeAttributes.find(
+        (attr) => attr.name === attribute.name,
+      );
+      acc[attribute.name] = existingAttribute?.value || ''; // Keep old value if present, else empty
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
 
   const endpoint = `/v2/patients/${patientId}/studies`;
   const baseSchema = z.object({
@@ -45,10 +54,16 @@ export default function StudyForm({
   });
 
   // Create a schema with the full list of attributes
-  const dynamicAttributesSchema = fetchedAttributes.reduce((acc, attribute) => {
-    acc[attribute.name] = z.string().optional().describe(`Atributo : ${attribute.name}`);
-    return acc;
-  }, {} as Record<string, z.ZodTypeAny>);
+  const dynamicAttributesSchema = fetchedAttributes.reduce(
+    (acc, attribute) => {
+      acc[attribute.name] = z
+        .string()
+        .optional()
+        .describe(`Atributo : ${attribute.name}`);
+      return acc;
+    },
+    {} as Record<string, z.ZodTypeAny>,
+  );
 
   const extendedFormSchema = baseSchema.extend(dynamicAttributesSchema);
 

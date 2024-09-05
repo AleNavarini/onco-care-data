@@ -1,7 +1,5 @@
 'use client';
 import React, { ReactNode, Suspense } from 'react';
-import { Box, Sheet, Typography } from '@mui/joy';
-
 import AddDiseaseButton from '@/components/dashboards/diseases/add-disease-button';
 import DiseasesDashboard from '@/components/dashboards/diseases/diseases-dashboard';
 import AddStudyTypeButton from '@/components/dashboards/study-types/add-study-type-button';

@@ -24,7 +24,7 @@ export default async function TreatmentTypePage({ params }: Props) {
       <h2 className="text-2xl font-bold">
         Tipo de tratamiento - {treatmentType.name}
       </h2>
-      <div className='grid grid-cols-1 md:grid-cols-2 gap-3 w-full'>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
         <TreatmentTypeAttributesDashboard treatmentTypeId={id} />
         <TreatmentTypeResultsDashboard treatmentTypeId={id} />
       </div>

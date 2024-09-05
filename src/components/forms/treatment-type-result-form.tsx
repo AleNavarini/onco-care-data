@@ -28,7 +28,10 @@ export default function TreatmentTypeResultForm({
 
   if (entity) {
     formSchema = formSchema.extend({
-      treatmentTypeId: z.string().describe('Id del tipo de tratamiento').optional(),
+      treatmentTypeId: z
+        .string()
+        .describe('Id del tipo de tratamiento')
+        .optional(),
     });
   }
 

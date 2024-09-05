@@ -37,9 +37,7 @@ export default function PatientPage({ params }: Props) {
   );
 
   if (isLoading || !data || !data.patient) {
-    return (
-      <CenteredLoading />
-    );
+    return <CenteredLoading />;
   }
 
   if (error) {
@@ -115,6 +113,6 @@ export default function PatientPage({ params }: Props) {
           </AccordionItem>
         </Accordion>
       </div>
-    </div >
+    </div>
   );
 }

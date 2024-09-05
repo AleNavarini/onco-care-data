@@ -2,7 +2,6 @@
 import ActiveFollowingChart from '@/components/diseases/active-following-chart';
 import DiseasesChart from '@/components/diseases/diseases-chart';
 import StagingsChart from '@/components/diseases/stagings-chart';
-import { Sheet } from '@mui/joy';
 import React from 'react';
 
 export default function ManagePage() {

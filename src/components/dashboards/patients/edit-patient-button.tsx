@@ -1,9 +1,9 @@
 import Modal from '@/components/common/modal';
 import PatientForm from '@/components/forms/patient-form';
+import { Button } from '@/components/ui/button';
 import useModal from '@/hooks/use-modal';
 import { FullPatient } from '@/types/full-patient';
 import EditIcon from '@mui/icons-material/Edit';
-import { IconButton } from '@mui/joy';
 import React from 'react';
 import { mutate } from 'swr';
 
@@ -15,9 +15,7 @@ export default function EditPatientButton({ patient }: EditPatientButtonProps) {
   const { open, openModal, closeModal, modalContent } = useModal();
   return (
     <React.Fragment>
-      <IconButton
-        color="neutral"
-        variant="plain"
+      <Button className="bg-transparent hover:bg-transparent"
         onClick={() =>
           openModal(
             <PatientForm setModalOpen={closeModal} oldPatient={patient} />,
@@ -25,11 +23,11 @@ export default function EditPatientButton({ patient }: EditPatientButtonProps) {
         }
       >
         <EditIcon />
-      </IconButton>
+      </Button>
 
       <Modal title="Editar Paciente" open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
-    </React.Fragment>
+    </React.Fragment >
   );
 }

@@ -1,12 +1,13 @@
 import { ColumnType } from '@/components/table/table.types';
-import { IconButton, Link } from '@mui/joy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { mutate } from 'swr';
 import { deleteDisease } from './disease.service';
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import EditDiseaseButton from './edit-disease-button';
 import React from 'react';
 import { Disease } from '@prisma/client';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
 
 const deleteDiseaseWrapper = async (diseaseId: string) => {
   let result = confirm('Seguro que quiere borrar la enfermedad?');
@@ -30,17 +31,16 @@ export const columns: ColumnType[] = [
       return (
         <React.Fragment>
           <EditDiseaseButton disease={row} />
-          <IconButton
-            color="neutral"
-            variant="plain"
+          <Button
+            className="bg-transparent hover:bg-transparent"
             onClick={() => deleteDiseaseWrapper(row.id.toString())}
           >
             <DeleteIcon />
-          </IconButton>
+          </Button>
           <Link href={`disease/${row.id}`}>
-            <IconButton color="neutral" variant="plain">
-              <ArrowCircleRightOutlinedIcon />
-            </IconButton>
+            <Button className="bg-transparent hover:bg-transparent">
+              <ArrowRightCircleIcon />
+            </Button>
           </Link>
         </React.Fragment>
       );

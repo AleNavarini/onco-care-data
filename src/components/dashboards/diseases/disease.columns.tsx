@@ -12,7 +12,7 @@ const deleteDiseaseWrapper = async (diseaseId: string) => {
   let result = confirm('Seguro que quiere borrar la enfermedad?');
   if (!result) return;
   const response = await deleteDisease(diseaseId);
-  if (response.status === 200) mutate('/api/diseases');
+  if (response.status === 200) mutate('/api/v1/diseases');
 };
 
 export const columns: ColumnType[] = [

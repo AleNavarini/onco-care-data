@@ -34,7 +34,7 @@ export default function StudiesTable({
   };
 
   const deleteStudy = async (study: Study) => {
-    const response = await fetch(`/api/studies/${study.id}`, {
+    const response = await fetch(`/api/v1/studies/${study.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

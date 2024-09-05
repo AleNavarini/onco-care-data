@@ -10,18 +10,11 @@ export default function AddPatientButton() {
   return (
     <React.Fragment>
       <Button
-        onClick={() =>
-          openModal(
-            <DiseaseForm
-              handler={() => mutate('/api/diseases')}
-              setModalOpen={closeModal}
-            />,
-          )
-        }
+        onClick={() => openModal(<DiseaseForm closeModal={closeModal} />)}
       >
         Crear Enfermedad
       </Button>
-      <Modal title='Crear Enfermedad' open={open} handleClose={closeModal}>
+      <Modal title="Crear Enfermedad" open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

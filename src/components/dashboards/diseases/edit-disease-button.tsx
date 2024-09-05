@@ -18,17 +18,13 @@ export default function EditDiseaseButton({ disease }: EditDiseaseButtonProps) {
       <IconButton
         onClick={() =>
           openModal(
-            <DiseaseForm
-              handler={() => mutate('/api/diseases')}
-              setModalOpen={closeModal}
-              oldDisease={disease}
-            />,
+            <DiseaseForm closeModal={closeModal} oldDisease={disease} />,
           )
         }
       >
         <EditIcon />
       </IconButton>
-      <Modal title='Editar Enfermedad' open={open} handleClose={closeModal}>
+      <Modal title="Editar Enfermedad" open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

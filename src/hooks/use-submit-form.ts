@@ -46,7 +46,8 @@ export const useSubmitForm = ({
       if (handler && returnEntity) handler(result[returnEntity]);
       if (setModalOpen) setModalOpen(false);
       if (closeModal) closeModal();
-      if (patientId) mutate(`/api/patients/${patientId}?detailed=true`, null);
+      if (patientId)
+        mutate(`/api/v1/patients/${patientId}?detailed=true`, null);
     } catch (error) {
       alert(`Error: ${error}`);
     } finally {

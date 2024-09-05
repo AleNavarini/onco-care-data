@@ -13,7 +13,7 @@ const deletePatientWrapper = async (patientId: string) => {
   let result = confirm('Seguro que quiere borrar el paciente?');
   if (!result) return;
   const response = await deletePatient(patientId);
-  if (response.status === 200) mutate('/api/patients');
+  if (response.status === 200) mutate('/api/v1/patients');
 };
 
 export const columns: ColumnType[] = [

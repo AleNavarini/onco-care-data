@@ -10,7 +10,7 @@ import {
 import { Bar, CartesianGrid, BarChart, XAxis } from 'recharts';
 
 const ActiveFollowingChart: React.FC = () => {
-  const { data, isLoading, error } = useSWR('/api/stats/status', fetcher);
+  const { data, isLoading, error } = useSWR('/api/v1/stats/status', fetcher);
 
   if (isLoading) return <CenteredLoading />;
   if (error) return <div>Error: {error.message}</div>;

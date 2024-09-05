@@ -1,89 +1,50 @@
 'use client';
-import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Gestation } from '@prisma/client';
-import { FieldConfig } from '@/types/field-config';
-import Form from '../common/form';
-import { useSubmitForm } from '@/hooks/use-submit-form';
+import useSWR from 'swr';
+import fetcher from '@/utils/fetcher';
+import { z } from 'zod';
+import ZodForm from './zod-form/zod-form';
 
+const endpoint = '/v1/gestations';
 interface Props {
   patientId: string;
-  gestation: Gestation | undefined;
 }
-export default function GestationForm({
-  patientId,
-  gestation: initialGestation,
-}: Props) {
-  const { register, handleSubmit, reset } = useForm();
-  const [gestation, setGestation] = useState(initialGestation);
-  const [fields, setFields] = useState<FieldConfig[]>(
-    getFields(initialGestation),
-  );
 
-  useEffect(() => {
-    setFields(getFields(gestation));
-  }, [gestation]);
-
-  const dataModifier = (data: any) => {
-    if (data.births === '') data.births = 0;
-    if (data.abortions === '') data.abortions = 0;
-    if (data.cesareans === '') data.cesareans = 0;
-
-    return {
-      ...data,
-      patientId,
-    };
+export default function GestationForm({ patientId }: Props) {
+  const { data } = useSWR(`/api/v2/patients/${patientId}/gestations`, fetcher, {
+    suspense: true,
+  });
+  const formSchema = z.object({
+    id: z.string().describe('Id').optional(),
+    patientId: z.bigint().describe('Id del paciente').optional(),
+    births: z
+      .union([z.number().nonnegative(), z.null(), z.nan()])
+      .describe('Cantidad de partos')
+      .optional(),
+    abortions: z
+      .union([z.number().nonnegative(), z.null(), z.nan()])
+      .describe('Cantidad de abortos')
+      .optional(),
+    cesareans: z
+      .union([z.number().nonnegative(), z.null(), z.nan()])
+      .describe('Cantidad de cesareas')
+      .optional(),
+  });
+  const gestations = data.data;
+  const entity = {
+    ...gestations,
+    patientId: gestations?.patientId
+      ? BigInt(gestations.patientId)
+      : BigInt(patientId),
   };
 
-  const { onSubmit, isLoading } = useSubmitForm({
-    entity: 'gestations',
-    oldEntity: gestation,
-    returnEntity: 'gestation',
-    dataModifier,
-    reset,
-    handler: setGestation,
-    patientId,
-  });
-
   return (
-    <Form
-      buttonText={'Guardar'}
-      fields={fields}
-      handleSubmit={handleSubmit}
-      isLoading={isLoading}
-      onSubmit={onSubmit}
-      register={register}
-      dimensions={getContainerDimensions()}
+    <ZodForm
+      key={'gestation-form'}
+      formSchema={formSchema}
+      hiddenFields={['id', 'patientId']}
+      endpoint={endpoint}
+      entity={entity}
+      customMutate={`/api/v2/patients/${patientId}/gestations`}
     />
   );
-}
-
-function getFields(gestation: Gestation | undefined): FieldConfig[] {
-  return [
-    {
-      fieldName: 'births',
-      label: 'Partos',
-      placeholder: 'Cantidad o 0 por defecto',
-      type: 'number',
-      defaultValue: gestation?.births,
-    },
-    {
-      fieldName: 'abortions',
-      label: 'Abortos',
-      placeholder: 'Cantidad o 0 por defecto',
-      type: 'number',
-      defaultValue: gestation?.abortions,
-    },
-    {
-      fieldName: 'cesareans',
-      label: 'Cesareas',
-      placeholder: 'Cantidad o 0 por defecto',
-      type: 'number',
-      defaultValue: gestation?.cesareans,
-    },
-  ];
-}
-
-function getContainerDimensions() {
-  return { width: '100%' };
 }

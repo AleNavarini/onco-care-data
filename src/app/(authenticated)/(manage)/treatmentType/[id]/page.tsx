@@ -1,19 +1,5 @@
-'use client';
-import TreatmentTypeAttributesDashboard from '@/components/dashboards/treatment-type-attributes-dashboard';
-import TreatmentTypeResultsDashboard from '@/components/dashboards/treatment-type-results-dashboard';
-import { LinearProgress, Sheet, Typography } from '@mui/joy';
-import {
-  TreatmentType,
-  TreatmentTypeAttribute,
-  TreatmentTypeResult,
-} from '@prisma/client';
-import useSWR from 'swr';
-
-const fetchData = async (url: string) => {
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
-};
+import TreatmentTypeAttributesDashboard from '@/components/dashboards/treatment-type-attributes/treatment-type-attributes-dashboard';
+import TreatmentTypeResultsDashboard from '@/components/dashboards/treatment-type-results/treatment-type-results-dashboard';
 
 interface Props {
   params: {
@@ -21,68 +7,27 @@ interface Props {
   };
 }
 
-interface FullTreatmentType extends TreatmentType {
-  attributes?: TreatmentTypeAttribute[];
-  results?: TreatmentTypeResult[];
-}
-
-export default function TreatmentTypePage({ params }: Props) {
+export default async function TreatmentTypePage({ params }: Props) {
   const id = params.id;
-  const { data, isLoading, error } = useSWR(
-    `/api/treatment-types/${id}`,
-    fetchData,
-    { refreshInterval: 5000 },
-  );
-  const treatmentType: FullTreatmentType = data?.treatmentType;
-  if (isLoading) return <LinearProgress />;
+  const treatmentType = await prisma.treatmentType.findUnique({
+    where: {
+      id: BigInt(id),
+    },
+    select: {
+      id: true,
+      name: true,
+    },
+  });
 
-  if (error) return <h1>Ha habido un error ...</h1>;
-
-  const filteredAttributes = treatmentType.attributes?.filter(
-    (a: TreatmentTypeAttribute) => a.value === null,
-  );
-  const filteredResults = treatmentType.results?.filter(
-    (a: TreatmentTypeResult) => a.value === null,
-  );
   return (
-    <>
-      <Typography level="h2">
-        <b>{treatmentType.name}</b>
-      </Typography>
-      <Typography level="h2">Atributos</Typography>
-      <Sheet
-        sx={{
-          width: '90%',
-          mx: 'auto',
-          borderRadius: 'md',
-          overflow: 'auto',
-          my: 2,
-        }}
-        variant={'outlined'}
-      >
-        <TreatmentTypeAttributesDashboard
-          forPatient={false}
-          treatmentTypeAttributes={filteredAttributes!}
-          treatmentTypeId={id}
-        />
-      </Sheet>
-      <Typography level="h2">Resultados</Typography>
-      <Sheet
-        sx={{
-          width: '90%',
-          mx: 'auto',
-          borderRadius: 'md',
-          overflow: 'auto',
-          my: 2,
-        }}
-        variant={'outlined'}
-      >
-        <TreatmentTypeResultsDashboard
-          forPatient={false}
-          treatmentTypeResults={filteredResults!}
-          treatmentTypeId={id}
-        />
-      </Sheet>
-    </>
+    <div className="flex flex-col justify-center items-center gap-6 py-10">
+      <h2 className="text-2xl font-bold">
+        Tipo de tratamiento - {treatmentType.name}
+      </h2>
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-3 w-full'>
+        <TreatmentTypeAttributesDashboard treatmentTypeId={id} />
+        <TreatmentTypeResultsDashboard treatmentTypeId={id} />
+      </div>
+    </div>
   );
 }

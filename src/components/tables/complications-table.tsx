@@ -40,7 +40,7 @@ export default function ComplicationsTable({
   };
 
   const deleteComplication = async (complication: Complication) => {
-    const response = await fetch(`/api/complications/${complication.id}`, {
+    const response = await fetch(`/api/v1/complications/${complication.id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

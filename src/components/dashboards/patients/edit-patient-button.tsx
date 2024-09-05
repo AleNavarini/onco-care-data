@@ -20,18 +20,14 @@ export default function EditPatientButton({ patient }: EditPatientButtonProps) {
         variant="plain"
         onClick={() =>
           openModal(
-            <PatientForm
-              handler={() => mutate('/api/patients')}
-              setModalOpen={closeModal}
-              oldPatient={patient}
-            />,
+            <PatientForm setModalOpen={closeModal} oldPatient={patient} />,
           )
         }
       >
         <EditIcon />
       </IconButton>
 
-      <Modal title='Editar Paciente' open={open} handleClose={closeModal}>
+      <Modal title="Editar Paciente" open={open} handleClose={closeModal}>
         {modalContent}
       </Modal>
     </React.Fragment>

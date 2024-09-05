@@ -12,7 +12,7 @@ interface FollowUpsDashboardProps {
 export default function FollowUpsDashboard({
   patientId,
 }: FollowUpsDashboardProps) {
-  const { data } = useSWR(`/api/patient-follow-ups/${patientId}`, fetcher, {
+  const { data } = useSWR(`/api/v1/patient-follow-ups/${patientId}`, fetcher, {
     suspense: true,
   });
   const followUps = data.followUps;

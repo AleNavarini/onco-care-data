@@ -6,6 +6,7 @@ import { Staging } from '@prisma/client';
 import { deleteStaging } from './staging.service';
 import StagingForm from '@/components/forms/staging-form';
 import EditButton from '@/components/common/edit-button';
+import { TrashIcon } from '@heroicons/react/24/outline';
 
 export const columns: ColumnType[] = [
   {
@@ -44,9 +45,9 @@ export const columns: ColumnType[] = [
           <IconButton
             color="neutral"
             variant="plain"
-            onClick={() => deleteStaging(row.id.toString())}
+            onClick={() => deleteStaging(row)}
           >
-            <DeleteIcon />
+            <TrashIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
           </IconButton>
         </React.Fragment>
       );

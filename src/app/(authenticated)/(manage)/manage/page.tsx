@@ -34,7 +34,7 @@ const SectionWrapper: React.FC<SectionWrapperProps> = ({
 
 const ManagePage: React.FC = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full ">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 w-full p-4">
       <SectionWrapper title="Enfermedades" addButton={<AddDiseaseButton />}>
         <Suspense fallback={<CenteredLoading />}>
           <DiseasesDashboard />

@@ -1,28 +1,25 @@
 import Modal from '@/components/common/modal';
 import useModal from '@/hooks/use-modal';
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import { Button } from '@mui/joy';
 import React from 'react';
+import { Button } from '../ui/button';
 
 interface AddButtonProps {
   text: string;
-  form: React.ReactNode;
+  form: React.ReactElement;
 }
 
 export default function AddButton({ form, text }: AddButtonProps) {
-  const { open, openModal, closeModal, modalContent } = useModal();
+  const { open, openModal, closeModal } = useModal();
+
+  const clonedForm = React.cloneElement(form, {
+    closeModal: closeModal,
+  });
+
   return (
     <React.Fragment>
-      <Button
-        variant="outlined"
-        color="neutral"
-        startDecorator={<AddBoxIcon />}
-        onClick={() => openModal(form)}
-      >
-        {text}
-      </Button>
+      <Button onClick={() => openModal(form)}>{text}</Button>
       <Modal title={text} open={open} handleClose={closeModal}>
-        {modalContent}
+        {clonedForm}
       </Modal>
     </React.Fragment>
   );

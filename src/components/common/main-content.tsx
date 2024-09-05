@@ -14,7 +14,7 @@ export default function MainContent({ children }: Props) {
   return (
     <main
       className={`
-        flex flex-col h-screen gap-1 p-4 w-full ml-16`}
+        flex flex-col h-screen gap-1 w-full ml-16`}
     >
       {children}
     </main>

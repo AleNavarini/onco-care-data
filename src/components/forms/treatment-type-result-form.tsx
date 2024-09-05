@@ -1,89 +1,54 @@
-import { useForm } from 'react-hook-form';
 import { TreatmentTypeResult } from '@prisma/client';
-import { FieldConfig } from '@/types/field-config';
-import Form from '../common/form';
-import { useSubmitForm } from '@/hooks/use-submit-form';
+import { z } from 'zod';
+import ZodForm from './zod-form/zod-form';
 
 interface Props {
-  buttonText: string;
-  oldTreatmentTypeResult?: TreatmentTypeResult;
-  treatmentTypeId: string;
+  entity?: TreatmentTypeResult;
+  closeModal: (state: boolean) => void;
+  treatmentTypeId?: string;
   treatmentId?: string;
-  handler?: (treatmentTypeResult: TreatmentTypeResult) => void;
-  setModalOpen: (state: boolean) => void;
+  customMutate?: string;
 }
 
 export default function TreatmentTypeResultForm({
-  buttonText,
-  setModalOpen,
+  entity,
+  closeModal,
   treatmentTypeId,
-  handler,
-  oldTreatmentTypeResult,
+  customMutate,
   treatmentId,
 }: Props) {
-  const { register, handleSubmit, reset } = useForm();
+  const endpoint = entity
+    ? `treatment-types-results/`
+    : `treatment-types/${treatmentTypeId}/results`;
 
-  const dataModifier = (data: any) => ({
-    ...data,
-    treatmentTypeId,
+  let formSchema = z.object({
+    id: z.string().describe('Id').optional(),
+    name: z.string().describe('Nombre'),
   });
 
-  const { onSubmit, isLoading } = useSubmitForm({
-    entity: 'treatment-types-results',
-    oldEntity: oldTreatmentTypeResult,
-    returnEntity: 'treatmentTypeResult',
-    dataModifier,
-    reset,
-    setModalOpen,
-    handler,
-  });
-
-  const fields = getFields(oldTreatmentTypeResult, treatmentId);
-
-  return (
-    <Form
-      buttonText={buttonText}
-      fields={fields}
-      handleSubmit={handleSubmit}
-      isLoading={isLoading}
-      onSubmit={onSubmit}
-      register={register}
-    />
-  );
-}
-
-function getFields(
-  oldTreatmentTypeResult: TreatmentTypeResult | undefined,
-  treatmentId: string | undefined,
-): FieldConfig[] {
-  const fields: FieldConfig[] = [
-    {
-      fieldName: 'id',
-      label: 'ID',
-      placeholder: 'Id del resultado',
-      type: 'text',
-      visible: false,
-      defaultValue: oldTreatmentTypeResult?.id,
-    },
-    {
-      fieldName: 'name',
-      label: 'Nombre',
-      placeholder: 'Nombre del resultado',
-      type: 'text',
-      required: true,
-      defaultValue: oldTreatmentTypeResult?.name,
-    },
-  ];
-
-  if (treatmentId) {
-    fields.push({
-      fieldName: 'value',
-      label: 'Valor',
-      placeholder: 'Valor del resultado ...',
-      type: 'text',
-      defaultValue: oldTreatmentTypeResult?.value,
+  if (entity) {
+    formSchema = formSchema.extend({
+      treatmentTypeId: z.string().describe('Id del tipo de tratamiento').optional(),
     });
   }
 
-  return fields;
+  if (treatmentId) {
+    formSchema = formSchema.extend({
+      treatmentId: z.bigint().describe('Id del tratamiento').optional(),
+      value: z.string().describe('Valor'),
+    });
+  }
+
+  const hiddenFields = ['id', 'treatmentTypeId', 'treatmentId'];
+  return (
+    <ZodForm
+      key={'treatment-type-result-form'}
+      formSchema={formSchema}
+      hiddenFields={hiddenFields}
+      endpoint={endpoint}
+      entity={entity}
+      closeModal={closeModal}
+      customMutate={customMutate}
+    />
+  );
 }

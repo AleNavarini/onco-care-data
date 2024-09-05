@@ -3,80 +3,45 @@ import { Symptom } from '@prisma/client';
 import { FieldConfig } from '@/types/field-config';
 import Form from '../common/form';
 import { useSubmitForm } from '@/hooks/use-submit-form';
+import { z } from 'zod';
+import ZodForm from './zod-form/zod-form';
 
 interface Props {
-  buttonText: string;
   oldSymptom?: Symptom;
   patientId: string;
-  addSymptom?: (symptom: Symptom) => void;
-  setModalOpen: (state: boolean) => void;
+  closeModal?: () => void;
+  customMutate?: string;
 }
 
 export default function SymptomForm({
-  buttonText,
   patientId,
-  setModalOpen,
-  addSymptom,
+  closeModal,
   oldSymptom,
+  customMutate,
 }: Props) {
-  const { register, handleSubmit, reset } = useForm();
-  const dataModifier = (data: any) => {
-    if (data.id === '') delete data.id;
-    return {
-      ...data,
-      patientId,
-    };
-  };
-
-  const { onSubmit, isLoading } = useSubmitForm({
-    entity: 'symptoms',
-    endpoint: oldSymptom ? `/${oldSymptom.id}` : '',
-    handler: addSymptom,
-    returnEntity: 'symptom',
-    oldEntity: oldSymptom,
-    dataModifier,
-    setModalOpen,
-    reset,
+  const endpoint = 'symptoms';
+  const formSchema = z.object({
+    id: z.string().describe('Id').optional(),
+    name: z.string().describe('Nombre'),
+    value: z.string().describe('Valor'),
+    patientId: z.bigint().describe('Id del paciente').optional(),
   });
 
-  const fields = getFields(oldSymptom);
+  const entity = {
+    ...oldSymptom,
+    patientId: oldSymptom ? BigInt(oldSymptom.patientId) : BigInt(patientId),
+  };
 
+  const hiddenFields = ['id', 'patientId'];
   return (
-    <Form
-      buttonText={buttonText}
-      fields={fields}
-      handleSubmit={handleSubmit}
-      isLoading={isLoading}
-      onSubmit={onSubmit}
-      register={register}
+    <ZodForm
+      key={'symptom-form'}
+      formSchema={formSchema}
+      hiddenFields={hiddenFields}
+      endpoint={endpoint}
+      entity={entity}
+      closeModal={closeModal}
+      customMutate={customMutate}
     />
   );
-}
-
-function getFields(oldSymptom: Symptom | undefined): FieldConfig[] {
-  return [
-    {
-      fieldName: 'id',
-      label: 'ID',
-      placeholder: 'Id del sintoma',
-      type: 'text',
-      visible: false,
-      defaultValue: oldSymptom?.id,
-    },
-    {
-      fieldName: 'name',
-      label: 'Nombre',
-      placeholder: 'Nombre del sintoma',
-      type: 'text',
-      required: true,
-      defaultValue: oldSymptom?.name,
-    },
-    {
-      fieldName: 'value',
-      label: 'Valor',
-      placeholder: 'Valor del sintoma ... (opcional)',
-      type: 'text',
-      defaultValue: oldSymptom?.value,
-    },
-  ];
 }

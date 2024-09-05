@@ -32,7 +32,7 @@ export default function StudyForm({
     oldStudy ? oldStudy.studyTypeId : '',
   );
 
-  const { data: studyTypesData } = useSWR(`/api/study-types`, fetcher, {
+  const { data: studyTypesData } = useSWR(`/api/v1/study-types`, fetcher, {
     suspense: true,
   });
   const studyTypes: FullStudyType[] = studyTypesData?.studyTypes;
@@ -81,7 +81,7 @@ export default function StudyForm({
           type="date"
           defaultValue={oldStudy?.date.toString().split('T')[0]}
         />
-        <Suspense fallback={<Spinner className='w-8 h-8' />}>
+        <Suspense fallback={<Spinner className="w-8 h-8" />}>
           <Select
             // @ts-ignore
             onChange={handleChange}

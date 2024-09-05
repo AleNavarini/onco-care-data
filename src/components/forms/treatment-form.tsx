@@ -43,7 +43,7 @@ export default function TreatmentForm({
     oldTreatment ? oldTreatment.treatmentTypeId : '',
   );
 
-  const { data } = useSWR(`/api/treatment-types`, fetchTreatments, {
+  const { data } = useSWR(`/api/v1/treatment-types`, fetchTreatments, {
     refreshInterval: 5000,
   });
   const treatmentTypes: FullTreatmentType[] = data?.treatmentTypes;

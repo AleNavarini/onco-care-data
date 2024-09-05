@@ -1,28 +1,25 @@
 'use client';
 
-import { Suspense } from 'react';
-import {
-  Box,
-  LinearProgress,
-  Sheet,
-  Stack,
-  Typography,
-} from '@mui/joy';
 import useSWR from 'swr';
-
-import Accordion from '@/components/ui/accordion';
-import AffiliatoryDataForm from '@/components/forms/affiliatory-data-form';
-import PatientTopRow from '@/components/patient-top-row';
-import RiskFactorsDashboard from '@/components/dashboards/risk-factors/risk-factors-dashboard';
-import PreviousSurgeriesTable from '@/components/tables/previous-surgeries-table';
-import SymptomsTable from '@/components/tables/symptoms-table';
-import GestationForm from '@/components/forms/gestation-form';
-import FollowUpWidget from '@/components/dashboards/follow-ups/follow-up-widget';
-import StagingsWidget from '@/components/dashboards/stagings/stagings-widget';
-
 import fetcher from '@/utils/fetcher';
 import CenteredPage from '@/components/ui/centered-page';
 import Spinner from '@/components/ui/spinner';
+import StatusChip from '@/components/status-chip';
+
+import FollowUpWidget from '@/components/dashboards/follow-ups/follow-up-widget';
+import StagingsWidget from '@/components/dashboards/stagings/stagings-widget';
+import DiseaseSelect from '@/components/detail/dashboard/disease-select';
+import AffiliatoryDataForm from '@/components/forms/affiliatory-data-form';
+import SymptomsTable from '@/components/tables/symptoms-table';
+import PatientRiskFactorsDashboard from '@/components/dashboards/risk-factors/patient-risk-factors-dashboard';
+import GestationForm from '@/components/forms/gestation-form';
+import PreviousSurgeriesTable from '@/components/previous-surgeries/previous-surgeries-table';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 interface Props {
   params: {
@@ -33,14 +30,14 @@ interface Props {
 export default function PatientPage({ params }: Props) {
   const id = params.patientId;
   const { data, error, isLoading } = useSWR(
-    `/api/patients/${id}?detailed=true`,
+    `/api/v1/patients/${id}?detailed=true`,
     fetcher,
   );
 
   if (isLoading || !data || !data.patient) {
     return (
       <CenteredPage>
-        <Spinner className='w-20 h-20' />
+        <Spinner className="w-20 h-20" />
       </CenteredPage>
     );
   }
@@ -48,9 +45,7 @@ export default function PatientPage({ params }: Props) {
   if (error) {
     return (
       <CenteredPage>
-        <Typography color="danger">
-          Failed to load patient data. Please try again.
-        </Typography>
+        <p>Failed to load patient data. Please try again.</p>
       </CenteredPage>
     );
   }
@@ -58,67 +53,54 @@ export default function PatientPage({ params }: Props) {
   const { patient } = data;
 
   return (
-    <Sheet sx={{ display: 'flex', flexDirection: 'column' }}>
-      <Suspense fallback={<LinearProgress />}>
-        <PatientTopRow patientId={id} />
-      </Suspense>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', sm: 'column', md: 'row' },
-          gap: 3,
-          mt: 2,
-        }}
-      >
-        <Stack
-          spacing={2}
-          sx={{
-            width: { xs: '100%', sm: '100%', md: '55%', lg: '55%', xl: '70%' },
-            mb: 2,
-          }}
-        >
-          <Suspense fallback={<LinearProgress />}>
-            <FollowUpWidget width={100} patientId={id} />
-          </Suspense>
-          <Suspense fallback={<LinearProgress />}>
-            <StagingsWidget width={100} patientId={id} />
-          </Suspense>
-        </Stack>
-        <Stack
-          spacing={2}
-          sx={{
-            width: { xs: '100%', sm: '100%', md: '45%', lg: '45%', xl: '30%' },
-          }}
-        >
-          <Accordion title="Datos Afiliatorios">
-            <AffiliatoryDataForm
-              patientId={patient.id}
-              affiliatoryData={patient.affiliatoryData || {}}
-            />
-          </Accordion>
-          <Accordion title="Sintomas">
-            <SymptomsTable
-              patientId={patient.id}
-              symptoms={patient.symptoms || []}
-            />
-          </Accordion>
-          <Accordion title="Factores de Riesgo">
-            <RiskFactorsDashboard patientId={id} />
-          </Accordion>
-          <Accordion title="Gestas">
-            <GestationForm
-              patientId={patient.id}
-              gestation={patient.gestations || []}
-            />
-          </Accordion>
-          <Accordion title="Cirugias Previas">
-            <PreviousSurgeriesTable
-              patientId={patient.id}
-              previousSurgeries={patient.previousSurgeries || []}
-            />
-          </Accordion>
-        </Stack>
-      </Box>
-    </Sheet>
+    <div className="w-full grid grid-cols-1 md:grid-cols-5 gap-3 p-8">
+      <div className="w-full flex col-span-5 justify-between">
+        <div className="flex gap-3 justify-center items-center">
+          <p>Paciente - {patient.name}</p>
+          <StatusChip status={patient.status} />
+        </div>
+
+        <DiseaseSelect patient={patient} />
+      </div>
+
+      <div className="w-full col-span-3 flex flex-col gap-10">
+        <FollowUpWidget patientId={id} />
+        <StagingsWidget patientId={id} />
+      </div>
+      <div className="w-full col-span-2">
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Datos Afiliatorios</AccordionTrigger>
+            <AccordionContent>
+              <AffiliatoryDataForm patientId={id} />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Sintomas</AccordionTrigger>
+            <AccordionContent>
+              <SymptomsTable patientId={id} />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-3">
+            <AccordionTrigger>Factores de Riesgo</AccordionTrigger>
+            <AccordionContent>
+              <PatientRiskFactorsDashboard patientId={id} />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-4">
+            <AccordionTrigger>Gestas</AccordionTrigger>
+            <AccordionContent>
+              <GestationForm patientId={id} />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-5">
+            <AccordionTrigger>Cirugias Previas</AccordionTrigger>
+            <AccordionContent>
+              <PreviousSurgeriesTable patientId={id} />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </div>
+    </div>
   );
 }

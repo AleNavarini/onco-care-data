@@ -7,16 +7,17 @@ import React from 'react';
 import { RiskFactor } from '@prisma/client';
 import EditButton from '@/components/common/edit-button';
 import RiskFactorForm from '@/components/forms/risk-factor-form';
+import EditRiskFactorButton from './edit-risk-factor-button';
 
 const deleteRiskFactorWrapper = async (id: string) => {
   let result = confirm('Seguro que quiere borrar la enfermedad?');
   if (!result) return;
   const response = await deleteRiskFactor(id);
-  if (response.status === 200) mutate('/api/patient-risk-factors');
+  if (response.status === 200) mutate('/api/v1/patient-risk-factors');
 };
 
 const updateHandler = async (riskFactor: RiskFactor) => {
-  mutate(`/api/patient-risk-factors/${riskFactor.patientId}`);
+  mutate(`/api/v1/patient-risk-factors/${riskFactor.patientId}`);
 };
 
 export const columns: ColumnType[] = [
@@ -24,22 +25,18 @@ export const columns: ColumnType[] = [
     headerName: 'Nombre',
     field: 'name',
     width: 150,
-    style: {
-      textAlign: 'center',
-      textTransform: 'capitalize',
-      verticalAlign: 'middle',
-    },
+    className: 'capitalize text-center align-middle ',
     renderCell: (row: RiskFactor) => row.name.toLowerCase(),
   },
   {
     headerName: 'Accion',
     field: '',
     width: 90,
-    style: { textAlign: 'center', verticalAlign: 'middle' },
+    className: 'capitalize text-center align-middle ',
     renderCell: (row: RiskFactor) => {
       return (
         <React.Fragment>
-          <EditButton form={<RiskFactorForm oldRiskFactor={row} />} />
+          <EditRiskFactorButton riskFactor={row} />
           <IconButton
             color="neutral"
             variant="plain"
@@ -86,7 +83,6 @@ export const getColumns = (withPatient: boolean): ColumnType[] => {
                 <RiskFactorForm
                   oldRiskFactor={row}
                   patientId={row.patientId?.toString()}
-                  handler={updateHandler}
                 />
               }
             />

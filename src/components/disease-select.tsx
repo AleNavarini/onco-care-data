@@ -29,11 +29,11 @@ export default function DiseaseSelect({
     const endpoint = 'patient-disease';
     const method = patient.disease ? 'PUT' : 'POST';
     const result = await fetchData(endpoint, method, submitData);
-    if (result) await mutate(`/api/patients/${patient.id}?detailed=true`);
+    if (result) await mutate(`/api/v1/patients/${patient.id}?detailed=true`);
     setLoading(false);
   };
 
-  if (loading) return <Spinner className='w-8 h-8' />;
+  if (loading) return <Spinner className="w-8 h-8" />;
   return (
     <Select
       //@ts-ignore

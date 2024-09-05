@@ -37,7 +37,7 @@ export default function PatientsFilter({
   filterCriteria,
   onFilterChange,
 }: PatientsFilterProps): JSX.Element {
-  const { data, error } = useSWR<DiseasesResponse>('/api/diseases', fetcher);
+  const { data, error } = useSWR<DiseasesResponse>('/api/v1/diseases', fetcher);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     onFilterChange({ ...filterCriteria, text: e.target.value });

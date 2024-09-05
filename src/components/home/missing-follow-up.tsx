@@ -11,7 +11,7 @@ import MissingFollowUpAlert from './missing-follow-up-alert';
 
 const MissingFollowUps: React.FC = () => {
   const { data, error } = useSWR<Patient[]>(
-    '/api/patients-missing-follow-up',
+    '/api/v1/patients-missing-follow-up',
     fetcher,
   );
 

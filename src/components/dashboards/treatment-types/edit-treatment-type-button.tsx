@@ -21,8 +21,7 @@ export default function EditTreatmentTypeButton({
         onClick={() =>
           openModal(
             <TreatmentTypeForm
-              handler={() => mutate('/api/treatment-types')}
-              setModalOpen={closeModal}
+              closeModal={closeModal}
               oldTreatmentType={treatmentType}
             />,
           )
@@ -30,7 +29,11 @@ export default function EditTreatmentTypeButton({
       >
         <EditIcon />
       </IconButton>
-      <Modal title='Editar Tipo de Tratamiento' open={open} handleClose={closeModal}>
+      <Modal
+        title="Editar Tipo de Tratamiento"
+        open={open}
+        handleClose={closeModal}
+      >
         {modalContent}
       </Modal>
     </React.Fragment>

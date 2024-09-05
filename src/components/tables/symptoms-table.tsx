@@ -15,18 +15,15 @@ export default function SymptomsTable({ patientId }: Props) {
 
   return (
     <div className="flex flex-col gap-4 items-end">
-      <div className="flex justify-between w-full items-center">
-        <p>Sintomas</p>
-        <AddButton
-          text="Crear Sintoma"
-          form={
-            <SymptomForm
-              patientId={patientId}
-              customMutate={`/api/v1/patients/symptoms/${patientId}`}
-            />
-          }
-        />
-      </div>
+      <AddButton
+        text="Crear Sintoma"
+        form={
+          <SymptomForm
+            patientId={patientId}
+            customMutate={`/api/v1/patients/symptoms/${patientId}`}
+          />
+        }
+      />
       <Datagrid rows={data.data} columns={columns} />
     </div>
   );

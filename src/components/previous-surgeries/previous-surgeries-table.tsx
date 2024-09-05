@@ -28,18 +28,15 @@ export default function PreviousSurgeriesTable({ patientId }: Props) {
   const previousSurgeries = data.data;
   return (
     <div className="flex flex-col gap-4 items-end">
-      <div className="flex justify-between w-full items-center">
-        <p>Cirugias previas</p>
-        <AddButton
-          text="Crear Cirugia Previa"
-          form={
-            <PreviousSurgeryForm
-              patientId={patientId}
-              customMutate={`/api/v2/patients/${patientId}/previous-surgeries`}
-            />
-          }
-        />
-      </div>
+      <AddButton
+        text="Crear Cirugia Previa"
+        form={
+          <PreviousSurgeryForm
+            patientId={patientId}
+            customMutate={`/api/v2/patients/${patientId}/previous-surgeries`}
+          />
+        }
+      />
       <Datagrid rows={previousSurgeries} columns={columns} />
     </div>
   );

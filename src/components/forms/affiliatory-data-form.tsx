@@ -64,16 +64,13 @@ export default function AffiliatoryDataForm({ patientId }: Props) {
   };
 
   return (
-    <>
-      <p>Datos Afiliatorios</p>
-      <ZodForm
-        key={'affiliatory-data-form'}
-        formSchema={formSchema}
-        hiddenFields={hiddenFields}
-        endpoint={endpoint}
-        entity={entity}
-        customMutate={`/api/v1/affiliatory-data/${patientId}`}
-      />
-    </>
+    <ZodForm
+      key={'affiliatory-data-form'}
+      formSchema={formSchema}
+      hiddenFields={hiddenFields}
+      endpoint={endpoint}
+      entity={entity}
+      customMutate={`/api/v1/affiliatory-data/${patientId}`}
+    />
   );
 }

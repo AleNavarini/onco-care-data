@@ -14,6 +14,12 @@ import SymptomsTable from '@/components/tables/symptoms-table';
 import PatientRiskFactorsDashboard from '@/components/dashboards/risk-factors/patient-risk-factors-dashboard';
 import GestationForm from '@/components/forms/gestation-form';
 import PreviousSurgeriesTable from '@/components/previous-surgeries/previous-surgeries-table';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 
 interface Props {
   params: {
@@ -62,13 +68,38 @@ export default function PatientPage({ params }: Props) {
         <StagingsWidget patientId={id} />
       </div>
       <div className="w-full col-span-2">
-        <div className="flex flex-col gap-10">
-          <AffiliatoryDataForm patientId={id} />
-          <SymptomsTable patientId={id} />
-          <PatientRiskFactorsDashboard patientId={id} />
-          <GestationForm patientId={id} />
-          <PreviousSurgeriesTable patientId={id} />
-        </div>
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Datos Afiliatorios</AccordionTrigger>
+            <AccordionContent>
+              <AffiliatoryDataForm patientId={id} />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Sintomas</AccordionTrigger>
+            <AccordionContent>
+              <SymptomsTable patientId={id} />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-3">
+            <AccordionTrigger>Factores de Riesgo</AccordionTrigger>
+            <AccordionContent>
+              <PatientRiskFactorsDashboard patientId={id} />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-4">
+            <AccordionTrigger>Gestas</AccordionTrigger>
+            <AccordionContent>
+              <GestationForm patientId={id} />
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-5">
+            <AccordionTrigger>Cirugias Previas</AccordionTrigger>
+            <AccordionContent>
+              <PreviousSurgeriesTable patientId={id} />
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
       </div>
     </div>
   );

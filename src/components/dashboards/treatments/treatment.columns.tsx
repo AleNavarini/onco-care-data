@@ -1,6 +1,6 @@
 import { ColumnType } from '@/components/table/table.types';
 import React from 'react';
-import { Treatment } from '@prisma/client';
+import { Treatment, TreatmentType } from '@prisma/client';
 import { columns as treatmentTypeAttributesColumns } from '../treatment-type-attributes/treatment-type-attributes.columns';
 import { columns as treatmentTypeResultsColumns } from '../treatment-type-results/treatment-type-results.columns';
 import TableBody from '@/components/table/table-body';
@@ -8,7 +8,7 @@ import EditButton from '@/components/common/edit-button';
 import { IconButton, Sheet } from '@mui/joy';
 import { deleteStudy } from './treatment.service';
 import DeleteIcon from '@mui/icons-material/Delete';
-import TreatmentForm from '@/components/forms/treatment-form';
+import TreatmentForm from '@/components/treatments/treatment-form';
 
 export const columns: ColumnType[] = [
   {
@@ -24,6 +24,13 @@ export const columns: ColumnType[] = [
     width: 80,
     renderCell: (row: Treatment) =>
       row.endDate ? new Date(row.endDate).toLocaleDateString() : '',
+  },
+  {
+    headerName: 'Tipo',
+    field: 'treatmentType.name',
+    renderCell: (row: Treatment & { treatmentType: TreatmentType }) => (
+      <p>{row.treatmentType.name}</p>
+    ),
   },
   {
     headerName: 'Atributos',
@@ -100,6 +107,7 @@ export const columns: ColumnType[] = [
               <TreatmentForm
                 oldTreatment={row}
                 patientId={row.patientId!.toString()}
+                treatmentTypeId={row.treatmentTypeId!.toString()}
               />
             }
           />

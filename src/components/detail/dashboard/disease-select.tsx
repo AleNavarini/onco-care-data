@@ -58,7 +58,6 @@ export default function DiseaseSelect({ patient }: Props) {
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Enfermedades</SelectLabel>
-            <SelectItem value="all">Todos</SelectItem>
             {data.diseases.map((disease: any) => (
               <SelectItem key={disease.id.toString()} value={disease.name}>
                 {disease.name}

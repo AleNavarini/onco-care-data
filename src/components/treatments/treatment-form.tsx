@@ -1,32 +1,11 @@
-import { Stack, Select, Option, Typography, Box } from '@mui/joy';
-import Field from '../forms/field';
-import { useForm } from 'react-hook-form';
-import React, { useState } from 'react';
+import React from 'react';
 import '@/lib/big-int-extensions';
 import useSWR from 'swr';
-import {
-  Treatment,
-  TreatmentType,
-  TreatmentTypeAttribute,
-  TreatmentTypeResult,
-} from '@prisma/client';
-import ComplicationsTable from '../tables/complications-table';
-import SubmitButton from '../common/submit-button';
-import { useSubmitForm } from '@/hooks/use-submit-form';
 import { z } from 'zod';
 import fetcher from '@/utils/fetcher';
 import ZodForm from '../forms/zod-form/zod-form';
 
-const fetchTreatments = async (url: string) => {
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
-};
 
-interface FullTreatmentType extends TreatmentType {
-  attributes?: TreatmentTypeAttribute[];
-  results?: TreatmentTypeResult[];
-}
 
 interface Props {
   patientId: string;

@@ -106,11 +106,8 @@ export default function TreatmentsTable({
                   overflow: 'scroll',
                 }}
               >
-                <TreatmentForm
-                  patientId={patientId}
-                  setModalOpen={setNewModalOpen}
-                  handler={addTreatment}
-                />
+                <></>
+                {/* <TreatmentForm patientId={patientId}  /> */}
               </Modal>
             </th>
           </tr>
@@ -158,12 +155,13 @@ export default function TreatmentsTable({
                         maxHeight: '80dvh',
                       }}
                     >
-                      <TreatmentForm
+                      <></>
+                      {/* <TreatmentForm
                         oldTreatment={editTreatment!}
                         patientId={patientId}
                         setModalOpen={setNewModalOpen}
                         handler={updateTreatment}
-                      />
+                      /> */}
                     </Modal>
                     <IconButton
                       color="neutral"

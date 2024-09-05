@@ -83,7 +83,6 @@ export const getColumns = (withPatient: boolean): ColumnType[] => {
                 <RiskFactorForm
                   oldRiskFactor={row}
                   patientId={row.patientId?.toString()}
-                  handler={updateHandler}
                 />
               }
             />

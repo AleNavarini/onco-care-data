@@ -98,10 +98,42 @@ export default function TreatmentForm({
 
   const extendedFormSchema = baseAttributesSchema.extend(dynamicResultsSchema);
 
+  const fullAttributesList = attributes.reduce(
+    (acc, attribute) => {
+      const existingAttribute = oldTreatment?.treatmentTypeAttributes.find(
+        (attr) => attr.name === attribute.name,
+      );
+      acc[attribute.name] = existingAttribute?.value || ''; // Keep old value if present, else empty
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
+
+  const fullResultsList = results.reduce(
+    (acc, result) => {
+      const existingResult = oldTreatment?.treatmentTypeResults.find(
+        (res) => res.name === result.name,
+      );
+      acc[result.name] = existingResult?.value || ''; // Keep old value if present, else empty
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
+  const startDate = oldTreatment?.startDate
+    ? new Date(oldTreatment.startDate).toISOString().split('T')[0]
+    : null;
+
+  const endDate = oldTreatment?.endDate
+    ? new Date(oldTreatment.endDate).toISOString().split('T')[0]
+    : null;
   const entity = {
     ...oldTreatment,
+    startDate: startDate,
+    endDate: endDate,
     treatmentTypeId: BigInt(treatmentTypeId),
     patientId: BigInt(patientId),
+    ...fullAttributesList,
+    ...fullResultsList,
   };
 
   return (

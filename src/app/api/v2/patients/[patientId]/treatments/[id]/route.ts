@@ -1,9 +1,10 @@
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 
-export async function POST(request: Request, context: { params: any }) {
+export async function PUT(request: Request, context: { params: any }) {
   const { patientId } = context.params;
   const data = await request.json();
+
   try {
     const attributes = await prisma.treatmentTypeAttribute.findMany({
       where: {
@@ -50,8 +51,8 @@ export async function POST(request: Request, context: { params: any }) {
       data: {
         patientId: BigInt(patientId),
         treatmentTypeId: BigInt(data.treatmentTypeId),
-        startDate: new Date(data.startDate),
-        endDate: new Date(data.endDate),
+        startDate: data.startDate ? new Date(data.startDate) : null,
+        endDate: data.endDate ? new Date(data.endDate) : null,
         treatmentTypeAttributes: {
           deleteMany: {},
           createMany: {

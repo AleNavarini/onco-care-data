@@ -20,6 +20,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Suspense } from 'react';
+import CenteredLoading from '@/components/ui/centered-loading';
 
 interface Props {
   params: {
@@ -36,9 +38,7 @@ export default function PatientPage({ params }: Props) {
 
   if (isLoading || !data || !data.patient) {
     return (
-      <CenteredPage>
-        <Spinner className="w-20 h-20" />
-      </CenteredPage>
+      <CenteredLoading />
     );
   }
 
@@ -64,43 +64,57 @@ export default function PatientPage({ params }: Props) {
       </div>
 
       <div className="w-full col-span-3 flex flex-col gap-10">
-        <FollowUpWidget patientId={id} />
-        <StagingsWidget patientId={id} />
+        <Suspense fallback={<CenteredLoading />}>
+          <FollowUpWidget patientId={id} />
+        </Suspense>
+        <Suspense fallback={<CenteredLoading />}>
+          <StagingsWidget patientId={id} />
+        </Suspense>
       </div>
       <div className="w-full col-span-2">
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
             <AccordionTrigger>Datos Afiliatorios</AccordionTrigger>
             <AccordionContent>
-              <AffiliatoryDataForm patientId={id} />
+              <Suspense fallback={<CenteredLoading />}>
+                <AffiliatoryDataForm patientId={id} />
+              </Suspense>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
             <AccordionTrigger>Sintomas</AccordionTrigger>
             <AccordionContent>
-              <SymptomsTable patientId={id} />
+              <Suspense fallback={<CenteredLoading />}>
+                <SymptomsTable patientId={id} />
+              </Suspense>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
             <AccordionTrigger>Factores de Riesgo</AccordionTrigger>
             <AccordionContent>
-              <PatientRiskFactorsDashboard patientId={id} />
+              <Suspense fallback={<CenteredLoading />}>
+                <PatientRiskFactorsDashboard patientId={id} />
+              </Suspense>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4">
             <AccordionTrigger>Gestas</AccordionTrigger>
             <AccordionContent>
-              <GestationForm patientId={id} />
+              <Suspense fallback={<CenteredLoading />}>
+                <GestationForm patientId={id} />
+              </Suspense>
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-5">
             <AccordionTrigger>Cirugias Previas</AccordionTrigger>
             <AccordionContent>
-              <PreviousSurgeriesTable patientId={id} />
+              <Suspense fallback={<CenteredLoading />}>
+                <PreviousSurgeriesTable patientId={id} />
+              </Suspense>
             </AccordionContent>
           </AccordionItem>
         </Accordion>
       </div>
-    </div>
+    </div >
   );
 }

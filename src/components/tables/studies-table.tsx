@@ -102,11 +102,7 @@ export default function StudiesTable({
                   alignItems: 'center',
                 }}
               >
-                <StudyForm
-                  patientId={patientId}
-                  setModalOpen={setNewModalOpen}
-                  handler={addStudy}
-                />
+                <StudyForm patientId={patientId} />
               </Modal>
             </th>
           </tr>
@@ -149,12 +145,8 @@ export default function StudiesTable({
                         alignItems: 'center',
                       }}
                     >
-                      <StudyForm
-                        oldStudy={editStudy!}
-                        patientId={patientId}
-                        setModalOpen={setNewModalOpen}
-                        handler={updateStudy}
-                      />
+                      <></>
+                      {/* <StudyForm patientId={patientId} oldStudy={editStudy} /> */}
                     </Modal>
                     <IconButton
                       color="neutral"

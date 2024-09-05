@@ -4,7 +4,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Table, IconButton, Modal, Typography, Sheet } from '@mui/joy';
 import { Treatment } from '@prisma/client';
 import { useState } from 'react';
-import TreatmentForm from '../forms/treatment-form';
+import TreatmentForm from '../treatments/treatment-form';
 
 interface Props {
   patientId: string;
@@ -106,11 +106,8 @@ export default function TreatmentsTable({
                   overflow: 'scroll',
                 }}
               >
-                <TreatmentForm
-                  patientId={patientId}
-                  setModalOpen={setNewModalOpen}
-                  handler={addTreatment}
-                />
+                <></>
+                {/* <TreatmentForm patientId={patientId}  /> */}
               </Modal>
             </th>
           </tr>
@@ -158,12 +155,13 @@ export default function TreatmentsTable({
                         maxHeight: '80dvh',
                       }}
                     >
-                      <TreatmentForm
+                      <></>
+                      {/* <TreatmentForm
                         oldTreatment={editTreatment!}
                         patientId={patientId}
                         setModalOpen={setNewModalOpen}
                         handler={updateTreatment}
-                      />
+                      /> */}
                     </Modal>
                     <IconButton
                       color="neutral"

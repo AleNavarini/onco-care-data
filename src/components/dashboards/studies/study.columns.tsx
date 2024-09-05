@@ -1,71 +1,76 @@
 import { ColumnType } from '@/components/table/table.types';
 import React from 'react';
-import { Study } from '@prisma/client';
+import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
 import { columns as studyTypeAttributesColumns } from '../study-type-attributes/study-type-attributes.columns';
 import TableBody from '@/components/table/table-body';
 import EditButton from '@/components/common/edit-button';
 import StudyForm from '@/components/forms/study-form';
-import { IconButton, Sheet } from '@mui/joy';
 import { deleteStudy } from './study.service';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Button } from '@/components/ui/button';
+import { TrashIcon } from 'lucide-react';
 
 export const columns: ColumnType[] = [
   {
     headerName: 'Fecha',
     field: 'date',
-    width: 80,
     renderCell: (row: Study) => new Date(row.date).toLocaleDateString(),
   },
   {
     headerName: 'Estudio',
     field: 'studyType.name',
-    width: 80,
     renderCell: (row: any) => row.studyType.name,
   },
 
   {
-    headerName: 'Atributos / Valores',
+    headerName: 'Atributos - Valores',
     field: '',
-    width: 100,
     style: { textAlign: 'center', verticalAlign: 'middle' },
-    renderCell: (row: any) => (
-      <Sheet
-        sx={{
-          backgroundColor: 'transparent',
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <TableBody
-          columns={studyTypeAttributesColumns}
-          rows={row.studyTypeAttributes}
-        />
-      </Sheet>
-    ),
+    renderCell: (row: any) => {
+      return (
+        <div className="flex flex-col gap-2 w-full justify-center items-center">
+          {row.studyTypeAttributes.map((attribute: StudyTypeAttribute) => (
+            <p key={attribute.id.toString()}>
+              {attribute.name} - {attribute.value}
+            </p>
+          ))}
+        </div>
+      );
+    },
   },
   {
     headerName: 'Accion',
     field: '',
-    width: 40,
     style: { textAlign: 'center', verticalAlign: 'middle' },
-    renderCell: (row: Study) => {
+    renderCell: (
+      row: Study & {
+        studyType: StudyType;
+        studyTypeAttributes: StudyTypeAttribute[];
+      },
+    ) => {
+      const studyTypeWithAttributes = {
+        ...row.studyType,
+        attributes: row.studyTypeAttributes,
+      };
       return (
         <React.Fragment>
           <EditButton
             form={
-              <StudyForm oldStudy={row} patientId={row.patientId!.toString()} />
+              <StudyForm
+                oldStudy={row}
+                patientId={row.patientId.toString()}
+                studyType={studyTypeWithAttributes}
+              />
             }
           />
-          <IconButton
-            color="neutral"
-            variant="plain"
+          <Button
+            className="bg-transparent hover:bg-transparent"
             onClick={() =>
               deleteStudy(row.id.toString(), row.patientId!.toString())
             }
           >
-            <DeleteIcon />
-          </IconButton>
+            <TrashIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
+          </Button>
         </React.Fragment>
       );
     },

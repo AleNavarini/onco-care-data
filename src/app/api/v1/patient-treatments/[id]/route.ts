@@ -11,6 +11,11 @@ export async function GET(request: Request, context: { params: any }) {
         patientId: BigInt(id),
       },
       include: {
+        treatmentType: {
+          select: {
+            name: true,
+          },
+        },
         treatmentTypeAttributes: true,
         treatmentTypeResults: true,
         complications: true,

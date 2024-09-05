@@ -1,129 +1,94 @@
-import { Stack, Select, Option } from '@mui/joy';
-import Field from './field';
-import { useForm } from 'react-hook-form';
-import { Suspense, useState } from 'react';
 import '@/lib/big-int-extensions';
-import useSWR from 'swr';
 import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
-import SubmitButton from '../common/submit-button';
-import { useSubmitForm } from '@/hooks/use-submit-form';
+import { z } from 'zod';
+import ZodForm from './zod-form/zod-form';
+import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
-import Spinner from '../ui/spinner';
-
-interface FullStudyType extends StudyType {
-  attributes: StudyTypeAttribute[];
-}
 
 interface Props {
   patientId: string;
-  setModalOpen?: (state: boolean) => void;
-  oldStudy?: any;
-  handler?: (study: Study) => void;
+  oldStudy?: Study & {
+    studyType: StudyType;
+    studyTypeAttributes: StudyTypeAttribute[];
+  };
+  studyType?: StudyType & Partial<{ attributes: StudyTypeAttribute[] }>;
+  closeModal?: () => void;
 }
 
 export default function StudyForm({
   patientId,
-  setModalOpen,
   oldStudy,
-  handler,
+  studyType,
+  closeModal,
 }: Props) {
-  const { register, handleSubmit, reset } = useForm();
-  const [selectedStudyType, setSelectedStudyType] = useState(
-    oldStudy ? oldStudy.studyTypeId : '',
+  const { data: fetchedAttributesData } = useSWR(
+    `/api/v2/study-types/${studyType.id}/attributes`,
+    fetcher,
+    {
+      suspense: true,
+    },
   );
 
-  const { data: studyTypesData } = useSWR(`/api/v1/study-types`, fetcher, {
-    suspense: true,
-  });
-  const studyTypes: FullStudyType[] = studyTypesData?.studyTypes;
-  const studyTypeAttributes = studyTypes?.filter(
-    (st: FullStudyType) => st.id.toString() === selectedStudyType,
-  )[0]?.attributes;
+  // Fetched attributes for the studyType
+  const fetchedAttributes: StudyTypeAttribute[] =
+    fetchedAttributesData?.data || [];
 
-  const handleChange = async (_e: null, value: string) => {
-    setSelectedStudyType(value);
+  // Merge fetched attributes with oldStudy attributes
+  const fullAttributesList = fetchedAttributes.reduce(
+    (acc, attribute) => {
+      const existingAttribute = oldStudy?.studyTypeAttributes.find(
+        (attr) => attr.name === attribute.name,
+      );
+      acc[attribute.name] = existingAttribute?.value || ''; // Keep old value if present, else empty
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
+
+  const endpoint = `/v2/patients/${patientId}/studies`;
+  const baseSchema = z.object({
+    id: z.string().describe('Id').optional(),
+    date: z.string().describe('Fecha').optional(),
+    patientId: z.bigint().describe('Id del paciente').optional(),
+    studyTypeId: z.bigint().describe('Id del tipo de estudio').optional(),
+  });
+
+  // Create a schema with the full list of attributes
+  const dynamicAttributesSchema = fetchedAttributes.reduce(
+    (acc, attribute) => {
+      acc[attribute.name] = z
+        .string()
+        .optional()
+        .describe(`Atributo : ${attribute.name}`);
+      return acc;
+    },
+    {} as Record<string, z.ZodTypeAny>,
+  );
+
+  const extendedFormSchema = baseSchema.extend(dynamicAttributesSchema);
+
+  const date = oldStudy?.date
+    ? new Date(oldStudy.date).toISOString().split('T')[0]
+    : new Date().toISOString().split('T')[0];
+
+  // Prepare the final entity with merged attribute values
+  const entity = {
+    ...oldStudy,
+    patientId: oldStudy ? BigInt(oldStudy.patientId) : BigInt(patientId),
+    studyTypeId: BigInt(studyType?.id || ''),
+    date: date,
+    ...fullAttributesList, // Merged attributes
   };
 
-  const dataModifier = (data: any) => ({
-    ...data,
-    patientId,
-    studyTypeId: selectedStudyType,
-  });
-
-  const { onSubmit, isLoading } = useSubmitForm({
-    entity: 'studies',
-    oldEntity: oldStudy,
-    returnEntity: 'study',
-    dataModifier,
-    reset,
-    setModalOpen,
-    handler,
-  });
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={2}>
-        <Field
-          fieldName="id"
-          label="ID"
-          placeholder="Id de la gesta"
-          register={register}
-          type="text"
-          visible={false}
-          defaultValue={oldStudy?.id}
-        />
-        <Field
-          fieldName="date"
-          label="Fecha"
-          placeholder="Fecha del estudio"
-          required={true}
-          register={register}
-          type="date"
-          defaultValue={oldStudy?.date.toString().split('T')[0]}
-        />
-        <Suspense fallback={<Spinner className="w-8 h-8" />}>
-          <Select
-            // @ts-ignore
-            onChange={handleChange}
-            sx={{
-              width: {
-                sm: 'auto',
-                md: 'auto',
-              },
-              overflow: 'visible',
-              zIndex: 9,
-            }}
-            placeholder="Choose one…"
-            defaultValue={oldStudy?.studyTypeId}
-          >
-            {studyTypes?.map((studyType: StudyType) => (
-              <Option key={studyType.id.toString()} value={studyType.id}>
-                {studyType?.name}
-              </Option>
-            ))}
-          </Select>
-        </Suspense>
-
-        {studyTypeAttributes?.map((attribute: StudyTypeAttribute) => {
-          const defaultValue = oldStudy?.studyTypeAttributes.filter(
-            (attr: StudyTypeAttribute) => attr.name === attribute.name,
-          )[0].value;
-          return (
-            <Field
-              key={attribute.id.toString()}
-              fieldName={attribute.name}
-              label={attribute.name}
-              placeholder={`${attribute.name}...`}
-              register={register}
-              type="text"
-              defaultValue={defaultValue}
-            />
-          );
-        })}
-      </Stack>
-      <SubmitButton isLoading={isLoading}>
-        {oldStudy ? 'Actualizar' : 'Agregar'}
-      </SubmitButton>
-    </form>
+    <ZodForm
+      key={'study-form'}
+      formSchema={extendedFormSchema}
+      hiddenFields={['id', 'patientId', 'studyTypeId']}
+      endpoint={endpoint}
+      entity={entity}
+      closeModal={closeModal}
+      customMutate={`/api/v1/patient-studies/${patientId}`}
+    />
   );
 }

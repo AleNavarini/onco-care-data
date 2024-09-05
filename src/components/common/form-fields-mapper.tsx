@@ -1,4 +1,3 @@
-import { Stack } from '@mui/joy';
 import Field from '../forms/field';
 import { FieldConfig } from '@/types/field-config';
 
@@ -12,11 +11,11 @@ const FormFieldsMapper: React.FC<FormComponentProps> = ({
   register,
 }) => {
   return (
-    <Stack spacing={0.2}>
+    <div className='flex flex-col gap-4'>
       {fields.map((field) => (
         <Field key={field.fieldName} register={register} {...field} />
       ))}
-    </Stack>
+    </div>
   );
 };
 

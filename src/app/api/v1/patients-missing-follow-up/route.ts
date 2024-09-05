@@ -3,9 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   try {
-    // Get the 'months' parameter from the URL, default to 12 if not provided
-    const searchParams = request.nextUrl.searchParams;
-    const months = parseInt(searchParams.get('months') || '12', 10);
+    const months = 12;
 
     const cutoffDate = new Date();
     cutoffDate.setMonth(cutoffDate.getMonth() - months);

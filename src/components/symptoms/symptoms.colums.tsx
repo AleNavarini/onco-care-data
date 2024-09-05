@@ -1,6 +1,5 @@
 import { Symptom } from '@prisma/client';
 import { mutate } from 'swr';
-import form from '../common/form';
 import SymptomForm from '../forms/symptom-form';
 import EditButton from '../common/edit-button';
 import { TrashIcon } from '@heroicons/react/24/outline';

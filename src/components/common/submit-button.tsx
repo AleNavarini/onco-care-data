@@ -1,4 +1,4 @@
-import { Button } from '@mui/joy';
+import { Button } from "../ui/button";
 
 interface Props {
   children: React.ReactNode;
@@ -7,12 +7,7 @@ interface Props {
 export default function SubmitButton({ children, isLoading }: Props) {
   return (
     <Button
-      loading={isLoading}
-      sx={{
-        my: 2,
-        width: '100%',
-      }}
-      variant="solid"
+      className="w-full mt-2"
       type="submit"
     >
       {children}

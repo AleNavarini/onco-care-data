@@ -1,12 +1,14 @@
 import { ColumnType } from '@/components/table/table.types';
-import { IconButton, Link } from '@mui/joy';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { mutate } from 'swr';
 import { deleteTreatmentType } from './treatment-type.service';
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
+
 import EditTreatmentTypeButton from './edit-treatment-type-button';
 import React from 'react';
 import { TreatmentType } from '@prisma/client';
+import Link from 'next/link';
+import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
+import { Button } from '@/components/ui/button';
 
 const deleteTreatmentTypeWrapper = async (treatmentTypeId: string) => {
   let result = confirm('Seguro que quiere borrar el tipo de tratamiento?');
@@ -30,17 +32,18 @@ export const columns: ColumnType[] = [
       return (
         <React.Fragment>
           <EditTreatmentTypeButton treatmentType={row} />
-          <IconButton
-            color="neutral"
-            variant="plain"
+          <Button
+            className='bg-transparent hover:bg-transparent'
             onClick={() => deleteTreatmentTypeWrapper(row.id.toString())}
           >
             <DeleteIcon />
-          </IconButton>
+          </Button>
           <Link href={`treatmentType/${row.id}`}>
-            <IconButton color="neutral" variant="plain">
-              <ArrowCircleRightOutlinedIcon />
-            </IconButton>
+            <Button
+              className='bg-transparent hover:bg-transparent'
+            >
+              <ArrowRightCircleIcon />
+            </Button>
           </Link>
         </React.Fragment>
       );

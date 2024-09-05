@@ -1,9 +1,5 @@
-// components/MissingFollowUps.tsx
-
 'use client';
-
 import React from 'react';
-import { Typography, Box } from '@mui/joy';
 import { Patient } from '@prisma/client';
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';

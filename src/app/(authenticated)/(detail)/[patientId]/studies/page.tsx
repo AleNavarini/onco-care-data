@@ -28,8 +28,8 @@ export default function Studies({ params }: StudiesPageProps) {
   const { patientId } = params;
   const [studyType, setStudyType] = useState<StudyType | null>(null);
 
-  const { data } = useSWR(`/api/v1/study-types`, fetcher);
-
+  const { data, isLoading } = useSWR(`/api/v1/study-types`, fetcher);
+  if (isLoading) return <CenteredLoading />;
   function handleChange(value: string) {
     setStudyType(
       data?.studyTypes.find(

@@ -7,7 +7,10 @@ import CenteredLoading from '@/components/ui/centered-loading';
 import { Suspense } from 'react';
 
 export default function PatientsDashboard() {
-  const { data: diseasesData } = useSWR('/api/v1/diseases', fetcher);
+  const { data: diseasesData, isLoading } = useSWR('/api/v1/diseases', fetcher);
+
+  if (isLoading) return <CenteredLoading />;
+
   const diseases = diseasesData?.diseases;
 
   return (

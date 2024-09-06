@@ -13,10 +13,12 @@ interface RiskFactorsDashboardProps {
 export default function PatientRiskFactorsDashboard({
   patientId,
 }: RiskFactorsDashboardProps) {
-  const { data: riskFactorsData } = useSWR(
+  const { data: riskFactorsData, isLoading } = useSWR(
     `/api/v1/patient-risk-factors/${patientId}`,
     fetcher
   );
+  if (isLoading) return <CenteredLoading />;
+
   const riskFactors = riskFactorsData?.riskFactors;
   return (
     <Suspense fallback={<CenteredLoading />}>

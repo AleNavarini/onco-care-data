@@ -13,10 +13,12 @@ interface Props {
 }
 
 export default function RiskFactorsDashboard({ diseaseId }: Props) {
-  const { data } = useSWR(
+  const { data, isLoading } = useSWR(
     `/api/v1/diseases/${diseaseId}/risk-factors`,
     fetcher
   );
+  if (isLoading) return <CenteredLoading />;
+
   const riskFactors = data?.data;
   return (
     <div className="w-full flex flex-col gap-4 p-4 items-end">

@@ -29,8 +29,8 @@ export default function TreatmentsPage({ params }: TreatmentsPageProps) {
     null,
   );
 
-  const { data } = useSWR(`/api/v2/treatment-types`, fetcher);
-
+  const { data, isLoading } = useSWR(`/api/v2/treatment-types`, fetcher);
+  if (isLoading) return <CenteredLoading />;
 
   function handleChange(value: string) {
     setTreatmentType(

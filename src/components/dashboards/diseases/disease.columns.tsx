@@ -31,13 +31,13 @@ export const columns: ColumnType[] = [
         <React.Fragment>
           <EditDiseaseButton disease={row} />
           <Button
-            className="bg-transparent hover:bg-transparent"
+            className="bg-transparent hover:bg-transparent shadow-none"
             onClick={() => deleteDiseaseWrapper(row.id.toString())}
           >
-            <TrashIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
+            <TrashIcon className="w-6 h-6 text-gray-400 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white" />
           </Button>
           <Link href={`disease/${row.id}`}>
-            <Button className="bg-transparent hover:bg-transparent">
+            <Button className="bg-transparent hover:bg-transparent shadow-none">
               <ArrowRightCircleIcon />
             </Button>
           </Link>

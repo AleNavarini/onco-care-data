@@ -38,10 +38,10 @@ export const columns: ColumnType[] = [
         <React.Fragment>
           <EditRiskFactorButton riskFactor={row} />
           <Button
-            className="bg-transparent hover:bg-transparent"
+            className="bg-transparent hover:bg-transparent shadow-none"
             onClick={() => deleteRiskFactorWrapper(row.id.toString())}
           >
-            <TrashIcon className='w-6 h-6 dark:text-gray-400 dark:hover:text-white' />
+            <TrashIcon className="w-6 h-6 text-gray-400 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white" />
           </Button>
         </React.Fragment>
       );
@@ -86,10 +86,10 @@ export const getColumns = (withPatient: boolean): ColumnType[] => {
               }
             />
             <Button
-              className="bg-transparent hover:bg-transparent"
+              className="bg-transparent hover:bg-transparent shadow-none"
               onClick={() => deleteRiskFactorWrapper(row.id.toString())}
             >
-              <TrashIcon className='w-6 h-6 dark:text-gray-400 dark:hover:text-white' />
+              <TrashIcon className="w-6 h-6 text-gray-400 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white" />
             </Button>
           </React.Fragment>
         );

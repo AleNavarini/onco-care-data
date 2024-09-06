@@ -59,14 +59,14 @@ export const columns: ColumnType[] = [
         <React.Fragment>
           <EditPatientButton patient={row} />
           <Button
-            className="bg-transparent hover:bg-transparent"
+            className="bg-transparent hover:bg-transparent shadow-none"
             onClick={() => deletePatientWrapper(row.id.toString())}
           >
-            <TrashIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
+            <TrashIcon className="w-6 h-6 text-gray-400 hover:text-gray-700 text-gray-400 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white" />
           </Button>
           <Link href={`/${row.id}/dashboards`}>
-            <Button className="bg-transparent hover:bg-transparent">
-              <ArrowRightCircleIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
+            <Button className="bg-transparent hover:bg-transparent shadow-none">
+              <ArrowRightCircleIcon className="w-6 h-6 text-gray-400 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white" />
             </Button>
           </Link>
         </React.Fragment>

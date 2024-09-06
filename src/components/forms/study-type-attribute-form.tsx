@@ -18,8 +18,8 @@ export default function StudyTypeAttributeForm({
   customMutate,
 }: Props) {
   const endpoint = entity
-    ? `study-types-attributes/`
-    : `study-types/${studyTypeId}/attributes`;
+    ? `/v1/study-types-attributes/`
+    : `/v1/study-types/${studyTypeId}/attributes`;
   let formSchema = z.object({
     id: z.string().describe('Id').optional(),
     name: z.string().describe('Nombre'),

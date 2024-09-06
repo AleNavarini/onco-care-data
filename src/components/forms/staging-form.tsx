@@ -13,7 +13,7 @@ export default function StagingForm({
   closeModal,
   oldStaging,
 }: Props) {
-  const endpoint = 'stagings';
+  const endpoint = '/v1/stagings';
   const formSchema = z.object({
     id: z.string().describe('Id').optional(),
     date: z.string().date().describe('Fecha').optional(),

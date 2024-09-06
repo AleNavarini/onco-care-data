@@ -15,7 +15,7 @@ export default function SymptomForm({
   oldSymptom,
   customMutate,
 }: Props) {
-  const endpoint = 'symptoms';
+  const endpoint = '/v1/symptoms';
   const formSchema = z.object({
     id: z.string().describe('Id').optional(),
     name: z.string().describe('Nombre'),

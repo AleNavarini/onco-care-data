@@ -34,7 +34,7 @@ export default function DiseaseSelect({ patient }: Props) {
     const submitData: any = { name: value, patientId: patient.id };
 
     if (patient.diseaseId) submitData.deleteRiskFactors = true;
-    const endpoint = '/v1/patient-disease';
+    const endpoint = 'patient-disease';
     const method = patient.diseaseId ? 'PUT' : 'POST';
     const result = await fetchData(endpoint, method, submitData);
     if (result) {

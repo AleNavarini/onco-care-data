@@ -4,9 +4,11 @@ import EditButton from '@/components/common/edit-button';
 import ComplicationForm from '@/components/forms/complication-form';
 import Datagrid from '@/components/table/datagrid';
 import { Button } from '@/components/ui/button';
+import CenteredLoading from '@/components/ui/centered-loading';
 import fetcher from '@/utils/fetcher';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { Complication } from '@prisma/client';
+import { Suspense } from 'react';
 import useSWR, { mutate } from 'swr';
 
 const deleteComplication = async (complication: Complication) => {
@@ -68,10 +70,7 @@ export default function TreatmentPage({ params }: any) {
   const { treatmentId } = params;
   const { data } = useSWR(
     `/api/v2/treatments/${treatmentId}/complications`,
-    fetcher,
-    {
-      suspense: true,
-    },
+    fetcher
   );
 
   return (
@@ -83,7 +82,9 @@ export default function TreatmentPage({ params }: any) {
           form={<ComplicationForm treatmentId={treatmentId} />}
         />
       </div>
-      <Datagrid rows={data.data} columns={columns} />
+      <Suspense fallback={<CenteredLoading />}>
+        <Datagrid rows={data?.data} columns={columns} />
+      </Suspense>
     </div>
   );
 }

@@ -11,13 +11,11 @@ import UserAvatar from '../ui/user-avatar';
 
 export default function FirstSidebar() {
   const activePath = usePathname();
-  const previousPathname = activePath.split('/')[1];
-  const termination = activePath.split('/')[2];
   const isHome =
     activePath === '/' ||
     (activePath !== '/diseases' && activePath !== '/manage');
   return (
-    <div className="fixed top-0 bottom-0 left-0 flex flex-col items-center justify-between w-16 h-screen px-2 border border-r-2">
+    <div className="fixed top-0 bottom-0 left-0 flex flex-col items-center justify-between w-16 h-screen px-2 md:border border-r-2 z-50 bg-background">
       <div className="flex flex-col items-center gap-3 py-4 text-gray-600">
         <Link href="/" className={`w-full flex justify-center`}>
           <HomeIcon

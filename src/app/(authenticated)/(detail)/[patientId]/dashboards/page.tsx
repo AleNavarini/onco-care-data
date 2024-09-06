@@ -3,7 +3,6 @@
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
 import CenteredPage from '@/components/ui/centered-page';
-import Spinner from '@/components/ui/spinner';
 import StatusChip from '@/components/status-chip';
 
 import FollowUpWidget from '@/components/dashboards/follow-ups/follow-up-widget';
@@ -34,6 +33,7 @@ export default function PatientPage({ params }: Props) {
   const { data, error, isLoading } = useSWR(
     `/api/v1/patients/${id}?detailed=true`,
     fetcher,
+    { suspense: true },
   );
 
   if (isLoading || !data || !data.patient) {

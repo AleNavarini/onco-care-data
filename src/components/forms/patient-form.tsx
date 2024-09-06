@@ -33,9 +33,10 @@ export default function PatientForm({ oldPatient, setModalOpen }: Props) {
       key={'patient-form'}
       formSchema={formSchema}
       hiddenFields={hiddenFields}
-      endpoint="patients"
+      endpoint="/v1/patients"
       entity={oldPatient}
       closeModal={setModalOpen}
+      customMutate="/api/v1/patients"
     />
   );
 }

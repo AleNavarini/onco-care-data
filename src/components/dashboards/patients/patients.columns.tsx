@@ -73,14 +73,4 @@ export const columns: ColumnType[] = [
       );
     },
   },
-  // {
-  //   headerName: '',
-  //   field: '',
-  //   width: 60,
-  //   renderCell: (row: FullPatient) => {
-  //     return (
-
-  //     );
-  //   },
-  // },
 ];

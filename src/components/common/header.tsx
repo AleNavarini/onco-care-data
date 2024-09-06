@@ -1,10 +1,13 @@
 'use client';
-import { toggleSidebar } from '@/utils';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 
-export default function Header() {
+interface HeaderProps {
+  toggleSidebar: () => void;
+}
+
+export default function Header({ toggleSidebar }: HeaderProps) {
   return (
-    <div className="relative top-0 right-0 flex items-end justify-end w-full px-4 py-2 md:hidden">
+    <div className="absolute top-0 right-0 flex items-end justify-end w-full px-4 py-2 md:hidden">
       <button
         onClick={toggleSidebar}
         aria-label="Toggle Sidebar"

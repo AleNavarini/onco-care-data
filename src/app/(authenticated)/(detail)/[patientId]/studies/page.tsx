@@ -14,8 +14,9 @@ import {
   SelectLabel,
   SelectItem,
 } from '@/components/ui/select';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import useSWR from 'swr';
+import CenteredLoading from '@/components/ui/centered-loading';
 
 interface StudiesPageProps {
   params: {
@@ -25,15 +26,13 @@ interface StudiesPageProps {
 
 export default function Studies({ params }: StudiesPageProps) {
   const { patientId } = params;
-  const { data } = useSWR(`/api/v1/study-types`, fetcher, {
-    suspense: true,
-  });
-
   const [studyType, setStudyType] = useState<StudyType | null>(null);
+
+  const { data } = useSWR(`/api/v1/study-types`, fetcher);
 
   function handleChange(value: string) {
     setStudyType(
-      data.studyTypes.find(
+      data?.studyTypes.find(
         (studyType: StudyType) => studyType.id.toString() === value,
       ),
     );
@@ -45,24 +44,26 @@ export default function Studies({ params }: StudiesPageProps) {
         <p>Estudios</p>
 
         <div className="flex gap-2">
-          <Select onValueChange={handleChange}>
-            <SelectTrigger>
-              <SelectValue placeholder="Elija un tipo de estudio" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Estudios</SelectLabel>
-                {data.studyTypes.map((studyType: StudyType) => (
-                  <SelectItem
-                    key={studyType.id.toString()}
-                    value={studyType.id.toString()}
-                  >
-                    {studyType.name}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Suspense fallback={<CenteredLoading />}>
+            <Select onValueChange={handleChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="Elija un tipo de estudio" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Estudios</SelectLabel>
+                  {data?.studyTypes.map((studyType: StudyType) => (
+                    <SelectItem
+                      key={studyType.id.toString()}
+                      value={studyType.id.toString()}
+                    >
+                      {studyType.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </Suspense>
           <AddButton
             text={`Crear ${studyType ? studyType.name : 'Estudio'}`}
             form={<StudyForm patientId={patientId} studyType={studyType} />}
@@ -70,7 +71,9 @@ export default function Studies({ params }: StudiesPageProps) {
           />
         </div>
       </div>
-      <StudiesDashboard patientId={patientId} />
+      <Suspense fallback={<CenteredLoading />}>
+        <StudiesDashboard patientId={patientId} />
+      </Suspense>
     </div>
   );
 }

@@ -32,11 +32,10 @@ export default function PatientPage({ params }: Props) {
   const id = params.patientId;
   const { data, error, isLoading } = useSWR(
     `/api/v1/patients/${id}?detailed=true`,
-    fetcher,
-    { suspense: true },
+    fetcher
   );
 
-  if (isLoading || !data || !data.patient) {
+  if (isLoading) {
     return <CenteredLoading />;
   }
 

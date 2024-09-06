@@ -12,9 +12,10 @@ import AddButton from '@/components/common/add-button';
 import TreatmentForm from '@/components/treatments/treatment-form';
 import fetcher from '@/utils/fetcher';
 import { TreatmentType } from '@prisma/client';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import useSWR from 'swr';
 import TreatmentsDashboard from '@/components/dashboards/treatments/treatments-dashboard';
+import CenteredLoading from '@/components/ui/centered-loading';
 
 interface TreatmentsPageProps {
   params: {
@@ -24,13 +25,12 @@ interface TreatmentsPageProps {
 
 export default function TreatmentsPage({ params }: TreatmentsPageProps) {
   const { patientId } = params;
-  const { data } = useSWR(`/api/v2/treatment-types`, fetcher, {
-    suspense: true,
-  });
-
   const [treatmentType, setTreatmentType] = useState<TreatmentType | null>(
     null,
   );
+
+  const { data, isLoading } = useSWR(`/api/v2/treatment-types`, fetcher);
+  if (isLoading) return <CenteredLoading />;
 
   function handleChange(value: string) {
     setTreatmentType(
@@ -46,24 +46,26 @@ export default function TreatmentsPage({ params }: TreatmentsPageProps) {
         <p>Tratamientos</p>
 
         <div className="flex gap-2">
-          <Select onValueChange={handleChange}>
-            <SelectTrigger>
-              <SelectValue placeholder="Elija un tipo de tratamiento" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Estudios</SelectLabel>
-                {data.data.map((treatment: TreatmentType) => (
-                  <SelectItem
-                    key={treatment.id.toString()}
-                    value={treatment.id.toString()}
-                  >
-                    {treatment.name}
-                  </SelectItem>
-                ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select>
+          <Suspense fallback={<CenteredLoading />}>
+            <Select onValueChange={handleChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="Elija un tipo de tratamiento" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Estudios</SelectLabel>
+                  {data?.data.map((treatment: TreatmentType) => (
+                    <SelectItem
+                      key={treatment.id.toString()}
+                      value={treatment.id.toString()}
+                    >
+                      {treatment.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </Suspense>
           <AddButton
             text={`Crear ${treatmentType ? treatmentType.name : 'Estudio'}`}
             form={
@@ -76,7 +78,9 @@ export default function TreatmentsPage({ params }: TreatmentsPageProps) {
           />
         </div>
       </div>
-      <TreatmentsDashboard patientId={patientId} />
+      <Suspense fallback={<CenteredLoading />}>
+        <TreatmentsDashboard patientId={patientId} />
+      </Suspense>
     </div>
   );
 }

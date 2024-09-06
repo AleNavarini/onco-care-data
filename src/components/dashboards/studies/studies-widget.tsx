@@ -15,16 +15,17 @@ import {
 } from '@/components/ui/select';
 import { StudyType } from '@prisma/client';
 import { useState } from 'react';
+import CenteredLoading from '@/components/ui/centered-loading';
 
 interface StudiesWidgetProps {
   patientId: string;
 }
 export default function StudiesWidget({ patientId }: StudiesWidgetProps) {
-  const { data } = useSWR(`/api/v1/study-types`, fetcher, {
-    suspense: true,
-  });
-
+  const { data, isLoading } = useSWR(`/api/v1/study-types`, fetcher);
   const [studyType, setStudyType] = useState<StudyType | null>(null);
+
+  if (isLoading) return <CenteredLoading />;
+
 
   function handleChange(value: string) {
     setStudyType(

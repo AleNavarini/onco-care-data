@@ -1,5 +1,6 @@
 'use client';
 
+import CenteredLoading from '@/components/ui/centered-loading';
 import {
   Select,
   SelectContent,
@@ -21,9 +22,8 @@ interface Props {
 }
 export default function DiseaseSelect({ patient }: Props) {
   const [loading, setLoading] = useState(false);
-  const { data } = useSWR('/api/v1/diseases', fetcher, {
-    suspense: true,
-  });
+  const { data, isLoading } = useSWR('/api/v1/diseases', fetcher,);
+  if (isLoading) return <CenteredLoading />;
 
   const handleChange = async (value: string) => {
     const proceed: boolean = window.confirm(

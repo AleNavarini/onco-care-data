@@ -4,6 +4,7 @@ import useSWR from 'swr';
 import { z } from 'zod';
 import fetcher from '@/utils/fetcher';
 import ZodForm from '../forms/zod-form/zod-form';
+import CenteredLoading from '../ui/centered-loading';
 
 interface Props {
   patientId: string;
@@ -18,20 +19,15 @@ export default function TreatmentForm({
   oldTreatment,
   closeModal,
 }: Props) {
-  const { data: attributesData } = useSWR(
+  const { data: attributesData, isLoading: isLoadingAttributes } = useSWR(
     `/api/v2/treatment-types/${treatmentTypeId}/attributes`,
-    fetcher,
-    {
-      suspense: true,
-    },
+    fetcher
   );
-  const { data: resultsData } = useSWR(
+  const { data: resultsData, isLoading: isLoadingResults } = useSWR(
     `/api/v2/treatment-types/${treatmentTypeId}/results`,
-    fetcher,
-    {
-      suspense: true,
-    },
+    fetcher
   );
+  if (isLoadingAttributes || isLoadingResults) return <CenteredLoading />;
 
   const endpoint = `/v2/patients/${patientId}/treatments`;
 

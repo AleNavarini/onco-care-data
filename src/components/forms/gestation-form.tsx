@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
 import { z } from 'zod';
 import ZodForm from './zod-form/zod-form';
+import CenteredLoading from '../ui/centered-loading';
 
 const endpoint = '/v1/gestations';
 interface Props {
@@ -10,9 +11,9 @@ interface Props {
 }
 
 export default function GestationForm({ patientId }: Props) {
-  const { data } = useSWR(`/api/v2/patients/${patientId}/gestations`, fetcher, {
-    suspense: true,
-  });
+  const { data, isLoading } = useSWR(`/api/v2/patients/${patientId}/gestations`, fetcher);
+  if (isLoading) return <CenteredLoading />;
+
   const formSchema = z.object({
     id: z.string().describe('Id').optional(),
     patientId: z.bigint().describe('Id del paciente').optional(),

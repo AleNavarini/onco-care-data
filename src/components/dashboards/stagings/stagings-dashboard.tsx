@@ -4,6 +4,8 @@ import Datagrid from '../../table/datagrid';
 
 import fetcher from '@/utils/fetcher';
 import { columns } from './staging.columns';
+import CenteredLoading from '@/components/ui/centered-loading';
+import { Suspense } from 'react';
 
 interface FollowUpsDashboardProps {
   patientId: string;
@@ -12,10 +14,15 @@ interface FollowUpsDashboardProps {
 export default function StagingsDashboard({
   patientId,
 }: FollowUpsDashboardProps) {
-  const { data } = useSWR(`/api/v1/patient-stagings/${patientId}`, fetcher, {
-    suspense: true,
-  });
-  const stagings = data.stagings;
+  const { data, isLoading } = useSWR(`/api/v1/patient-stagings/${patientId}`, fetcher);
 
-  return <Datagrid rows={stagings} columns={columns} />;
+  if (isLoading) return <CenteredLoading />;
+
+  const stagings = data?.stagings;
+
+  return (
+    <Suspense fallback={<CenteredLoading />}>
+      <Datagrid rows={stagings} columns={columns} />
+    </Suspense>
+  )
 }

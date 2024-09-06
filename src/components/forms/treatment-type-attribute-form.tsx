@@ -18,8 +18,8 @@ export default function TreatmentTypeAttributeForm({
   customMutate,
 }: Props) {
   const endpoint = entity
-    ? `treatment-types-attributes/`
-    : `treatment-types/${treatmentTypeId}/attributes`;
+    ? `/v1/treatment-types-attributes/`
+    : `/v1/treatment-types/${treatmentTypeId}/attributes`;
   let formSchema = z.object({
     id: z.string().describe('Id').optional(),
     name: z.string().describe('Nombre'),

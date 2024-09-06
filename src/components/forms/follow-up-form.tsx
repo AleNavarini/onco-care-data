@@ -13,7 +13,7 @@ export default function FollowUpForm({
   patientId,
   closeModal,
 }: FollowUpFormProps) {
-  const endpoint = 'follow-ups';
+  const endpoint = '/v1/follow-ups';
   const formSchema = z.object({
     id: z.string().describe('Id').optional(),
     date: z.string().date().describe('Fecha'),

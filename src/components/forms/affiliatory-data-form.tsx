@@ -13,7 +13,7 @@ export default function AffiliatoryDataForm({ patientId }: Props) {
     suspense: true,
   });
 
-  const endpoint = 'affiliatory-data';
+  const endpoint = '/v1/affiliatory-data';
   const formSchema = z.object({
     id: z.string().describe('Id').optional(),
     firstConsult: z

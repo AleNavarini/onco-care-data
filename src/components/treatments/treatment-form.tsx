@@ -5,8 +5,6 @@ import { z } from 'zod';
 import fetcher from '@/utils/fetcher';
 import ZodForm from '../forms/zod-form/zod-form';
 
-
-
 interface Props {
   patientId: string;
   treatmentTypeId: string;

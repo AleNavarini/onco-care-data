@@ -64,7 +64,7 @@ export default function PatientsDashboard(): JSX.Element {
 
   return (
     <div className="flex flex-col justify-end w-full gap-1">
-      <div className="flex flex-row items-end justify-between mb-2">
+      <div className="flex flex-col md:flex-row gap-4 py-4 md:justify-between">
         <PatientsFilter
           filterCriteria={filterCriteria}
           onFilterChange={handleFilterChange}

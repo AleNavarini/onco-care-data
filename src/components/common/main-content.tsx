@@ -12,10 +12,7 @@ export default function MainContent({ children }: Props) {
   if (session.status === 'loading') return <CenteredLoading />;
 
   return (
-    <main
-      className={`
-        flex flex-col h-screen gap-1 w-full ml-16`}
-    >
+    <main className={`flex flex-col h-screen gap-1 w-full md:ml-16`}>
       {children}
     </main>
   );

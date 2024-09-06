@@ -22,10 +22,10 @@ interface StudiesWidgetProps {
 }
 export default function StudiesWidget({ patientId }: StudiesWidgetProps) {
   const { data, isLoading } = useSWR(`/api/v1/study-types`, fetcher);
+  const [studyType, setStudyType] = useState<StudyType | null>(null);
 
   if (isLoading) return <CenteredLoading />;
 
-  const [studyType, setStudyType] = useState<StudyType | null>(null);
 
   function handleChange(value: string) {
     setStudyType(

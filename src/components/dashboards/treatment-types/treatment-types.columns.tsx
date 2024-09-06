@@ -1,5 +1,4 @@
 import { ColumnType } from '@/components/table/table.types';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { mutate } from 'swr';
 import { deleteTreatmentType } from './treatment-type.service';
 
@@ -7,7 +6,7 @@ import EditTreatmentTypeButton from './edit-treatment-type-button';
 import React from 'react';
 import { TreatmentType } from '@prisma/client';
 import Link from 'next/link';
-import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
+import { ArrowRightCircleIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/button';
 
 const deleteTreatmentTypeWrapper = async (treatmentTypeId: string) => {
@@ -33,15 +32,13 @@ export const columns: ColumnType[] = [
         <React.Fragment>
           <EditTreatmentTypeButton treatmentType={row} />
           <Button
-            className='bg-transparent hover:bg-transparent'
+            className="bg-transparent hover:bg-transparent"
             onClick={() => deleteTreatmentTypeWrapper(row.id.toString())}
           >
-            <DeleteIcon />
+            <TrashIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
           </Button>
           <Link href={`treatmentType/${row.id}`}>
-            <Button
-              className='bg-transparent hover:bg-transparent'
-            >
+            <Button className="bg-transparent hover:bg-transparent">
               <ArrowRightCircleIcon />
             </Button>
           </Link>

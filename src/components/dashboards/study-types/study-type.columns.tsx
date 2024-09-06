@@ -1,12 +1,11 @@
 import { ColumnType } from '@/components/table/table.types';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { mutate } from 'swr';
 import { deleteStudyType } from './study-type.service';
 import EditStudyTypeButton from './edit-study-type-button';
 import React from 'react';
 import { StudyType } from '@prisma/client';
 import { Button } from '@/components/ui/button';
-import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
+import { ArrowRightCircleIcon, TrashIcon } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 
 const deleteStudyTypesWrapper = async (diseaseId: string) => {
@@ -32,15 +31,13 @@ export const columns: ColumnType[] = [
         <React.Fragment>
           <EditStudyTypeButton studyType={row} />
           <Button
-            className='bg-transparent hover:bg-transparent'
+            className="bg-transparent hover:bg-transparent"
             onClick={() => deleteStudyTypesWrapper(row.id.toString())}
           >
-            <DeleteIcon />
+            <TrashIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
           </Button>
           <Link href={`studyType/${row.id}`}>
-            <Button
-              className='bg-transparent hover:bg-transparent'
-            >
+            <Button className="bg-transparent hover:bg-transparent">
               <ArrowRightCircleIcon />
             </Button>
           </Link>

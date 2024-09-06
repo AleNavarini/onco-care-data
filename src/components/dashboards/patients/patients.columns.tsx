@@ -1,15 +1,14 @@
 import StatusChip from '@/components/status-chip';
 import { ColumnType } from '@/components/table/table.types';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { mutate } from 'swr';
 import { FullPatient } from '@/types/full-patient';
 import { deletePatient } from './patient.service';
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import EditPatientButton from './edit-patient-button';
 import React from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
+import { TrashIcon } from 'lucide-react';
 
 const deletePatientWrapper = async (patientId: string) => {
   let result = confirm('Seguro que quiere borrar el paciente?');
@@ -63,11 +62,11 @@ export const columns: ColumnType[] = [
             className="bg-transparent hover:bg-transparent"
             onClick={() => deletePatientWrapper(row.id.toString())}
           >
-            <DeleteIcon />
+            <TrashIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
           </Button>
           <Link href={`/${row.id}/dashboards`}>
             <Button className="bg-transparent hover:bg-transparent">
-              <ArrowRightCircleIcon className='w-6 h-6 dark:text-gray-400 dark:hover:text-white' />
+              <ArrowRightCircleIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
             </Button>
           </Link>
         </React.Fragment>

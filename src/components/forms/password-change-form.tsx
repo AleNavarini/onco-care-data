@@ -1,71 +1,54 @@
 'use client';
-import { Button, FormControl, FormLabel, Input } from '@mui/joy';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import Container from '../common/container';
 import { fetchData } from '@/utils/fetch-data';
+import { FormLabel, FormControl, FormField, FormItem, Form } from '../ui/form';
+import { Input } from '../ui/input';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { Button } from '../ui/button';
 
 export default function PasswordChangeForm() {
-  const { register, handleSubmit, reset } = useForm();
-  const [isLoading, setIsLoading] = useState(false);
+  const formSchema = z.object({
+    password: z.string().min(8).max(128),
+  });
 
-  const onSubmit = async (data: any) => {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      password: '',
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setIsLoading(true);
       const entity = 'profile';
       const method = 'PUT';
-      const result = await fetchData(entity, method, data);
-      if (result.status === 204) reset();
+      const result = await fetchData(entity, method, values);
     } catch (error) {
       console.error('Error:', error);
-    } finally {
-      setIsLoading(false);
     }
-  };
+  }
 
   return (
-    <Container isLoading={isLoading}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormControl
-          sx={{
-            display: 'flex',
-            margin: 'auto',
-            width: '100%',
-          }}
-        >
-          <FormLabel
-            sx={(theme) => ({
-              '--FormLabel-color': theme.vars.palette.primary.plainColor,
-            })}
-          >
-            Cambiar Contraseña
-          </FormLabel>
-          <Input
-            sx={{
-              pr: 0,
-            }}
-            {...register('changedPassword')}
-            type="password"
-            placeholder="Cambia tu contraseña"
-            endDecorator={
-              <Button
-                sx={{
-                  p: 2,
-                  m: 0,
-                  borderTopLeftRadius: 0,
-                  borderBottomLeftRadius: 0,
-                }}
-                type="submit"
-                loading={isLoading}
-                loadingIndicator="Cargando…"
-                variant="solid"
-              >
-                Cambiar
-              </Button>
-            }
-          />
-        </FormControl>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-2 w-full "
+      >
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Contraseña</FormLabel>
+              <FormControl>
+                <Input placeholder="Contraseña" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Cambiar</Button>
       </form>
-    </Container>
+    </Form>
   );
 }

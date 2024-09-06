@@ -1,30 +1,35 @@
-import { Modal as JoyModal, ModalDialog } from '@mui/joy';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import React from 'react';
 
 interface ModalProps {
   open: boolean;
   handleClose: () => void;
   children?: React.ReactNode;
+  title: string;
 }
-export default function Modal({ open, handleClose, children }: ModalProps) {
+
+export default function Modal({
+  open,
+  handleClose,
+  children,
+  title,
+}: ModalProps) {
   return (
-    <JoyModal
-      open={open}
-      onClose={handleClose}
-      sx={{
-        backdropFilter: 'blur(0)',
-        zIndex: 8,
-      }}
-    >
-      <ModalDialog
-        sx={{
-          overflow: 'auto',
-          flexGrow: 1,
-          minWidth: '300px',
-        }}
-      >
-        {children}
-      </ModalDialog>
-    </JoyModal>
+    <Dialog open={open} onOpenChange={handleClose}>
+      <DialogContent className="flex flex-col items-center justify-center w-max max-w-full max-h-[80vh]">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+        </DialogHeader>
+        <div className="overflow-auto flex-grow min-w-[300px]">{children}</div>
+      </DialogContent>
+    </Dialog>
   );
 }

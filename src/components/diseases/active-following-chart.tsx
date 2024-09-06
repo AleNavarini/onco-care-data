@@ -1,35 +1,52 @@
 import fetcher from '@/utils/fetcher';
-import { Sheet } from '@mui/joy';
 import useSWR from 'swr';
-import BarChart from '@/components/charts/bar';
 import CenteredLoading from '../ui/centered-loading';
-import { useState, useEffect } from 'react';
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '../ui/chart';
+import { Bar, CartesianGrid, BarChart, XAxis } from 'recharts';
 
 const ActiveFollowingChart: React.FC = () => {
-  const { data, isLoading, error } = useSWR('/api/stats/status', fetcher);
-
-  const [chartWidth, setChartWidth] = useState(800);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setChartWidth(window.innerWidth < 768 ? window.innerWidth - 16 : 800);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  const { data, isLoading, error } = useSWR('/api/v1/stats/status', fetcher);
 
   if (isLoading) return <CenteredLoading />;
   if (error) return <div>Error: {error.message}</div>;
 
+  const chartConfig = {
+    active: {
+      label: 'Activa',
+    },
+  } satisfies ChartConfig;
+
+  const colorVars = [
+    'hsl(var(--chart-1))',
+    'hsl(var(--chart-2))',
+    'hsl(var(--chart-3))',
+    'hsl(var(--chart-4))',
+    'hsl(var(--chart-5))',
+  ];
+
+  const dataWithColors = data.map((item, index) => ({
+    ...item,
+    fill: colorVars[index % colorVars.length],
+  }));
+
   return (
-    <Sheet>
-      <BarChart data={data} width={chartWidth} height={400} />
-    </Sheet>
+    <ChartContainer
+      config={chartConfig}
+      className="min-h-[200px] max-h-full w-full"
+    >
+      <BarChart data={dataWithColors}>
+        <CartesianGrid vertical={false} />
+        <XAxis dataKey="name" />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        <Bar dataKey="value" radius={4} />
+      </BarChart>
+    </ChartContainer>
   );
 };
+
 export default ActiveFollowingChart;

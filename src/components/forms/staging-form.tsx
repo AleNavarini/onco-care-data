@@ -1,86 +1,47 @@
-import { useForm } from 'react-hook-form';
 import { Staging } from '@prisma/client';
-import { FieldConfig } from '@/types/field-config';
-import { useSubmitForm } from '@/hooks/use-submit-form';
-import NewForm from '../common/new-form';
+import { z } from 'zod';
+import ZodForm from './zod-form/zod-form';
 
 interface Props {
   oldStaging?: Staging;
   patientId: string;
-  handler?: (staging: Staging) => void;
-  setModalOpen?: (state: boolean) => void;
+  closeModal?: () => void;
 }
 
 export default function StagingForm({
-  oldStaging,
   patientId,
-  handler,
-  setModalOpen,
+  closeModal,
+  oldStaging,
 }: Props) {
-  const { register, handleSubmit, reset } = useForm();
-
-  const dataModifier = (data: any) => ({
-    ...data,
-    patientId,
+  const endpoint = 'stagings';
+  const formSchema = z.object({
+    id: z.string().describe('Id').optional(),
+    date: z.string().date().describe('Fecha').optional(),
+    type: z.string().describe('Tipo').optional(),
+    figo: z.string().describe('FIGO').optional(),
+    patientId: z.bigint().describe('Id del paciente').optional(),
   });
 
-  const { onSubmit, isLoading } = useSubmitForm({
-    entity: 'stagings',
-    oldEntity: oldStaging,
-    returnEntity: 'staging',
-    dataModifier,
-    reset,
-    setModalOpen,
-    handler,
-  });
+  const date = oldStaging?.date
+    ? new Date(oldStaging.date).toISOString().split('T')[0]
+    : new Date().toISOString().split('T')[0];
 
-  const fields = getFields(oldStaging);
+  const entity = {
+    ...oldStaging,
+    patientId: oldStaging ? BigInt(oldStaging.patientId) : BigInt(patientId),
+    date: date,
+  };
 
+  const hiddenFields = ['id', 'patientId'];
   return (
-    <NewForm
-      fields={fields}
-      handleSubmit={handleSubmit}
-      isLoading={isLoading}
-      onSubmit={onSubmit}
-      register={register}
-      oldEntity={oldStaging}
+    <ZodForm
+      key={'staging-form'}
+      formSchema={formSchema}
+      hiddenFields={hiddenFields}
+      endpoint={endpoint}
+      entity={entity}
+      closeModal={closeModal}
+      customMutate={`/api/v1/patient-stagings/${patientId}`}
     />
   );
-}
-
-function getFields(oldStaging: Staging | undefined): FieldConfig[] {
-  const dateString = oldStaging?.date.toString();
-  return [
-    {
-      fieldName: 'id',
-      label: 'ID',
-      placeholder: 'Id de la gesta',
-      type: 'text',
-      visible: false,
-      defaultValue: oldStaging?.id,
-    },
-    {
-      fieldName: 'date',
-      label: 'Fecha',
-      placeholder: 'Fecha de la estadificacion',
-      type: 'date',
-      defaultValue: dateString
-        ? dateString.split('T')[0]
-        : new Date().toISOString().split('T')[0],
-    },
-    {
-      fieldName: 'type',
-      label: 'Tipo',
-      placeholder: 'Tipo de Figo (quirurjica o clinica)',
-      type: 'text',
-      defaultValue: oldStaging?.type,
-    },
-    {
-      fieldName: 'figo',
-      label: 'FIGO',
-      placeholder: 'Figo',
-      type: 'text',
-      defaultValue: oldStaging?.figo,
-    },
-  ];
 }

@@ -1,19 +1,20 @@
 import StatusChip from '@/components/status-chip';
 import { ColumnType } from '@/components/table/table.types';
-import { IconButton, Link } from '@mui/joy';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { mutate } from 'swr';
 import { FullPatient } from '@/types/full-patient';
 import { deletePatient } from './patient.service';
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
 import EditPatientButton from './edit-patient-button';
 import React from 'react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { ArrowRightCircleIcon } from '@heroicons/react/24/outline';
+import { TrashIcon } from 'lucide-react';
 
 const deletePatientWrapper = async (patientId: string) => {
   let result = confirm('Seguro que quiere borrar el paciente?');
   if (!result) return;
   const response = await deletePatient(patientId);
-  if (response.status === 200) mutate('/api/patients');
+  if (response.status === 200) mutate('/api/v1/patients');
 };
 
 export const columns: ColumnType[] = [
@@ -21,67 +22,65 @@ export const columns: ColumnType[] = [
     headerName: 'Nombre',
     field: 'name',
     width: 150,
-    style: { textAlign: 'center', textTransform: 'capitalize' },
+    className: 'capitalize text-center',
     renderCell: (row: FullPatient) => row.name.toLowerCase(),
   },
   {
     headerName: 'Telefono',
     field: 'phone',
     width: 150,
-    style: { textAlign: 'center' },
   },
   {
     headerName: 'Mail',
     field: 'email',
     width: 300,
-    style: { textAlign: 'center', wordWrap: 'normal' },
   },
   {
     headerName: 'Estado',
     field: 'status',
     width: 150,
-    style: { textAlign: 'center' },
+
     renderCell: (row: any) => <StatusChip status={row.status} />,
   },
   {
     headerName: 'Enfermedad',
     field: 'disease.name',
     width: 150,
-    style: { textAlign: 'center' },
+
     renderCell: (row: any) => row.disease?.name,
   },
   {
     headerName: 'Accion',
     field: '',
     width: 90,
-    style: { textAlign: 'center' },
+
     renderCell: (row: FullPatient) => {
       return (
         <React.Fragment>
           <EditPatientButton patient={row} />
-          <IconButton
-            color="neutral"
-            variant="plain"
+          <Button
+            className="bg-transparent hover:bg-transparent"
             onClick={() => deletePatientWrapper(row.id.toString())}
           >
-            <DeleteIcon />
-          </IconButton>
+            <TrashIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
+          </Button>
+          <Link href={`/${row.id}/dashboards`}>
+            <Button className="bg-transparent hover:bg-transparent">
+              <ArrowRightCircleIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
+            </Button>
+          </Link>
         </React.Fragment>
       );
     },
   },
-  {
-    headerName: '',
-    field: '',
-    width: 60,
-    renderCell: (row: FullPatient) => {
-      return (
-        <Link href={`/${row.id}/dashboards`}>
-          <IconButton color="neutral" variant="plain">
-            <ArrowCircleRightOutlinedIcon />
-          </IconButton>
-        </Link>
-      );
-    },
-  },
+  // {
+  //   headerName: '',
+  //   field: '',
+  //   width: 60,
+  //   renderCell: (row: FullPatient) => {
+  //     return (
+
+  //     );
+  //   },
+  // },
 ];

@@ -1,11 +1,10 @@
 import Modal from '@/components/common/modal';
 import TreatmentTypeForm from '@/components/forms/treatment-type-form';
+import { Button } from '@/components/ui/button';
 import useModal from '@/hooks/use-modal';
-import EditIcon from '@mui/icons-material/Edit';
-import { IconButton } from '@mui/joy';
 import { TreatmentType } from '@prisma/client';
+import { Pencil } from 'lucide-react';
 import React from 'react';
-import { mutate } from 'swr';
 
 interface EditDiseaseButtonProps {
   treatmentType: TreatmentType;
@@ -17,20 +16,24 @@ export default function EditTreatmentTypeButton({
   const { open, openModal, closeModal, modalContent } = useModal();
   return (
     <React.Fragment>
-      <IconButton
+      <Button
+        className='bg-transparent hover:bg-transparent'
         onClick={() =>
           openModal(
             <TreatmentTypeForm
-              handler={() => mutate('/api/treatment-types')}
-              setModalOpen={closeModal}
+              closeModal={closeModal}
               oldTreatmentType={treatmentType}
             />,
           )
         }
       >
-        <EditIcon />
-      </IconButton>
-      <Modal open={open} handleClose={closeModal}>
+        <Pencil className='w-6 h-6 dark:text-gray-400 dark:hover:text-white' />
+      </Button>
+      <Modal
+        title="Editar Tipo de Tratamiento"
+        open={open}
+        handleClose={closeModal}
+      >
         {modalContent}
       </Modal>
     </React.Fragment>

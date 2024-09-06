@@ -1,5 +1,4 @@
 'use client';
-import { Box, CircularProgress, Sheet, Typography } from '@mui/joy';
 import useSWR from 'swr';
 import Datagrid from '../../table/datagrid';
 import { columns } from './patients.columns';
@@ -10,6 +9,7 @@ import { Patient } from '@prisma/client';
 import PatientsFilter from './patients-filter';
 import { FilterCriteria } from '@/types/filter-criteria';
 import CenteredPage from '@/components/ui/centered-page';
+import Spinner from '@/components/ui/spinner';
 
 interface PatientData {
   patients: Patient[];
@@ -17,7 +17,7 @@ interface PatientData {
 
 export default function PatientsDashboard(): JSX.Element {
   const { data: patientData, error } = useSWR<PatientData, Error>(
-    '/api/patients',
+    '/api/v1/patients',
     fetcher,
   );
   const [filterCriteria, setFilterCriteria] = useState<FilterCriteria>({
@@ -34,7 +34,9 @@ export default function PatientsDashboard(): JSX.Element {
         (!text ||
           JSON.stringify(patient).toLowerCase().includes(text.toLowerCase())) &&
         (!status || status === 'all' || patient.status === status) &&
-        (!disease || disease === 'all' || patient.diseaseId?.toString() === disease)
+        (!disease ||
+          disease === 'all' ||
+          patient.diseaseId?.toString() === disease)
       );
     });
   }, [patientData, filterCriteria]);
@@ -49,43 +51,27 @@ export default function PatientsDashboard(): JSX.Element {
   if (error)
     return (
       <CenteredPage>
-        <Typography color="danger">Error loading patients</Typography>
+        <p>Error loading patients</p>
       </CenteredPage>
     );
   if (!patientData) {
     return (
       <CenteredPage>
-        <CircularProgress />
+        <Spinner />
       </CenteredPage>
     );
   }
 
   return (
-    <Sheet
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        justifyContent: 'end',
-        gap: 1,
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          mb: 2,
-          alignItems: 'end',
-        }}
-      >
+    <div className="flex flex-col justify-end w-full gap-1">
+      <div className="flex flex-row items-end justify-between mb-2">
         <PatientsFilter
           filterCriteria={filterCriteria}
           onFilterChange={handleFilterChange}
         />
         <AddPatientButton />
-      </Box>
+      </div>
       <Datagrid rows={filteredPatients} columns={columns} />
-    </Sheet>
+    </div>
   );
 }

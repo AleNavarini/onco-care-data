@@ -20,5 +20,6 @@ export type ColumnType = {
   padding?: number;
   hidden?: boolean;
   style?: CSSProperties;
+  className?: string;
   renderCell?: (row: any) => React.ReactNode;
 };

@@ -9,7 +9,7 @@ import {
   SelectItem,
   SelectGroup,
   SelectContent,
-  SelectLabel
+  SelectLabel,
 } from '@/components/ui/select';
 
 export interface FilterCriteria {
@@ -37,7 +37,7 @@ export default function PatientsFilter({
   filterCriteria,
   onFilterChange,
 }: PatientsFilterProps): JSX.Element {
-  const { data, error } = useSWR<DiseasesResponse>('/api/diseases', fetcher);
+  const { data, error } = useSWR<DiseasesResponse>('/api/v1/diseases', fetcher);
 
   const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     onFilterChange({ ...filterCriteria, text: e.target.value });
@@ -63,10 +63,8 @@ export default function PatientsFilter({
         value={filterCriteria.text}
         onChange={handleTextChange}
       />
-      <Select
-        onValueChange={handleDiseaseChange}
-      >
-        <SelectTrigger >
+      <Select onValueChange={handleDiseaseChange}>
+        <SelectTrigger>
           <SelectValue placeholder="Elija una enfermedad" />
         </SelectTrigger>
         <SelectContent>
@@ -81,10 +79,8 @@ export default function PatientsFilter({
           </SelectGroup>
         </SelectContent>
       </Select>
-      <Select
-        onValueChange={handleStatusChange}
-      >
-        <SelectTrigger >
+      <Select onValueChange={handleStatusChange}>
+        <SelectTrigger>
           <SelectValue placeholder="Elija un estado" />
         </SelectTrigger>
         <SelectContent>
@@ -96,7 +92,6 @@ export default function PatientsFilter({
           </SelectGroup>
         </SelectContent>
       </Select>
-
     </div>
   );
 }

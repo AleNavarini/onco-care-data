@@ -9,10 +9,10 @@ interface StudiesDashboardProps {
 }
 
 export default function StudiesDashboard({ patientId }: StudiesDashboardProps) {
-  const { data } = useSWR(`/api/patient-studies/${patientId}`, fetcher, {
+  const { data } = useSWR(`/api/v1/patient-studies/${patientId}`, fetcher, {
     suspense: true,
   });
-  const studies: any[] = data.studies;
+  const studies: any[] = data.data;
 
   return <Datagrid rows={studies} columns={columns} />;
 }

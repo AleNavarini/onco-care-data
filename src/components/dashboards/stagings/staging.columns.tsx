@@ -1,12 +1,11 @@
 import { ColumnType } from '@/components/table/table.types';
-import { IconButton } from '@mui/joy';
-import DeleteIcon from '@mui/icons-material/Delete';
 import React from 'react';
 import { Staging } from '@prisma/client';
 import { deleteStaging } from './staging.service';
 import StagingForm from '@/components/forms/staging-form';
 import EditButton from '@/components/common/edit-button';
 import { TrashIcon } from '@heroicons/react/24/outline';
+import { Button } from '@/components/ui/button';
 
 export const columns: ColumnType[] = [
   {
@@ -42,13 +41,12 @@ export const columns: ColumnType[] = [
               />
             }
           />
-          <IconButton
-            color="neutral"
-            variant="plain"
+          <Button
+            className="bg-transparent hover:bg-transparent"
             onClick={() => deleteStaging(row)}
           >
             <TrashIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
-          </IconButton>
+          </Button>
         </React.Fragment>
       );
     },

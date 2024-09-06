@@ -1,11 +1,11 @@
 import { ColumnType } from '@/components/table/table.types';
-import { IconButton } from '@mui/joy';
 import React from 'react';
 import { FollowUp } from '@prisma/client';
 import EditButton from '@/components/common/edit-button';
 import FollowUpForm from '@/components/forms/follow-up-form';
 import { deleteFollowUp } from './follow-up.service';
 import { TrashIcon } from '@heroicons/react/24/outline';
+import { Button } from '@/components/ui/button';
 
 const renderBoolean = (value: boolean | null) => {
   if (value === null) return '';
@@ -67,13 +67,12 @@ export const columns: ColumnType[] = [
               />
             }
           />
-          <IconButton
-            color="neutral"
-            variant="plain"
+          <Button
+            className="bg-transparent hover:bg-transparent"
             onClick={() => deleteFollowUp(row)}
           >
             <TrashIcon className="w-6 h-6 dark:text-gray-400 dark:hover:text-white" />
-          </IconButton>
+          </Button>
         </React.Fragment>
       );
     },

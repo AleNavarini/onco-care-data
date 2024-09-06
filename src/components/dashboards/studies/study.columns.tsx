@@ -1,12 +1,9 @@
 import { ColumnType } from '@/components/table/table.types';
 import React from 'react';
 import { Study, StudyType, StudyTypeAttribute } from '@prisma/client';
-import { columns as studyTypeAttributesColumns } from '../study-type-attributes/study-type-attributes.columns';
-import TableBody from '@/components/table/table-body';
 import EditButton from '@/components/common/edit-button';
 import StudyForm from '@/components/forms/study-form';
 import { deleteStudy } from './study.service';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { Button } from '@/components/ui/button';
 import { TrashIcon } from 'lucide-react';
 

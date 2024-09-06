@@ -1,9 +1,3 @@
-import AddBoxIcon from '@mui/icons-material/AddBox';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { Table, IconButton, Modal, Typography, Sheet } from '@mui/joy';
-import { PreviousSurgery } from '@prisma/client';
-import { useState } from 'react';
 import PreviousSurgeryForm from './previous-surgery-form';
 import fetcher from '@/utils/fetcher';
 import useSWR from 'swr';

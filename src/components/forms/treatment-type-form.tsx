@@ -1,5 +1,4 @@
 import { TreatmentType } from '@prisma/client';
-import { FieldConfig } from '@/types/field-config';
 import { z } from 'zod';
 import ZodForm from './zod-form/zod-form';
 

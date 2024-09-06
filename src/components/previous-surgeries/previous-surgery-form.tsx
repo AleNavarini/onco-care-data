@@ -1,8 +1,4 @@
-import { useForm } from 'react-hook-form';
 import { PreviousSurgery } from '@prisma/client';
-import { FieldConfig } from '@/types/field-config';
-import Form from '../common/form';
-import { useSubmitForm } from '@/hooks/use-submit-form';
 import { z } from 'zod';
 import ZodForm from '../forms/zod-form/zod-form';
 

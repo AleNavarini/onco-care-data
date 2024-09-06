@@ -4,6 +4,7 @@ import fetcher from '@/utils/fetcher';
 import useSWR from 'swr';
 import Datagrid from '@/components/table/datagrid';
 import { columns } from './treatment-type-results.columns';
+import CenteredLoading from '@/components/ui/centered-loading';
 
 interface Props {
   treatmentTypeId?: string;
@@ -12,13 +13,11 @@ interface Props {
 export default function TreatmentTypeResultsDashboard({
   treatmentTypeId,
 }: Props) {
-  const { data } = useSWR(
+  const { data, isLoading } = useSWR(
     `/api/v1/treatment-types/${treatmentTypeId}/results`,
-    fetcher,
-    {
-      suspense: true,
-    },
+    fetcher
   );
+  if (isLoading) return <CenteredLoading />;
   return (
     <div className="flex flex-col gap-4 items-end">
       <AddTreatmentTypeResultButton treatmentTypeId={treatmentTypeId} />

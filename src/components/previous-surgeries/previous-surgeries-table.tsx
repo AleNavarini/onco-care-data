@@ -4,20 +4,18 @@ import useSWR from 'swr';
 import { columns } from './previous-surgeries.columns';
 import AddButton from '../common/add-button';
 import Datagrid from '../table/datagrid';
+import CenteredLoading from '../ui/centered-loading';
 
 interface Props {
   patientId: string;
 }
 
 export default function PreviousSurgeriesTable({ patientId }: Props) {
-  const { data } = useSWR(
+  const { data, isLoading } = useSWR(
     `/api/v2/patients/${patientId}/previous-surgeries`,
-    fetcher,
-    {
-      suspense: true,
-    },
+    fetcher
   );
-  console.log(data);
+  if (isLoading) return <CenteredLoading />;
 
   const previousSurgeries = data.data;
   return (

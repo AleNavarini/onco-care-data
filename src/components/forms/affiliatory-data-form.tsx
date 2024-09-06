@@ -3,15 +3,15 @@ import { z } from 'zod';
 import ZodForm from './zod-form/zod-form';
 import fetcher from '@/utils/fetcher';
 import useSWR from 'swr';
+import CenteredLoading from '../ui/centered-loading';
 
 interface Props {
   patientId: string;
 }
 
 export default function AffiliatoryDataForm({ patientId }: Props) {
-  const { data } = useSWR(`/api/v1/affiliatory-data/${patientId}`, fetcher, {
-    suspense: true,
-  });
+  const { data, isLoading } = useSWR(`/api/v1/affiliatory-data/${patientId}`, fetcher);
+  if (isLoading) return <CenteredLoading />;
 
   const endpoint = '/v1/affiliatory-data';
   const formSchema = z.object({

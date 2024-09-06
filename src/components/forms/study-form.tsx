@@ -4,6 +4,7 @@ import { z } from 'zod';
 import ZodForm from './zod-form/zod-form';
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
+import CenteredLoading from '../ui/centered-loading';
 
 interface Props {
   patientId: string;
@@ -21,13 +22,11 @@ export default function StudyForm({
   studyType,
   closeModal,
 }: Props) {
-  const { data: fetchedAttributesData } = useSWR(
+  const { data: fetchedAttributesData, isLoading } = useSWR(
     `/api/v2/study-types/${studyType.id}/attributes`,
-    fetcher,
-    {
-      suspense: true,
-    },
+    fetcher
   );
+  if (isLoading) return <CenteredLoading />;
 
   // Fetched attributes for the studyType
   const fetchedAttributes: StudyTypeAttribute[] =

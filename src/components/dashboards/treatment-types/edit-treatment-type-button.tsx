@@ -17,7 +17,7 @@ export default function EditTreatmentTypeButton({
   return (
     <React.Fragment>
       <Button
-        className='bg-transparent hover:bg-transparent'
+        className="bg-transparent hover:bg-transparent shadow-none"
         onClick={() =>
           openModal(
             <TreatmentTypeForm
@@ -27,7 +27,7 @@ export default function EditTreatmentTypeButton({
           )
         }
       >
-        <Pencil className='w-6 h-6 dark:text-gray-400 dark:hover:text-white' />
+        <Pencil className="w-6 h-6 text-gray-400 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white" />
       </Button>
       <Modal
         title="Editar Tipo de Tratamiento"

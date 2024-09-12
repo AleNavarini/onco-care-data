@@ -1,3 +1,4 @@
+import '@/lib/big-int-extensions';
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 

@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
+import '@/lib/big-int-extensions';
 
 export async function POST(request: Request) {
   const { patientId, name, value } = await request.json();

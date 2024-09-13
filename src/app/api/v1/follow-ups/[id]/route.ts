@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma';
 import { getFollowUpsData } from '@/utils/get-follow-ups-data';
 import { NextResponse } from 'next/server';
+import '@/lib/big-int-extensions';
 
 export async function PUT(request: Request, context: { params: any }) {
   const id = context.params.id;

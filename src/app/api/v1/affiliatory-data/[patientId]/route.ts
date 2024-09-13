@@ -1,6 +1,6 @@
 import prisma from '@/lib/prisma';
 import { NextResponse } from 'next/server';
-
+import '@/lib/big-int-extensions';
 export async function GET(request: Request, context: { params: any }) {
   const patientId = context.params.patientId;
 

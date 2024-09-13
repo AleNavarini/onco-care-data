@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import '@/lib/big-int-extensions';
 import prisma from '@/lib/prisma';
 
 export async function PUT(request: Request, context: { params: any }) {

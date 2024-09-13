@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import '@/lib/big-int-extensions';
 
 export async function PUT(request: Request, context: { params: any }) {
   const id = context.params.gestationId;

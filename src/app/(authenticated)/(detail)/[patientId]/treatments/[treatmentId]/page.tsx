@@ -83,7 +83,7 @@ export default function TreatmentPage({ params }: any) {
         />
       </div>
       <Suspense fallback={<CenteredLoading />}>
-        <Datagrid rows={data?.data} columns={columns} />
+        <Datagrid rows={data?.data || []} columns={columns} />
       </Suspense>
     </div>
   );

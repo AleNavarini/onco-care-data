@@ -9,16 +9,16 @@ import EditRiskFactorButton from './edit-risk-factor-button';
 import { TrashIcon } from '@heroicons/react/24/outline';
 import { Button } from '@/components/ui/button';
 
-const deleteRiskFactorWrapper = async (id: string) => {
+const deleteRiskFactorWrapper = async (riskFactor: RiskFactor) => {
   let result = confirm('Seguro que quiere borrar la enfermedad?');
   if (!result) return;
-  const response = await deleteRiskFactor(id);
-  if (response.status === 200) mutate('/api/v1/patient-risk-factors');
+  const response = await deleteRiskFactor(riskFactor.id.toString());
+  if (response.ok) {
+    mutate(`/api/v1/diseases/${riskFactor.diseaseId}/risk-factors`);
+    mutate('/api/v1/patient-risk-factors');
+  }
 };
 
-const updateHandler = async (riskFactor: RiskFactor) => {
-  mutate(`/api/v1/patient-risk-factors/${riskFactor.patientId}`);
-};
 
 export const columns: ColumnType[] = [
   {
@@ -39,7 +39,7 @@ export const columns: ColumnType[] = [
           <EditRiskFactorButton riskFactor={row} />
           <Button
             className="bg-transparent hover:bg-transparent shadow-none"
-            onClick={() => deleteRiskFactorWrapper(row.id.toString())}
+            onClick={() => deleteRiskFactorWrapper(row)}
           >
             <TrashIcon className="w-6 h-6 text-gray-400 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white" />
           </Button>
@@ -87,7 +87,7 @@ export const getColumns = (withPatient: boolean): ColumnType[] => {
             />
             <Button
               className="bg-transparent hover:bg-transparent shadow-none"
-              onClick={() => deleteRiskFactorWrapper(row.id.toString())}
+              onClick={() => deleteRiskFactorWrapper(row)}
             >
               <TrashIcon className="w-6 h-6 text-gray-400 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white" />
             </Button>

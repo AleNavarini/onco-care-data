@@ -50,7 +50,7 @@ export default function RiskFactorForm({
       key={'risk-factor-form'}
       formSchema={formSchema}
       hiddenFields={hiddenFields}
-      endpoint="risk-factors"
+      endpoint="/v1/risk-factors"
       entity={oldRiskFactor}
       closeModal={closeModal}
       customMutate={customMutate}

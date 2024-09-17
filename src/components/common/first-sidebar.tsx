@@ -22,7 +22,7 @@ export default function FirstSidebar() {
             className={`w-8 h-8 hover:text-blue-500 ${isHome ? 'text-blue-500' : ''}`}
           />
         </Link>
-        <Link href="/diseases" className={`w-full flex justify-center`}>
+        <Link href="/stats" className={`w-full flex justify-center`}>
           <ChartPieIcon
             className={`w-8 h-8 hover:text-blue-500 ${activePath === '/diseases' ? 'text-blue-500' : ''}`}
           />

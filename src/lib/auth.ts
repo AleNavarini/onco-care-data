@@ -3,6 +3,7 @@ import prisma from './prisma';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions: NextAuthOptions = {
+  debug: true,
   providers: [
     CredentialsProvider({
       name: 'Email',
@@ -47,21 +48,10 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
-  secret: process.env.NEXT_AUTH_SECRET,
-  jwt: {
-    secret: process.env.NEXT_AUTH_JWT_SECRET,
-    //@ts-ignore-next-line
-    encryption: true,
-  },
-  session: {
-    //@ts-ignore-next-line
-    jwt: true,
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-    updateAge: 24 * 60 * 60, // 24 hours
-  },
   pages: {
     signIn: '/login',
     signOut: '/auth/signout',
     error: '/login',
   },
+  secret: process.env.NEXT_AUTH_SECRET,
 };
